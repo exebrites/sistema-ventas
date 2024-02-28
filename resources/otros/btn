@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
+
+                <div class="container ">
+                    <div class="row">
+                        <div class="col d-flex">
+
+                            <div id="btn-cancelar">
+                                <a  href=""
+                                    class="btn btn-danger btn-ampliado">Cancelar</a>
+                            </div>
+
+
+                            <div>
+                                <button type="submit" class="btn btn-success btn-ampliado">Agregar</button>
+                            </div>
+
+                        </div>  
+                    </div>
+                </div>

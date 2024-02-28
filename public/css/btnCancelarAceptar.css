@@ -1,0 +1,12 @@
+ /* Estilos personalizados para ajustar la altura y el ancho */
+ .btn-ampliado {
+     height: 50px;
+     /* Ajusta la altura según tus necesidades */
+     width: 200px;
+     /* Ajusta el ancho según tus necesidades */
+ }
+
+ #btn-cancelar {
+     width: 80%;
+ }
+

@@ -1,0 +1,6 @@
+   {{-- implementacion de una confirmacion de borrado por el usuario --}}
+
+    {{-- Dentro del from de eliminar agregar - >  class="formulario-eliminar" --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="{{ asset('js/confirmacionBorrado.js') }}"></script>
