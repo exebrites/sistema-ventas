@@ -123,7 +123,7 @@ class ProductoController extends Controller
     public function update(Request $request, $id)
     {
 
-
+        // return $request;
         if ($request->file('file') == null) {
 
             // sino $url toma el valor que tenia imagen_path cuando no se actualiza la foto
@@ -172,13 +172,24 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function destroy($id)
+    // {
+    //     $producto = Producto::find($id);
+    //     $producto->delete();
+    //     //elimina pero falta la vista 
+    //     // return "borrado";
+    //     return redirect()->route('productos.index');
+    // }
     public function destroy($id)
     {
-        $producto = Producto::find($id);
-        $producto->delete();
-        //elimina pero falta la vista 
-        // return "borrado";
-        return redirect()->route('productos.index');
+        try {
+            $producto = Producto::find($id);
+            $producto->delete();
+            return redirect()->route('productos.index');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Manejar la excepción y proporcionar un mensaje descriptivo
+            return redirect()->back()->with('error', 'El producto ' . $id . ' está relacionado a uno o varios pedidos.');
+        }
     }
 
     //idea manejar con otra funcion la parte del detalle de productos

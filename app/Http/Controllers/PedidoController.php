@@ -57,27 +57,17 @@ class PedidoController extends Controller
 
     public function procesarPedido(Request $request)
     {
-        // dd($request);
-        //logica trambolica para usuarios y clientes
         $id = Auth::user()->id;
-        // dd($id);
         $correo = User::where('id', $id)->value('email');
         $cliente = Cliente::where('correo', $correo)->first();
-        // dd($cliente);
         $cliente_id = $cliente->id;
-        //creando un pedido que tiene un cliente asociado
-
         Pedido::create([
             'clientes_id' => $cliente_id,
             'fecha_inicio' => null,
             'fecha_entrega' => null,
-            'estado_id' => 1, //por defecto: pendiente-pago
+            'estado_id' => 1, 
         ]);
         $id = Pedido::max('id');
-        // // dd($id);
-
-
-
         return redirect()->route('pedido-detallePedido', ['id' => $id]);
     }
 
@@ -97,15 +87,9 @@ class PedidoController extends Controller
     }
     public function detallePedido(Request $request)
     {
-        // dd($request);
-
-        //asocio un pedido , un producto a un detallePedido
         $id = $request->id;
-
-        // dd($id);
         $estado = Pedido::where('id', $id)->value('estado_id');
         $producto = \Cart::getContent();
-        // dd($producto);
         foreach ($producto as $p) {
             $idPr = $p->id;
             detallePedido::create([
@@ -116,15 +100,8 @@ class PedidoController extends Controller
                 'produccion' => false
             ]);
             $idDP = detallePedido::max('id');
-            // dd($p->attributes->url_disenio);
-            // $imagen =  $request->file('file')->store('public');
-            // $url_imagen = Storage::url($imagen);
-            // dd($p->attributes);
             if ($p->attributes->disenio_estado == 'true') {
-
                 $url_imagen = $p->attributes->url_disenio;
-                // dd("hola");
-                // si disenio estado es true crear el disenio sino crear un boceto
                 Disenio::create([
                     'detallePedido_id' => $idDP,
                     'url_imagen' => $url_imagen,
@@ -155,30 +132,12 @@ class PedidoController extends Controller
         $total = \Cart::getTotal();
         // dd($total);
         \Cart::clear();
-
         return redirect()->route('pago', ['id' => $id, 'estado' => $estado, 'total' =>  $total]);
-        // return redirect()->route('checkout.index')->with('success_msg', 'Su pedido se realizó con éxito!');
     }
 
     public function update(Request $request, Pedido $pedido)
     {
-        // Recibe un objeto de solicitud ($request) y el ID del pedido que se desea actualizar
-
-        // Encuentra el pedido correspondiente en la base de datos utilizando el ID
-        // $pedido = Pedido::find($id);
-        // $correoCliente = $pedido->cliente->correo;
-        // $nombreCliente = $pedido->cliente->nombre;
-        // Actualiza el estado del pedido con el valor proporcionado en la solicitud
-        // dd($request->estado);
-        // $pedido->update([
-        //     'estado' => $request->estado,
-
-        // ]);
-
-        // Envía un correo electrónico a la dirección 'exe@gmail.com' utilizando la clase Mail y el mailable EstadoMailable
-        // Mail::to($correoCliente)->send(new EstadoMailable($request->estado, $nombreCliente, $id));
-        // return $request->estado;
-        // return $pedido;
+    
         $nuevoEstado = $request->estado;
 
         $estadosSecuenciales = ['pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'entregado'];

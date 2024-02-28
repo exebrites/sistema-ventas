@@ -409,7 +409,11 @@ return [
             'text' => 'Gestionar permisos ',
             'route' => 'permisos.index',
         ],
-        
+        [
+            //'route'=> 'ruta'
+            'text' => 'Auditoria',
+            'route' => 'auditoria.index',
+        ],
 
 
     ],

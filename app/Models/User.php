@@ -45,19 +45,8 @@ class User extends Authenticatable implements Auditable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /*----------------------------ATRIBUTOS----------------------------------------*/
-
-
-    /*----------------------------METODOS-----------------------------------------*/
-
-
-    /*----------------------------RELACIONES----------------------------------------*/
-
-
-    /*AGREGAR ATRIBUTOS*/
-
-    /*AGREGAR METODOS*/
-
-    /*AGREGAR RELACIONES*/
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
 }

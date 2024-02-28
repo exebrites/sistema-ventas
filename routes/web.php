@@ -63,7 +63,32 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 |
 */
 
-// ------------RUTAS DEL CLIENTE----------
+Route::get('/', [CartController::class, 'shop'])->name('shop');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+Route::post('/add', [CartController::class, 'add'])->name('cart.store');
+// Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
+Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+// route::post('/subirImagen', [CartController::class, 'subirImagen'])->name('subirImagen');
+Route::resource('pedidos', PedidoController::class)->middleware('role:admin,empresa');
+Route::get('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
+Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
+Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
+/*RUTAS DEL ABM PRODUCTO*/
+Route::get('/productos{id}', [ProductoController::class, 'detalle'])->name('producto.detalle');
+Route::resource('productos', ProductoController::class)->middleware('role:admin');
+// Route::get('/productos/mas-vistos', [ProductoController::class, 'masVistos']);
+/*RUTAS DEL CHECKOUT*/
+Route::get('/checkout', [CheckoutContorller::class, 'index'])->middleware(['auth', 'verified'])->name('checkout.index');
+Route::get('/checkout{id}', [CheckoutContorller::class, 'show'])->middleware(['auth', 'verified'])->name('checkout.show');
+Route::post('comprobantes/store', [ComprobanteController::class, 'store'])->name('comprobantes.store');
+
+
+
+
+// rutas del administrador 
+
 
 Route::resource('/preguntas', PreguntaController::class);
 Route::resource('/respuestas', RespuestaController::class);
@@ -93,11 +118,7 @@ route::post('/descargar_boceto', [BocetoController::class, 'descargar_boceto'])-
 route::get('/show_disenio{id}', [DisenioController::class, 'show_disenio'])->name('show_disenio');
 route::get('/revision_disenio/{id}', [DisenioController::class, 'revision_disenio'])->name('revision_disenio');
 
-/*RUTAS DEL ABM PEDIDOS*/
-Route::resource('pedidos', PedidoController::class)->middleware('role:admin,empresa');
-Route::get('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
-Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
-Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
+
 
 /*RUTAS DEL ABM CLIENTE*/
 Route::resource('clientes', ClienteController::class)->middleware('role:admin');
@@ -105,22 +126,8 @@ Route::resource('clientes', ClienteController::class)->middleware('role:admin');
 
 
 
-/*RUTAS DEL ABM PRODUCTO*/
-Route::get('/productos{id}', [ProductoController::class, 'detalle'])->name('producto.detalle');
-Route::resource('productos', ProductoController::class)->middleware('role:admin');
-// Route::get('/productos/mas-vistos', [ProductoController::class, 'masVistos']);
 
 
-
-Route::get('/', [CartController::class, 'shop'])->name('shop');
-Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
-Route::post('/add', [CartController::class, 'add'])->name('cart.store');
-Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
-
-Route::post('/update', [CartController::class, 'update'])->name('cart.update');
-Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
-route::post('/subirImagen', [CartController::class, 'subirImagen'])->name('subirImagen');
 
 
 
@@ -154,14 +161,14 @@ Route::resource('/proveedores', ProveedorController::class)->middleware('role:ad
 
 
 Route::get('/pago', [MailController::class, 'pago'])->name('pago');
-Route::post('/comprobante', [MailController::class, 'comprobante'])->name('comprobante');
+// Route::post('/comprobante', [MailController::class, 'comprobante'])->name('comprobante');
 
 
 Route::resource('/comprobantes', ComprobanteController::class)->except([
     'store'  // Excluye la ruta POST automática generada por el resource
 ])->middleware('role:admin');
 
-Route::post('comprobantes/store', [ComprobanteController::class, 'store'])->name('comprobantes.store');
+
 
 /**FIN RUTAS DE MAILS
  * 
@@ -171,9 +178,6 @@ Route::post('comprobantes/store', [ComprobanteController::class, 'store'])->name
 
 
 
-/*RUTAS DEL CHECKOUT*/
-Route::get('/checkout', [CheckoutContorller::class, 'index'])->middleware(['auth', 'verified'])->name('checkout.index');
-Route::get('/checkout{id}', [CheckoutContorller::class, 'show'])->middleware(['auth', 'verified'])->name('checkout.show');
 
 
 
@@ -253,8 +257,8 @@ route::get('/pdf', function () {
 });
 
 Route::get('/prueba', function () {
-
-    return view('prueba');
+    $p = Producto::find(15);
+    return view('prueba', compact('p'));
 })->name('prueba');
 
 
@@ -297,4 +301,5 @@ Route::get('/users/{userId}/assign-multiple-roles-form', [UsuariosController::cl
 Route::post('/users/{userId}/assign-multiple-roles', [UsuariosController::class, 'assignMultipleRoles'])->name('usuarios.assignMultipleRoles');
 Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
 Route::resource('/auditoria', AuditoriaController::class);
+
 require __DIR__ . '/auth.php';
