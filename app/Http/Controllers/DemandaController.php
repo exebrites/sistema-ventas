@@ -259,39 +259,23 @@ class DemandaController extends Controller
                 // dd($lista);
                 $materiales_orden_compra = [];
                 foreach ($ultimaDemanda->detalleDemandas as $key => $detalle) {
-                    $materiales_orden_compra[$key] = $detalle;
+                    $materiales_orden_compra[] = [
+                        'id' => $detalle->materiales_id,
+                        'cantidad' => $detalle->cantidad
+                    ];
                 }
-                dd($materiales_orden_compra);
-                // dd("prueba");
 
-                $resultado = Demanda::combinar($lista, $lista);
-                dd($resultado);
+
+                $resultado = Demanda::combinar($lista, $materiales_orden_compra);
+            
 
 
                 dd("espera");
 
 
-                foreach ($materiales_orden_compra as $key => $material) {
-                    foreach ($lista as $elementoA) {
-                        $idA = $elementoA['id'];
-                        $cantidadA = $elementoA['cantidad'];
-                        if ($material->materiales_id === $idA) {
-                            // dd('1.2.1');
-                            $material->cantidad += $cantidadA;
-                            // if ($material->cantidad != $cantidadA) {
-                            //     $material->cantidad += $cantidadA;
-                            //     dd('1.2.2');
-                            // }
-                        } else {
-                            dd('1.2.3');
+               
 
-                            $materiales_orden_compra[] = (object)['materiales_id' => $idA, 'cantidad' => $cantidadA];
-                            // dd($materiales_orden_compra);
-                        }
-                    }
-                }
-
-                // dd($materiales_orden_compra);
+               
                 dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
                     $virtual_stock = StockVirtual::where('material_id', $material->materiales_id)->first();
