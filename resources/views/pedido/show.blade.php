@@ -20,25 +20,18 @@
                 <thead>
                     <tr>
                         <th>Nro de pedido</th>
-                        <th>Nombre de cliente</th>
-                        {{-- <th>Fecha Inicio</th>
-                        <th>Fecha Entrega</th> --}}
+                        <th>Nombre de cliente</th>                        
+                        <th>Fecha Entrega</th> 
                         <th>Estado</th>
-                        <th>Ver comprobante</th>
-                        {{-- <th>Created At</th>
-                        <th>Updated At</th> --}}
+                        <th>Ver comprobante</th>                        
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ $pedido->id }}</td>
-                        <td>{{ $pedido->cliente->nombre }}</td>
-                        {{-- <td>{{ $pedido->fecha_inicio }}</td>
-                        <td>{{ $pedido->fecha_entrega }}</td> --}}
-                        <td>{{ $pedido->estado->nombre }}</td>
-                        {{-- <td>{{ $pedido->created_at }}</td>
-                        <td>{{ $pedido->updated_at }}</td> --}}
-
+                        <td>{{ $pedido->cliente->nombre }}</td>                        
+                        <td>{{ $pedido->fecha_entrega }}</td>
+                        <td>{{ $pedido->estado->descripcion }}</td>
                         @if ($pedido->comprobante == null)
                             <td>No tiene comprobante</td>
                         @else

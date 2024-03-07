@@ -67,7 +67,7 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
-
+                <hr>
                 <br>
                 <br>
                 <div class="container ">

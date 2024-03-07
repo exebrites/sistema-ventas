@@ -228,9 +228,10 @@ class DisenioController extends Controller
     {
         // return $id;
         $disenio = Disenio::find($id);
-
+        // $detalle = $disenio->detallePedido;
+        // dd($disenio);
         $pedido =  $disenio->detallePedido->pedidos;
-        $pedido->update(['estado' => 'disenio']);
+        $pedido->update(['estado_id' => 4]);
         $producto = $disenio->detallePedido->producto;
         $cliente = $pedido->cliente;
         $empresa = config('contacto.nombre');

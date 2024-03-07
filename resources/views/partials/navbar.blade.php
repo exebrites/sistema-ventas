@@ -72,7 +72,7 @@
                             <a class="dropdown-item" href="{{ route('demandas.index') }}">Proveedor</a>
                         @endrole
                         @role('cliente')
-                            <a class="dropdown-item" href="{{ route('miperfil') }}">Mi perfil</a>
+                            {{-- <a class="dropdown-item" href="{{ route('miperfil') }}">Mi perfil</a> --}}
                             <hr>
                             <a class="dropdown-item" href="{{ route('pedidoCliente') }}">Pedidos</a>
                         @endrole

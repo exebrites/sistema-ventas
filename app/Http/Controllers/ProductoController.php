@@ -27,7 +27,7 @@ class ProductoController extends Controller
         // $productos= Producto::all();
         $productos = Producto::orderBy('id', 'desc')->get();
         // dd($productos);
-        return view('producto.index', ['productos' => $productos]);
+        return view('producto.index', compact('productos'));
     }
 
     /**
@@ -91,12 +91,8 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        //
-        // dd($id);
         $producto = Producto::find($id);
-        $materiales = Material::all();
-        // dd($producto);
-        return view('producto.show', compact('producto', 'materiales'));
+        return view('producto.show', compact('producto'));
     }
 
     /**
@@ -107,10 +103,8 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        // return view('producto.edit', compact('id'));
-
         $producto = Producto::find($id);
-        return view('producto.edit', ['producto' => $producto]);
+        return view('producto.edit', compact('producto'));
     }
 
     /**
@@ -122,10 +116,7 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // return $request;
         if ($request->file('file') == null) {
-
             // sino $url toma el valor que tenia imagen_path cuando no se actualiza la foto
             $p = Producto::find($request->id);
             $url = $p->image_path;
@@ -134,7 +125,6 @@ class ProductoController extends Controller
             $imagen =  $request->file('file')->store('public');
             $url = Storage::url($imagen);
         }
-
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
@@ -152,7 +142,6 @@ class ProductoController extends Controller
             // Manejar los errores de validación aquí
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
-
         Producto::find($request->id)->update([
             'name' => $request->name,
             'price' => $request->price,
@@ -162,7 +151,6 @@ class ProductoController extends Controller
             'image_path' => $url,
             'alias' => $request->alias
         ]);
-
         return redirect()->route('productos.index');
     }
 
@@ -172,14 +160,6 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id)
-    // {
-    //     $producto = Producto::find($id);
-    //     $producto->delete();
-    //     //elimina pero falta la vista 
-    //     // return "borrado";
-    //     return redirect()->route('productos.index');
-    // }
     public function destroy($id)
     {
         try {

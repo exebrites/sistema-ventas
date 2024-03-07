@@ -19,13 +19,29 @@ class BocetoController extends Controller
     {
         // return $request;
         // ---------------------------------
-        $img_logo =  $request->file('logo')->store('public');
-        $url_logo = Storage::url($img_logo);
+        $request->validate([
+            'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Puedes ajustar los tipos de archivos y el tamaño máximo
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nombre' => 'required|string|max:255',
+            'objetivo' => 'required|string',
+            'publico' => 'required|string',
+            'contenido' => 'required|string',
+        ]);
 
-        // // ------------------------
-        $img_img =  $request->file('img')->store('public');
-        $url_img = Storage::url($img_img);
+        if ($request->logo) {
+            $img_logo =  $request->file('logo')->store('public');
+            $url_logo = Storage::url($img_logo);
+        } else {
+            $img_logo = "";
+        }
 
+
+        if ($request->logo) {
+            $img_img =  $request->file('img')->store('public');
+            $url_img = Storage::url($img_img);
+        } else {
+            $url_img = "";
+        }
 
         Boceto::create([
             'negocio' => $request->nombre,

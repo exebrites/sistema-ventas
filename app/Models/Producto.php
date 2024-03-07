@@ -21,23 +21,7 @@ class Producto extends Model
     /*----------------------------METODOS-----------------------------------------*/
 
     /*AGREGAR METODOS*/
-    public function isID($idProducto)
-    {
 
-        //retorna boolean
-
-
-    }
-    public function ingresarDiseño()
-    {
-        /*PARAMETROS
-        unProducto,diseño,texto,boolean
-        */
-    }
-    public function agregar()
-    {
-        //Paramtro: unDiseño
-    }
     /*----------------------------RELACIONES----------------------------------------*/
     /*AGREGAR RELACIONES*/
     public function disenio()

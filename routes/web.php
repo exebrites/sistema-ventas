@@ -51,6 +51,9 @@ use App\Http\Controllers\DetallePedidoController;
 use App\Http\Controllers\DetalleProductoController;
 use App\Http\Controllers\MaterialProveedorController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DetallePresupuestoController;
+use App\Http\Controllers\PresupuestoController;
+use App\Models\DetallePresupuesto;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,13 +69,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('/', [CartController::class, 'shop'])->name('shop');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
 Route::post('/add', [CartController::class, 'add'])->name('cart.store');
-// Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
+Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
 Route::post('/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
 // route::post('/subirImagen', [CartController::class, 'subirImagen'])->name('subirImagen');
 Route::resource('pedidos', PedidoController::class)->middleware('role:admin,empresa');
-Route::get('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
+Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
 Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
 Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
 /*RUTAS DEL ABM PRODUCTO*/
@@ -200,13 +203,9 @@ route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofer
 Route::get('/showproveedor{id}', [DemandaController::class, 'showProveedor'])->name('demandas.showProveedor');
 Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
 
-
-Route::get('/presupuestos', function () {
-    return view('presupuesto.create');
-})->name('presupuestos.create');
-
-
-
+route::resource('/presupuestos', PresupuestoController::class);
+route::get('/detallepresupuesto/{id}', [DetallePresupuestoController::class, 'create'])->name('detallepresupuestos.create');
+route::post('/detallepresupuesto/store', [DetallePresupuestoController::class, 'store'])->name('detallepresupuestos.store');
 //nuevas rutas 08-01
 
 Route::resource('/detalleproducto', DetalleProductoController::class);

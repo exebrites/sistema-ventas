@@ -58,7 +58,12 @@
                         </option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="">Fecha de entrega </label>
+                    <input type="date" name="fecha_entrega" id="" class="form-control"
+                        value="{{ $pedido->fecha_entrega }}">
 
+                </div>
 
                 <div class="container ">
                     <div class="row">

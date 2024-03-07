@@ -8,138 +8,38 @@
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
+            <a href="{{ route('detalleproducto.show', $producto->id) }}">Fabricacion producto</a>
         </div>
         <div class="card-body">
-            <div class="card mx-auto" style="width: 18rem;">
-                <img src="{{ $producto->image_path }}" class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <p class="card-text">
-                        <b>Nombre:</b>{{ $producto->name }} <br>
-                        <b>Descripcion:</b> {{ $producto->description }}<br>
-                        <b>Alias:</b>{{ $producto->alias }} <br>
-                    </p>
-                </div>
+
+            <div class="form-group">
+                <label for="">Nombre</label>
+                <input type="text" class="form-control" value="{{ $producto->name }}" readonly>
             </div>
-            {{-- <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Producto con sus materiales para la construccion
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                                                 
-                        </div>
-                    </div>
-                </div> --}}
-            {{-- <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Agregar materiales
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <h5>Materiales utilizados para la fabricacion</h5>
 
-                            <br>
-                            <table id="" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Cantidad</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
+            <div class="form-group">
+                <label for="">Alias</label>
+                <input type="text" class="form-control" value="{{ $producto->alias }}" readonly>
 
-                                <tbody>
-                                    @foreach ($producto->detalleproducto as $item)
-                                        <tr>
-                                            <td>{{ $item->materiales->nombre }}</td>
-                                            <td>{{ $item->cantidad }}</td>
+            </div>
 
-                                            <td width="10px"><a class="btn btn-primary btn btn-sm"
-                                                    href="{{ route('detalleproducto.editar', ['producto_id' => $item->producto_id, 'material_id' => $item->material_id]) }}">Editar</a>
-                                            </td>
-                                            <td width="10px">
-                                                <form
-                                                    action="{{ route('detalleproducto.eliminar', ['producto_id' => $item->producto_id, 'material_id' => $item->material_id]) }}"
-                                                    method="post" class="formulario-eliminar">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button id="tuBotonId" class="btn btn-danger btn btn-sm "
-                                                        type="submit">borrar</button>
-                                                </form>
-                                            </td>
-                                            <td><a href="{{ route('materiales.show', $item->materiales->id) }}">Ver
-                                                    material</a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <br>
-                            <h2> Materiales disponibles</h2> <br>
-                            <form action="{{ route('detalleproducto.store') }}" method="post">
-                                @csrf
-                                <table class="table table-striped" id="materiales">
-                                    <thead>
-                                        <tr>
+            <div class="form-group">
+                <label for="">Descripción</label>
+                <input type="text" class="form-control" value="{{ $producto->description }}" readonly>
+            </div>
 
-                                            <th>Nombre</th>
-                                            <th>Ingresa cantidad</th>
+            <div claass="form-group">
+                <label for="">Precio de venta</label>
+                <input type="text" class="form-control" value="$ {{ $producto->price }}" readonly>
+            </div>
+            <hr>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($materiales as $item)
-                                            <tr>
-                                                <td>{{ $item->nombre }}</td>
+            <div class="container text-center">
+                <h2>Imagen del producto</h2>
+                <p>{{ $producto->name }}</p>
+                <img src="{{ $producto->image_path }}" alt="Descripción de la imagen" class="img-fluid">
+            </div>
 
-                                                <td>
-                                                    <input type="text" name="cantidades[{{ $item->id }}]"
-                                                        id="">
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <br>
-                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-
-
-
-                                <div class="container ">
-                                    <div class="row">
-                                        <div class="col d-flex">
-
-                                            <div id="btn-cancelar">
-                                                <a href="{{ route('productos.index') }}"
-                                                    class="btn btn-danger btn-ampliado">Cancelar</a>
-                                            </div>
-
-
-                                            <div>
-                                                <button type="submit" class="btn btn-primary btn-ampliado">Agregar
-                                                    materiales al detalle</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div> --}}
-
-            {{-- </div> --}}
         </div>
     </div>
 

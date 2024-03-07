@@ -26,8 +26,9 @@
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseTwo{{ $item->id }}" aria-expanded="false"
                                         aria-controls="collapseTwo">
-                                        Nro de pedido: {{ $item->id }} <br> Estado: {{ $item->estado }} <br> Ultima
-                                        actualizacion de pedido : {{ $item->updated_at->format('Y-m-d') }}
+                                        Nro de pedido: {{ $item->id }} <br> Estado: {{ $item->estado->descripcion }}
+                                        <br> Ultima
+                                        actualizacion de pedido : {{ $item->updated_at->format('d-m-Y') }}
                                         {{-- <br> Te faltan x
                                         diseños por revisar --}}
                                     </button>
@@ -36,7 +37,7 @@
                                 <div id="collapseTwo{{ $item->id }}" class="accordion-collapse collapse"
                                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        @if ($item->estado == 'pendiente-pago' || $item->estado == 'confirmado-pago')
+                                        @if ($item->estado_id == 1 || $item->estado_id == 2)
                                             <td>
                                                 <a href="{{ route('checkout.show', $item->id) }}">Paso a seguir para
                                                     completar el
@@ -50,7 +51,8 @@
                                                     {{-- <th scope="col">#</th> --}}
                                                     <th scope="col">Producto</th>
                                                     <th scope="col">Cantidad</th>
-                                                    <th scope="col">Estado de diseño</th>
+                                                    {{-- <th scope="col">Estado de diseño</th> --}}
+                                                    <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -63,7 +65,7 @@
                                                         <td>{{ $detalle->producto->name }} </td>
                                                         <td>{{ $detalle->cantidad }} unidades</td>
 
-                                                        <td>{{ $detalle->produccion ? 'En produccion' : 'Pre-produccion' }}
+                                                        {{-- <td>{{ $detalle->produccion ? 'En produccion' : 'Pre-produccion' }} --}}
                                                         </td>
                                                         @if (!$detalle->produccion)
                                                             <td>
@@ -89,7 +91,7 @@
                 </div>
                 <div class="col-1"></div>
             </div>
-            <div> <a class="btn btn-danger" href="{{ url()->previous() }}">Cancelar</a></div>
+            {{-- <div> <a class="btn btn-danger" href="{{ url()->previous() }}">Cancelar</a></div> --}}
 
 
         </div>

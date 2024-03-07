@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\RegistroPedidoDemanda;
 use App\Models\StockVirtual;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use League\CommonMark\Extension\CommonMark\Parser\Inline\EscapableParser;
 use Spatie\Permission\Models\Role;
 
 
@@ -253,35 +254,58 @@ class DemandaController extends Controller
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
             } else {
+                // dd('1.2');
                 $lista = Pedido::listaMateriales($pedidos);
+                // dd($lista);
                 $materiales_orden_compra = [];
                 foreach ($ultimaDemanda->detalleDemandas as $key => $detalle) {
                     $materiales_orden_compra[$key] = $detalle;
                 }
+                dd($materiales_orden_compra);
+                // dd("prueba");
+
+                $resultado = Demanda::combinar($lista, $lista);
+                dd($resultado);
+
+
+                dd("espera");
+
+
                 foreach ($materiales_orden_compra as $key => $material) {
                     foreach ($lista as $elementoA) {
                         $idA = $elementoA['id'];
                         $cantidadA = $elementoA['cantidad'];
-                        if ($material->materiales_id == $idA) {
-                            if ($material->cantidad != $cantidadA) {
-                                $material->cantidad += $cantidadA;
-                            }
+                        if ($material->materiales_id === $idA) {
+                            // dd('1.2.1');
+                            $material->cantidad += $cantidadA;
+                            // if ($material->cantidad != $cantidadA) {
+                            //     $material->cantidad += $cantidadA;
+                            //     dd('1.2.2');
+                            // }
                         } else {
-                            return $materiales_orden_compra;
+                            dd('1.2.3');
+
+                            $materiales_orden_compra[] = (object)['materiales_id' => $idA, 'cantidad' => $cantidadA];
+                            // dd($materiales_orden_compra);
                         }
                     }
                 }
+
+                // dd($materiales_orden_compra);
+                dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
                     $virtual_stock = StockVirtual::where('material_id', $material->materiales_id)->first();
                     $virtual_stock->update([
                         'cantidad' => -$material->cantidad
                     ]);
                 }
+                // dd([$materiales_orden_compra, $virtual_stock]);
                 foreach ($materiales_orden_compra as $key => $material) {
-                    $verificar = DetalleDemanda::where('demandas_id', $material->demandas_id)
+                    $verificar = DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
                         ->where('materiales_id', $material->materiales_id)
                         ->exists();
                     if ($verificar) {
+                        // dd('1.3.1');
                         $pedidos = config('pedidos');
                         foreach ($pedidos as $key => $id) {
                             RegistroPedidoDemanda::create([
@@ -289,16 +313,25 @@ class DemandaController extends Controller
                                 'demanda_id' => $ultimaDemanda->id
                             ]);
                         }
-                        DetalleDemanda::where('demandas_id', $material->demandas_id)
+                        DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
                             ->where('materiales_id', $material->materiales_id)
                             ->update(['cantidad' => $material->cantidad]);
                     } else {
+                        // dd('1.3.2');
+                        DetalleDemanda::create(
+                            [
+                                'demandas_id' => $ultimaDemanda->id,
+                                'materiales_id' => $material->materiales_id,
+                                'cantidad' => $material->cantidad
+
+                            ]
+                        );
                     }
                 }
             }
         } else {
             if ($ultimaOferta) {
-                // dd('2');
+                dd('2');
                 // dd($ultimaOferta);
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
@@ -401,7 +434,7 @@ class DemandaController extends Controller
             }
         }
         $virtual_stock = StockVirtual::all();
-        return view('prueba', compact('virtual_stock'));
+        return $virtual_stock;
         // $detalle = $demanda->detalleDemandas;
 
 

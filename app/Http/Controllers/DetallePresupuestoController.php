@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pregunta;
+use App\Models\DetallePresupuesto;
+use App\Models\Presupuesto;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
-class PreguntaController extends Controller
+class DetallePresupuestoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +16,7 @@ class PreguntaController extends Controller
      */
     public function index()
     {
-        // $preguntas = Pregunta::all();
-        $preguntas = Pregunta::where('contenido','!=','comentario')->get();
-        return view('pregunta.index', compact('preguntas'));
+        //
     }
 
     /**
@@ -24,9 +24,11 @@ class PreguntaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('pregunta.create');
+        $presupuesto = Presupuesto::find($id);
+        $productos = Producto::all();
+        return view('detallePresupuesto.create', compact('presupuesto', 'productos'));
     }
 
     /**
@@ -38,8 +40,17 @@ class PreguntaController extends Controller
     public function store(Request $request)
     {
 
-        Pregunta::create(['contenido' => $request->contenido]);
-        return redirect()->route('preguntas.index');
+        DetallePresupuesto::create([
+            'producto_id' => $request->producto_id,
+            'presupuesto_id' => $request->presupuesto_id,
+            'cantidad' => $request->cantidad,
+            'precio' => $request->precio
+        ]);
+
+        $presupuesto =  Presupuesto::find($request->presupuesto_id);
+        $detalles = DetallePresupuesto::all();
+        $productos = Producto::all();
+        return view('detallePresupuesto.index', compact('detalles', 'presupuesto'));
     }
 
     /**
@@ -50,8 +61,7 @@ class PreguntaController extends Controller
      */
     public function show($id)
     {
-        $pregunta = Pregunta::find($id);
-        return view('pregunta.show', compact('pregunta'));
+        //
     }
 
     /**
@@ -62,8 +72,7 @@ class PreguntaController extends Controller
      */
     public function edit($id)
     {
-        $pregunta = Pregunta::find($id);
-        return view('pregunta.edit', compact('pregunta'));
+        //
     }
 
     /**
@@ -75,9 +84,7 @@ class PreguntaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pregunta = Pregunta::find($request->id);
-        $pregunta->update(['contenido' => $request->contenido]);
-        return redirect()->route('preguntas.index');
+        //
     }
 
     /**
@@ -88,8 +95,6 @@ class PreguntaController extends Controller
      */
     public function destroy($id)
     {
-        $pregunta = Pregunta::find($id);
-        $pregunta->delete();
-        return redirect()->route('preguntas.index');
+        //
     }
 }

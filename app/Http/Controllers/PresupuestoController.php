@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pregunta;
+use App\Models\Cliente;
+use App\Models\DetallePresupuesto;
+use App\Models\Presupuesto;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\ClientException;
 
-class PreguntaController extends Controller
+class PresupuestoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +17,8 @@ class PreguntaController extends Controller
      */
     public function index()
     {
-        // $preguntas = Pregunta::all();
-        $preguntas = Pregunta::where('contenido','!=','comentario')->get();
-        return view('pregunta.index', compact('preguntas'));
+        $presupuestos = Presupuesto::all();
+        return view('presupuesto.index', compact('presupuestos'));
     }
 
     /**
@@ -26,7 +28,8 @@ class PreguntaController extends Controller
      */
     public function create()
     {
-        return view('pregunta.create');
+        $clientes = Cliente::all();
+        return view('presupuesto.create', compact('clientes'));
     }
 
     /**
@@ -37,9 +40,12 @@ class PreguntaController extends Controller
      */
     public function store(Request $request)
     {
-
-        Pregunta::create(['contenido' => $request->contenido]);
-        return redirect()->route('preguntas.index');
+        $presupuesto = Presupuesto::create([
+            'cliente_id' => $request->cliente_id,
+            'fecha_entrega' => $request->fecha_entrega
+        ]);
+        $detalles = DetallePresupuesto::all();
+        return view('detallePresupuesto.index', compact('presupuesto', 'detalles'));
     }
 
     /**
@@ -50,8 +56,7 @@ class PreguntaController extends Controller
      */
     public function show($id)
     {
-        $pregunta = Pregunta::find($id);
-        return view('pregunta.show', compact('pregunta'));
+        //
     }
 
     /**
@@ -62,8 +67,7 @@ class PreguntaController extends Controller
      */
     public function edit($id)
     {
-        $pregunta = Pregunta::find($id);
-        return view('pregunta.edit', compact('pregunta'));
+        //
     }
 
     /**
@@ -75,9 +79,7 @@ class PreguntaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pregunta = Pregunta::find($request->id);
-        $pregunta->update(['contenido' => $request->contenido]);
-        return redirect()->route('preguntas.index');
+        //
     }
 
     /**
@@ -88,8 +90,6 @@ class PreguntaController extends Controller
      */
     public function destroy($id)
     {
-        $pregunta = Pregunta::find($id);
-        $pregunta->delete();
-        return redirect()->route('preguntas.index');
+        //
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
 use App\Models\Comprobante;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 
 class ComprobanteController extends Controller
@@ -16,14 +17,13 @@ class ComprobanteController extends Controller
      */
     public function index()
     {
-        //
-        // $pedidos = Pedido::where('estado', 'pendiente-pago')->get();
-        // $pedidos->comprobantes;
         $comprobantes = Comprobante::all();
-        // $comprobantes = $comprobantes->pedido->where('estado', 'pendiente-pago')->get();
-        return view('comprobante.index', ['comprobantes' => $comprobantes]);
-        // return $comprobantes;
+        // foreach ($comprobantes as $key => $comprobante) {
+        //     $comprobanteP[] = $comprobante->pedido->where('estado_id', 1);
+        // }
 
+        // dd($comprobanteP);
+        return view('comprobante.index', compact('comprobantes'));
     }
 
     /**

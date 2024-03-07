@@ -10,51 +10,74 @@
 
     <div class="card">
         <div class="card-body">
-            <form class="form" action="" method="post">
+            <form class="form" action="{{ route('presupuestos.store') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="clientes">Clientes:</label>
+                    {{-- <select name="cliente" id="permissions" class="form-control  js-example-basic-multiple"
+                        multiple="multiple">
+                      
+                    </select> --}}
+                    <select class="js-example-basic-single" name="cliente_id">
+                        {{-- <option value="AL">Alabama</option>
+                        ...
+                        <option value="WY">Wyoming</option> --}}
+                        @foreach ($clientes as $cliente)
+                            <option value="{{ $cliente->id }}">{{ $cliente->nombre . ' ' . $cliente->apellido. ' ' . $cliente->dni }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Fecha de cierre</label>
+                    <input type="date" name="fecha_entrega" id="" class="form-control" placeholder=""
+                        aria-describedby="helpId">
 
-                <div class="mb-3">
-                    <label class="form-label">Codigo de presupuesto</label>
-                    <input type="text" class="form-control" name="codigo" value="1">
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Cliente</label>
-                    <input type="text" class="form-control" name="cliente">
-                </div>
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label class="form-label">Tiempo vigente del presupuesto</label>
                     <input type="text" class="form-control" name="tiempo_presupuesto">
-                </div>
-                <div class="mb-3">
+                </div> --}}
+                {{-- <div class="mb-3">
                     <label class="form-label">Tipo de proyecto</label>
                     <input type="text" class="form-control" name="tipo_proyecto">
-                </div>
-                <div class="mb-3">
+                </div> --}}
+                {{-- <div class="mb-3">
                     <label class="form-label">Maximo de revisiones</label>
                     <input type="text" class="form-control" name="max_revision">
-                </div>
-                <div class="mb-3">
+                </div> --}}
+                {{-- <div class="mb-3">
                     <label class="form-label">Clasulas</label>
                     <input type="text" class="form-control" name="clausula">
-                </div>
-                <div class="mb-3">
+                </div> --}}
+                {{-- <div class="mb-3">
                     <label class="form-label">Forma de pago</label>
                     <input type="text" class="form-control" name="forma_pago">
-                </div>
-                <div class="input-group">
+                </div> --}}
+                {{-- <div class="input-group">
                     <span class="input-group-text">Producto</span>
                     <input type="text" class="form-control" name="producto">
                     <span class="input-group-text">Cantidad</span>
                     <input type="text" class="form-control" name="cantidad_producto">
+                </div> --}}
+                {{-- <div class="form-group">
+                  <label for="">Producto</label>
+                  <input type="text" name="producto" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                  <small id="helpId" class="text-muted">Help text</small>
                 </div>
+                <div class="form-group">
+                    <label for=""></label>
+                    <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    <small id="helpId" class="text-muted">Help text</small>
+                  </div> --}}
                 <br>
-                <div class="input-group">
+                {{-- <div class="input-group">
                     <span class="input-group-text">Material</span>
                     <input type="text" class="form-control" name="material">
                     <span class="input-group-text">Cantidad</span>
                     <input type="text" class="form-control" name="cantidad_material">
-                </div>
+                </div> --}}
 
-                <hr>
+                {{-- <hr>
                 etapas
                 <div class="mb-3">
                     <label class="form-label">Diseño</label>
@@ -90,7 +113,7 @@
                 <div class="mb-3">
                     <label class="form-label">Total</label>
                     <input type="text" class="form-control" name="total">
-                </div>
+                </div> --}}
 
 
                 <div class="container ">
@@ -115,3 +138,21 @@
 
 
 @stop
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+@endsection
+
+@section('js')
+    {{-- select 2  --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+
+@endsection

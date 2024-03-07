@@ -2,7 +2,7 @@
 
 @section('content')
     @if ($estado == null)
-        {{ $estado = 'pendiente-pago' }};
+        {{ $estado = 1 }};
     @endif
 
     <div class="card">
@@ -20,7 +20,7 @@
                 <div class="row">
                     @switch($estado)
                         @case(1)
-                            <div class="col">
+                            {{-- <div class="col">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5>Tu estado de pedido es el siguiente : Pendiente de pago</h3>
@@ -54,11 +54,47 @@
                                     </div>
                                 </div>
 
+                            </div> --}}
+
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Tu estado de pedido es el siguiente: Pendiente de pago</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <small>
+                                                El estado "Pendiente de pago" indica que tu pedido está a la espera de que subas el
+                                                comprobante de pago,
+                                                el cual será confirmado por la gerencia para continuar con los próximos pasos.
+                                            </small>
+                                        </p>
+                                        <p>Se ha enviado un mensaje a tu correo electrónico con las instrucciones para realizar el
+                                            pago del pedido.</p>
+
+                                        <form action="{{ route('comprobantes.store') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <b><label for="comprobante">Subir comprobante</label></b>
+                                                <p>No olvides subir tu comprobante para reflejar tu pago en el sistema.</p>
+                                                <input type="file" class="form-control-file" name="comprobante" id="comprobante"
+                                                    accept="image/*">
+                                            </div>
+
+                                            <input type="hidden" name="estado" value="{{ $estado }}" id="">
+                                            <input type="hidden" name="id" value="{{ $id }}" id="">
+
+                                            <button type="submit" class="btn btn-primary">Enviar comprobante</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         @break
 
                         @case(2)
-                            <div class="col">
+                            {{-- <div class="col">
                                 <div class="card">
                                     <h5>Tu estado de pedido es el siguiente : Pago confirmado</h3>
                                         <div class="card-body">
@@ -106,10 +142,60 @@
 
                                         </div>
                                 </div>
+                            </div> --}}
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Tu estado de pedido es el siguiente: Pago confirmado</h5>
+                                        <p class="card-text">
+                                            <small>
+                                                El estado "Pago confirmado" indica que el pago ha sido confirmado. Ahora necesitas
+                                                completar los siguientes campos para que sepamos dónde entregar el pedido.
+                                            </small>
+                                        </p>
+
+                                        <h5>Datos de entrega</h5>
+
+                                        <form action="{{ route('entrega.store') }}" method="POST">
+                                            @csrf
+                                            <div class="form-group form-check">
+                                                <input type="checkbox" class="form-check-input" name="local" id="miCheckbox"
+                                                    checked>
+                                                <label class="form-check-label">Retiro en local</label>
+                                            </div>
+
+                                            <div id="div1">
+                                                <div class="form-group">
+                                                    <label>Dirección del lugar de entrega</label>
+                                                    <input type="text" class="form-control" name="direccion">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Teléfono de contacto</label>
+                                                    <input type="text" class="form-control" name="telefono">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nombre de la persona que recibe</label>
+                                                    <input type="text" class="form-control" name="nombre">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Nota</label>
+                                                    <textarea class="form-control" aria-label="With textarea" name="nota">Sin comentarios</textarea>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" name="estado" value="{{ $estado }}" id="">
+                                            <input type="hidden" name="id" value="{{ $id }}" id="">
+
+                                            <button type="submit" class="btn btn-primary">Finalizar pedido</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
 
 
-                            <div class="col">
+
+                            {{-- <div class="col">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5>Datos de facturacion</h5>
@@ -138,10 +224,25 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         @break
 
-                        @case('disenio')
+                        @case(9)
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Estado de tu pedido: "En confirmación de impresión"</h5>
+                                        <p class="card-text">
+                                            <small>
+                                                El estado "En confirmación de impresión" significa que la empresa está evaluando la
+                                                fecha requerida.
+                                                Te informaremos si es posible realizar el pedido para esa fecha o si se debe
+                                                cambiar.
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         @break
 
                         @default

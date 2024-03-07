@@ -34,20 +34,20 @@
                             <td>{{ $usuario->name }}</td>
                             <td>{{ $usuario->email }}</td>
                             <td>{{ $usuario->tipo_usuario }}</td>
-                            <td width="10px"><a class="btn btn-warning btn btn-sm"
+                            <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                     href="{{ route('usuarios.edit', $usuario->id) }}">Editar</a></td>
                             <td width="10px">
                                 <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="post"
                                     class="formulario-eliminar">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn btn-danger btn btn-sm " type="submit">Borrar</button>
+                                    <button class="btn btn-danger btn btn-sm btn-fixed-width" type="submit">Borrar</button>
                                 </form>
                             </td>
-                            <td width="10px"><a class="btn btn-secondary btn btn-sm"
+                            <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
                                     href="{{ route('usuarios.show', $usuario->id) }}">Ver</a></td>
                             <td> <a href="{{ route('usuarios.showAssignMultipleRolesForm', $usuario->id) }}"
-                                    class="btn btn-success">Asociar roles</a>
+                                    class="btn btn-success btn-fixed-width">Roles</a>
                             </td>
                         </tr>
                     @endforeach
@@ -62,6 +62,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ asset('css/btnFijo.css') }}">
+    {{-- btn-fixed-width --}}
 @endsection
 @section('js')
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>

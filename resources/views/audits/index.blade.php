@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Auditoria')
+@section('title', 'Auditoria')
 
 @section('content_header')
     <h1>Auditoria</h1>
@@ -26,55 +26,59 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($audits as $audit)
-                        <tr>
-                            {{-- <td>{{ $audit->id }}</td> --}}
-                            <td>{{ $audit->user_type }}</td>
-                            <td>{{ $audit->getName($audit->user_id) }}</td>
-                            <td>{{ $audit->event }}</td>
-                            <td>{{ $audit->auditable_type }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#auditDetailsModal{{ $audit->id }}">
-                                    Ver Detalles
-                                </button>
-                            </td>
+                    @if ($audits)
+                        @foreach ($audits as $audit)
+                            <tr>
+                                {{-- <td>{{ $audit->id }}</td> --}}
+                                <td>{{ $audit->user_type }}</td>
+                                <td>{{ $audit->getName($audit->user_id) }}</td>
+                                <td>{{ $audit->event }}</td>
+                                <td>{{ $audit->auditable_type }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#auditDetailsModal{{ $audit->id }}">
+                                        Ver Detalles
+                                    </button>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                        <!-- Modal for Audit Details -->
-                        <div class="modal fade" id="auditDetailsModal{{ $audit->id }}" tabindex="-1" role="dialog"
-                            aria-labelledby="auditDetailsModalLabel{{ $audit->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="auditDetailsModalLabel{{ $audit->id }}">Audit
-                                            Details
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <!-- Dentro del modal-body -->
-                                    <div class="modal-body">
-                                        <strong>Old Values:</strong> {{ json_encode($audit->old_values) }}<br>
-                                        <strong>New Values:</strong> {{ json_encode($audit->new_values) }}<br>
-                                        {{-- Include other details as needed --}}
+                            <!-- Modal for Audit Details -->
+                            <div class="modal fade" id="auditDetailsModal{{ $audit->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="auditDetailsModalLabel{{ $audit->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="auditDetailsModalLabel{{ $audit->id }}">Audit
+                                                Details
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <!-- Dentro del modal-body -->
+                                        <div class="modal-body">
+                                            <strong>Old Values:</strong> {{ json_encode($audit->old_values) }}<br>
+                                            <strong>New Values:</strong> {{ json_encode($audit->new_values) }}<br>
+                                            {{-- Include other details as needed --}}
 
-                                        <!-- Añade estilos para limitar la altura y agregar desplazamiento -->
-                                        <style>
-                                            .modal-body {
-                                                max-height: 400px;
-                                                /* Ajusta la altura máxima según tus necesidades */
-                                                overflow-y: auto;
-                                                /* Agrega desplazamiento vertical si se excede la altura */
-                                            }
-                                        </style>
+                                            <!-- Añade estilos para limitar la altura y agregar desplazamiento -->
+                                            <style>
+                                                .modal-body {
+                                                    max-height: 400px;
+                                                    /* Ajusta la altura máxima según tus necesidades */
+                                                    overflow-y: auto;
+                                                    /* Agrega desplazamiento vertical si se excede la altura */
+                                                }
+                                            </style>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        {{ 'No hay registros' }}
+                    @endif
                 </tbody>
             </table>
         </div>

@@ -50,13 +50,13 @@ class RegisteredUserController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
 
-
+        $rol = Role::find(6);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'tipo_usuario' => 'cliente',
-        ])->assignRole('cliente');
+        ])->assignRole($rol->name);
 
         // creacion de clientes y asignacion de rol
 

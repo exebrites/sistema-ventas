@@ -15,6 +15,34 @@ class Pedido extends Model
     protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'subtotal'];
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
+
+    public function diferenciaDias()
+    {
+
+        // // Obtén la fecha actual
+        // $hoy = Carbon::now();
+
+        // // Define la fecha específica
+        // $fechaEspecifica = Carbon::parse($this->fecha_entrega);
+
+        // // Calcula la diferencia en días
+        // $diferenciaEnDias = $hoy->diffInDays($fechaEspecifica);
+        // $diferenciaEnDias++;
+        // // Imprime el resultado
+        // return $diferenciaEnDias;
+
+        // Obtén la fecha actual
+        $hoy = Carbon::now();
+
+        // Define la fecha específica
+        $fechaEspecifica = Carbon::parse('2024-03-04');
+
+        // Calcula la diferencia en días, horas y minutos
+        $diferencia = $hoy->diff($fechaEspecifica);
+
+        // Imprime el resultado
+        return $diferencia->days . "Dias-" . $diferencia->h . "hora-" . $diferencia->i . "min";
+    }
     public function scopeNuevo($query)
     {
         return $query->where('estado', 'nuevo');
@@ -186,7 +214,7 @@ class Pedido extends Model
                 }
             }
         }
-      
+
         return $arrayC;
     }
 

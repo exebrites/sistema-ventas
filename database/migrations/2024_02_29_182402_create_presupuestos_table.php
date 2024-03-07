@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detalle_demandas', function (Blueprint $table) {
+        Schema::create('presupuestos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('demandas_id')->constrained('demandas');
-            $table->foreignId('materiales_id')->constrained('materiales');
-            $table->integer('cantidad');
+            $table->foreignId('cliente_id')->constrained('clientes');
+            $table->date('fecha_entrega');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detalle_demandas');
+        Schema::dropIfExists('presupuestos');
     }
 };

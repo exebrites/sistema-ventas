@@ -31,42 +31,59 @@
                         <input type="hidden" name="disenio_estado" id="" value="false">
 
                         <div class="form-group">
-                            <label><b>Nombre del negocio</b></label>
+                            <label><b>(*)Nombre del negocio</b></label>
                             <input type="text" class="form-control" aria-describedby="emailHelp" name="nombre"
                                 placeholder="Ej: empresaSA">
+                            @error('nombre')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <b><label>Para que quiere el diseño?</label></b>
+                            <b><label>(*)Para que quiere el diseño?</label></b>
                             <input type="text" class="form-control" aria-describedby="emailHelp" name="objetivo"
                                 placeholder="Ej: llegar a nuevos clientes">
+                            @error('objetivo')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
-                            <b> <label>A quien va dirigido el diseño</label>
+                            <b> <label>(*)A quien va dirigido el diseño</label>
                             </b>
                             <input type="text" class="form-control" aria-describedby="emailHelp" name="publico"
                                 placeholder="Ej: personas entre 18 30 años">
+                            @error('publico')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <b><label>Agregar contenido y texto</label></b>
+                            <b><label>(*)Agregar contenido y texto</label></b>
                             <textarea class="form-control" aria-label="With textarea" name="contenido"></textarea>
+                            @error('contenido')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <b><label>Agregar logotipo y elementos de la marca</label></b>
                             <input type="file" class="form-control-file" accept=".jpg, .jpeg, .png" name="logo">
-
-                            <div class="form-group form-check">
+                            @error('logo')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            {{-- <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check">
                                 <label class="form-check-label" for="exampleCheck1">No tengo logotipo ni elementos de
                                     marca</label>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="form-group">
                             <b><label>Agregar imagenes y recursos visuales</label></b>
 
                             <input type="file" class="form-control-file" name="img" accept=".jpg, .jpeg, .png">
+                            @error('img')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <br><br>

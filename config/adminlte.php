@@ -394,11 +394,11 @@ return [
 
 
 
-        [
-            //'route'=> 'ruta'
-            'text' => 'Ver Stock ',
-            'route' => 'ver_stock',
-        ],
+        // [
+        //     //'route'=> 'ruta'
+        //     'text' => 'Ver Stock ',
+        //     'route' => 'ver_stock',
+        // ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar roles ',
@@ -414,6 +414,11 @@ return [
             'text' => 'Auditoria',
             'route' => 'auditoria.index',
         ],
+        // [
+        //     'route'=> 'ruta'
+        //     'text' => 'Presupuesto',
+        //     'route' => 'presupuestos.index',
+        // ],
 
 
     ],

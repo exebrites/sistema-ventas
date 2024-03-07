@@ -274,7 +274,7 @@ class MaterialController extends Controller
                 'diferenciaStock' => $diferencia,
             ];
         }
-        return $materialesStock;
+        // return $materialesStock;
         return view('material.lista_materiales', compact('materialesStock'));
     }
 

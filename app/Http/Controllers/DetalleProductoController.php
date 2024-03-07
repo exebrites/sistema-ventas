@@ -86,7 +86,9 @@ class DetalleProductoController extends Controller
      */
     public function show($id)
     {
-        //
+        $producto = Producto::find($id);
+        $detalleProducto = $producto->detalleProducto;
+        return $detalleProducto;
     }
 
     /**

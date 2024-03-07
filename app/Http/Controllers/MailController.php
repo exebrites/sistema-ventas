@@ -29,13 +29,7 @@ class MailController extends Controller
         return view('checkout', ['estado' => $estado, 'id' => $id]);
         // return view('emails.Pago');
     }
-    function comprobante(Request $request)
-    {
-        $imagen =  $request->file('comprobante')->store('public');
-        $url = Storage::url($imagen);
-
-        return $url;
-    }
+  
 
 
     /**

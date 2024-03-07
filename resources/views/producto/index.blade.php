@@ -18,7 +18,7 @@
             </div>
         @endif
         <div class="card-header">
-            <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
+
             <a href="{{ route('productos.create') }}" class="btn btn-success">Agregar nuevo producto</a>
         </div>
         <div class="card-body">
@@ -54,41 +54,42 @@
             <table class="table table-striped table-bordered" id="productos">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
+                        {{-- <th>ID</th> --}}
+                        <th>Producto</th>
                         <th>Alias</th>
-                        <th>Precio</th>
-                        <th>Descripcion</th>
-                        <th>Imagen</th>                        
+                        <th>Precio de venta</th>
+                        <th>Descripción</th>
+                        {{-- <th></th> --}}
                         <th></th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($productos as $item)                       
+                    @foreach ($productos as $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            {{-- <td>{{ $item->id }}</td> --}}
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->alias }}</td>
-                            <td>{{ $item->price }}</td>
+                            <td>${{ $item->price }}</td>
                             <td>{{ $item->description }}</td>
-                            <td>                                
-                                <button type="button" class="btn btn-primary btn btn-sm" data-toggle="modal"
+                            {{-- <td>
+                                <button type="button" class="btn btn-primary btn btn-sm btn-fixed-width" data-toggle="modal"
                                     data-target="#exampleModal{{ $item->id }}">
-                                    ver imagen </button>
-                            </td>
-                            <td width="10px"><a class="btn btn-warning btn btn-sm"
+                                    Ver imagen </button>
+                            </td> --}}
+                            <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.edit', $item->id) }}">Editar</a></td>
                             <td width="10px">
                                 <form action="{{ route('productos.destroy', $item->id) }}" method="post"
                                     class="formulario-eliminar">
                                     @csrf
                                     @method('delete')
-                                    <button id="tuBotonId" class="btn btn-danger btn btn-sm " type="submit">borrar</button>
+                                    <button id="tuBotonId" class="btn btn-danger btn btn-sm btn-fixed-width"
+                                        type="submit">Borrar</button>
                                 </form>
                             </td>
-                            <td width="10px"><a class="btn btn-secondary btn btn-sm"
+                            <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.show', $item->id) }}">Ver mas</a></td>
                         </tr>
                         <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
@@ -101,7 +102,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">                                    
+                                    <div class="modal-body">
                                         <img src="{{ $item->image_path }}" class="img-fluid" alt="...">
                                     </div>
                                     <div class="modal-footer">
@@ -122,6 +123,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/btnFijo.css') }}">
+    {{-- btn-fixed-width --}}
 @endsection
 @section('js')
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
