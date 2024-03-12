@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ContactoController;
+use App\Models\CostoDisenio;
 use Illuminate\Validation\ValidationException;
 
 
@@ -27,7 +28,9 @@ class CartController extends Controller
     {
         $cartCollection = \Cart::getContent();
         //dd($cartCollection);
-        return view('cart')->with(['cartCollection' => $cartCollection]);;
+
+        $costo = CostoDisenio::costo_total_disenio();
+        return view('cart')->with(['cartCollection' => $cartCollection, 'costo'  => $costo]);
     }
     public function remove(Request $request)
     {
@@ -56,13 +59,14 @@ class CartController extends Controller
         $url_imagen = Storage::url($imagen);
         //agrega el producto y su diseño al carrito
 
-
+        // dd("disenio asistido");
         /**
          Si pasa por aca se que es un diseño asistido por ende se puede realizar el calculo del costo de diseño y luego asignar el valor del costo 
          al atribito
          */
-
-        $costo_disenio_asistido = 500;
+        $disenio_estado = true;
+        $costo_disenio_asistido = CostoDisenio::costo_disenio($request->price, $request->quantity, $disenio_estado);
+        // dd($costo_disenio_asistido);
         \Cart::add(array(
             'id' => $request->id,
             'name' => $request->name,
@@ -72,7 +76,7 @@ class CartController extends Controller
                 'imagen_path' => $request->img,
                 'slug' => $request->slug,
                 'url_disenio' => $url_imagen,
-                'disenio_estado' => true, // $request->disenio_estado
+                'disenio_estado' => $disenio_estado, // $request->disenio_estado
                 'costo_disenio' => $costo_disenio_asistido
             )
         ));
@@ -113,8 +117,9 @@ class CartController extends Controller
             $url_img = "";
         }
         //agrega el producto y su diseño al carrito
-
-        $costo_disenio_completo = 1000;
+        // dd("disenio completo");
+        $disenio_estado = false;
+        $costo_disenio_completo = CostoDisenio::costo_disenio($request->price, $request->quantity, $disenio_estado);
 
         \Cart::add(array(
             'id' => $request->id,
@@ -129,7 +134,7 @@ class CartController extends Controller
                 "contenido" => $request->contenido,
                 "logo" => $url_logo,
                 "img" => $url_img,
-                "disenio_estado" => false, // $request->disenio_estado
+                "disenio_estado" => $disenio_estado, // $request->disenio_estado
                 'costo_disenio' => $costo_disenio_completo
             )
         ));
@@ -139,6 +144,7 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
+
         \Cart::update(
             $request->id,
             array(
@@ -148,6 +154,52 @@ class CartController extends Controller
                 ),
             )
         );
+        $p = \Cart::get($request->id);
+        $precio  = $p->price;
+        $cantidad = $p->quantity;
+        $disenio_estado = $p->attributes['disenio_estado'];
+
+
+        if ($p->attributes['disenio_estado']) {
+
+
+            $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
+            \Cart::update(
+                $request->id,
+                array(
+                    'attributes' => array(
+                        "imagen_path" => "/storage/FMPgTlCgn3tYPUGvjyrFkT9tpEQNga5OJGY1bGGX.jpg",
+                        "slug" => "Carpetas de Presentación",
+                        "url_disenio" => "/storage/0AwqRCXgH0RAcqsfkZeWge1AznvYuc0K2StKsbdV.jpg",
+                        "disenio_estado" => true,
+                        "costo_disenio" => $costo
+
+                    )
+                )
+            );
+        } else {
+
+            $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
+
+            \Cart::update(
+                $request->id,
+                array(
+                    'attributes' => array(
+                        "imagen_path" => "/storage/sDTLkULx74Uzo0zEMALrmnmbAUrJ4WYqd7bTPbpQ.jpg",
+                        "nombre" => "asd",
+                        "objetivo" => "asd",
+                        "publico" => "asd",
+                        "contenido" => "asd",
+                        "logo" => "",
+                        "img" => "",
+                        "disenio_estado" => false,
+                        "costo_disenio" => $costo
+
+                    )
+                )
+            );
+        }
+
         return redirect()->route('cart.index')->with('success_msg', 'Carrito actualizado!');
     }
 

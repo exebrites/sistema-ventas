@@ -267,26 +267,20 @@ class DemandaController extends Controller
 
 
                 $resultado = Demanda::combinar($lista, $materiales_orden_compra);
-            
 
-
-                dd("espera");
-
-
-               
-
-               
-                dd('1.3');
+                $materiales_orden_compra = $resultado;
+                // dd($materiales_orden_compra);
+                // dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
-                    $virtual_stock = StockVirtual::where('material_id', $material->materiales_id)->first();
+                    $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
                     $virtual_stock->update([
-                        'cantidad' => -$material->cantidad
+                        'cantidad' => -$material['cantidad']
                     ]);
                 }
-                // dd([$materiales_orden_compra, $virtual_stock]);
+
                 foreach ($materiales_orden_compra as $key => $material) {
                     $verificar = DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
-                        ->where('materiales_id', $material->materiales_id)
+                        ->where('materiales_id',  $material['id'])
                         ->exists();
                     if ($verificar) {
                         // dd('1.3.1');
@@ -298,24 +292,25 @@ class DemandaController extends Controller
                             ]);
                         }
                         DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
-                            ->where('materiales_id', $material->materiales_id)
-                            ->update(['cantidad' => $material->cantidad]);
+                            ->where('materiales_id',  $material['id'])
+                            ->update(['cantidad' => $material['cantidad']]);
                     } else {
                         // dd('1.3.2');
                         DetalleDemanda::create(
                             [
                                 'demandas_id' => $ultimaDemanda->id,
-                                'materiales_id' => $material->materiales_id,
-                                'cantidad' => $material->cantidad
+                                'materiales_id' => $material['id'],
+                                'cantidad' => $material['cantidad']
 
                             ]
                         );
                     }
                 }
             }
+            // dd("fin");
         } else {
             if ($ultimaOferta) {
-                dd('2');
+
                 // dd($ultimaOferta);
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);

@@ -72,13 +72,14 @@
                                 <b>Precio unitario: </b>${{ $item->price }}<br>
                                 <b>Sub Total: </b>${{ \Cart::get($item->id)->getPriceSum() }}<br>
                                 {{--                                <b>With Discount: </b>${{ \Cart::get($item->id)->getPriceSumWithConditions() }} --}}
-
+                                {{-- {{ dd($item) }} --}}
                                 @if ($item->attributes['disenio_estado'])
-                                    El costo del diseño asistido :
+                                    <b> El costo del diseño asistido :</b>
                                 @else
-                                    El costo del diseño completo:
+                                    <b> El costo del diseño completo:</b>
                                 @endif
-                            <p> $$ {{ $item->attributes['costo_disenio'] }}</p>
+                                <br>
+                                ${{ $item->attributes['costo_disenio'] }}
                             </p>
                         </div>
                         <div class="col-lg-4">
@@ -116,10 +117,11 @@
                 <div class="col-lg-5">
                     <div class="card">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><b>Total: </b>${{ \Cart::getTotal() }}</li>
+                            <li class="list-group-item"><b>Total: </b>${{ \Cart::getTotal() + $costo }}</li>
                         </ul>
                     </div>
                     <hr>
+
 
                     <form action="{{ route('procesarPedido.procesar') }}" method="post">
                         @csrf <label for="fechaEntrega" class="font-weight-bold">Fecha requerida del pedido:</label>

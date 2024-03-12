@@ -30,13 +30,13 @@ class Demanda extends Model
                 // Si se encuentra, agregar las cantidades
                 $cantidad_compra = $materiales_compra[$clave_compra]['cantidad'];
                 // dd($cantidad_compra);
-                $resultado[] = (object)['id' => $materiales_id, 'cantidad' => $cantidad_orden + $cantidad_compra];
+                $resultado[] = ['id' => $materiales_id, 'cantidad' => $cantidad_orden + $cantidad_compra];
             } else {
                 // Si no se encuentra, agregar el elemento tal cual está en $orden
                 $resultado[] = $elemento_lista;
             }
         }
-     
+      
         // Agregar los elementos de $compra que no estén en $orden
 
         foreach ($materiales_compra as $elemento_compra) {
