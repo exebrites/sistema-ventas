@@ -188,8 +188,8 @@
                                                 </div>
                                             </div>
 
-                                            {{-- <input type="hidden" name="estado" value="{{ $estado }}" id="">
-                                            <input type="hidden" name="id" value="{{ $id }}" id=""> --}}
+                                            <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
+                                            <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
 
                                             <button type="submit" class="btn btn-primary">Finalizar pedido</button>
                                         </form>
@@ -258,7 +258,8 @@
                                         <hr>
                                         {{-- {{dd($pedido->fecha_inicio )}} --}}
                                         @if ($pedido->fecha_inicio != null)
-                                            <a href="{{ route('cancelarPedido', $pedido->id) }}" class="btn btn-danger">Cancelar</a>
+                                            <a href="{{ route('cancelarPedido', $pedido->id) }}"
+                                                class="btn btn-danger">Cancelar</a>
                                             <a href="{{ route('confirmarPedido', $pedido->id) }}"
                                                 class="btn btn-success">Confirmar</a>
                                         @endif

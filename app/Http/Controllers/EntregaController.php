@@ -35,16 +35,8 @@ class EntregaController extends Controller
      */
     public function store(Request $request)
     {
-
-        // table entrega {
-        //     id integer [PK]
-        //     direccion string
-        //     telefono char
-        //     recepcion string
-        //     nota string
-        //     local boolean
-        //   }
-         $id= $request->id;   
+        // dd($request);
+        $id = $request->id;
         Entrega::create([
             'pedido_id' => $id,
             'direccion' => $request->direccion,
@@ -54,10 +46,10 @@ class EntregaController extends Controller
             'local' => true,
         ]);
         $estado = $request->estado;
-        $p=Pedido::find($id);
-        $p->update(['estado'=>"inicio"]);
+        $p = Pedido::find($id);
+        $p->update(['estado_id' => $estado + 1]);
 
-        return redirect()->route('shop')->with('success_msg','Su pedido ha sido completado con exito! Puede ver el estado de avance en "Tus pedidos"');;
+        return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido completado con exito! Puede ver el estado de avance en "Tus pedidos"');;
     }
 
     /**

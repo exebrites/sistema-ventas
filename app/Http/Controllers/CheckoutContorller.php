@@ -26,10 +26,9 @@ class CheckoutContorller extends Controller
     {
 
         $pedido = Pedido::find($id);
-        //    dd($p->estado);
-        $estado = 'pendiente-pago';
         $estado = $pedido->estado;
-        return view('checkout', ['estado' => $estado, 'id' => $id, 'pedido' => $pedido]);
+
+        return view('checkout', ['estado' => $estado, 'pedido' => $pedido]);
     }
 
 

@@ -42,6 +42,9 @@
                 <div class="form-group">
                     <label for="estado">Estado:</label>
                     <select class="form-control" id="estado" name="estado" required>
+                        <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected @endif>En
+                            confirmacion de imprenta
+                        </option>
                         <option value="pendiente_pago" @if ($pedido->estado->nombre == 'pendiente_pago') selected @endif>Pendiente de pago
                         </option>
                         <option value="confirmado_pago" @if ($pedido->estado->nombre == 'confirmado_pago') selected @endif>Confirmado de pago
@@ -56,9 +59,7 @@
                         </option>
                         <option value="entregado" @if ($pedido->estado->nombre == 'entregado') selected @endif>Entregado
                         </option>
-                        <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected @endif>En
-                            confirmacion de imprenta
-                        </option>
+
                     </select>
                 </div>
                 <div class="form-group">
@@ -69,7 +70,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Fecha de entrega </label>
-                    <input type="date" name="fecha_e" id="" class="form-control">
+                    <input type="date" name="fecha_e" id="" class="form-control"  value="{{ $pedido->fecha_inicio }}">
 
                 </div>
 

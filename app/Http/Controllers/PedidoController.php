@@ -216,9 +216,12 @@ class PedidoController extends Controller
         // $estado = $request->estado;
         // $correo = Cliente::where('id', $idCliente)->value('correo');
         // dd($correo);
-        // Mail::to($correo)->send(new PagoMailable($id, $total));         
-        // $fecha =  Carbon::parse($pedido->fecha_entrega);
-        // $pedido->fecha_entrega = $fecha->format('d-m-Y');
+        // Mail::to($correo)->send(new PagoMailable($id, $total));    
+        
+        
+
+        $fecha =  Carbon::parse($pedido->fecha_entrega);
+        $pedido->fecha_entrega = $fecha->format('d-m-Y');
         // $fecha =  Carbon::parse($pedido->fecha_inicio);
         // $pedido->fecha_inicio = $fecha->format('d-m-Y');
         return view('checkout', compact('estado', 'pedido'));
