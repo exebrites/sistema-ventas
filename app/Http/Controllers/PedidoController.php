@@ -30,7 +30,9 @@ class PedidoController extends Controller
     public function index()
     {
         // $pedidos = Pedido::all();
-        $pedidos = Pedido::orderBy('estado_id', 'asc')->get();
+        $pedidos =  Pedido::where('estado_id', '!=', 400)->get();
+
+        // $pedidos = Pedido::orderBy('estado_id', 'asc')->get();
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
@@ -119,7 +121,9 @@ class PedidoController extends Controller
     public function detallePedido(Request $request)
     {
         $id = $request->id;
-        $estado = Pedido::where('id', $id)->value('estado_id');
+        $pedido = Pedido::find($id);
+        $estado_id = Pedido::where('id', $id)->value('estado_id');
+        $estado =  Estado::find($estado_id);
         $producto = \Cart::getContent();
         foreach ($producto as $p) {
             $idPr = $p->id;
@@ -178,7 +182,7 @@ class PedidoController extends Controller
                     'detallePedido_id' => $idDP
                 ]);
 
-                 /**
+                /**
                  *ELEGIR EL COSTO QUE EL CLIENTE DEBE PAGAR 
                  *
                   detallePedido::create([
@@ -199,15 +203,46 @@ class PedidoController extends Controller
          redireccionar a una vista intermedia anterior a realizar el pago
          
          */
-        return redirect()->route('pago', ['id' => $id, 'estado' => $estado, 'total' =>  $total]);
+        // return redirect()->route('pago', ['id' => $id, 'estado' => $estado, 'total' =>  $total]);
+
+        // $id = $request->id;
+        // $total = $request->total;
+
+        // $user_id = Auth::user()->id;
+        // $correo = User::where('id', $user_id)->value('email');
+        // $cliente = Cliente::where('correo', $correo)->first();
+        // $cliente_id = $cliente->id;
+
+        // $estado = $request->estado;
+        // $correo = Cliente::where('id', $idCliente)->value('correo');
+        // dd($correo);
+        // Mail::to($correo)->send(new PagoMailable($id, $total));         
+        // $fecha =  Carbon::parse($pedido->fecha_entrega);
+        // $pedido->fecha_entrega = $fecha->format('d-m-Y');
+        // $fecha =  Carbon::parse($pedido->fecha_inicio);
+        // $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        return view('checkout', compact('estado', 'pedido'));
     }
 
+    public function cancelarPedido($id)
+    {
+        $pedido = Pedido::find($id);
+        $pedido->update(['estado_id' => 400]);
+        return "cancelar";
+    }
+    public function confirmarPedido($id)
+    {
+        $pedido = Pedido::find($id);
+        $pedido->update(['estado_id' => 2]);
+        $estado = Estado::find($pedido->estado_id);
+        return view('checkout', compact('estado', 'pedido'));
+    }
     public function update(Request $request, Pedido $pedido)
     {
-
+        // return $request;
         $nuevoEstado = $request->estado;
 
-        $estadosSecuenciales = ['pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'entregado'];
+        $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'entregado'];
 
         if (in_array($nuevoEstado, $estadosSecuenciales)) {
             $estadoActualIndex = array_search($pedido->estado->nombre, $estadosSecuenciales);
@@ -217,9 +252,12 @@ class PedidoController extends Controller
                 // dd([$estadoActualIndex, $nuevoEstadoIndex]);
 
                 $pedido = Pedido::find($pedido->id);
-                $pedido->update(['estado_id' => $nuevoEstadoIndex + 1]);
+                $pedido->update([
+                    'estado_id' => $nuevoEstadoIndex + 1,
+                    'fecha_inicio' => $request->fecha_e
+                ]);
                 // return $pedido;
-                if ($nuevoEstadoIndex == 4) {
+                if ($nuevoEstadoIndex == 6) {
 
                     // event(new OrdenCompra());
                 }

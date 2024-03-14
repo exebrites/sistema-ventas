@@ -56,12 +56,20 @@
                         </option>
                         <option value="entregado" @if ($pedido->estado->nombre == 'entregado') selected @endif>Entregado
                         </option>
+                        <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected @endif>En
+                            confirmacion de imprenta
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="">Fecha de entrega </label>
+                    <label for="">Fecha de requerida </label>
                     <input type="date" name="fecha_entrega" id="" class="form-control"
-                        value="{{ $pedido->fecha_entrega }}">
+                        value="{{ $pedido->fecha_entrega }}" readonly>
+
+                </div>
+                <div class="form-group">
+                    <label for="">Fecha de entrega </label>
+                    <input type="date" name="fecha_e" id="" class="form-control">
 
                 </div>
 

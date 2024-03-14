@@ -25,18 +25,18 @@ class CheckoutContorller extends Controller
     public function show($id)
     {
 
-        $p = Pedido::find($id);
+        $pedido = Pedido::find($id);
         //    dd($p->estado);
         $estado = 'pendiente-pago';
-        $estado = $p->estado;
-        return view('checkout', ['estado' => $estado, 'id' => $id]);
+        $estado = $pedido->estado;
+        return view('checkout', ['estado' => $estado, 'id' => $id, 'pedido' => $pedido]);
     }
 
 
 
 
 
-    
+
 
     /**
     Codigo comentado Revisar
@@ -76,5 +76,5 @@ class CheckoutContorller extends Controller
         // Retorna la vista 'checkout' con el estado y el ID
         return view('checkout', ['estado' => $estado, 'id' => $id]);
     }
-       */
+     */
 }

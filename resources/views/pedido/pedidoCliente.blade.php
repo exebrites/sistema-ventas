@@ -37,13 +37,13 @@
                                 <div id="collapseTwo{{ $item->id }}" class="accordion-collapse collapse"
                                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        @if ($item->estado_id == 1 || $item->estado_id == 2)
+                                        {{-- @if ($item->estado_id == 1 || $item->estado_id == 2) --}}
                                             <td>
                                                 <a href="{{ route('checkout.show', $item->id) }}">Paso a seguir para
                                                     completar el
                                                     pedido </a>
                                             </td>
-                                        @endif
+                                        {{-- @endif --}}
 
                                         <table class="table">
                                             <thead>

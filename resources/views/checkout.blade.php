@@ -4,6 +4,10 @@
     @if ($estado == null)
         {{ $estado = 1 }};
     @endif
+    {{-- {{ dd($pedido) }} --}}
+    {{-- {{ dd($estado) }} --}}
+
+    {{-- {{ dd([$pedido, $estado]) }} --}}
 
     <div class="card">
         <div class="card-body">
@@ -18,8 +22,8 @@
                     </div>
                 @endif
                 <div class="row">
-                    @switch($estado)
-                        @case(1)
+                    @switch($estado->id)
+                        @case(2)
                             {{-- <div class="col">
                                 <div class="card">
                                     <div class="card-header">
@@ -75,6 +79,8 @@
                                         <form action="{{ route('comprobantes.store') }}" method="post"
                                             enctype="multipart/form-data">
                                             @csrf
+                                            <input type="hidden" name="estado" value="{{ $estado->id }}">
+                                            <input type="hidden" name="id" value="{{ $pedido->id }}">
 
                                             <div class="form-group">
                                                 <b><label for="comprobante">Subir comprobante</label></b>
@@ -83,8 +89,6 @@
                                                     accept="image/*">
                                             </div>
 
-                                            <input type="hidden" name="estado" value="{{ $estado }}" id="">
-                                            <input type="hidden" name="id" value="{{ $id }}" id="">
 
                                             <button type="submit" class="btn btn-primary">Enviar comprobante</button>
                                         </form>
@@ -93,7 +97,7 @@
                             </div>
                         @break
 
-                        @case(2)
+                        @case(3)
                             {{-- <div class="col">
                                 <div class="card">
                                     <h5>Tu estado de pedido es el siguiente : Pago confirmado</h3>
@@ -184,8 +188,8 @@
                                                 </div>
                                             </div>
 
-                                            <input type="hidden" name="estado" value="{{ $estado }}" id="">
-                                            <input type="hidden" name="id" value="{{ $id }}" id="">
+                                            {{-- <input type="hidden" name="estado" value="{{ $estado }}" id="">
+                                            <input type="hidden" name="id" value="{{ $id }}" id=""> --}}
 
                                             <button type="submit" class="btn btn-primary">Finalizar pedido</button>
                                         </form>
@@ -240,6 +244,25 @@
                                                 cambiar.
                                             </small>
                                         </p>
+                                        <hr>
+                                        Número de pedido {{ $pedido->id }}
+
+                                        <hr>
+                                        <p>La fecha requerida por es: <br>
+                                            <b>{{ $pedido->fecha_entrega }}</b>
+                                        </p>
+                                        <p>La fecha propuesta por la empresa es: <br>
+                                            <b>{{ $pedido->fecha_inicio ? $pedido->fecha_inicio : 'A la espera de una fecha propuesta' }}</b>
+                                        </p>
+
+                                        <hr>
+                                        {{-- {{dd($pedido->fecha_inicio )}} --}}
+                                        @if ($pedido->fecha_inicio != null)
+                                            <a href="{{ route('cancelarPedido', $pedido->id) }}" class="btn btn-danger">Cancelar</a>
+                                            <a href="{{ route('confirmarPedido', $pedido->id) }}"
+                                                class="btn btn-success">Confirmar</a>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>

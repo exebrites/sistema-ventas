@@ -301,4 +301,6 @@ Route::post('/users/{userId}/assign-multiple-roles', [UsuariosController::class,
 Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
 Route::resource('/auditoria', AuditoriaController::class);
 
+Route::get('/pedido/cancelar/{id}', [PedidoController::class, 'cancelarPedido'])->name('cancelarPedido');
+Route::get('/pedido/confirmar/{id}', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
 require __DIR__ . '/auth.php';
