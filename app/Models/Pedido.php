@@ -16,30 +16,18 @@ class Pedido extends Model
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
 
+    public function entrega()
+    {
+        return $this->hasOne(Entrega::class, 'pedido_id', '');
+    }
+
     public function diferenciaDias()
     {
-
-        // // Obtén la fecha actual
-        // $hoy = Carbon::now();
-
-        // // Define la fecha específica
-        // $fechaEspecifica = Carbon::parse($this->fecha_entrega);
-
-        // // Calcula la diferencia en días
-        // $diferenciaEnDias = $hoy->diffInDays($fechaEspecifica);
-        // $diferenciaEnDias++;
-        // // Imprime el resultado
-        // return $diferenciaEnDias;
-
-        // Obtén la fecha actual
         $hoy = Carbon::now();
-
         // Define la fecha específica
-        $fechaEspecifica = Carbon::parse('2024-03-04');
-
+        $fechaEspecifica = Carbon::parse($this->fecha_entrega);
         // Calcula la diferencia en días, horas y minutos
         $diferencia = $hoy->diff($fechaEspecifica);
-
         // Imprime el resultado
         return $diferencia->days . "Dias-" . $diferencia->h . "hora-" . $diferencia->i . "min";
     }

@@ -14,11 +14,12 @@ class InicioController extends Controller
 {
     public function inicio()
     {
+        $estadoPendiente = 2;
+        $estadoDisenio = 4;
+        $estadoInicio = 3;
 
         $user = Auth::user();
-        //numero de comprobantes pendientes
-        // $NroComprobantes = Comprobante::count();
-        $NroComprobantes = Pedido::where('estado_id', 1)->count();
+        $NroComprobantes = Pedido::where('estado_id', $estadoPendiente)->count();
         $NroPedidos = Pedido::where('estado_id', 3)->count();
         $NroPedidosDisenio = Pedido::where('estado_id', 4)->get();
         $NroDisenios = 1;

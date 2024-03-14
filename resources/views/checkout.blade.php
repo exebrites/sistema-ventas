@@ -70,9 +70,8 @@
                                         <form action="{{ route('entrega.store') }}" method="POST">
                                             @csrf
                                             <div class="form-group form-check">
-                                                <input type="checkbox" class="form-check-input" name="local" id="miCheckbox"
-                                                    checked>
-                                                <label class="form-check-label">Retiro en local</label>
+                                                <input type="checkbox" class="form-check-input" name="local" id="miCheckbox">
+                                                <label class="form-check-label" for="miCheckbox">Retiro en local</label>
                                             </div>
                                             <div id="div1">
                                                 <div class="form-group">

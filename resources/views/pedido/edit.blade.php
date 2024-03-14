@@ -1,25 +1,14 @@
 @extends('adminlte::page')
-<link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
 @section('title')
 
 @section('content_header')
     <h1>Editar pedido</h1>
 @stop
-{{-- 
-        ***PENDIENTES***    
-    
-        ### Que valor tiene pedido ?
-
-        ###NO mandar "seleccionar" 
-        
-        --}}
 @section('content')
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-
         </div>
-
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -29,18 +18,16 @@
                 </ul>
             </div>
         @endif
-
         <div class="card-body">
             <form action="{{ route('pedidos.update', ['pedido' => $pedido]) }}" method="post">
                 @csrf
                 @method('PUT')
-                {{-- <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion"
-                        value="{{ $pedido->descripcion }}" required>
-                </div> --}}
                 <div class="form-group">
-                    <label for="estado">Estado:</label>
+                    <label>Numero de pedido</label>
+                    <input type="text" class="form-control" value="{{ $pedido->id }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado</label>
                     <select class="form-control" id="estado" name="estado" required>
                         <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected @endif>En
                             confirmacion de imprenta
@@ -70,7 +57,8 @@
                 </div>
                 <div class="form-group">
                     <label for="">Fecha de entrega </label>
-                    <input type="date" name="fecha_e" id="" class="form-control"  value="{{ $pedido->fecha_inicio }}">
+                    <input type="date" name="fecha_e" id="" class="form-control"
+                        value="{{ $pedido->fecha_inicio }}">
 
                 </div>
 
@@ -102,3 +90,6 @@
 
 
 @stop
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
+@endsection

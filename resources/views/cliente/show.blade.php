@@ -3,64 +3,45 @@
 @section('title')
 
 @section('content_header')
-    <h1>Listado de clientes</h1>
+    <h1>Cliente</h1>
 @stop
 
 @section('content')
-{{-- {{dd($cliente)}} --}}
-<div class="card">
-    <div class="card-header">
-       
+    <div class="card">
+        <div class="card-header">
+            <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="">Documento (DNI)</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->dni }}" readonly>
+
+            </div>
+            <div class="form-group">
+                <label for="">Nombre</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->nombre }}" readonly>
+
+            </div>
+            <div class="form-group">
+                <label for="">Apellido</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->apellido }}" readonly>
+
+            </div>
+            <div class="form-group">
+                <label for="">Telefono</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->telefono }}" readonly>
+
+            </div>
+            <div class="form-group">
+                <label for="">Correo</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->correo }}" readonly>
+
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>DNI</th>
-                    <th>Nombre</th>
-                    <th>APELLIDO</th>
-                    <th>TELEFONO</th>
-                    <th>CORREO</th>
-
-                    <th colspan="2"></th> 
-                </tr>
-                
-            </thead>
-            <tbody>
-     {{-- /*implementar para el listado de clientes*/ --}}
-
-                
-                     {{-- {{dd($cliente);}}   --}}
-                    <tr>
-                       
-                        <td> {{$cliente->id}} </td>
-                       
-                        {{-- <td> {{$cliente->dni}}</td>
-                        <td> {{$cliente->nombre}} </td>
-                       
-                        <td> {{$cliente->apellido}}</td>
-                        <td> {{$cliente->telefono}} </td>
-                       
-                        <td> {{$cliente->correo}}</td> --}}
-
-                        <td>  </td>
-                       
-                        <td> {{$cliente->name}}</td>
-                        <td>  </td>
-                       
-                        <td> </td>
-                    
-                       
-                        <td> {{$cliente->email}}</td>
-                
-                    </tr>
-               
-            </tbody>
-        </table>
-    </div>
-    <a href="{{route('pedidos.index')}}">Volver atras</a>
-
-</div>
-   
 @stop

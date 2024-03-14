@@ -35,16 +35,28 @@ class EntregaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $id = $request->id;
-        Entrega::create([
-            'pedido_id' => $id,
-            'direccion' => $request->direccion,
-            'telefono' => $request->telefono,
-            'recepcion' => $request->nombre,
-            'nota' => $request->nota,
-            'local' => true,
-        ]);
+        if ($request->local == null) {
+            Entrega::create([
+                'pedido_id' => $id,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'recepcion' => $request->nombre,
+                'nota' => $request->nota,
+                'local' => false,
+            ]);
+        } else {
+            Entrega::create([
+                'pedido_id' => $id,
+                'direccion' => " ",
+                'telefono' => " ",
+                'recepcion' => " ",
+                'nota' => " ",
+                'local' => true,
+            ]);
+        }
+
+
         $estado = $request->estado;
         $p = Pedido::find($id);
         $p->update(['estado_id' => $estado + 1]);
@@ -60,7 +72,8 @@ class EntregaController extends Controller
      */
     public function show($id)
     {
-        //
+        $entrega = Entrega::find($id);
+        return view('entrega.show', compact('entrega'));
     }
 
     /**

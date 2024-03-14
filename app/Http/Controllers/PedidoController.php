@@ -29,16 +29,11 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        // $pedidos = Pedido::all();
-        $pedidos =  Pedido::where('estado_id', '!=', 400)->get();
-
-        // $pedidos = Pedido::orderBy('estado_id', 'asc')->get();
+        $pedidos =  Pedido::where('estado_id', '!=', 400)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
         }
-
-        // dd($pedidos);
         return view('pedido.index', compact('pedidos'));
     }
 
