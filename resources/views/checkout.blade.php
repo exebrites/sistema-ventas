@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    @if ($estado == null)
+    {{-- @if ($estado == null)
         {{ $estado = 1 }};
-    @endif
-    {{-- {{ dd($pedido) }} --}}
-    {{-- {{ dd($estado) }} --}}
+    @endif --}}
 
-    {{-- {{ dd([$pedido, $estado]) }} --}}
-
+    {{-- {{dd([$estado])}} --}}
     <div class="card">
         <div class="card-body">
             <br>
@@ -24,42 +21,6 @@
                 <div class="row">
                     @switch($estado->id)
                         @case(2)
-                            {{-- <div class="col">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5>Tu estado de pedido es el siguiente : Pendiente de pago</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <small>El estado "pendiente de pago" significa que tu pedido esta a la espera a que
-                                            subas el comprobante de pago y que sea confirmado por la gerencia para asi seguir
-                                            con los proximos pasos </small><br>
-                                        <br>
-                                        <p>Se envió un mensaje a tu correo electrónico para que puedas realizar el pago del
-                                            pedido</p>
-                                        <form action="{{ route('comprobantes.store') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-
-                                            <div class="form-group">
-                                                <b><label>Subir comprobante</label></b>
-                                                <br>
-                                                <p>No te olvides de subir tu comprobante para reflejar tu pago en el sistema
-                                                </p>
-
-                                                <input type="file" class="form-control-file" name="comprobante" accept="image/*">
-                                            </div>
-
-                                            <input type="hidden" name="estado" value="{{ $estado }}" id="">
-                                            <input type="hidden" name="id" value="{{ $id }}" id="">
-
-                                            <button type="submit" class="btn btn-primary">Enviar comprobante</button>
-                                        </form>
-
-                                    </div>
-                                </div>
-
-                            </div> --}}
-
                             <div class="col">
                                 <div class="card">
                                     <div class="card-header">
@@ -81,15 +42,12 @@
                                             @csrf
                                             <input type="hidden" name="estado" value="{{ $estado->id }}">
                                             <input type="hidden" name="id" value="{{ $pedido->id }}">
-
                                             <div class="form-group">
                                                 <b><label for="comprobante">Subir comprobante</label></b>
                                                 <p>No olvides subir tu comprobante para reflejar tu pago en el sistema.</p>
                                                 <input type="file" class="form-control-file" name="comprobante" id="comprobante"
                                                     accept="image/*">
                                             </div>
-
-
                                             <button type="submit" class="btn btn-primary">Enviar comprobante</button>
                                         </form>
                                     </div>
@@ -98,55 +56,6 @@
                         @break
 
                         @case(3)
-                            {{-- <div class="col">
-                                <div class="card">
-                                    <h5>Tu estado de pedido es el siguiente : Pago confirmado</h3>
-                                        <div class="card-body">
-                                            <small>El estado "Pago confirmado" significa que el pago fue confirmado y que ahora
-                                                necesitas completar los siguientes campos para que sepamos donde entregar el pedido
-                                            </small><br>
-                                            <br>
-                                            <h5>Datos de entrega</h5>
-
-                                            <form action="{{ route('entrega.store') }}" method="POST">
-                                                @csrf
-                                                <div class="form-group form-check">
-                                                    <input type="checkbox" class="form-check-input" name="local" id="miCheckbox"
-                                                        checked>
-                                                    <label class="form-check-label">Retiro en local</label>
-                                                </div>
-                                                <div id="div1">
-                                                    <div class="form-group">
-                                                        <label>Dirección del lugar de entrega</label>
-                                                        <input type="text" class="form-control" name="direccion">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Telefono de contacto</label>
-                                                        <input type="text" class="form-control" name="telefono">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Nombre de la persona que recibe</label>
-                                                        <input type="text" class="form-control" name="nombre">
-                                                    </div>
-
-
-                                                    <div class="form-group">
-                                                        <label>Nota</label>
-                                                        <textarea class="form-control" aria-label="With textarea" name="nota">Sin comentarios</textarea>
-                                                    </div>
-
-                                                </div>
-
-                                                <input type="hidden" name="estado" value="{{ $estado }}" id="">
-                                                <input type="hidden" name="id" value="{{ $id }}" id="">
-
-
-                                                <button type="submit" class="btn btn-primary">Finalizar pedido</button>
-                                            </form>
-
-                                        </div>
-                                </div>
-                            </div> --}}
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -157,9 +66,7 @@
                                                 completar los siguientes campos para que sepamos dónde entregar el pedido.
                                             </small>
                                         </p>
-
                                         <h5>Datos de entrega</h5>
-
                                         <form action="{{ route('entrega.store') }}" method="POST">
                                             @csrf
                                             <div class="form-group form-check">
@@ -167,7 +74,6 @@
                                                     checked>
                                                 <label class="form-check-label">Retiro en local</label>
                                             </div>
-
                                             <div id="div1">
                                                 <div class="form-group">
                                                     <label>Dirección del lugar de entrega</label>
@@ -187,51 +93,16 @@
                                                     <textarea class="form-control" aria-label="With textarea" name="nota">Sin comentarios</textarea>
                                                 </div>
                                             </div>
-
                                             <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
                                             <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
-
                                             <button type="submit" class="btn btn-primary">Finalizar pedido</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            {{-- <div class="col">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5>Datos de facturacion</h5>
-
-                                        <form>
-                                            <div class="form-group">
-                                                <label>Nombre y Apellido</label>
-                                                <input type="email" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Numero de documento</label>
-                                                <input type="email" class="form-control">
-                                            </div>
-                                            <small>Costo de producto $$$</small>
-                                            <br>
-                                            <small>Costo de envio $$$</small>
-                                            <br>
-                                            <br>
-                                            <small>Costo total $$$</< /small>
-
-                                                <br>
-                                                <br>
-                                                <button type="submit" class="btn btn-primary">Enviar datos para
-                                                    facturacion</button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div> --}}
                         @break
 
-                        @case(9)
+                        @case(1)
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -245,15 +116,35 @@
                                             </small>
                                         </p>
                                         <hr>
-                                        Número de pedido {{ $pedido->id }}
-
+                                        <div class="form-group">
+                                            <label for="">Numero de pedido</label>
+                                            <input type="text" name="" id="" class="form-control" placeholder=""
+                                                aria-describedby="helpId" value="{{ $pedido->id }}" readonly>
+                                            {{-- <small id="helpId" class="text-muted">Help text</small> --}}
+                                        </div>
                                         <hr>
-                                        <p>La fecha requerida por es: <br>
-                                            <b>{{ $pedido->fecha_entrega }}</b>
-                                        </p>
-                                        <p>La fecha propuesta por la empresa es: <br>
-                                            <b>{{ $pedido->fecha_inicio ? $pedido->fecha_inicio : 'A la espera de una fecha propuesta' }}</b>
-                                        </p>
+                                        <div class="form-group">
+                                            <label for="">Fecha requerida</label>
+                                            <input type="text" name="" id="" class="form-control" placeholder=""
+                                                aria-describedby="helpId" value="{{ $pedido->fecha_entrega }}" readonly>
+                                            {{-- <small id="helpId" class="text-muted">Help text</small> --}}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="">Fecha propuesta por la empresa es:</label>
+
+                                            @if ($pedido->fecha_inicio == null)
+                                                <b>
+                                                    <p>A la espera de una fecha propuesta</p>
+                                                </b>
+                                            @else
+                                                <input type="text" name="" id="" class="form-control"
+                                                    placeholder="" aria-describedby="helpId" value="{{ $pedido->fecha_inicio }}"
+                                                    readonly>
+                                            @endif
+
+
+                                        </div>
 
                                         <hr>
                                         {{-- {{dd($pedido->fecha_inicio )}} --}}
@@ -270,18 +161,18 @@
                         @break
 
                         @default
-                            <small>El estado de "Inicio" significa que tu pedido esta se comenzó a trabajar y pronto
-                                tendras noticias de nosotros para seguir con las siguientes etapas </small><br>
-                            <br>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Tu estado de pedido es el siguiente: Inicio de proyecto</h5>
+                                        <p class="card-text">
+                                            <small>El estado de "Inicio" significa que tu pedido esta se comenzó a trabajar y pronto
+                                                tendras noticias de nosotros para seguir con las siguientes etapas </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                     @endswitch
-
-
-
-
-
-
-
-
                 </div>
             </div>
 

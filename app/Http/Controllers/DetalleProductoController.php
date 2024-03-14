@@ -88,7 +88,7 @@ class DetalleProductoController extends Controller
     {
         $producto = Producto::find($id);
         $detalleProducto = $producto->detalleProducto;
-        return $detalleProducto;
+        return view('detalleProducto.show', compact('detalleProducto'));
     }
 
     /**

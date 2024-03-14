@@ -33,7 +33,13 @@
 
                                 <b> Nro pedido :</b> {{ $disenio->detallePedido->pedido_id }} <br>
                                 {{-- Fecha de entrega : {{ $disenio->detallePedido->pedido->fecha_entrega }} --}}
-                                <b> Fecha de entrega :</b> completar
+                                <b> Fecha de entrega :</b>
+                                {{-- {{ dd($disenio->detallePedido->pedidos->fecha_inicio) }} --}}
+                                @if ($disenio->detallePedido->pedidos->fecha_inicio != null)
+                                    {{ $disenio->detallePedido->pedidos->fecha_inicio }}
+                                @else
+                                    {{ 'No tiene asignada una fecha de entrega' }}
+                                @endif
 
                             </div>
                         </div>

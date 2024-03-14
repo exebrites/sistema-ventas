@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use Carbon\Carbon;
 use App\Models\Pedido;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,11 @@ class CheckoutContorller extends Controller
 
         $pedido = Pedido::find($id);
         $estado = $pedido->estado;
+
+        $fecha =  Carbon::parse($pedido->fecha_inicio);
+        $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        $fecha =  Carbon::parse($pedido->fecha_entrega);
+        $pedido->fecha_entrega = $fecha->format('d-m-Y');
 
         return view('checkout', ['estado' => $estado, 'pedido' => $pedido]);
     }

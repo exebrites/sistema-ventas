@@ -89,11 +89,13 @@ class PedidoController extends Controller
         $correo = User::where('id', $id)->value('email');
         $cliente = Cliente::where('correo', $correo)->first();
         $cliente_id = $cliente->id;
+
+        $estado =  1;
         Pedido::create([
             'clientes_id' => $cliente_id,
             'fecha_inicio' => null,
             'fecha_entrega' => $request->fechaEntrega,
-            'estado_id' => 9,
+            'estado_id' => $estado,
         ]);
         $id = Pedido::max('id');
         return redirect()->route('pedido-detallePedido', ['id' => $id]);
@@ -217,8 +219,8 @@ class PedidoController extends Controller
         // $correo = Cliente::where('id', $idCliente)->value('correo');
         // dd($correo);
         // Mail::to($correo)->send(new PagoMailable($id, $total));    
-        
-        
+
+
 
         $fecha =  Carbon::parse($pedido->fecha_entrega);
         $pedido->fecha_entrega = $fecha->format('d-m-Y');
@@ -231,7 +233,7 @@ class PedidoController extends Controller
     {
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => 400]);
-        return "cancelar";
+        return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido cancelado con éxito');
     }
     public function confirmarPedido($id)
     {
