@@ -19,12 +19,17 @@
                 <input type="text" name="" id="" class="form-control" placeholder=""
                     aria-describedby="helpId" value="{{ $comprobante->pedido->id }} " readonly>
             </div>
-            {{-- <div class="form-group">
-                <label for="">Numero de comprobatne</label>
+            <div class="form-group">
+                <label for="">Costo total del pedido</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId" value="{{ $comprobante->id }} " readonly>
-            </div> --}}
-            {{-- <img src="{{ $comprobante->url_comprobantes }}" class="rounded mx-auto d-block" alt="..."> --}}
+                    aria-describedby="helpId" value="{{ $comprobante->pedido->costo_total }} " readonly>
+            </div>
+            <div class="form-group">
+                <label for="">Costo ha abonar por el cliente (50%)</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $comprobante->pedido->costo_total / 2 }} " readonly>
+            </div>
+            <hr>
             <div class="text-center">
                 <h2>Comprobante de Pago</h2>
                 <img src="{{ $comprobante->url_comprobantes }}" class="rounded mx-auto d-block" alt="Comprobante de Pago">

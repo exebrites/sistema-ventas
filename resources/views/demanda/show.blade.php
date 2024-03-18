@@ -126,7 +126,7 @@
                             <td>{{ $oferta->id }}</td>
                             <td>{{ $oferta->estado }}</td>
                             <td>{{ $oferta->fecha_entrega }}</td>
-                            <td><a href="{{ route('detalleoferta.show', $oferta->id) }}">Confirmar oferta</a></td>
+                            <td><a href="{{ route('detalleoferta.show', $oferta->id) }}">Ver oferta</a></td>
                             <td><a href="{{ route('recepcion', $oferta->id) }}">Entrada de materiales</a></td>
                         </tr>
                     @endforeach
@@ -176,28 +176,5 @@
             },
         });
     </script>
-    {{-- 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
-    </script>
-    <script>
-        const myModal = document.getElementById('myModal')
-        const myInput = document.getElementById('myInput')
-
-        myModal.addEventListener('shown.bs.modal', () => {
-            myInput.focus()
-        })
-    </script>
-    <script>
-        function oferta() {
-            // Aquí va tu lógica para la creación de la oferta
-
-            // Después de finalizar la creación de la oferta, oculta el botón
-            var botonOferta = document.querySelector('.oferta');
-            botonOferta.style.display = 'none';
-        }
-    </script> --}}
+    
 @endsection

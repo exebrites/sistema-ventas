@@ -90,7 +90,8 @@
                                         <input type="hidden" value="{{ $item->id }}" id="id" name="id">
                                         <input type="number" class="form-control form-control-sm"
                                             value="{{ $item->quantity }}" id="quantity" name="quantity"
-                                            style="width: 70px; margin-right: 10px;" min="1" max="200">
+                                            style="width: 70px; margin-right: 10px;" min="1" max="500" required
+                                            value="1">
                                         <button class="btn btn-secondary btn-sm" style="margin-right: 25px;"><i
                                                 class="fa fa-edit"></i></button>
                                     </div>

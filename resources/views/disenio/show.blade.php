@@ -29,14 +29,14 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body text-center">
-                                <b> producto:</b> {{ $disenio->detallePedido->producto->name }} <br>
+                                <b>Producto:</b> {{ $disenio->detallePedido->producto->name }} <br>
 
-                                <b> Nro pedido :</b> {{ $disenio->detallePedido->pedido_id }} <br>
+                                <b>Número de pedido :</b> {{ $disenio->detallePedido->pedido_id }} <br>
                                 {{-- Fecha de entrega : {{ $disenio->detallePedido->pedido->fecha_entrega }} --}}
-                                <b> Fecha de entrega :</b>
-                                {{-- {{ dd($disenio->detallePedido->pedidos->fecha_inicio) }} --}}
+                                <b>Fecha de entrega :</b>
+                                {{-- {{ dd($fecha_inicio)    }} --}}
                                 @if ($disenio->detallePedido->pedidos->fecha_inicio != null)
-                                    {{ $disenio->detallePedido->pedidos->fecha_inicio }}
+                                    {{ $fecha_inicio }}
                                 @else
                                     {{ 'No tiene asignada una fecha de entrega' }}
                                 @endif
@@ -68,7 +68,7 @@
                         <br>
                         @if ($disenio->url_imagen != null)
                             <div class="card mb-3">
-                                <img src="{{ $disenio->url_imagen }}" class="card-img-top" alt="...">
+                                <img src="{{ $disenio->url_imagen }}" class="card-img-top fixed-size" alt="...">
                                 <div class="card-body d-flex justify-content-between">
                                     <form action="{{ route('disenios_descargar') }}" method="post">
                                         @csrf
@@ -104,7 +104,7 @@
                             actualmente no tiene diseño
                         @else
                             <div class="card mb-3">
-                                <img src="{{ $disenio->url_disenio }}" class="card-img-top" alt="...">
+                                <img src="{{ $disenio->url_disenio }}" class="card-img-top fixed-size" alt="...">
                                 <div class="card-body d-flex justify-content-between">
 
                                     <form action="{{ route('disenios_descargar') }}" method="post">
@@ -191,13 +191,45 @@
 
             <hr>
 
-            <a href="">Cancelar</a>
-            <br>
-            <a href="{{ route('revision_disenio', $disenio->id) }}">Enviar a revision</a>
 
+
+
+            <div class="container ">
+                <div class="row">
+                    <div class="col d-flex">
+
+                        <div id="btn-cancelar">
+                            <a href="{{ route('pedidos.show', $disenio->detallePedido->pedido_id) }}"
+                                class="btn btn-danger btn-ampliado">Cancelar</a>
+                        </div>
+
+
+                        <div>
+                            <a href="{{ route('revision_disenio', $disenio->id) }}"
+                                class="btn btn-primary btn-ampliado">Enviar a revision</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+
+@endsection
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
+    <style>
+        .fixed-size {
+            width: 550px;
+            /* Tamaño fijo en píxeles */
+            height: 400px;
+            /* Tamaño fijo en píxeles */
+        }
+    </style>
+@endsection
+
+@section('js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pedido;
+use Carbon\Carbon;
 
+use App\Models\Pedido;
 use App\Models\Disenio;
 use App\Models\Pregunta;
 use App\Mail\EstadoMailable;
@@ -87,8 +88,12 @@ class DisenioController extends Controller
     public function show($id)
     {
         $disenio = Disenio::find($id);
-        // return view('disenio.create', ['disenio' => $disenio]);
-        return view('disenio.show', compact('disenio'));
+        $fecha_inicio = $disenio->detallePedido->pedidos->fecha_inicio;
+        if ($fecha_inicio != null) {
+            $fecha =  Carbon::parse($fecha_inicio);
+            $fecha_inicio = $fecha->format('d-m-Y');
+        }
+        return view('disenio.show', compact('disenio', 'fecha_inicio'));
     }
 
     /**
@@ -181,7 +186,7 @@ class DisenioController extends Controller
         $img = Disenio::where('id', $id)->value($descarga);
 
         // Paso 2: Crear la URL completa a la ubicación de la imagen en el servidor.
-        $url_full = "D:\TF-SGPO\Sist-Oliva\public" . $img;
+        $url_full = "D:\Sist-Oliva\public" . $img;
 
         // Paso 3: Generar una respuesta HTTP que permite la descarga de la imagen.
         return response()->download($url_full);
@@ -231,7 +236,7 @@ class DisenioController extends Controller
         // $detalle = $disenio->detallePedido;
         // dd($disenio);
         $pedido =  $disenio->detallePedido->pedidos;
-        $pedido->update(['estado_id' => 4]);
+        $pedido->update(['estado_id' => 5]);
         $producto = $disenio->detallePedido->producto;
         $cliente = $pedido->cliente;
         $empresa = config('contacto.nombre');

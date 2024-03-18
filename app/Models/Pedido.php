@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pedido extends Model
 {
     protected $table = "pedidos";
-    protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'subtotal'];
+    protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'costo_total'];
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
 

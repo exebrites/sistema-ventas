@@ -13,7 +13,7 @@
                 {{-- {{dd($disenio->detallePedido->pedidos->estado)}} --}}
                 <div class="row">
                     {{-- && !$disenio->detallePedido --}}
-                    @if ($disenio->detallePedido->pedidos->estado === 'disenio' && $disenio->url_disenio != '')
+                    @if ($disenio->detallePedido->pedidos->estado->nombre === 'disenio' && $disenio->url_disenio != '')
                         <div class="col-6">
                             <h1>Revision de diseño</h1>
 

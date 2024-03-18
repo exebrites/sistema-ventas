@@ -62,35 +62,36 @@ class OrdenCompraListener
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
             } else {
+                // dd('1.2');
                 $lista = Pedido::listaMateriales($pedidos);
+                // dd($lista);
                 $materiales_orden_compra = [];
                 foreach ($ultimaDemanda->detalleDemandas as $key => $detalle) {
-                    $materiales_orden_compra[$key] = $detalle;
+                    $materiales_orden_compra[] = [
+                        'id' => $detalle->materiales_id,
+                        'cantidad' => $detalle->cantidad
+                    ];
                 }
+
+
+                $resultado = Demanda::combinar($lista, $materiales_orden_compra);
+
+                $materiales_orden_compra = $resultado;
+                // dd($materiales_orden_compra);
+                // dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
-                    foreach ($lista as $elementoA) {
-                        $idA = $elementoA['id'];
-                        $cantidadA = $elementoA['cantidad'];
-                        if ($material->materiales_id == $idA) {
-                            if ($material->cantidad != $cantidadA) {
-                                $material->cantidad += $cantidadA;
-                            }
-                        } else {
-                            return $materiales_orden_compra;
-                        }
-                    }
-                }
-                foreach ($materiales_orden_compra as $key => $material) {
-                    $virtual_stock = StockVirtual::where('material_id', $material->materiales_id)->first();
+                    $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
                     $virtual_stock->update([
-                        'cantidad' => -$material->cantidad
+                        'cantidad' => -$material['cantidad']
                     ]);
                 }
+
                 foreach ($materiales_orden_compra as $key => $material) {
-                    $verificar = DetalleDemanda::where('demandas_id', $material->demandas_id)
-                        ->where('materiales_id', $material->materiales_id)
+                    $verificar = DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
+                        ->where('materiales_id',  $material['id'])
                         ->exists();
                     if ($verificar) {
+                        // dd('1.3.1');
                         $pedidos = config('pedidos');
                         foreach ($pedidos as $key => $id) {
                             RegistroPedidoDemanda::create([
@@ -98,16 +99,26 @@ class OrdenCompraListener
                                 'demanda_id' => $ultimaDemanda->id
                             ]);
                         }
-                        DetalleDemanda::where('demandas_id', $material->demandas_id)
-                            ->where('materiales_id', $material->materiales_id)
-                            ->update(['cantidad' => $material->cantidad]);
+                        DetalleDemanda::where('demandas_id', $ultimaDemanda->id)
+                            ->where('materiales_id',  $material['id'])
+                            ->update(['cantidad' => $material['cantidad']]);
                     } else {
+                        // dd('1.3.2');
+                        DetalleDemanda::create(
+                            [
+                                'demandas_id' => $ultimaDemanda->id,
+                                'materiales_id' => $material['id'],
+                                'cantidad' => $material['cantidad']
+
+                            ]
+                        );
                     }
                 }
             }
+            // dd("fin");
         } else {
             if ($ultimaOferta) {
-                // dd('2');
+
                 // dd($ultimaOferta);
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
@@ -209,9 +220,7 @@ class OrdenCompraListener
                 }
             }
         }
-        $virtual_stock = StockVirtual::all();
-        return view('prueba', compact('virtual_stock'));
-        // $detalle = $demanda->detalleDemandas;
+       
 
 
 

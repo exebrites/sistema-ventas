@@ -12,6 +12,7 @@ use App\Models\Disenio;
 use App\Events\OrdenCompra;
 use Darryldecode\Cart\Cart;
 use App\Mail\EstadoMailable;
+use App\Models\CostoDisenio;
 use Illuminate\Http\Request;
 use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
@@ -66,6 +67,7 @@ class PedidoController extends Controller
 
     public function procesarPedido(Request $request)
     {
+        // dd();
         try {
             $request->validate([
                 'fechaEntrega' => [
@@ -85,12 +87,14 @@ class PedidoController extends Controller
         $cliente = Cliente::where('correo', $correo)->first();
         $cliente_id = $cliente->id;
 
+        $costoTotal = \Cart::getTotal() + CostoDisenio::costo_total_disenio();
         $estado =  1;
         Pedido::create([
             'clientes_id' => $cliente_id,
             'fecha_inicio' => null,
             'fecha_entrega' => $request->fechaEntrega,
             'estado_id' => $estado,
+            'costo_total' => $costoTotal
         ]);
         $id = Pedido::max('id');
         return redirect()->route('pedido-detallePedido', ['id' => $id]);
@@ -259,10 +263,10 @@ class PedidoController extends Controller
                 // return $pedido;
                 if ($nuevoEstadoIndex == 6) {
 
-                    // event(new OrdenCompra());
+                    event(new OrdenCompra());
                 }
 
-                return redirect()->route('pedidos.index')->with('success', 'Estado actualizado correctamente.');
+                return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
             } else {
                 return redirect()->route('pedidos.index')->with('error', 'No puedes retroceder a un estado anterior.');
             }

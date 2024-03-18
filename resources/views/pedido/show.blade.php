@@ -69,15 +69,16 @@
                                 <b> Nombre del producto:</b> {{ $detalle->producto->name }} <br>
                                 <b> Descripcion:</b> {{ $detalle->producto->description }} <br>
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
-                                <a href="{{ route('productos.show', $detalle->producto->id) }}">Ver producto</a><br>
-                                {{-- <a ['id' => $detalle->producto->id, 'cantidad' => $detalle->cantidad]) href="{{ route('materiales_necesarios', $detalle->id) }}"></a><br>p --}}
-                                {{-- <a href="{{ route('materiales_necesarios', $detalle->id) }}">Ver stock</a><br> --}}
-                                <a href="{{ route('disenios.show', $detalle->disenio->id) }}">Ver diseño</a>
-                                <br>
+                                <a href="{{ route('productos.show', $detalle->producto->id) }}" class="btn btn-primary">Ver
+                                    producto</a>
+                                <a href="{{ route('disenios.show', $detalle->disenio->id) }}" class="btn btn-primary">Ver
+                                    diseño</a>
+
                                 @if ($detalle->boceto != null)
-                                    <a href="{{ route('showBoceto', $detalle->boceto->id) }}">Ver boceto</a>
+                                    <a href="{{ route('showBoceto', $detalle->boceto->id) }}" class="btn btn-primary">Ver
+                                        boceto</a>
                                 @endif
-                                <br>
+
 
                             </div>
                         </div>

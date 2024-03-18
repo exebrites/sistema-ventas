@@ -17,7 +17,7 @@
                 {{ session('error') }}
             </div>
         @endif
-       
+
         <div class="card-body">
             <h5> Criterios de busqueda
             </h5><br>
@@ -94,7 +94,7 @@
                                     {{ $pedido->cliente->nombre }}
                                 </a></td> --}}
                             <td>{{ $pedido->fecha_entrega }} </td>
-                            <td>{{ $pedido->getTotal() }}</td>
+                            <td>{{ $pedido->costo_total }}</td>
 
                             <td>{{ $pedido->diferenciaDias() }}</td>
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"

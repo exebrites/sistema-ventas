@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('fecha_entrega')->nullable();
             $table->foreignId('estado_id')->constrained('estados');
 
-
+            $table->float('costo_total');
             $table->foreign('clientes_id')->references('id')->on('clientes')->onDelete('cascade');
 
             $table->timestamps();

@@ -225,7 +225,9 @@ class DemandaController extends Controller
         return $materiales;
     }
     public function OrdenCompra()
+    
     {
+        
         // bien ahora la idea es crear la orden de comprar
         // para eso hay que crear cada detalle
         // el detalle es como el renglon un material tanta cantidad una sola vez
@@ -516,6 +518,8 @@ class DemandaController extends Controller
         // detalle
 
     }
+
+
     public function confirmarOrden($id)
     {
         $demanda = Demanda::find($id);

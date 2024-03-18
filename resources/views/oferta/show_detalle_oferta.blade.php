@@ -20,7 +20,7 @@
                 @break
 
                 @case('pendiente')
-                    <h3 style=" background-color: yellow;">Oferta en espera</h3>
+                    <h3 style=" background-color: yellow;">Oferta pendiente </h3>
                 @break
 
                 @case('cancelada')
