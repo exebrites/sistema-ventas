@@ -241,7 +241,7 @@ class DisenioController extends Controller
         $cliente = $pedido->cliente;
         $empresa = config('contacto.nombre');
 
-        // Mail::to($cliente->correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
+        Mail::to($cliente->correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
 
         return redirect()->route('pedidos.show', $pedido->id);
     }

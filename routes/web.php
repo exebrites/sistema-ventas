@@ -247,18 +247,16 @@ route::resource('/contacto', ContactoController::class);
 //rutas 14-02-24
 Route::get('/ordenCompra', [DemandaController::class, 'ordenCompra'])->name('ordenCompra');
 Route::get('/ordenCompra/confirmarOrden/{id}', [DemandaController::class, 'confirmarOrden'])->name('confirmar');
-route::get('/pdf', function () {
-    $pdf = FacadePdf::loadView('prueba');
-    // genera el pdf y lo previsualiza en el navegador
-    // return $pdf->stream();
-    // genera el pdf y lo descarga automaticamente
-    return $pdf->download();
+
+
+route::get('/p', function () {
+
+    $estado = 8;
+
+    $pedido = Pedido::find($estado);
+    return view('prueba', compact('pedido'));
 });
 
-Route::get('/prueba', function () {
-    $p = Producto::find(15);
-    return view('prueba', compact('p'));
-})->name('prueba');
 
 
 route::get('/stock', [MaterialController::class, 'verStock'])->name('ver_stock');
@@ -303,4 +301,6 @@ Route::resource('/auditoria', AuditoriaController::class);
 
 Route::get('/pedido/cancelar/{id}', [PedidoController::class, 'cancelarPedido'])->name('cancelarPedido');
 Route::get('/pedido/confirmar/{id}', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
+
+
 require __DIR__ . '/auth.php';

@@ -157,8 +157,10 @@ class Pedido extends Model
         return $arrayC;
     }
 
-    public static function pedidosSinOrden($estado = 5)
+    public static function pedidosSinOrden()
     {
+        //preproduccion
+        $estado = 6;
         $pedidos = Pedido::where('estado_id', $estado)->get();
         // return $pedidos;
         $resultados = Pedido::join('registro_pedido_demandas', 'pedidos.id', '=', 'registro_pedido_demandas.pedido_id')->select('pedidos.*', 'registro_pedido_demandas.*')->get();

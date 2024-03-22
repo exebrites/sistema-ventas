@@ -73,6 +73,7 @@
 
 
                         {{-- <th>Cliente</th> --}}
+                        <th>Fecha de requerida</th>
                         <th>Fecha de entrega</th>
                         <th>Costo total</th>
 
@@ -94,6 +95,13 @@
                                     {{ $pedido->cliente->nombre }}
                                 </a></td> --}}
                             <td>{{ $pedido->fecha_entrega }} </td>
+                            <td>
+                                @if ($pedido->fecha_inicio != null)
+                                    {{ $pedido->fecha_inicio }}
+                                @else
+                                    {{ 'No tiene fecha de entrega' }}
+                                @endif
+                            </td>
                             <td>{{ $pedido->costo_total }}</td>
 
                             <td>{{ $pedido->diferenciaDias() }}</td>

@@ -9,6 +9,7 @@ use App\Models\Estado;
 use App\Models\Pedido;
 use App\Models\Cliente;
 use App\Models\Disenio;
+use App\Mail\PagoMailable;
 use App\Events\OrdenCompra;
 use Darryldecode\Cart\Cart;
 use App\Mail\EstadoMailable;
@@ -18,8 +19,8 @@ use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class PedidoController extends Controller
 {
@@ -30,7 +31,9 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        $pedidos =  Pedido::where('estado_id', '!=', 400)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
+        $estadoCancelado = 11;
+        $estadoEntregado = 10;
+        $pedidos =  Pedido::where('estado_id', '!=', $estadoCancelado)->where('estado_id', '!=', $estadoEntregado)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
@@ -206,18 +209,7 @@ class PedidoController extends Controller
          */
         // return redirect()->route('pago', ['id' => $id, 'estado' => $estado, 'total' =>  $total]);
 
-        // $id = $request->id;
-        // $total = $request->total;
 
-        // $user_id = Auth::user()->id;
-        // $correo = User::where('id', $user_id)->value('email');
-        // $cliente = Cliente::where('correo', $correo)->first();
-        // $cliente_id = $cliente->id;
-
-        // $estado = $request->estado;
-        // $correo = Cliente::where('id', $idCliente)->value('correo');
-        // dd($correo);
-        // Mail::to($correo)->send(new PagoMailable($id, $total));    
 
 
 
@@ -230,23 +222,35 @@ class PedidoController extends Controller
 
     public function cancelarPedido($id)
     {
+        $estado = 11;
         $pedido = Pedido::find($id);
-        $pedido->update(['estado_id' => 400]);
+        $pedido->update(['estado_id' => $estado]);
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido cancelado con éxito');
     }
     public function confirmarPedido($id)
     {
+        $estado = 11;
         $pedido = Pedido::find($id);
-        $pedido->update(['estado_id' => 2]);
+        $pedido->update(['estado_id' => $estado]);
         $estado = Estado::find($pedido->estado_id);
+
+
+        $total = $pedido->costo_total;
+
+        $cliente = $pedido->cliente;
+        $correo = $cliente->correo;
+        // dd($correo);
+        Mail::to($correo)->send(new PagoMailable($id, $total));
+
         return view('checkout', compact('estado', 'pedido'));
     }
     public function update(Request $request, Pedido $pedido)
     {
         // return $request;
+
         $nuevoEstado = $request->estado;
 
-        $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'entregado'];
+        $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'despachado', 'entregado', 'cancelado'];
 
         if (in_array($nuevoEstado, $estadosSecuenciales)) {
             $estadoActualIndex = array_search($pedido->estado->nombre, $estadosSecuenciales);

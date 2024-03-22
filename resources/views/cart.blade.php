@@ -75,8 +75,18 @@
                                 {{-- {{ dd($item) }} --}}
                                 @if ($item->attributes['disenio_estado'])
                                     <b> El costo del diseño asistido :</b>
+
+                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Diseño asistido: donde usted como cliente sube un diseño inicial y nosotros lo completamos">
+                                        ?
+                                    </button>
                                 @else
                                     <b> El costo del diseño completo:</b>
+                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                        data-placement="right" title="Diseño completo: nosotros nos encargamos de todo el diseño para usted">
+                                        ?
+                                    </button>
                                 @endif
                                 <br>
                                 ${{ $item->attributes['costo_disenio'] }}
@@ -144,4 +154,16 @@
         </div>
         <br><br>
     </div>
+
+
+
+@endsection
+@section('css')
+@endsection
+@section('js')
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 @endsection
