@@ -41,10 +41,18 @@ class OfertaController extends Controller
     }
     public function crear($id)
     {
+        $demanda = Demanda::find($id);
         $user = Auth::user();
         $proveedor = Proveedor::where('correo', $user->email)->first();
-        $demanda = Demanda::find($id);
-        return view('oferta.create', compact('demanda', 'proveedor'));
+        // dd([$proveedor]);
+        $oferta = Oferta::where('demanda_id', $demanda->id)->where('proveedor_id', $proveedor->id)->first();
+
+        if ($oferta ==  null) {
+            # code...
+            return view('oferta.create', compact('demanda', 'proveedor'));
+        } else {
+            return view('oferta.detalle_oferta', compact('demanda', 'oferta'));
+        }
     }
 
     /**
@@ -55,12 +63,13 @@ class OfertaController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $finalizar = false;
         $proveedor = Proveedor::find($request->proveedor_id);
         $oferta =  Oferta::create([
             'demanda_id' => $request->demanda_id,
             'proveedor_id' => $request->proveedor_id,
-            'fecha_entrega' => $request->fecha_entrega
+            'fecha_entrega' => $request->fecha_entrega,
+            'finalizar_oferta' => $finalizar
         ]);
         $demanda = Demanda::find($request->demanda_id);
 
@@ -99,7 +108,7 @@ class OfertaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $request;
     }
 
     /**
@@ -112,15 +121,14 @@ class OfertaController extends Controller
     {
         //
     }
-    public function finalizar_oferta()
+    public function finalizar_oferta($id)
     {
-        // $user = Auth::user();
-        // $user->id = 2;
-        // $user =  User::where('email', 'martin@gmail.com')->get();
-        // return $user;
-        // $oferta = Oferta::where('proveedor_id', $user->id)->get();
-        // Mail::to($user->email)->send(new OfertaGerenteMailable($user, $oferta));
-        // $user[0]->delete();
+        $finalizar = true;
+        $oferta = Oferta::find($id);
+        $oferta->update([
+            'finalizar_oferta' => $finalizar
+        ]);
+
         return redirect()->route('demandas.index')->with('success', 'Se realizó correctamente la oferta quede a la espera de la confirmacion por parte de la empresa');
     }
 

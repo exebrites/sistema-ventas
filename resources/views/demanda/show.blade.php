@@ -21,8 +21,11 @@
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
             @if ($demanda->estado != 'confirmado')
-                <a href="{{ route('confirmar', ['id' => $demanda->id]) }}" class="btn btn-primary">Confirmar solicitud de
-                    compra</a>
+                @if (count($demanda->demandaProveedor) != 0)
+                    <a href="{{ route('confirmar', ['id' => $demanda->id]) }}" class="btn btn-primary">Confirmar solicitud de
+                        compra</a>
+                @endif
+
                 <a href="{{ route('registrodemandasproveedores.show', $demanda->id) }}" class="btn btn-primary">Asociar
                     proveedores</a>
             @endif
@@ -87,6 +90,7 @@
                         <th>Nombre del contacto proveedor</th>
                         <th>Telefono</th>
                         <th>Correo electronico</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +101,17 @@
                             <td>{{ $reg->proveedor->nombre_contacto }}</td>
                             <td>{{ $reg->proveedor->telefono }}</td>
                             <td>{{ $reg->proveedor->correo }}</td>
+                            <td width="10px">
+                                @if ($demanda->estado != 'confirmado')
+                                    <form action="{{ route('registrodemandasproveedores.destroy', $reg->id) }}"
+                                        method="post" class="formulario-eliminar">
+                                        @csrf
+                                        @method('delete')
+                                        <button id="tuBotonId" class="btn btn-danger btn btn-sm btn-fixed-width"
+                                            type="submit">Borrar</button>
+                                    </form>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -116,6 +131,7 @@
                         <th>Fecha de entrega</th>
                         <th></th>
                         <th></th>
+                        {{-- <th></th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -128,6 +144,7 @@
                             <td>{{ $oferta->fecha_entrega }}</td>
                             <td><a href="{{ route('detalleoferta.show', $oferta->id) }}">Ver oferta</a></td>
                             <td><a href="{{ route('recepcion', $oferta->id) }}">Entrada de materiales</a></td>
+
                         </tr>
                     @endforeach
 
@@ -176,5 +193,5 @@
             },
         });
     </script>
-    
+
 @endsection

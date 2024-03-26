@@ -6,6 +6,7 @@ use App\Models\Demanda;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use App\Models\DemandaProveedor;
+use App\Http\Controllers\RegDemandaProveedor;
 
 class RegDemandaProveedor extends Controller
 {
@@ -105,6 +106,8 @@ class RegDemandaProveedor extends Controller
      */
     public function destroy($id)
     {
-        //
+        $reg =  DemandaProveedor::find($id);
+        $reg->delete();
+        return redirect()->back();
     }
 }

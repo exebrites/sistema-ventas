@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AuditoriaController;
+use Carbon\Carbon;
 use App\Mail\prueba;
 use App\Models\User;
 use App\Models\Oferta;
@@ -15,11 +15,13 @@ use App\Models\StockVirtual;
 use GuzzleHttp\Psr7\Request;
 use App\Models\DetalleOferta;
 use App\Models\MaterialProveedor;
+use App\Models\DetallePresupuesto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\RouteRegistrar;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\fileController;
 use App\Http\Controllers\MailController;
@@ -42,18 +44,18 @@ use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UsuariosController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\RegDemandaProveedor;
 use App\Http\Controllers\RespuestaController;
 use App\Http\Controllers\ComprobanteController;
+use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\DetalleOfertaController;
 use App\Http\Controllers\DetallePedidoController;
 use App\Http\Controllers\DetalleProductoController;
 use App\Http\Controllers\MaterialProveedorController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DetallePresupuestoController;
-use App\Http\Controllers\PresupuestoController;
-use App\Models\DetallePresupuesto;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,7 +191,7 @@ Route::resource('/comprobantes', ComprobanteController::class)->except([
 Route::resource('/usuarios', UsuariosController::class);
 
 Route::resource('/ofertas', OfertaController::class);
-Route::get('/finalizar_oferta', [OfertaController::class, 'finalizar_oferta'])->name('finalizar_oferta');
+Route::get('/finalizar_oferta/{id}', [OfertaController::class, 'finalizar_oferta'])->name('finalizar_oferta');
 route::get('/confirmar_oferta/{id}', [OfertaController::class, 'confirmarOferta'])->name('confirmarOferta');
 
 route::get('/detalleofertas/{demanda_id}/{oferta_id}/{material_id}', [DetalleOfertaController::class, 'crear'])->name('detalleofertas.crear');
@@ -251,9 +253,13 @@ Route::get('/ordenCompra/confirmarOrden/{id}', [DemandaController::class, 'confi
 
 route::get('/p', function () {
 
-    $estado = 8;
+    $now = Carbon::today();
+    // dd($now);
 
-    $pedido = Pedido::find($estado);
+    // establcer fechas 
+    $pedido = Pedido::all();
+    // dd($pedido);
+
     return view('prueba', compact('pedido'));
 });
 
@@ -302,5 +308,10 @@ Route::resource('/auditoria', AuditoriaController::class);
 Route::get('/pedido/cancelar/{id}', [PedidoController::class, 'cancelarPedido'])->name('cancelarPedido');
 Route::get('/pedido/confirmar/{id}', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
 
+
+
+
+route::get('/recepcionpdf/{id}', [PdfController::class, 'generarPDF'])->name('pdfRecepcion');
+route::get('/pdf', [PdfController::class, 'index'])->name('pdf');
 
 require __DIR__ . '/auth.php';

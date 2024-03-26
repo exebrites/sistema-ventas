@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Oferta extends Model
 {
     protected $table = "ofertas";
-    protected $fillable = ['demanda_id', 'proveedor_id', 'fecha_entrega', 'estado'];
+    protected $fillable = ['demanda_id', 'proveedor_id', 'fecha_entrega', 'estado', 'finalizar_oferta'];
 
-  
+
     public function detalleOferta()
     {
         return $this->hasMany(DetalleOferta::class, 'oferta_id', '');

@@ -73,7 +73,7 @@
                                 <b>Sub Total: </b>${{ \Cart::get($item->id)->getPriceSum() }}<br>
                                 {{--                                <b>With Discount: </b>${{ \Cart::get($item->id)->getPriceSumWithConditions() }} --}}
                                 {{-- {{ dd($item) }} --}}
-                                @if ($item->attributes['disenio_estado'])
+                                {{-- @if ($item->attributes['disenio_estado'])
                                     <b> El costo del diseño asistido :</b>
 
                                     <button type="button" class="btn btn-secondary" data-toggle="tooltip"
@@ -89,7 +89,28 @@
                                     </button>
                                 @endif
                                 <br>
+                                ${{ $item->attributes['costo_disenio'] }} --}}
+
+
+                                @if ($item->attributes['disenio_estado'])
+                                    <b>El costo del diseño asistido:</b>
+                                    <span class="help-icon" data-toggle="tooltip" data-placement="right"
+                                        title="Diseño asistido: donde usted como cliente sube un diseño inicial y nosotros lo completamos">
+                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+
+                                    </span>
+                                @else
+                                    <b>El costo del diseño completo:</b>
+                                    <span class="help-icon" data-toggle="tooltip" data-placement="right"
+                                        title="Diseño completo: nosotros nos encargamos de todo el diseño para usted">
+                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                    </span>
+                                @endif
+                                <br>
                                 ${{ $item->attributes['costo_disenio'] }}
+
                             </p>
                         </div>
                         <div class="col-lg-4">
@@ -159,6 +180,7 @@
 
 @endsection
 @section('css')
+  
 @endsection
 @section('js')
     <script>
@@ -166,4 +188,5 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+  
 @endsection

@@ -414,11 +414,11 @@ return [
             'text' => 'Auditoria',
             'route' => 'auditoria.index',
         ],
-        // [
-        //     'route'=> 'ruta'
-        //     'text' => 'Presupuesto',
-        //     'route' => 'presupuestos.index',
-        // ],
+        [
+            // 'route'=> 'ruta'
+            'text' => 'Pdf',
+            'route' => 'pdf',
+        ],
 
 
     ],

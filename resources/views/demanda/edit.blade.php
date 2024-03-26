@@ -41,9 +41,9 @@
                         aria-describedby="helpId" value="{{ $demanda->id }}">
                 </div>
                 <div class="form-group">
-                    <label for=""></label>
+                    <label for="">Nueva fecha de cierre</label>
                     <input type="date" name="f_cierre" id="" class="form-control" placeholder=""
-                        aria-describedby="helpId">
+                        aria-describedby="helpId" >
                 </div>
 
 

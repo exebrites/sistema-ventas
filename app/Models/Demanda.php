@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\RegDemandaProveedor;
 use App\Models\DetalleDemanda;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,7 +37,7 @@ class Demanda extends Model
                 $resultado[] = $elemento_lista;
             }
         }
-      
+
         // Agregar los elementos de $compra que no estén en $orden
 
         foreach ($materiales_compra as $elemento_compra) {
@@ -74,6 +75,29 @@ class Demanda extends Model
     public function demandaPedido()
     {
         return $this->hasOne(registroPedidoDemanda::class, 'demanda_id', '');
+    }
+    public function fechaCierre()
+    {
+
+        // Convertir la fecha de cierre a un objeto Carbon
+        $fechaCierre = Carbon::parse($this->fecha_cierre);
+
+        // Obtener la fecha actual
+        $hoy = Carbon::now();
+        $bandera = false;
+        // Comparar las fechas
+        if ($fechaCierre->isBefore($hoy)) {
+            // La fecha de cierre es menor que la fecha actual
+            $bandera = false;
+        } elseif ($fechaCierre->isAfter($hoy)) {
+            // La fecha de cierre es mayor que la fecha actual
+            $bandera = true;
+        } else {
+            // La fecha de cierre es igual a la fecha actual
+            $bandera = true;
+        }
+
+        return $bandera;
     }
     use HasFactory;
 }

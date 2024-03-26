@@ -3,7 +3,8 @@
 @section('title')
 
 @section('content_header')
-    <h1>materiales para oferta</h1>
+    <h1>
+        materiales para oferta</h1>
 @stop
 
 @section('content')
@@ -33,8 +34,12 @@
                             <td>{{ $item->cantidad }}</td>
 
 
-                            <td> <a href="{{ route('detalleofertas.crear', ['demanda_id' => $demanda->id, 'oferta_id' => $oferta->id, 'material_id' => $item->material->id]) }}"
-                                    class="btn btn-success">Agregar material</a></td>
+                            <td>
+                                @if (!$oferta->finalizar_oferta)
+                                    <a href="{{ route('detalleofertas.crear', ['demanda_id' => $demanda->id, 'oferta_id' => $oferta->id, 'material_id' => $item->material->id]) }}"
+                                        class="btn btn-success" disabled>Agregar material</a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
 
@@ -70,15 +75,22 @@
                             <td>{{ $detalle->cantidad }}</td>
                             <td>{{ $detalle->precio }}</td>
 
-                            <td width="10px"><a class="btn btn-warning btn btn-sm"
-                                    href="{{ route('detalleoferta.edit', $detalle->id) }}">Editar</a></td>
                             <td width="10px">
-                                <form action="{{ route('detalleoferta.destroy', $detalle->id) }}" method="post"
-                                    class="formulario-eliminar">
-                                    @csrf
-                                    @method('delete')
-                                    <button id="tuBotonId" class="btn btn-danger btn btn-sm " type="submit">borrar</button>
-                                </form>
+                                @if (!$oferta->finalizar_oferta)
+                                    <a class="btn btn-warning btn btn-sm"
+                                        href="{{ route('detalleoferta.edit', $detalle->id) }}"disabled>Editar</a>
+                                @endif
+                            </td>
+                            <td width="10px">
+                                @if (!$oferta->finalizar_oferta)
+                                    <form action="{{ route('detalleoferta.destroy', $detalle->id) }}" method="post"
+                                        class="formulario-eliminar">
+                                        @csrf
+                                        @method('delete')
+                                        <button id="tuBotonId" class="btn btn-danger btn btn-sm "
+                                            type="submit">borrar</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -92,7 +104,12 @@
 
             <hr>
             <br><br>
-            <a href="{{ route('finalizar_oferta') }}" class="btn btn-primary">finalizar oferta</a>
+            @if (count($oferta->detalleOferta) != 0)
+                @if (!$oferta->finalizar_oferta)
+                    <a href="{{ route('finalizar_oferta', $oferta->id) }}" class="btn btn-primary">finalizar oferta</a>
+                @endif
+
+            @endif
         </div>
     </div>
 @endsection

@@ -38,12 +38,14 @@
                                 <td width="10px"><a class="btn btn-primary btn btn-sm btn-fixed-width"
                                         href="{{ route('demandas.show', $demanda->id) }}">Ver</a></td>
                             @endrole
-                            {{-- @role(['admin', 'proveedor']) --}}
-                            @role(['proveedor'])
-                                <td width="10px"><a class="btn btn-primary btn btn-sm btn-fixed-width"
-                                        href="{{ route('demandas.showProveedor', $demanda->id) }}">Ver</a></td>
-                                {{-- <td></td>
-                                <td></td> --}}
+
+                            @role(['proveedor'])                            
+                                <td width="10px">
+                                    @if ($demanda->fechaCierre())
+                                        <a class="btn btn-primary btn btn-sm btn-fixed-width"
+                                            href="{{ route('demandas.showProveedor', $demanda->id) }}">Ver</a>
+                                    @endif
+                                </td>
                             @endrole
                         </tr>
                     @endforeach

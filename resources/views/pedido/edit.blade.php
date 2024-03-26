@@ -24,7 +24,7 @@
                 @method('PUT')
                 <div class="form-group">
                     <label>Numero de pedido</label>
-                    <input type="text" class="form-control" value="{{ $pedido->id }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pedido->id }}" readonly name="pedido_id">
                 </div>
                 <div class="form-group">
                     <label for="estado">Estado</label>
@@ -105,7 +105,7 @@
                 <div class="form-group">
                     <label for="">Fecha de entrega </label>
                     <input type="date" name="fecha_e" id="" class="form-control"
-                        value="{{ $pedido->fecha_inicio }}">
+                        value="{{ $pedido->fecha_inicio }}" required>
 
                 </div>
 

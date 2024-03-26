@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('proveedor_id')->constrained('proveedores')->unique();
             $table->string('estado')->default('pendiente');
             $table->date('fecha_entrega');
-
+            $table->boolean('finalizar_oferta');
 
             $table->timestamps();
         });

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Boceto;
 use App\Models\Estado;
+use App\Models\Oferta;
 use App\Models\Pedido;
 use App\Models\Cliente;
 use App\Models\Disenio;
@@ -244,38 +245,42 @@ class PedidoController extends Controller
 
         return view('checkout', compact('estado', 'pedido'));
     }
+
     public function update(Request $request, Pedido $pedido)
     {
-        // return $request;
 
+        $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
+        $estado = Estado::where('nombre', $nuevoEstado)->first();
 
-        $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'despachado', 'entregado', 'cancelado'];
+        // dd([$pedido, $nuevoEstado, $estado]);
+        // return  $estado;
+        // $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'despachado', 'entregado', 'cancelado'];
 
-        if (in_array($nuevoEstado, $estadosSecuenciales)) {
-            $estadoActualIndex = array_search($pedido->estado->nombre, $estadosSecuenciales);
-            $nuevoEstadoIndex = array_search($nuevoEstado, $estadosSecuenciales);
-            // dd([$estadoActualIndex, $nuevoEstadoIndex]);
-            if ($nuevoEstadoIndex >= $estadoActualIndex) {
-                // dd([$estadoActualIndex, $nuevoEstadoIndex]);
-
-                $pedido = Pedido::find($pedido->id);
+        // if (in_array($nuevoEstado, $estadosSecuenciales)) {
+        //     $estadoActualIndex = array_search($pedido->estado->nombre, $estadosSecuenciales);
+        //     $nuevoEstadoIndex = array_search($nuevoEstado, $estadosSecuenciales);
+        //     dd([$estadoActualIndex, $nuevoEstadoIndex]);
+        //     if ($nuevoEstadoIndex >= $estadoActualIndex) {
+        //         // dd([$estadoActualIndex, $nuevoEstadoIndex]);
+        if ($estado->id != 6) {
+            $pedido->update([
+                'estado_id' => $estado->id,
+                'fecha_inicio' => $request->fecha_e
+            ]);
+            return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
+        } else {
+            $oferta = Oferta::where('estado', 'pendiente')->latest()->first();            
+            if ($oferta) {
+                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');                
+            } else {
                 $pedido->update([
-                    'estado_id' => $nuevoEstadoIndex + 1,
+                    'estado_id' => $estado->id,
                     'fecha_inicio' => $request->fecha_e
                 ]);
-                // return $pedido;
-                if ($nuevoEstadoIndex == 6) {
-
-                    event(new OrdenCompra());
-                }
-
+                event(new OrdenCompra());
                 return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
-            } else {
-                return redirect()->route('pedidos.index')->with('error', 'No puedes retroceder a un estado anterior.');
             }
-        } else {
-            return redirect()->route('pedidos.index')->with('error', 'Estado no válido.');
         }
     }
 }
