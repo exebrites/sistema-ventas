@@ -270,9 +270,9 @@ class PedidoController extends Controller
             ]);
             return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
         } else {
-            $oferta = Oferta::where('estado', 'pendiente')->latest()->first();            
+            $oferta = Oferta::where('estado', 'pendiente')->latest()->first();
             if ($oferta) {
-                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');                
+                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');
             } else {
                 $pedido->update([
                     'estado_id' => $estado->id,

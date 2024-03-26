@@ -265,7 +265,7 @@ class DemandaController extends Controller
 
         $ultimaOferta = Oferta::where('estado', 'aceptada')->latest()->first(); //acá
         if ($ultimaDemanda) {
-            // dd('demanda para actualizar ');
+            dd('demanda para actualizar ');
             $pedidos = Pedido::pedidosSinOrden();
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
@@ -327,7 +327,7 @@ class DemandaController extends Controller
         } else {
             if ($ultimaOferta) {
 
-                dd("oferta aceptada");
+                // dd("oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 // dd([$pedidos, $listaMaterilesNecesarios, $ultimaOferta->detalleOferta[0]]);

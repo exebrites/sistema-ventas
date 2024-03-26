@@ -33,7 +33,9 @@ class OrdenCompraListener
      * @return void
      */
     public function handle(OrdenCompra $event)
+
     {
+
         // bien ahora la idea es crear la orden de comprar
         // para eso hay que crear cada detalle
         // el detalle es como el renglon un material tanta cantidad una sola vez
@@ -55,14 +57,14 @@ class OrdenCompraListener
         //    se establece una fecha de cierre con la variable de entorno FECHA_CIERRE en el archivo .env
         // dd($ultimaDemanda);
 
-        $ultimaOferta = Oferta::where('estado', 'aceptada')->latest()->first();
+        $ultimaOferta = Oferta::where('estado', 'aceptada')->latest()->first(); //acá
         if ($ultimaDemanda) {
-            // dd('1');
+            // dd('demanda para actualizar ');
             $pedidos = Pedido::pedidosSinOrden();
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
             } else {
-                // dd('1.2');
+                // dd('Hay pedidos sin orden de compra asociados');
                 $lista = Pedido::listaMateriales($pedidos);
                 // dd($lista);
                 $materiales_orden_compra = [];
@@ -119,13 +121,13 @@ class OrdenCompraListener
         } else {
             if ($ultimaOferta) {
 
-                // dd($ultimaOferta);
+                // dd("oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 // dd([$pedidos, $listaMaterilesNecesarios, $ultimaOferta->detalleOferta[0]]);
 
                 if ($listaMaterilesNecesarios != null) {
-                    // dd('3');
+                    // dd('Hay lista de materiales');
                     $arrayMateriales = [];
                     foreach ($listaMaterilesNecesarios as $key => $material) {
                         $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
@@ -182,9 +184,11 @@ class OrdenCompraListener
                         $demanda->delete();
                         // dd('eliminacion con exito');
                     }
+                } else {
+                    // dd("lista vacia");
                 }
             } else {
-                // dd('4');
+                // dd("No hay demanda ni Oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 // dd(
@@ -220,7 +224,7 @@ class OrdenCompraListener
                 }
             }
         }
-       
+
 
 
 
