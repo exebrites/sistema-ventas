@@ -37,9 +37,9 @@
         <a class="btn btn-dark btn-sm btn-block" href="{{ route('cart.index') }}">
             CARRITO <i class="fa fa-arrow-right"></i>
         </a>
-        <a class="btn btn-dark btn-sm btn-block" href="{{route('procesarPedido.procesar')}}">
+        {{-- <a class="btn btn-dark btn-sm btn-block" href="{{route('procesarPedido.procesar')}}">
            FINALIZAR COMPRA <i class="fa fa-arrow-right"></i>
-        </a>
+        </a> --}}
     </div>
 @else
     <li class="list-group-item">Tu carrito esta vacío</li>

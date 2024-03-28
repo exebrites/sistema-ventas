@@ -44,45 +44,8 @@
                                                     pedido </a>
                                             </td>
                                         @endif
-
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    {{-- <th scope="col">#</th> --}}
-                                                    <th scope="col">Producto</th>
-                                                    <th scope="col">Cantidad</th>
-                                                    {{-- <th scope="col">Estado de diseño</th> --}}
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                @foreach ($item->detallePedido as $detalle)
-                                                    <tr>
-                                                        {{-- <th scope="row">1</th> --}}
-
-
-                                                        <td>{{ $detalle->producto->name }} </td>
-                                                        <td>{{ $detalle->cantidad }} unidades</td>
-
-                                                        {{-- <td>{{ $detalle->produccion ? 'En produccion' : 'Pre-produccion' }} --}}
-                                                        </td>
-
-                                                        {{-- {{ dd($detalle->produccion) }} --}}
-                                                        @if (!$detalle->produccion)
-                                                            <td>
-                                                                <a id="disenio"
-                                                                    href="{{ route('show_disenio', $detalle->id) }}"> ver
-                                                                    diseño</a>
-                                                            </td>
-                                                        @endif
-
-                                                    </tr>
-                                                @endforeach
-
-
-                                            </tbody>
-                                        </table>
+                                        <br>
+                                        <a href="{{ route('verpedidos', ['pedido_id' => $item->id]) }}">Ver pedido</a>
                                     </div>
                                 </div>
                             </div>

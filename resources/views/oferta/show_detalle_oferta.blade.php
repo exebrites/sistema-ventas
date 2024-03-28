@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-            <a href="{{ route('pdfRecepcion', $oferta->id) }}">Generar pdf</a>
+            <a href="{{ route('pdfRecepcion', $oferta->id) }}" class="btn btn-primary">Generar PDF</a>
         </div>
         <div class="card-body">
 

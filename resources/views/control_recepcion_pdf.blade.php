@@ -68,14 +68,16 @@
 
 <body>
     {{-- {{ dd($datos) }} --}}
-    <div id="header">
-        <img class="imgHeader" src="{{ public_path('cosito') }}" alt="" srcset="">
+    {{-- <div id="header">
+        <br>
+        
+        <img class="imgHeader" src="{{ public_path() . '/images/images.png' }}" alt="" srcset="">
         <div class="infoHeader">
-            <h1>Laravel</h1>
-            <p>Un framework para php</p>
+            <h1>Oliva</h1>
+            <p>Disenio e impresión</p>
 
         </div>
-    </div>
+    </div> --}}
     <div id="footer">
 
 
@@ -105,6 +107,7 @@
             <th>Observaciones</th>
         </tr>
 
+        {{-- {{ dd($productos[0]) }} --}}
         @foreach ($productos as $index => $producto)
             <tr>
                 <td>{{ $index + 1 }}</td>

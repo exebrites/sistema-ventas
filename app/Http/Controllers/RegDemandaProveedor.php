@@ -6,7 +6,6 @@ use App\Models\Demanda;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use App\Models\DemandaProveedor;
-use App\Http\Controllers\RegDemandaProveedor;
 
 class RegDemandaProveedor extends Controller
 {

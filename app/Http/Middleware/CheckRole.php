@@ -20,6 +20,9 @@ class CheckRole
         if (!$request->user() || !$request->user()->hasRole($role)) {
             abort(403, 'Acceso no autorizado');
         }
+        if ($request->user()->hasRole('proveedor')) {
+            return $next($request);
+        }
 
         return $next($request);
     }

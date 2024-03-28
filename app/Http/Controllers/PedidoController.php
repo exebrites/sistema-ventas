@@ -230,7 +230,7 @@ class PedidoController extends Controller
     }
     public function confirmarPedido($id)
     {
-        $estado = 11;
+        $estado = 2;
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => $estado]);
         $estado = Estado::find($pedido->estado_id);

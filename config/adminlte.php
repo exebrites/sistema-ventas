@@ -306,78 +306,55 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
 
-        // ['header' => 'Configuracion de cuenta'],
-        // [
-        //     'text' => 'Perfil',
-        //     'url'  => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
-        // [
-        //     'text' => 'Cambiar contraseña',
-        //     'url'  => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        //Productos *se puede usar {{route(...)}}(?
         [
             //'route'=> 'ruta'
             'text' => 'Tienda',
             'route' => 'shop',
+            'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Productos',
             'route' => 'productos.index',
+            'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Clientes',
             'route' => 'clientes.index',
+            'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Pedidos',
             'route' => 'pedidos.index',
+            'can'  => 'manage-blog',
         ],
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Gestionar Diseños',
-        //     'route' => 'disenios.index',
-        // ],
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Bocetos',
-        //     'route' => 'bocetos.index',
-        // ],
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Comprobantes',
-        //     'route' => 'comprobantes.index',
-        // ],
+
         [
-            //'route'=> 'ruta'
+
             'text' => 'Gestionar proveedores',
             'route' => 'proveedores.index',
+            'can'  => 'manage-blog',
         ],
         [
-            //'route'=> 'ruta'
+
             'text' => 'Gestionar materiales',
             'route' => 'materiales.index',
+            'can'  => 'manage-blog',
         ],
 
         [
-            //'route'=> 'ruta'
+
             'text' => 'Gestionar usuarios',
             'route' => 'usuarios.index',
+            'can'  => 'manage-blog',
+            'can'  => 'gestionar-sistema',
         ],
 
         [
-            //'route'=> 'ruta'
+
             'text' => 'Gestionar demandas/compra',
             'route' => 'demandas.index',
         ],
@@ -403,23 +380,23 @@ return [
             //'route'=> 'ruta'
             'text' => 'Gestionar roles ',
             'route' => 'roles.index',
+            'can'  => 'manage-blog',
+            'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar permisos ',
             'route' => 'permisos.index',
+            'can'  => 'manage-blog',
+            'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Auditoria',
             'route' => 'auditoria.index',
+            'can'  => 'manage-blog',
+            'can'  => 'gestionar-sistema',
         ],
-        [
-            // 'route'=> 'ruta'
-            'text' => 'Pdf',
-            'route' => 'pdf',
-        ],
-
 
     ],
 
