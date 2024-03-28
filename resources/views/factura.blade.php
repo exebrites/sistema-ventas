@@ -1,70 +1,12 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    @extends('layouts.app')
-
-    @section('content')
-        <h1>Factura #{{ $invoice->id }}</h1>
-
-        <p>Fecha: {{ $invoice->created_at->format('d/m/Y') }}</p>
-
-        <h2>Cliente</h2>
-        <p>Nombre: {{ $invoice->customer->name }}</p>
-        <p>Dirección: {{ $invoice->customer->address }}</p>
-        {{-- <p>RFC / Cédula: {{ $invoice->customer->tax_id }}</p>
-
-        <h2>Vendedor</h2>
-        <p>Nombre: {{ config('app.name') }}</p>
-        <p>Dirección: {{ config('app.address') }}</p>
-
-
-        <h2>Productos/Servicios</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($invoice->products as $product)
-                    <tr>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->quantity }}</td>
-                        <td>{{ number_format($product->price, 2) }}</td>
-
-                        <td>{{ number_format($product->quantity * $product->price, 2) }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <h2>Resumen</h2>
-        <p>Subtotal: {{ number_format($invoice->subtotal, 2) }}</p>
-        <p>Impuesto: {{ number_format($invoice->tax, 2) }}</p>
-        <p><b>Total: {{ number_format($invoice->total, 2) }}</b></p>
-
-    @endsection
-
-
-</body>
-
-</html> --}}
 <!DOCTYPE html>
 <html>
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
     <title>Control de Recepción de Productos</title>
     <style>
         table {
@@ -132,13 +74,19 @@
 <body>
     {{-- {{ dd($datos) }} --}}
     <div id="header">
-        <br>
-
-        <img class="imgHeader" src="{{ public_path() . '/images/images.png' }}" alt="" srcset="">
-        <div class="infoHeader">
-            <h1>Oliva</h1>
-            <p>Disenio e impresión</p>
-
+        <div class="row">
+            <div class="col-8">
+                <img class="imgHeader" src="{{ public_path() . '/images/images.png' }}" alt="" srcset="">
+                <div class="infoHeader">
+                    <h1>Oliva</h1>
+                    <p>Disenio e impresión</p>
+                </div>
+            </div>
+            <div class="col-4 infoHeader">
+                <p style="margin-right: auto;">Dirección: {{ config('contacto.direccion') }} </p>
+                <p style="margin-right: auto;">Teléfono: {{ config('contacto.telefono') }}</p>
+                <p style="margin-right: auto;">Correo electrónico: {{ config('contacto.correo') }}</p>
+            </div>
         </div>
     </div>
     <div id="footer">
@@ -151,17 +99,26 @@
 
     <h1>Factura # {{ $factura_id }}</h1>
 
-    <p>Fecha:{{ $fecha }} </p>
+    <p>Fecha de emisión:{{ $fecha }} </p>
+    <div class="row">
+        <div class="col-6">
+            <h2>Cliente</h2>
+            <p>Nombre:{{ $cliente['nombre'] }}</p>
+            {{-- <p>Dirección:{{ $cliente['direccion'] }}</p> --}}
+            <p>Apellido:{{ $cliente['apellido'] }}</p>
+            <p>Documento:{{ $cliente['dni'] }}</p>
+            <p>Telefono:{{ $cliente['telefono'] }}</p>
+        </div>
+        <div class="col-6">
+            <h2>Vendedor</h2>
+            <p>Nombre: {{ $vendedor['nombre'] }}</p>
+            <p>Dirección: {{ $vendedor['direccion'] }}</p>
+            <p>Telefono: {{ $vendedor['telefono'] }}</p>
+        </div>
+    </div>
 
-    <h2>Cliente</h2>
-    <p>Nombre:{{ $cliente['nombre'] }}</p>
-    <p>Dirección:{{ $cliente['direccion'] }}</p>
 
 
-    <h2>Vendedor</h2>
-    <p>Nombre: {{ $vendedor['nombre'] }}</p>
-    <p>Dirección: {{ $vendedor['direccion'] }}</p>
-    <p>Telefono: {{ $vendedor['telefono'] }}</p>
 
 
     <h2>Productos/Servicios</h2>
@@ -175,7 +132,7 @@
             </tr>
         </thead>
         <tbody>
-            
+
             @foreach ($productos as $producto)
                 <tr>
                     <td>{{ $producto['nombre'] }}</td>
@@ -184,12 +141,18 @@
                     <td>{{ $producto['subtotal'] }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td>Servicios de diseño</td>
+                <td>-</td>
+                <td></td>
+                <td>{{ $servicios }}</td>
+            </tr>
         </tbody>
     </table>
 
     <h2>Resumen</h2>
-    {{-- <p>Subtotal: </p> --}}
-    <p><b>Total: </b></p>
+
+    <p><b>Total: {{ $total }}</b></p>
 
 
     <script type="text/php" >

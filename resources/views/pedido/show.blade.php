@@ -23,6 +23,13 @@
                 <a href="{{ route('entrega.show', $pedido->entrega->id) }}" class="btn btn-primary">Ver entrega</a>
             @endif
 
+            @if ($pedido->estado->id < 3)
+                <a href="#" class="btn btn-light"> <b>No se ha confirmado el pago</b></a>
+            @else
+                <a href="{{ route('factura', $pedido->id) }}" class="btn btn-primary">Generar factura</a>
+            @endif
+
+
         </div>
         <div class="card-body">
             <div class="row g-2">

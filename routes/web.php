@@ -219,5 +219,5 @@ route::get('/reset', function () {
 });
 
 route::resource('/registrodemandasproveedores', RegDemandaProveedor::class);
-route::get('/factura', [PdfController::class, 'generarFactura']);
+route::get('/factura/{pedido_id}', [PdfController::class, 'generarFactura'])->name('factura');
 require __DIR__ . '/auth.php';

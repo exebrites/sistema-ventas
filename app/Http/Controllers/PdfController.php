@@ -81,38 +81,12 @@ class PdfController extends Controller
         // return $dompdf->stream('control_recepcion_productos.pdf', array('Attachment' => false));
     }
 
-    public function generarFactura()
+    public function generarFactura($pedido_id)
     {
-        // Importamos las librerías necesarias
-        // Datos de la factura
-        // $customer = [
-        //     'name' => 'Cliente 1',
-        //     'address' => 'Dirección del cliente',
-        //     'tax_id' => '1234567890',
-        // ];
-
-        $products = [
-            [
-                'name' => 'Producto 1',
-                'quantity' => 1,
-                'price' => 100,
-            ],
-            [
-                'name' => 'Producto 2',
-                'quantity' => 2,
-                'price' => 50,
-            ],
-        ];
-
-        // Calculamos el total
-        $total = 0;
-        foreach ($products as $product) {
-            $total += $product['quantity'] * $product['price'];
-        }
-
-        $pedido_id = 30;
         $pedido = Pedido::find($pedido_id);
+        $total = 0;
         foreach ($pedido->detallePedido as $key => $detalle) {
+            $total = $total +  $detalle->cantidad * $detalle->producto->price;
             $productos[] = [
                 'nombre' => $detalle->producto->name,
                 'cantidad' => $detalle->cantidad,
@@ -120,16 +94,18 @@ class PdfController extends Controller
                 'subtotal' =>  $detalle->cantidad * $detalle->producto->price
             ];
         }
-        // dd($productos);
         $factura_id = $pedido->id;
-        $fecha_creacion = Carbon::today();
-
+        $fecha_creacion = Carbon::today()->format('d-m-Y');
+        $cliente =  $pedido->cliente;
         $datos = [
             'factura_id' => $factura_id,
             'fecha' => $fecha_creacion,
             'cliente' => [
-                'nombre' => 'Cliente 1',
-                'direccion' => 'Dirección del cliente',
+                'nombre' => $cliente->nombre,
+                'apellido' => $cliente->apellido,
+                'dni' => $cliente->dni,
+                'telefono' => $cliente->telefono
+                // 'direccion' => isset($pedido->entrega)?$pedido->entrega->direc'calle sin nombre',
             ],
             'vendedor' => [
                 'nombre' => config('contacto.nombre'),
@@ -137,76 +113,12 @@ class PdfController extends Controller
                 'telefono' => config('contacto.telefono')
             ],
             'productos' => $productos,
+            'total' => $pedido->costo_total,
+            'servicios' => $pedido->costo_total - $total
 
         ];
         $pdf = Pdf::loadView('factura', $datos);
         // return $pdf->download('control_recepcion_pdf.pdf');
         return $pdf->stream();
-
-
-        // Generamos el contenido HTML de la factura
-        $html = '
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Factura</title>
-</head>
-<body>
-    <h1>Factura</h1>
-
-    <p>Cliente:</p>
-    <ul>
-        <li>Nombre: ' . $customer['name'] . '</li>
-        <li>Dirección: ' . $customer['address'] . '</li>
-        <li>Cédula/RIF: ' . $customer['tax_id'] . '</li>
-    </ul>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-            </tr>
-        </thead>
-        <tbody>';
-        foreach ($products as $product) {
-            $html .= '
-            <tr>
-                <td>' . $product['name'] . '</td>
-                <td>' . $product['quantity'] . '</td>
-                <td>' . $product['price'] . '</td>
-            </tr>';
-        }
-        $html .= '
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="2">Total</th>
-                <td>' . $total . '</td>
-            </tr>
-        </tfoot>
-    </table>
-</body>
-</html>';
-
-        // Creamos una instancia de Dompdf
-        $dompdf = new Dompdf();
-
-        // Cargamos el contenido HTML
-        $dompdf->loadHtml($html);
-
-        // Renderizamos el PDF
-        $dompdf->render();
-
-        // Guardamos el PDF en el almacenamiento
-        // $pdf = $dompdf->output();
-        // Storage::put('public/facturas/factura.pdf', $pdf);
-
-        // Redirigimos al usuario a la página de descarga
-        return $dompdf->stream();
-
-        return "hola";
     }
 }
