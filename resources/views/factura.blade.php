@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
-    <title>Control de Recepción de Productos</title>
+    <title>Comprabante de compra</title>
     <style>
         table {
             width: 100%;
@@ -68,6 +68,23 @@
             height: 1cm;
             margin: 0.2cm;
         }
+
+        .contenedor {
+            width: 800px;
+            margin: 20px auto;
+            border: 1px;
+            padding: 20px;
+        }
+
+        .cliente {
+            width: 40%;
+            float: left;
+        }
+
+        .vendedor {
+            width: 40%;
+            float: right;
+        }
     </style>
 </head>
 
@@ -97,30 +114,53 @@
 
 
 
-    <h1>Factura # {{ $factura_id }}</h1>
+    <h1>Comprobante de compra</h1>
+    <br>
+    <p>Numero :{{ $factura_id }}</p>
+    <p>Fecha de emisión: {{ $fecha }} </p>
+    <br>
 
-    <p>Fecha de emisión:{{ $fecha }} </p>
-    <div class="row">
-        <div class="col-6">
+    {{-- <h2>Cliente</h2>
+   
+    <br>
+    <h2>Vendedor</h2>
+    --}}
+
+    <div class="contenedor">
+        <div class="cliente">
             <h2>Cliente</h2>
-            <p>Nombre:{{ $cliente['nombre'] }}</p>
-            {{-- <p>Dirección:{{ $cliente['direccion'] }}</p> --}}
-            <p>Apellido:{{ $cliente['apellido'] }}</p>
-            <p>Documento:{{ $cliente['dni'] }}</p>
-            <p>Telefono:{{ $cliente['telefono'] }}</p>
+            <ul>
+                <li>
+                    <p>Nombre:{{ $cliente['nombre'] }}</p>
+                </li>
+                <li>
+                    <p>Apellido:{{ $cliente['apellido'] }}</p>
+                </li>
+                <li>
+                    <p>Numero de documento:{{ $cliente['dni'] }}</p>
+                </li>
+                <li>
+                    <p>Telefono:{{ $cliente['telefono'] }}</p>
+                </li>
+            </ul>
         </div>
-        <div class="col-6">
+
+        <div class="vendedor">
             <h2>Vendedor</h2>
-            <p>Nombre: {{ $vendedor['nombre'] }}</p>
-            <p>Dirección: {{ $vendedor['direccion'] }}</p>
-            <p>Telefono: {{ $vendedor['telefono'] }}</p>
+            <ul>
+                <li>
+                    <p>Nombre: {{ $vendedor['nombre'] }}</p>
+                </li>
+                <li>
+                    <p>Dirección: {{ $vendedor['direccion'] }}</p>
+                </li>
+                <li>
+                    <p>Telefono: {{ $vendedor['telefono'] }}</p>
+                </li>
+            </ul>
         </div>
     </div>
-
-
-
-
-
+    <br>
     <h2>Productos/Servicios</h2>
     <table class="table">
         <thead>
@@ -137,22 +177,29 @@
                 <tr>
                     <td>{{ $producto['nombre'] }}</td>
                     <td>{{ $producto['cantidad'] }}</td>
-                    <td>{{ $producto['precio'] }}</td>
-                    <td>{{ $producto['subtotal'] }}</td>
+                    <td>${{ $producto['precio'] }}</td>
+                    <td>${{ $producto['subtotal'] }}</td>
                 </tr>
             @endforeach
             <tr>
                 <td>Servicios de diseño</td>
                 <td>-</td>
-                <td></td>
-                <td>{{ $servicios }}</td>
+                <td>-</td>
+                <td>${{ $servicios }}</td>
             </tr>
         </tbody>
+        <tfoot>
+            {{-- Mostrar el total de la oferta en el pie de la tabla --}}
+            <tr>
+                <td colspan="3" style="text-align: right;"><b>Total</b></td>
+                <td>${{ $total }}</td>
+            </tr>
+        </tfoot>
     </table>
 
-    <h2>Resumen</h2>
+    {{-- <h2>Resumen</h2> --}}
 
-    <p><b>Total: {{ $total }}</b></p>
+    {{-- <p><b>Total: {{ $total }}</b></p> --}}
 
 
     <script type="text/php" >

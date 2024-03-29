@@ -58,6 +58,7 @@ use App\Http\Controllers\DetalleProductoController;
 use App\Http\Controllers\MaterialProveedorController;
 use App\Http\Controllers\DetallePresupuestoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\GraficoController;
 use App\Http\Controllers\TuPedidoController;
 use App\Models\RegistroPedidoDemanda;
 
@@ -220,4 +221,7 @@ route::get('/reset', function () {
 
 route::resource('/registrodemandasproveedores', RegDemandaProveedor::class);
 route::get('/factura/{pedido_id}', [PdfController::class, 'generarFactura'])->name('factura');
+
+route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
+route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
 require __DIR__ . '/auth.php';

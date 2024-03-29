@@ -397,6 +397,13 @@ return [
             'can'  => 'manage-blog',
             'can'  => 'gestionar-sistema',
         ],
+        [
+            //'route'=> 'ruta'
+            'text' => 'Grafico',
+            'route' => 'graficoIndex',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
+        ],
 
     ],
 
