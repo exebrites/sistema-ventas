@@ -404,7 +404,13 @@ return [
             // 'can'  => 'manage-blog',
             // 'can'  => 'gestionar-sistema',
         ],
-
+        [
+            //'route'=> 'ruta'
+            'text' => 'GraficoCliente',
+            'route' => 'indexCliente',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
+        ],
     ],
 
     /*

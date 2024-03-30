@@ -224,4 +224,6 @@ route::get('/factura/{pedido_id}', [PdfController::class, 'generarFactura'])->na
 
 route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
 route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
+route::get('/grafico/clientes', [GraficoController::class, 'indexCliente'])->name('indexCliente');
+route::post('/grafico/clientes', [GraficoController::class, 'graficoCliente'])->name('graficoCliente');
 require __DIR__ . '/auth.php';

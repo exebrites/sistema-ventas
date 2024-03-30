@@ -2,16 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use Svg\Tag\Rect;
 use Carbon\Carbon;
 use App\Models\Pedido;
+use GuzzleHttp\Client;
+use App\Models\Cliente;
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rule;
 
 class GraficoController extends Controller
 {
+
+    public function indexCliente()
+    {
+        $clientes = Cliente::all();
+        return view('index_grafico_cliente', compact('clientes'));
+    }
+    public function graficoCliente(Request $request)
+    {
+        // return $request;
+        try {
+            $request->validate([
+                'inicio' => [
+                    'required',
+                    'before:' . $request->final,
+                ],
+                'final' => 'required',
+            ]);
+        } catch (ValidationException $e) {
+            // Manejar los errores de validación aquí
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+
+        $fechaInicial = $request->inicio;
+        $fechaFinal = $request->final;
+        $fechaInicial = Carbon::parse($fechaInicial);
+        $fechaFinal = Carbon::parse($fechaFinal);
+        $cliente = Cliente::find($request->cliente_id);
+        $pedidos = Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal])->where('clientes_id', $cliente->id)->get();
+        $pedidoCancelados =  Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal])->where('clientes_id', $cliente->id)->where('estado_id', 11)->get();
+        $data = [
+            'name' => 'cancelado', 'data' => count($pedidoCancelados),
+        ];
+        $dataNoCancelado = ['name' => 'Nocancelado', 'data' => count($pedidos)];
+        $data = json_encode($data);
+        $dataNoCancelado = json_encode($dataNoCancelado);
+        return view('grafico_cliente', compact('data', 'dataNoCancelado'));
+    }
+
+
 
     public function index()
     {
