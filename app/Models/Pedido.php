@@ -8,9 +8,16 @@ use App\Models\Producto;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Pedido extends Model
+
+
+class Pedido extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+
+
     protected $table = "pedidos";
     protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'costo_total'];
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];

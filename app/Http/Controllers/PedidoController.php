@@ -38,6 +38,9 @@ class PedidoController extends Controller
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
+
+            $fecha =  Carbon::parse($pedido->fecha_inicio);
+            $pedido->fecha_inicio = $fecha->format('d-m-Y');
         }
         return view('pedido.index', compact('pedidos'));
     }

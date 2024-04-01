@@ -7,8 +7,14 @@ use App\Models\DetalleOferta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Material extends Model
+
+use OwenIt\Auditing\Contracts\Auditable;
+
+
+class Material extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
     protected $table = "materiales";
     protected $fillable = ['nombre', 'descripcion', 'cod_interno', 'stock', 'unidad_medida', 'fecha_adquisicion', 'fecha_vencimiento', 'notas', 'precio_compra'];
 

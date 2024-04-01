@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SistOliva;
 
-class Cliente extends Model
+use OwenIt\Auditing\Contracts\Auditable;
+
+
+
+class Cliente extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     protected $table = "clientes";
 
     // Indica que la clave primaria es el campo 'dni'

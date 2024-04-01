@@ -226,4 +226,12 @@ route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafi
 route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
 route::get('/grafico/clientes', [GraficoController::class, 'indexCliente'])->name('indexCliente');
 route::post('/grafico/clientes', [GraficoController::class, 'graficoCliente'])->name('graficoCliente');
+
+
+route::get('/otro', function () {
+    return view('otro');
+});
+
+
+route::post('/auditoria/filtro/fecha', [AuditoriaController::class, 'filtroFecha'])->name('filtroFecha');
 require __DIR__ . '/auth.php';

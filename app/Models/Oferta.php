@@ -6,8 +6,13 @@ use App\Models\Proveedor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Oferta extends Model
+use OwenIt\Auditing\Contracts\Auditable;
+
+
+
+class Oferta extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     protected $table = "ofertas";
     protected $fillable = ['demanda_id', 'proveedor_id', 'fecha_entrega', 'estado', 'finalizar_oferta'];
 

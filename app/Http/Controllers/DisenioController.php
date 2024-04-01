@@ -194,8 +194,9 @@ class DisenioController extends Controller
 
     public function show_disenio($id)
     {
-        $detalle = DetallePedido::find($id);
-        $disenio = $detalle->disenio;
+
+
+        $disenio = Disenio::find($id);
         $preguntas = Pregunta::all();
         return view('disenio.indexCliente', compact('disenio', 'preguntas'));
     }

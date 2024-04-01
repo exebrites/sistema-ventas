@@ -9,9 +9,13 @@ use App\Models\SistOliva;
 use App\Models\DetalleProducto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Producto extends Model
+class Producto extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
+
     protected $table = 'productos';
     protected $fillable = ['name', 'price', 'slug', 'description', 'category_id', 'image_path', 'alias', 'visitas'];
     /*----------------------------ATRIBUTOS----------------------------------------*/

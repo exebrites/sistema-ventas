@@ -8,8 +8,15 @@ use App\Models\Respuesta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Disenio extends Model
+
+use OwenIt\Auditing\Contracts\Auditable;
+
+
+class Disenio extends Model implements Auditable
 {
+
+
+    use \OwenIt\Auditing\Auditable;
     protected $table = 'disenios';
 
     protected $fillable = ['detallePedido_id', 'url_imagen', 'url_disenio', 'disenio_estado', 'revision'];

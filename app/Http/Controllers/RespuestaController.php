@@ -37,46 +37,43 @@ class RespuestaController extends Controller
      */
     public function store(Request $request)
     {
-
         // return $request;
-        // 3,4,5 y 26
 
+
+        // si revision igual a 0 el cliente solicita una revision del diseño 
         $disenio_id = $request->disenio_id;
         $comentario = $request->comentario;
         $revision = $request->revision;
 
-        $pregunta = Pregunta::where('contenido', 'comentario')->get('id');
-        // $respuesta = $respuestas->where('pregunta_id', 3)->where('disenio_id', 26)->get();
+
+        // si revision igual 1 entonces el cliente esta contendo y pedido sigue al siguiente estado 
+
+        # code...
+
+        // $pregunta = Pregunta::where('contenido', 'comentario')->get('id');
+        // Respuesta::create([
+        //     'pregunta_id' => $pregunta[0]->id,
+        //     'disenio_id' => $disenio_id,
+        //     'contenido_respuesta' => $comentario
+        // ]);
+        // $request = $request->except(['_token', 'disenio_id', 'comentario', 'revision']);
+        // foreach ($request as $pregunta_id => $valor) {
+        //     $respuesta = Respuesta::create([
+        //         'pregunta_id' => $pregunta_id,
+        //         'disenio_id' => $disenio_id,
+        //         'contenido_respuesta' => $valor
+        //     ]);
+        // }
 
 
-        Respuesta::create([
-            'pregunta_id' => $pregunta[0]->id,
-            'disenio_id' => $disenio_id,
-            'contenido_respuesta' => $comentario
-        ]);
-
-        // Excluye algunos campos del formulario que no se almacenarán en la base de datos.
-        // En este caso, excluye '_token' y 'disenio_id'.
-        $request = $request->except(['_token', 'disenio_id', 'comentario', 'revision']);
-        // return $request;
-        // Itera sobre los campos restantes del formulario y crea registros en la base de datos.
-        foreach ($request as $pregunta_id => $valor) {
-            // Para cada campo, crea un nuevo registro utilizando el modelo 'Respuesta'.
-            $respuesta = Respuesta::create([
-                'pregunta_id' => $pregunta_id,
-                'disenio_id' => $disenio_id,
-                'contenido_respuesta' => $valor
-            ]);
-            // return $respuesta;
+        if ($revision) {
+            return "cliente contento";
+        } else {
+            return "diseño a revision";
         }
-        // $disenio = Disenio::find($disenio_id);
-        // $disenio->detallePedido->update(['produccion' => true]);
 
         $disenio = Disenio::find($disenio_id);
         $disenio->update(['revision' => $revision]);
-        // $detalle = $disenio->detallePedido;
-        // si produccion es verdadero hace pasaje a produccion de lo contrario sigue en diseño
-        // $detalle->update(['produccion' => $revision]);
         return redirect()->route('shop');
     }
 

@@ -7,6 +7,55 @@
 @stop
 
 @section('content')
+
+    <div class="card">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('filtroFecha') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="fdesde">Fecha desde </label>
+                    <input type="date" name="fdesde" id="fdesde" class="form-control" value="">
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fhasta">Fecha hasta</label>
+                    <input type="date" name="fhasta" id="fhasta" class="form-control">
+
+                </div>
+                {{-- <div class="form-group">
+                    <label for="fhasta">Fecha hasta</label>
+                    <select name="operacion" id="">
+                        <option value="">Seleccionar</option>
+                        <option value="created">Creación</option>
+                        <option value="updated">Actualización</option>
+                        <option value="deleted">Eliminación</option>
+                    </select>
+                </div> --}}
+                <div class="form-group">
+                    <label for="operacion" class="form-label">Operación</label>
+                    <select name="operacion" id="operacion" class="form-select mb-3">
+                        <option value="">Seleccionar</option>
+                        <option value="created">Creación</option>
+                        <option value="updated">Actualización</option>
+                        <option value="deleted">Eliminación</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <table class="table table-striped table-bordered" id="auditoria">
@@ -20,9 +69,9 @@
                         <th>Detalles</th>
                         {{-- <th>URL</th>
                         <th>IP Address</th>
-                        <th>User Agent</th>
+                        <th>User Agent</th> --}}
                         <th>Created At</th>
-                        <th>Updated At</th> --}}
+                        {{-- <th>Updated At</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +80,8 @@
                             <tr>
                                 {{-- <td>{{ $audit->id }}</td> --}}
                                 <td>{{ $audit->user_type }}</td>
-                                <td>{{ $audit->getName($audit->user_id) }}</td>
+                                {{-- <td>{{ $audit->getName($audit->user_id) }}</td> --}}
+                                <td></td>
                                 <td>{{ $audit->event }}</td>
                                 <td>{{ $audit->auditable_type }}</td>
                                 <td>
@@ -40,6 +90,7 @@
                                         Ver Detalles
                                     </button>
                                 </td>
+                                <td>{{ $audit->created_at->format('d-m-Y') }}</td>
 
                             </tr>
 
@@ -85,7 +136,9 @@
 
     </div>
 
+
 @endsection
+
 
 
 
@@ -94,35 +147,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-
+    <link rel="stylesheet" href="{{ asset('css/btnFijo.css') }}">
+    {{-- btn-fixed-width --}}
 @endsection
-
 @section('js')
-
-
-
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-
     <script>
         var table = new DataTable('#auditoria', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             },
         });
+        // $('#iptAlias').keyup(function() {
+        //     table.column($(this).data('index')).search(this.value).draw();
+        // })
+
+        // $('#iptNombre').keyup(function() {
+        //     table.column($(this).data('index')).search(this.value).draw();
+        // })
+
+        // $('#iptDescripcion').keyup(function() {
+        //     table.column($(this).data('index')).search(this.value).draw();
+        // })
+
+        // $('#iptNombre', '#iptDescripcion').keyup(function() {
+        //     table.draw();
+        // })
+
+        // $.fn.dataTable.ext.search.push(
+        //     function(settings, data, dataIndex) {
+        //         var cosito = $('#iptNombre').val()
+        //         console.log(cosito)
+        //     }
+        // )
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#auditsTable').DataTable({
-                "paging": true,
-                "searching": true
-                // Add other options as needed
-            });
-        });
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    {{-- implementacion de una confirmacion de borrado por el usuario --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/confirmacionBorrado.js') }}"></script>
 @endsection

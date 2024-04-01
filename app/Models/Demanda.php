@@ -8,8 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Demanda extends Model
+use OwenIt\Auditing\Contracts\Auditable;
+
+
+class Demanda extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
     protected $fillable = ['estado', 'fecha_cierre'];
     protected $table = "demandas";
 

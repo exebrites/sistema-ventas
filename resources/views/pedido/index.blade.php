@@ -102,7 +102,7 @@
                                     {{ 'No tiene fecha de entrega' }}
                                 @endif
                             </td>
-                            <td>{{ $pedido->costo_total }}</td>
+                            <td>$ {{ $pedido->costo_total }}</td>
 
                             <td>{{ $pedido->diferenciaDias() }}</td>
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
