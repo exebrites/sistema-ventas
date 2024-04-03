@@ -105,7 +105,7 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Estado de tu pedido: "En confirmación de impresión"</h5>
+                                        <h5 class="card-title">Estado de tu pedido: "{{ $pedido->estado->descripcion }}"</h5>
                                         <p class="card-text">
                                             <small>
                                                 El estado "En confirmación de impresión" significa que la empresa está evaluando la

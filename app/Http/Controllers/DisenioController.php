@@ -26,9 +26,10 @@ class DisenioController extends Controller
      */
     public function index()
     {
-        $disenios = Disenio::all();
-        $pedidos = Pedido::all();
-        return view('disenio.index', ['disenios' => $disenios, 'pedidos' => $pedidos]);
+        return "abort";
+        // $disenios = Disenio::all();
+        // $pedidos = Pedido::all();
+        // return view('disenio.index', ['disenios' => $disenios, 'pedidos' => $pedidos]);
     }
 
     /**
@@ -39,7 +40,8 @@ class DisenioController extends Controller
     public function create()
     {
 
-        return view('disenio.create');
+        // return view('disenio.create');
+        return "abort";
     }
 
     /**
@@ -50,6 +52,7 @@ class DisenioController extends Controller
      */
     public function store(Request $request)
     {
+        return "abort";
         return $request;
         // try {
 
@@ -104,6 +107,7 @@ class DisenioController extends Controller
      */
     public function edit($id)
     {
+        return "abort";
         $disenio = Disenio::find($id);
         // se envia a update
         return view('disenio.edit', ['disenio' => $disenio]);
@@ -118,6 +122,7 @@ class DisenioController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return "abort";
         $disenio = Disenio::find($id);
         $pedido = $disenio->detallePedido->pedidos;
         $pedido->update(['estado' => 'disenio']);
@@ -159,7 +164,7 @@ class DisenioController extends Controller
      */
     public function destroy($id)
     {
-
+        return "abort";
         return "borrando";
         // $disenio = Disenio::find($id);
         // $disenio->update(['url_disenio' => ""]);
@@ -167,16 +172,23 @@ class DisenioController extends Controller
         // return redirect()->route('disenios.index');
     }
 
-
-
-
-
     /**
      * Método para descargar una imagen a partir de su ID.
      *
      * @param int $id - El ID de la imagen que se desea descargar.
      * @return \Illuminate\Http\Response - Una respuesta HTTP que contiene la imagen para su descarga.
      */
+
+
+
+
+
+
+
+
+
+
+
     public function descargar(Request $request)
     {
         // return $request;
@@ -194,8 +206,6 @@ class DisenioController extends Controller
 
     public function show_disenio($id)
     {
-
-
         $disenio = Disenio::find($id);
         $preguntas = Pregunta::all();
         return view('disenio.indexCliente', compact('disenio', 'preguntas'));
@@ -204,8 +214,16 @@ class DisenioController extends Controller
     public function actualizar_disenio(Request $request)
     {
 
-        // return "implementando";
-        // return $request;
+
+
+        // vista DETALLE DE DISEÑO show
+
+
+        // cuando el campo borrar sea igual a 1 se actualiza el diseño. Esta asociado al btn Borrar 
+
+
+        // cuando el campo borrar sea igual a 0 se actualiza el diseño con la imagen que se suba (DISEÑO). Esta asociado al btn Subir
+
 
         if ($request->borrar == "1") {
             $disenio = Disenio::find($request->id);
@@ -221,29 +239,25 @@ class DisenioController extends Controller
             ]);
         }
 
-
-
-
-
-
-
-
         return redirect()->back();
     }
     public function revision_disenio($id)
     {
-        // return $id;
+        
+        // una vez enviado para revision no se puede cargar mas diseños 
+        
+        // Cuando Disenio->revision sea igual a 0 significa que se envió al cliente 
+
+        // Cuando Disenio->revision sea igual a 1 significa que el cliente vió el Diseño, lo califico y lo mando a revision. Disconformidad 
+
+
         $disenio = Disenio::find($id);
-        // $detalle = $disenio->detallePedido;
-        // dd($disenio);
-        $pedido =  $disenio->detallePedido->pedidos;
-        $pedido->update(['estado_id' => 5]);
+        $disenio->update(['revision' => 0]);
+        $pedido =  $disenio->detallePedido->pedidos;        
         $producto = $disenio->detallePedido->producto;
         $cliente = $pedido->cliente;
         $empresa = config('contacto.nombre');
-
         Mail::to($cliente->correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
-
-        return redirect()->route('pedidos.show', $pedido->id);
+        return redirect()->route('pedidos.show', $pedido->id)->with('msg_success', 'Diseño cargado con éxito');
     }
 }

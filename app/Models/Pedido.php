@@ -32,7 +32,7 @@ class Pedido extends Model implements Auditable
     {
         $hoy = Carbon::now();
         // Define la fecha específica
-        $fechaEspecifica = Carbon::parse($this->fecha_entrega);
+        $fechaEspecifica = Carbon::parse($this->fecha_inicio);
         // Calcula la diferencia en días, horas y minutos
         $diferencia = $hoy->diff($fechaEspecifica);
         // Imprime el resultado

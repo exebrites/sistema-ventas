@@ -73,15 +73,16 @@ use App\Models\RegistroPedidoDemanda;
 |
 */
 
-Route::group(['middleware' => 'role:proveedor'], function () {
-    Route::resource('/demandas', DemandaController::class);
-});
-
-
+Route::resource('/demandas', DemandaController::class);
+// Route::group(['middleware' => 'role:proveedor'], function () {
+//     Route::resource('/demandas', DemandaController::class);
+// });
+Route::resource('/ofertas', OfertaController::class);
+Route::get('/showproveedor{id}', [DemandaController::class, 'showProveedor'])->name('demandas.showProveedor');
 Route::group(['middleware' => 'role:empresa'], function () {
 
 
-    Route::resource('/demandas', DemandaController::class);
+    // Route::resource('/demandas', DemandaController::class);
 
     Route::resource('/disenios', DisenioController::class)->middleware('role:admin'); //ver diseños para revisar con el cliente
     Route::post('/descargar', [DisenioController::class, 'descargar'])->name('disenios_descargar');
@@ -102,7 +103,7 @@ Route::group(['middleware' => 'role:empresa'], function () {
     Route::resource('/comprobantes', ComprobanteController::class)->except([
         'store'  // Excluye la ruta POST automática generada por el resource
     ]);
-    Route::resource('/ofertas', OfertaController::class);
+    // Route::resource('/ofertas', OfertaController::class);
     Route::resource('/respuestas', RespuestaController::class);
     Route::resource('entrega', EntregaController::class)->except([
         'store'  // Excluye la ruta POST automática generada por el resource
@@ -133,7 +134,7 @@ Route::group(['middleware' => 'role:empresa'], function () {
     route::get('/confirmar_oferta/{id}', [OfertaController::class, 'confirmarOferta'])->name('confirmarOferta');
     route::get('/detalleofertas/{demanda_id}/{oferta_id}/{material_id}', [DetalleOfertaController::class, 'crear'])->name('detalleofertas.crear');
     route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofertas.crear');
-    Route::get('/showproveedor{id}', [DemandaController::class, 'showProveedor'])->name('demandas.showProveedor');
+
     Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
 
 

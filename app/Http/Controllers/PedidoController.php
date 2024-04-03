@@ -39,8 +39,10 @@ class PedidoController extends Controller
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
 
-            $fecha =  Carbon::parse($pedido->fecha_inicio);
-            $pedido->fecha_inicio = $fecha->format('d-m-Y');
+            if ($pedido->fecha_inicio != null) {
+                $fecha =  Carbon::parse($pedido->fecha_inicio);
+                $pedido->fecha_inicio = $fecha->format('d-m-Y');
+            }
         }
         return view('pedido.index', compact('pedidos'));
     }
@@ -155,7 +157,7 @@ class PedidoController extends Controller
                     'url_imagen' => $url_imagen,
                     'url_disenio' => "",
                     'disenio_estado' => 1,
-                    'revision' => 0
+                    'revision' => 1
                 ]);
 
                 /**
@@ -178,7 +180,7 @@ class PedidoController extends Controller
                     'url_imagen' => "",
                     'url_disenio' => "",
                     'disenio_estado' => 0,
-                    'revision' => 0
+                    'revision' => 1
                 ]);
                 Boceto::create([
                     'negocio' => $p->attributes->nombre,
@@ -277,12 +279,31 @@ class PedidoController extends Controller
             if ($oferta) {
                 return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');
             } else {
-                $pedido->update([
-                    'estado_id' => $estado->id,
-                    'fecha_inicio' => $request->fecha_e
-                ]);
-                event(new OrdenCompra());
-                return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
+
+
+                // segun el pedido tengo que traer todo los detalles aprobados 
+                // Detalle->produccion = 1 
+
+                // solo pasar a preproduccion si todos los detalles tienen aprobado 
+                $aprobado  = 0;
+                // $noAprobado = 0;
+                $totalDetalle = count($pedido->detallePedido);
+                foreach ($pedido->detallePedido as $detalle) {
+                    if ($detalle->produccion) {
+                        $aprobado++;
+                    }
+                }
+
+                if (($totalDetalle - $aprobado) == 0) {
+                    $pedido->update([
+                        'estado_id' => $estado->id,
+                        'fecha_inicio' => $request->fecha_e
+                    ]);
+                    event(new OrdenCompra());
+                    return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
+                } else {
+                    return redirect()->route('pedidos.index')->with('error', 'Tenes diseños pendientes de aprobación');
+                }
             }
         }
     }

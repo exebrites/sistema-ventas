@@ -19,7 +19,7 @@ class TuPedidoController extends Controller
         $fecha =  Carbon::parse($pedido->fecha_entrega);
         $pedido->fecha_entrega = $fecha->format('d-m-Y');
 
-        
+            
         return view('pedido.cliente.verpedido', compact('pedido'));
     }
 

@@ -1,7 +1,6 @@
 @extends('adminlte::page')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
 @section('title')
 
 @section('content_header')
@@ -9,7 +8,7 @@
 @stop
 
 @section('content')
-
+    <h1 style="color:red">Validar la subir diseño</h1>
 
     <div class="card">
         <div class="card-header">
@@ -17,6 +16,17 @@
 
         </div>
         <div class="card-body">
+
+            Estado del diseño: @if ($disenio->revision === 0)
+                @if ($disenio->detallePedido->produccion === 0)
+                    <b style="color:green">Diseño enviado al cliente</b>
+                @else
+                    <b style="color:green">Diseño Aprobado</b>
+                @endif
+            @else
+                <b style="color:red">Realizar revisión del diseño </b>
+            @endif
+            <hr>
             <div class="row-6">
                 <h4> Informacion adicional</h4>
                 {{-- <br> /**Diseño para tal producto que va incluido en tal pedido para tal fecha* --}}
@@ -115,16 +125,18 @@
                                         <button type="submit" class="btn btn-primary">Descargar</button>
                                     </form>
                                     <br>
-                                    <form action="{{ route('actualizar_disenio', $disenio) }}" method="post"
-                                        class="formulario-eliminar">
-                                        @csrf
-                                        @method('put')
-                                        <input type="hidden" name="borrar" value="1">
-                                        <input type="hidden" name="id" value="{{ $disenio->id }}">
-                                        <br>
-                                        <button id="tuBotonId" class="btn btn-danger" type="submit">Borrar diseño</button>
-                                    </form>
-
+                                    @if ($disenio->revision === 1)
+                                        <form action="{{ route('actualizar_disenio', $disenio) }}" method="post"
+                                            class="formulario-eliminar">
+                                            @csrf
+                                            @method('put')
+                                            <input type="hidden" name="borrar" value="1">
+                                            <input type="hidden" name="id" value="{{ $disenio->id }}">
+                                            <br>
+                                            <button id="tuBotonId" class="btn btn-danger" type="submit">Borrar
+                                                diseño</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -137,25 +149,26 @@
 
 
 
+                @if ($disenio->revision === 1)
+                    <form action="{{ route('actualizar_disenio', $disenio) }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="id" value="{{ $disenio->id }}">
+                        <input type="hidden" name="borrar" value="0">
+                        {{-- <div class="form-group">
+        <label for="file">Seleccionar archivo:</label>
+        <input type="file" class="form-control-file" name="file" id="file" accept="image/png"
+            required>
+    </div> --}}
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label"> <b>Subir imagen</b></label>
+                            <input class="form-control" type="file" id="formFile" name="file" accept="image/png">
+                        </div>
 
-                <form action="{{ route('actualizar_disenio', $disenio) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    @method('put')
-                    <input type="hidden" name="id" value="{{ $disenio->id }}">
-                    <input type="hidden" name="borrar" value="0">
-                    {{-- <div class="form-group">
-                        <label for="file">Seleccionar archivo:</label>
-                        <input type="file" class="form-control-file" name="file" id="file" accept="image/png"
-                            required>
-                    </div> --}}
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label"> <b>Subir imagen</b></label>
-                        <input class="form-control" type="file" id="formFile" name="file" accept="image/png">
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Subir diseño</button>
-                </form>
-
+                        <button type="submit" class="btn btn-success">Subir diseño</button>
+                    </form>
+                @endif
 
 
 
@@ -164,25 +177,11 @@
 
                 <br>
                 <hr>
-                @if ($disenio->produccion)
-                    <div class="col-6">seccion de revision donde se mostrará porque vuelve a revision
-                        <br> Apartador de revision
-                        <br>
-                        indicar si esta en revision o no
-                        en caso de revision mostrar por que esta en revision
-                        <br>
-                        Mostrar cuando se realizo la revision
-                        cuales fueron las respuestas a la preguntas y porque volvio a revision
-                        asi tambien mostrar el numero de revision
-                    </div>
-                @else
-                    {{ 'Diseño sin revision' }}
-                    @foreach ($disenio->respuesta as $respuesta)
-                        <h1>Pregunta:{{ $respuesta->pregunta->contenido }} <br>Respuesta
-                            {{ $respuesta->contenido_respuesta }}</h1><br>
-                    @endforeach
-                @endif
 
+                @foreach ($disenio->respuesta as $respuesta)
+                    <h1>Pregunta:{{ $respuesta->pregunta->contenido }} <br>Respuesta
+                        {{ $respuesta->contenido_respuesta }}</h1><br>
+                @endforeach
             </div>
 
 
@@ -202,12 +201,18 @@
                             <a href="{{ route('pedidos.show', $disenio->detallePedido->pedido_id) }}"
                                 class="btn btn-danger btn-ampliado">Cancelar</a>
                         </div>
-
-
-                        <div>
-                            <a href="{{ route('revision_disenio', $disenio->id) }}"
-                                class="btn btn-primary btn-ampliado">Enviar a revision</a>
-                        </div>
+                        {{-- {{ dd( $disenio->revision == 0) }} --}}
+                        @if ($disenio->url_disenio == null || $disenio->revision == 0)
+                            <div>
+                                <a class="btn btn-default btn-ampliado" aria-disabled="true">Enviar a revision</a>
+                            </div>
+                        @endif
+                        @if ($disenio->url_disenio != null && $disenio->revision == 1)
+                            <div>
+                                <a href="{{ route('revision_disenio', $disenio->id) }}"
+                                    class="btn btn-primary btn-ampliado">Enviar a revision</a>
+                            </div>
+                        @endif
 
                     </div>
                 </div>

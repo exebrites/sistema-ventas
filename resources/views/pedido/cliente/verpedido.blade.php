@@ -6,19 +6,24 @@
     <br>
     {{-- {{ dd($pedido) }} --}}
     <div class="card">
+        @if (session('msg_success'))
+            <div class="alert alert-success">
+                {{ session('msg_success') }}
+            </div>
+        @endif
         <div class="card-body">
             <div class="form-group">
                 <label for="">Numero de pedido </label>
                 <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId"
                     value="{{ $pedido->id }}" readonly>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="">Fecha requerida</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
                     aria-describedby="helpId" readonly value="{{ $pedido->fecha_entrega }}">
-            </div>
+            </div> --}}
             <div class="form-group">
-                <label for="">Fecha propuesta</label>
+                <label for="">Fecha de entrega</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
                     aria-describedby="helpId" readonly value="{{ $pedido->fecha_inicio }}">
             </div>
@@ -39,9 +44,25 @@
                                 style="height: 300; width: 300px;display: block;">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $detalle->producto->name }}</h5>
-
-                                <a href="{{ route('show_disenio', $detalle->disenio->id) }}" class="btn btn-primary">Ver
-                                    disenio</a>
+                                <br>
+                                Costo unitario :$ {{ $detalle->producto->price }} <br>
+                                Cantidad : {{ $detalle->cantidad }}
+                                <br>
+                                Costo subtotal: $ {{ $detalle->subtotal }} <br>
+                                {{-- Costo de diseño: --}}
+                                <br>
+                                @if ($detalle->produccion == 0)
+                                    @if ($detalle->disenio->revision == 0)
+                                        <b style="color:red">Revisar diseño</b>
+                                    @endif
+                                @else
+                                    <b style="color:green">Diseño aprobado</b>
+                                @endif <br>
+                                <br>
+                                @if ($pedido->estado->nombre == 'disenio')
+                                    <a href="{{ route('show_disenio', $detalle->disenio->id) }}" class="btn btn-primary">Ver
+                                        disenio</a><br>
+                                @endif
 
                             </div>
                         </div>

@@ -73,7 +73,7 @@
 
 
                         {{-- <th>Cliente</th> --}}
-                        <th>Fecha de requerida</th>
+                        {{-- <th>Fecha de requerida</th> --}}
                         <th>Fecha de entrega</th>
                         <th>Costo total</th>
 
@@ -94,7 +94,7 @@
                             {{-- <td><a data-toggle="modal" data-target="#exampleModal{{ $pedido->cliente->id }}">
                                     {{ $pedido->cliente->nombre }}
                                 </a></td> --}}
-                            <td>{{ $pedido->fecha_entrega }} </td>
+                            {{-- <td>{{ $pedido->fecha_entrega }} </td> --}}
                             <td>
                                 @if ($pedido->fecha_inicio != null)
                                     {{ $pedido->fecha_inicio }}
