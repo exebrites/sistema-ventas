@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- @if ($estado == null)
-        {{ $estado = 1 }};
-    @endif --}}
-
-    {{-- {{dd([$estado])}} --}}
+    {{-- {{dd($pedido)}} --}}
     <div class="card">
         <div class="card-body">
             <br>
@@ -29,27 +25,33 @@
                                     <div class="card-body">
                                         <p class="card-text">
                                             <small>
-                                                El estado "Pendiente de pago" indica que tu pedido está a la espera de que subas el
+                                                El estado "Pendiente de pago" indica que tu pedido está a la espera de que subas
+                                                el
                                                 comprobante de pago,
                                                 el cual será confirmado por la gerencia para continuar con los próximos pasos.
                                             </small>
                                         </p>
-                                        <p>Se ha enviado un mensaje a tu correo electrónico con las instrucciones para realizar el
-                                            pago del pedido.</p>
+                                        @if ($pedido->comprobante == null)
+                                            <p>Se ha enviado un mensaje a tu correo electrónico con las instrucciones para realizar
+                                                el
+                                                pago del pedido.</p>
 
-                                        <form action="{{ route('comprobantes.store') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="estado" value="{{ $estado->id }}">
-                                            <input type="hidden" name="id" value="{{ $pedido->id }}">
-                                            <div class="form-group">
-                                                <b><label for="comprobante">Subir comprobante</label></b>
-                                                <p>No olvides subir tu comprobante para reflejar tu pago en el sistema.</p>
-                                                <input type="file" class="form-control-file" name="comprobante" id="comprobante"
-                                                    accept="image/*">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Enviar comprobante</button>
-                                        </form>
+                                            <form action="{{ route('comprobantes.store') }}" method="post"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="estado" value="{{ $estado->id }}">
+                                                <input type="hidden" name="id" value="{{ $pedido->id }}">
+                                                <div class="form-group">
+                                                    <b><label for="comprobante">Subir comprobante</label></b>
+                                                    <p>No olvides subir tu comprobante para reflejar tu pago en el sistema.</p>
+                                                    <input type="file" class="form-control-file" name="comprobante"
+                                                        id="comprobante" accept="image/*" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Enviar comprobante</button>
+                                            </form>
+                                        @else
+                                            <h6>Tu comprobante esta siendo revisado. Pronto nos estaremos comunicando con usted</h6>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -76,12 +78,15 @@
                                             <div id="div1">
                                                 <div class="form-group">
                                                     <label>Dirección del lugar de entrega</label>
-                                                    <input type="text" class="form-control" name="direccion">
+                                                    <input type="text" class="form-control" name="direccion" value="">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>Teléfono de contacto</label>
-                                                    <input type="text" class="form-control" name="telefono">
-                                                </div>
+                                                {{-- <label>Telefono de contacto</label>
+                                                <input required type="tel" class="form-control" name="telefono"
+                                                    pattern="[0-9]{2,4}-[0-9]{6,8}" placeholder="Ej: 3758-122331" >
+                                                @error('telefono')
+                                                    <br>
+                                                    <small style="color:red">{{ $message }}</small>
+                                                @enderror --}}
                                                 <div class="form-group">
                                                     <label>Nombre de la persona que recibe</label>
                                                     <input type="text" class="form-control" name="nombre">
@@ -94,7 +99,9 @@
                                             </div>
                                             <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
                                             <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
-                                            <button type="submit" class="btn btn-primary">Finalizar pedido</button>
+                                            <button type="submit" id="sub1" class="btn btn-primary">Finalizar pedido</button>
+        
+
                                         </form>
                                     </div>
                                 </div>
@@ -108,7 +115,8 @@
                                         <h5 class="card-title">Estado de tu pedido: "{{ $pedido->estado->descripcion }}"</h5>
                                         <p class="card-text">
                                             <small>
-                                                El estado "En confirmación de impresión" significa que la empresa está evaluando la
+                                                El estado "{{ $pedido->estado->descripcion }}" significa que la empresa está
+                                                evaluando la
                                                 fecha requerida.
                                                 Te informaremos si es posible realizar el pedido para esa fecha o si se debe
                                                 cambiar.
@@ -187,6 +195,7 @@
         // Obtén una referencia al checkbox
         const checkbox = document.getElementById('miCheckbox');
         const div = document.getElementById('div1');
+        
 
         // Agrega un evento de escucha al checkbox
         checkbox.addEventListener('click', function() {

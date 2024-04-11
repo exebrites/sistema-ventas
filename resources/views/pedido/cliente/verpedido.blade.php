@@ -49,7 +49,8 @@
                                 Cantidad : {{ $detalle->cantidad }}
                                 <br>
                                 Costo subtotal: $ {{ $detalle->subtotal }} <br>
-                                {{-- Costo de diseño: --}}
+                                Costo de diseño: $
+                                {{ $costoDisenio->costo_disenio($detalle->producto->price, $detalle->cantidad, $detalle->disenio->disenio_estado) }}
                                 <br>
                                 @if ($detalle->produccion == 0)
                                     @if ($detalle->disenio->revision == 0)
@@ -60,7 +61,8 @@
                                 @endif <br>
                                 <br>
                                 @if ($pedido->estado->nombre == 'disenio')
-                                    <a href="{{ route('show_disenio', $detalle->disenio->id) }}" class="btn btn-primary">Ver
+                                    <a href="{{ route('show_disenio', $detalle->disenio->id) }}"
+                                        class="btn btn-primary">Ver
                                         disenio</a><br>
                                 @endif
 

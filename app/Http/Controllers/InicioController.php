@@ -17,10 +17,11 @@ class InicioController extends Controller
         $estadoPendiente = 2;
         $estadoDisenio = 4;
         $estadoInicio = 3;
-
+        $estadoImprenta = 1;
         $user = Auth::user();
         $NroComprobantes = Pedido::where('estado_id', $estadoPendiente)->count();
         $NroPedidos = Pedido::where('estado_id', 3)->count();
+        $nroPedidoImprenta = Pedido::where('estado_id', $estadoImprenta)->count();
         $NroPedidosDisenio = Pedido::where('estado_id', 4)->get();
         $NroDisenios = 1;
         $NroRevision = 0;
@@ -46,6 +47,6 @@ class InicioController extends Controller
             }
         }
         // dd($nroofertas); 
-        return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas'));
+        return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta'));
     }
 }

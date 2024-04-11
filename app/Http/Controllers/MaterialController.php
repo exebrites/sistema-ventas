@@ -27,6 +27,10 @@ class MaterialController extends Controller
     public function index()
     {
         $materiales = Material::all();
+        foreach ($materiales as $key => $material) {
+            $fecha =  Carbon::parse($material->fecha_adquisicion);
+            $material->fecha_adquisicion = $fecha->format('d-m-Y');
+        }
         return view('material.index', compact('materiales'));
     }
 
@@ -171,21 +175,18 @@ class MaterialController extends Controller
     {
 
         $material = Material::find($id);
+        $fecha =  Carbon::parse($material->fecha_adquisicion);
+        $material->fecha_adquisicion = $fecha->format('d-m-Y');
         return view('material.actualizar_stock', compact('material'));
     }
     public function stock_update(Request $request)
     {
-        $material = Material::find($request->id);
-        // actualizar tambien el precio al que se compro los materiales. la reposicion de stock
+
+        $material = Material::find($request->material_id);
         $material->update([
-            'stock' => $material->stock + $request->stock,
-            'f_adquisicion' => $request->f_adquisicion
+            'stock' => $material->stock + $request->cantidadStock,
+            'f_adquisicion' => $request->fechaReposicion
         ]);
-        //desplega un gmail avisando el minimo de stock 
-        event(new HolaMundoEvento($material->stock));
-
-        event(new RegistroMaterialEvent($material));
-
         return view('material.actualizar_stock', compact('material'));
     }
 

@@ -29,7 +29,7 @@
                 <a href="{{ route('entrega.show', $pedido->entrega->id) }}" class="btn btn-primary">Ver entrega</a>
             @endif
 
-            @if ($pedido->estado->id < 3)
+            @if ($pedido->comprobante == null)
                 <a href="#" class="btn btn-light"> <b>No se ha confirmado el pago</b></a>
             @else
                 <a href="{{ route('factura', $pedido->id) }}" class="btn btn-primary">Generar factura</a>
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="">Fecha Entrega</label>
                         <input type="text" name="" id="" class="form-control"
-                            value="{{ $pedido->fecha_entrega }}" readonly>
+                            value="{{ $pedido->fecha_inicio }}" readonly>
                     </div>
                 </div>
                 <div class="col-md">

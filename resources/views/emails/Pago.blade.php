@@ -21,7 +21,7 @@
 
             <h5>
                 <br>
-                Nro de pedido : {{ $id }}
+                Número de pedido : {{ $id }}
                 <br>
                 Costo total: {{ $total }}
                 <br>
@@ -29,29 +29,28 @@
 
             </h5>
 
-            <p> Se recuerda que se abona el 50% del costo total para poder comenzar con el pedido
+            <p> Se le recuerda que se debe abonar el 50% del costo total para poder comenzar con el pedido
                 <br>
                 <br>
 
-                CVU: 1231233452312
+                CVU: {{ config('contacto.cvu') }}
                 <br>
-                Alias : XXXX
-                <br>
-                Nombre del gerente: "jualanodetal"
+                Alias :{{ config('contacto.alias') }}
                 <br>
                 <br>
-                Una vez realizada la transferencia bancaria subí tú  comprobante para luego ser
+                Una vez realizada la transferencia bancaria subí tú comprobante para luego ser
                 aprobado el pago
 
-                En caso de ya haber efectuado  el pago y no verlo reflejado en el sistema escribinos a olivas@gmail.com
+                En caso de ya haber efectuado el pago y no verlo reflejado en el sistema escribinos a olivas@gmail.com
                 <br>
                 <br>
                 Podes realizar el pago a traves de mercado pago : <a href="https://www.mercadopago.com.ar/home">Mercado
                     pago </a>
                 <br>
-                Recorda: Descargá tu comprobante y subirlo luego de haber realizado el pago
+                Recorda: Descargá tu comprobante y subirlo al sistema luego de haber realizado el pago
                 <br><br>
-                Siguiente pago: <a href="{{ route('checkout.index') }}">subir comprobate</a>
+                {{-- Siguiente pago: <a href="{{ route('checkout.index') }}">subir comprobate</a> --}}
+                Saludos desde {{ config('contacto.nombre') }}
             </p>
         </div>
     </div>

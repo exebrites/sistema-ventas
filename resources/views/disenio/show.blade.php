@@ -177,10 +177,16 @@
 
                 <br>
                 <hr>
-
+                <?php $salto = 1; ?>
                 @foreach ($disenio->respuesta as $respuesta)
-                    <h1>Pregunta:{{ $respuesta->pregunta->contenido }} <br>Respuesta
-                        {{ $respuesta->contenido_respuesta }}</h1><br>
+                    @if ($salto <= 4)
+                        <h1>Pregunta:{{ $respuesta->pregunta->contenido }} <br>Respuesta
+                            {{ $respuesta->contenido_respuesta }}</h1><br>
+                        <?php $salto++; ?>
+                    @else
+                        <hr>
+                        <?php $salto = 1; ?>
+                    @endif
                 @endforeach
             </div>
 

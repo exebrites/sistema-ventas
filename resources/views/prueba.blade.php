@@ -3,7 +3,7 @@
 @section('title')
 
 @section('content_header')
-    <h1>prueba </h1>
+    <h1>Productos mas vendidos</h1>
 @stop
 @section('content')
 
@@ -26,7 +26,7 @@
                 <small style="color:red">{{ $message }}</small>
             @enderror
         </div>
-        <button type="submit">enviar</button>
+        <button type="submit" class="btn btn-primary">Generar grafico</button>
     </form>
 
 @endsection

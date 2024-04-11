@@ -76,8 +76,9 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        <h5 style="text-align: center">Logo de la empresa</h5>
+                        <h5 style="text-align: center">Logo de la empresa</h5>  
                         <br>
+                        <br>                     
                         @if ($boceto->url_logo != null)
                             <img src="{{ $boceto->url_logo }}" class="img-fluid" alt="Logo">
                             <form action="{{ route('descargar_boceto') }}" method="post">

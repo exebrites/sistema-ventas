@@ -70,7 +70,7 @@
                         {{-- <th>URL</th>
                         <th>IP Address</th>
                         <th>User Agent</th> --}}
-                        <th>Created At</th>
+                        <th>Creado en</th>
                         {{-- <th>Updated At</th> --}}
                     </tr>
                 </thead>
@@ -80,8 +80,8 @@
                             <tr>
                                 {{-- <td>{{ $audit->id }}</td> --}}
                                 <td>{{ $audit->user_type }}</td>
-                                {{-- <td>{{ $audit->getName($audit->user_id) }}</td> --}}
-                                <td></td>
+                                <td>{{ $audit->getName($audit->user_id) }}</td>
+
                                 <td>{{ $audit->event }}</td>
                                 <td>{{ $audit->auditable_type }}</td>
                                 <td>
@@ -100,8 +100,7 @@
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="auditDetailsModalLabel{{ $audit->id }}">Audit
-                                                Details
+                                            <h5 class="modal-title" id="auditDetailsModalLabel{{ $audit->id }}">Detalle de auditoria
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -109,8 +108,8 @@
                                         </div>
                                         <!-- Dentro del modal-body -->
                                         <div class="modal-body">
-                                            <strong>Old Values:</strong> {{ json_encode($audit->old_values) }}<br>
-                                            <strong>New Values:</strong> {{ json_encode($audit->new_values) }}<br>
+                                            <strong>Valores anteriores:</strong> {{ json_encode($audit->old_values) }}<br>
+                                            <strong>Nuevos valores</strong> {{ json_encode($audit->new_values) }}<br>
                                             {{-- Include other details as needed --}}
 
                                             <!-- Añade estilos para limitar la altura y agregar desplazamiento -->

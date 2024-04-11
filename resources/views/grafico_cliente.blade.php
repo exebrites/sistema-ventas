@@ -6,7 +6,7 @@
     <h1>Reporte de pedido cancelados </h1>
 @stop
 @section('content')
-    {{-- {{ dd($data) }} --}}
+
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
@@ -14,9 +14,22 @@
         </div>
         <div class="card-body">
 
+            <div class="form-group">
+                <label for="">Nombre de cliente</label>
+                <input type="text" name="" id="" class="form-control" placeholder=""
+                    aria-describedby="helpId" value="{{ $cliente->nombre }}  {{ $cliente->apellido }}" readonly>
+
+            </div>
+
+            <div class="form-group">
+                <label for="">Fechas de inicio y final</label>
+                <input type="text" value="{{ $fechaInicial->format('d-m-Y') }}" class="form-control" readonly>
+                <br>
+                <input type="text" value="{{ $fechaFinal->format('d-m-Y') }}" class="form-control" readonly>
+            </div>
+            <hr>
+            <br>
             <div id="container">
-
-
             </div>
 
         </div>

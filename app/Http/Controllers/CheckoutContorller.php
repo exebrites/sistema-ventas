@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Estado;
 use App\Models\Pedido;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
@@ -17,10 +18,13 @@ class CheckoutContorller extends Controller
         $user = Auth::user()->id;
         $cliente = Cliente::find($user);
 
-        $id = Pedido::max('id');
+        $pedido_id = Pedido::max('id');
+        $pedido = Pedido::find($pedido_id);
+        $estado_id =  Pedido::where('id', $pedido_id)->value('estado_id');
+        $estado =  Estado::find($estado_id);
 
-        $estado =  Pedido::where('id', $id)->value('estado');
-        return view('checkout', ['estado' => $estado, 'id' => $id]);
+        // dd($pedido);
+        return view('checkout', compact('estado', 'pedido'));
     }
 
     public function show($id)

@@ -344,7 +344,11 @@ return [
             'route' => 'materiales.index',
             'can'  => 'manage-blog',
         ],
+        [
 
+            'text' => 'Gestionar demandas/compra',
+            'route' => 'demandas.index',
+        ],
         [
 
             'text' => 'Gestionar usuarios',
@@ -353,11 +357,7 @@ return [
             'can'  => 'gestionar-sistema',
         ],
 
-        [
 
-            'text' => 'Gestionar demandas/compra',
-            'route' => 'demandas.index',
-        ],
         // [
         //     //'route'=> 'ruta'
         //     'text' => 'Gestionar informacion de la empresa',
@@ -399,16 +399,16 @@ return [
         ],
         [
             //'route'=> 'ruta'
-            'text' => 'Grafico',
+            'text' => 'Productos mas vendidos',
             'route' => 'graficoIndex',
-            // 'can'  => 'manage-blog',
+            'can'  => 'manage-blog',
             // 'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
-            'text' => 'GraficoCliente',
+            'text' => 'Pedido cancelados',
             'route' => 'indexCliente',
-            // 'can'  => 'manage-blog',
+            'can'  => 'manage-blog',
             // 'can'  => 'gestionar-sistema',
         ],
     ],

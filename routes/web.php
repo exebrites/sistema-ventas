@@ -1,29 +1,34 @@
 <?php
 
-use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Mail\prueba;
 use App\Models\User;
 use App\Models\Oferta;
 use App\Models\Pedido;
 use App\Models\Cliente;
+use App\Models\Disenio;
 use App\Models\Material;
 use App\Models\Producto;
 use Barryvdh\DomPDF\PDF;
 use App\Models\Proveedor;
 use App\Mail\PagoMailable;
+use App\Mail\EstadoMailable;
 use App\Models\StockVirtual;
 use GuzzleHttp\Psr7\Request;
+use App\Mail\DisenoRealizado;
 use App\Models\DetalleOferta;
 use App\Models\MaterialProveedor;
 use App\Models\DetallePresupuesto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\RegistroPedidoDemanda;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use App\Mail\UsuarioProveedorMailable;
 use Illuminate\Routing\RouteRegistrar;
 use App\Http\Controllers\PdfController;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\fileController;
 use App\Http\Controllers\MailController;
@@ -37,6 +42,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DemandaController;
 use App\Http\Controllers\DisenioController;
 use App\Http\Controllers\EntregaController;
+use App\Http\Controllers\GraficoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutContorller;
 use App\Http\Controllers\ContactoController;
@@ -44,6 +50,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\TuPedidoController;
 use App\Http\Controllers\UsuariosController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use App\Http\Controllers\AuditoriaController;
@@ -55,12 +62,10 @@ use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\DetalleOfertaController;
 use App\Http\Controllers\DetallePedidoController;
 use App\Http\Controllers\DetalleProductoController;
+use Symfony\Component\VarDumper\Caster\RedisCaster;
 use App\Http\Controllers\MaterialProveedorController;
 use App\Http\Controllers\DetallePresupuestoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\GraficoController;
-use App\Http\Controllers\TuPedidoController;
-use App\Models\RegistroPedidoDemanda;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +84,17 @@ Route::resource('/demandas', DemandaController::class);
 // });
 Route::resource('/ofertas', OfertaController::class);
 Route::get('/showproveedor{id}', [DemandaController::class, 'showProveedor'])->name('demandas.showProveedor');
+
+Route::resource('/detalleoferta', DetalleOfertaController::class);
+Route::get('/listado_ofertas', [OfertaController::class, 'listado_ofertas'])->name('listaOfertas');
+
+Route::get('/finalizar_oferta/{id}', [OfertaController::class, 'finalizar_oferta'])->name('finalizar_oferta');
+route::get('/confirmar_oferta/{id}', [OfertaController::class, 'confirmarOferta'])->name('confirmarOferta');
+route::get('/detalleofertas/{demanda_id}/{oferta_id}/{material_id}', [DetalleOfertaController::class, 'crear'])->name('detalleofertas.crear');
+route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofertas.crear');
+
+Route::resource('/respuestas', RespuestaController::class);
+
 Route::group(['middleware' => 'role:empresa'], function () {
 
 
@@ -91,7 +107,7 @@ Route::group(['middleware' => 'role:empresa'], function () {
     route::get('/materiales/recepcion/{id}', [MaterialController::class, 'recepcion'])->name('recepcion');
     route::post('/materiales/entrada/', [MaterialController::class, 'entradaMateriales'])->name('entradaMateriales');
     Route::get('/stock{id}', [MaterialController::class, 'stock'])->name('materiales.stock');
-    Route::put('/actualizar_stock{id}', [MaterialController::class, 'stock_update'])->name('materiales.stock_update');
+    Route::put('/actualizar_stock/{id}', [MaterialController::class, 'stock_update'])->name('materiales.stock_update');
     Route::get('/materiales_necesarios/{id}', [MaterialController::class, 'materiales_necesarios'])->name('materiales_necesarios');
     Route::post('/generar_materiales', [MaterialController::class, 'generar_material'])->name('generar_material');
     Route::resource('/historialMateriales', MaterialProveedorController::class);
@@ -104,7 +120,6 @@ Route::group(['middleware' => 'role:empresa'], function () {
         'store'  // Excluye la ruta POST automática generada por el resource
     ]);
     // Route::resource('/ofertas', OfertaController::class);
-    Route::resource('/respuestas', RespuestaController::class);
     Route::resource('entrega', EntregaController::class)->except([
         'store'  // Excluye la ruta POST automática generada por el resource
     ]);
@@ -127,13 +142,7 @@ Route::group(['middleware' => 'role:empresa'], function () {
     Route::get('/ordenCompra', [DemandaController::class, 'ordenCompra'])->name('ordenCompra');
     Route::get('/ordenCompra/confirmarOrden/{id}', [DemandaController::class, 'confirmarOrden'])->name('confirmar');
     Route::resource('/detallepedidos', DetallePedidoController::class);
-    Route::resource('/detalleoferta', DetalleOfertaController::class);
-    Route::get('/listado_ofertas', [OfertaController::class, 'listado_ofertas'])->name('listaOfertas');
 
-    Route::get('/finalizar_oferta/{id}', [OfertaController::class, 'finalizar_oferta'])->name('finalizar_oferta');
-    route::get('/confirmar_oferta/{id}', [OfertaController::class, 'confirmarOferta'])->name('confirmarOferta');
-    route::get('/detalleofertas/{demanda_id}/{oferta_id}/{material_id}', [DetalleOfertaController::class, 'crear'])->name('detalleofertas.crear');
-    route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofertas.crear');
 
     Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
 
@@ -235,4 +244,20 @@ route::get('/otro', function () {
 
 
 route::post('/auditoria/filtro/fecha', [AuditoriaController::class, 'filtroFecha'])->name('filtroFecha');
+
+
+route::get('/correos', function () {
+    $correo = 'exequiel@gmail.com';
+    $disenio = Disenio::find(50);
+    $pedido =  $disenio->detallePedido->pedidos;
+    $producto = $disenio->detallePedido->producto;
+    $cliente = $pedido->cliente;
+    $empresa = config('contacto.nombre');
+    $user = User::find(1);
+    $password = "tupapi";
+    Mail::to($correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
+    Mail::to($correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
+    Mail::to($correo)->send(new EstadoMailable($pedido->estado->descripcion, $cliente->nombre, $pedido->id));
+    Mail::to($correo)->send(new UsuarioProveedorMailable($user, $password));
+});
 require __DIR__ . '/auth.php';

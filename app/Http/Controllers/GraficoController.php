@@ -42,7 +42,7 @@ class GraficoController extends Controller
         $fechaInicial = Carbon::parse($fechaInicial);
         $fechaFinal = Carbon::parse($fechaFinal);
         $cliente = Cliente::find($request->cliente_id);
-        $pedidos = Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal])->where('clientes_id', $cliente->id)->get();
+        $pedidos = Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal->addDays(1)])->where('clientes_id', $cliente->id)->get();
         $pedidoCancelados =  Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal])->where('clientes_id', $cliente->id)->where('estado_id', 11)->get();
         $data = [
             'name' => 'cancelado', 'data' => count($pedidoCancelados),
@@ -50,7 +50,8 @@ class GraficoController extends Controller
         $dataNoCancelado = ['name' => 'Nocancelado', 'data' => count($pedidos)];
         $data = json_encode($data);
         $dataNoCancelado = json_encode($dataNoCancelado);
-        return view('grafico_cliente', compact('data', 'dataNoCancelado'));
+        $fechaFinal->subDays(1);
+        return view('grafico_cliente', compact('data', 'dataNoCancelado', 'cliente', 'fechaInicial', 'fechaFinal'));
     }
 
 
@@ -84,7 +85,7 @@ class GraficoController extends Controller
         $fechaInicial = Carbon::parse($fechaInicial);
         $fechaFinal = Carbon::parse($fechaFinal);
 
-        $pedidos = Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal])->get();
+        $pedidos = Pedido::whereBetween('created_at', [$fechaInicial, $fechaFinal->addDays(1)])->get();
         // dd($pedidos);
         // // Agrupar los productos por nombre y obtener la cantidad total vendida
 
@@ -128,6 +129,6 @@ class GraficoController extends Controller
 
         // dd([$resultado, $puntos]);
         $puntos = json_encode($puntos);
-        return view('chart', ['data' => $puntos]);
+        return view('chart', ['data' => $puntos], compact('fechaInicial', 'fechaFinal'));
     }
 }

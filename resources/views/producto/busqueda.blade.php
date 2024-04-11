@@ -11,6 +11,7 @@
                     <img src="{{ $producto->image_path }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ $producto->name }}</h5>
+                        <p>Precio:  {{$producto->price}}</p>
                         <a href="{{ route('producto.detalle', ['id' => $producto->id]) }}"class="btn btn-primary">Ver
                             producto</a>
                     </div>

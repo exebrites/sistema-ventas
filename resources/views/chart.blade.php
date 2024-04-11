@@ -3,7 +3,7 @@
 @section('title')
 
 @section('content_header')
-    <h1>prueba </h1>
+    <h1>Grafico de productos mas vendidos </h1>
 @stop
 @section('content')
 
@@ -15,6 +15,12 @@
         </div>
         <div class="card-body">
 
+            <div class="form-group">
+                <label for="">Fechas de inicio y final</label>
+                <input type="text" value="{{ $fechaInicial->format('d-m-Y') }}" class="form-control" readonly>
+                <br>
+                <input type="text" value="{{ $fechaFinal->format('d-m-Y') }}" class="form-control" readonly>
+            </div>
             <div id="container">
 
 

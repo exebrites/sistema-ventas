@@ -6,7 +6,7 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-body">
-                <h1 style="text-align: center">Revision de diseño</h1>
+                <h1 style="text-align: center">Revisión de diseño</h1>
                 @if ($disenio->revision == 0)
 
                     <div class="row">
@@ -22,7 +22,7 @@
                                         <label></label>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#imagenModal">
-                                            Ver Imagen del diseño
+                                            Ver Imagen
                                         </button>
                                     </div>
                                     <br>
@@ -50,65 +50,53 @@
                                                         adicionales:</label>
                                                     <textarea class="form-control" id="comentarios" value="Sin comentarios" name="comentario" rows="4" cols="50">Sin comentarios</textarea>
                                                 </div>
+                                            @elseif($pregunta->id == 5)
+                                                <label for="">
+                                                    {{ $i++ }}){{ $pregunta->contenido }}</label><br>
+                                                {{-- <input type="text" name="{{ $pregunta->id }}" id=""
+                                                class="form-control" placeholder="" aria-describedby="helpId"
+                                                value="sin respuesta"> --}}
+                                                <select name="{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
+                                                    class="form-control" required>
+                                                    <option value="" selected>Selecciona una opción
+                                                    </option>
+                                                    <option value="Muy bueno">(1) Muy bueno</option>
+                                                    <option value="Bueno">(2) Bueno</option>
+                                                    <option value="Malo">(3) Malo</option>
+
+                                                </select>
                                             @else
                                                 <div class="form-group">
                                                     <label for="">
                                                         {{ $i++ }}){{ $pregunta->contenido }}</label><br>
-                                                    <input type="text" name="{{ $pregunta->id }}" id=""
+                                                    {{-- <input type="text" name="{{ $pregunta->id }}" id=""
                                                         class="form-control" placeholder="" aria-describedby="helpId"
-                                                        value="sin respuesta">
+                                                        value="sin respuesta"> --}}
+                                                    <select name="{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
+                                                        class="form-control"required>
+                                                        <option value="" selected>Selecciona una opción
+                                                        </option>
+                                                        <option value="SI">Si</option>
+                                                        <option value="No">No</option>
+
+                                                    </select>
 
                                                 </div>
                                             @endif
                                         @endforeach
-                                        {{-- <div class="form-group" style="">
-
-                                      
-                                    </div>
 
 
-                                    <div class="mb-3">
-                                        <label for="pregunta1" class="form-label">1) ¿Te gusta el diseño?</label>
-                                        <select class="form-select" id="pregunta1" name="1">
-                                            <option value="si">Sí</option>
-                                            <option value="no">No</option>
-                                        </select>
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="pregunta2" class="form-label">2) ¿Son los colores solicitados?</label>
-                                        <select class="form-select" id="pregunta2" name="2">
-                                            <option value="si">Sí</option>
-                                            <option value="no">No</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="pregunta3" class="form-label">3) ¿Lo escrito en el diseño es lo
-                                            solicitado?</label>
-                                        <select class="form-select" id="pregunta3" name="3">
-                                            <option value="si">Sí</option>
-                                            <option value="no">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="calificacion" class="form-label">Calificación del diseño (1-3) <br>
-                                            Siendo 1) Excelente 2)
-                                            Bueno 3) Malo:</label>
-                                        <input type="number" class="form-control" id="calificacion" name="4"
-                                            min="1" max="3" required>
-                                    </div>
-                                    
-
-                                    --}}
-                                        <small><b>Aclaracion:</b><br>Al momento de responder con un SI la siguiente
+                                        <small><b>Aclaracion:</b><br>Al momento de responder con un SI a la siguiente
                                             pregunta,
-                                            nos da la confirmacion para pasar a produccion. En caso contrario (respuesta:
-                                            NO) el
-                                            diseño volverá a revisar y se le notificará para su revision </small>
+                                            nos da la confirmación para seguir con la siguiente etapa. En caso contrario
+                                            (respuesta: NO) el diseño volverá a revisar y se le notificará para su revision
+                                        </small>
                                         <div class="mb-3">
                                             <label for="pregunta3" class="form-label">¿Esta conforme con el diseño?</label>
-                                            <select class="form-select" id="pregunta3" name="revision">
+                                            <select id="pregunta3" name="revision" class="form-control"required>
+                                                <option value="" selected>Selecciona una opción
+                                                </option>
                                                 <option value="1">Sí</option>
                                                 <option value="0">No</option>
                                             </select>

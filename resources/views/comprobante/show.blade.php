@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-
+            <a href="{{ route('pedidos.edit', $comprobante->pedido->id) }}" class="btn btn-primary">Ir al pedido </a>
         </div>
         <div class="card-body">
             {{-- Numero de pedido: {{ $comprobante->pedido->id }} <br> --}}

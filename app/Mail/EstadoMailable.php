@@ -23,8 +23,8 @@ class EstadoMailable extends Mailable
         // dd($nroPedido);
         $this->estado = $estado;
         $this->cliente = $cliente;
-        $this->$nroPedido =  $nroPedido;
-        // dd($this->$nroPedido);
+        $this->nroPedido =  $nroPedido;
+        
     }
 
     /**

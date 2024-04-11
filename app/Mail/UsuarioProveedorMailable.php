@@ -20,8 +20,7 @@ class UsuarioProveedorMailable extends Mailable
      */
     public function __construct($user, $password)
     {
-        // dd($user);
-        // dd($password);
+   
         $this->user = $user;
         $this->password = $password;
     }

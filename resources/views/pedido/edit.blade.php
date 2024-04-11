@@ -30,12 +30,9 @@
                     <label for="estado">Estado</label>
                     <select class="form-control" id="estado" name="estado" required>
                         @if ($pedido->estado->nombre == 'en_confirmacion_imprenta')
-                            <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected @endif>En
+                            <option value="en_confirmacion_imprenta" @if ($pedido->estado->nombre == 'en_confirmacion_imprenta') selected  @endif>En
                                 confirmacion de imprenta
-                            </option>
-
-                            <option value="pendiente_pago">Pendiente de pago
-                            </option>
+                            </option>                         
                             <option value="cancelado" @if ($pedido->estado->nombre == 'cancelado') selected @endif>Cancelado
                             </option>
                         @elseif($pedido->estado->nombre == 'pendiente_pago')

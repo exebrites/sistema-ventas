@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CostoDisenio;
 use Carbon\Carbon;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
@@ -13,14 +14,17 @@ class TuPedidoController extends Controller
     {
         $pedido =  Pedido::find($pedido_id);
 
-        $fecha =  Carbon::parse($pedido->fecha_inicio);
-        $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        if ($pedido->fecha_inicio) {
+            $fecha =  Carbon::parse($pedido->fecha_inicio);
+            $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        }
 
         $fecha =  Carbon::parse($pedido->fecha_entrega);
         $pedido->fecha_entrega = $fecha->format('d-m-Y');
 
-            
-        return view('pedido.cliente.verpedido', compact('pedido'));
+        $costoDisenio = CostoDisenio::find(1);
+
+        return view('pedido.cliente.verpedido', compact('pedido', 'costoDisenio'));
     }
 
     public function verDisenio($detalle_id)

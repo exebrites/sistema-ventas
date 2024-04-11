@@ -35,14 +35,22 @@ class EntregaController extends Controller
      */
     public function store(Request $request)
     {
+
+        // return $request;
         $id = $request->id;
+        // dd($request->id);
         if ($request->local == null) {
+
+            $direccion = ($request->direccion != null) ? $request->direccion : " ";
+            $nombre = ($request->nombre != null) ? $request->nombre : " ";
+            $nota = ($request->nota != null) ? $request->nota : " ";
+
             Entrega::create([
                 'pedido_id' => $id,
-                'direccion' => $request->direccion,
-                'telefono' => $request->telefono,
-                'recepcion' => $request->nombre,
-                'nota' => $request->nota,
+                'direccion' => $direccion,
+                'telefono' => " ",
+                'recepcion' => $nombre,
+                'nota' => $nota,
                 'local' => false,
             ]);
         } else {
@@ -68,7 +76,7 @@ class EntregaController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @returern \Illuminate\Http\Response
      */
     public function show($id)
     {

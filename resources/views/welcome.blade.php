@@ -18,14 +18,9 @@
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3>{{ $NroComprobantes }}</h3>
-                                <p>Numero de pedidos con pago  pendiente</p>
+                                <p>Numero de pedidos con pago pendiente</p>
                             </div>
-                            {{-- <div class="icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div> --}}
-                            {{-- <a href="{{ route('comprobantes.index') }}" class="small-box-footer">
-                                Ver mas <i class="fas fa-arrow-circle-right"></i>
-                            </a> --}}
+
                         </div>
                     </div>
 
@@ -73,6 +68,28 @@
                                 Ver mas <i class="fas fa-arrow-circle-right"></i>
                             </a> --}}
                         </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="small-box bg-default">
+                            <div class="inner">
+                                <h3>{{ $nroPedidoImprenta }}</h3>
+                                <p>Numero pedidos en confirmacion de imprenta</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        {{-- <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ $nroofertas }}</h3>
+                                <p>Numero de ofertas pendientes</p>
+                            </div>
+                        </div> --}}
 
                     </div>
                 </div>

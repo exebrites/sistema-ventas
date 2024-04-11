@@ -60,8 +60,8 @@ class PedidoController extends Controller
     public function show($id)
     {
         $pedido = Pedido::find($id);
-        $fecha =  Carbon::parse($pedido->fecha_entrega);
-        $pedido->fecha_entrega = $fecha->format('d-m-Y');
+        $fecha =  Carbon::parse($pedido->fecha_inicio);
+        $pedido->fecha_inicio = $fecha->format('d-m-Y');
         return view('pedido.show', compact('pedido'));
     }
     public function edit($id)
@@ -118,7 +118,7 @@ class PedidoController extends Controller
         $cliente_id = $cliente->id;
 
         //    dd($cliente);
-        $pedidos = Pedido::where('clientes_id', $cliente_id)->get();
+        $pedidos = Pedido::where('clientes_id', $cliente_id)->orderBy('id', 'desc')->get();
         // dd($pedidos);
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
@@ -221,8 +221,11 @@ class PedidoController extends Controller
 
         $fecha =  Carbon::parse($pedido->fecha_entrega);
         $pedido->fecha_entrega = $fecha->format('d-m-Y');
-        // $fecha =  Carbon::parse($pedido->fecha_inicio);
-        // $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        if ($pedido->fecha_inicio != null) {
+            $fecha =  Carbon::parse($pedido->fecha_inicio);
+            $pedido->fecha_inicio = $fecha->format('d-m-Y');
+        }
+
         return view('checkout', compact('estado', 'pedido'));
     }
 
@@ -269,6 +272,15 @@ class PedidoController extends Controller
         //     if ($nuevoEstadoIndex >= $estadoActualIndex) {
         //         // dd([$estadoActualIndex, $nuevoEstadoIndex]);
         if ($estado->id != 6) {
+
+            // antes de confirmar el pago verificar si existe un comprobante
+
+            if ($estado->id === 3) {
+
+                if ($pedido->comprobante == null) {
+                    return redirect()->route('pedidos.index')->with('error', 'No se puede pasar al siguiente estado. No existe un comprobante de pago para el pedido.');
+                }
+            }
             $pedido->update([
                 'estado_id' => $estado->id,
                 'fecha_inicio' => $request->fecha_e
