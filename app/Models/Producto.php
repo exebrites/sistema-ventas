@@ -37,7 +37,7 @@ class Producto extends Model implements Auditable
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class,'category_id','');
     }
 
     public function sistOliva()

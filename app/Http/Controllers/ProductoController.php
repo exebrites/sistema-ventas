@@ -37,7 +37,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view('producto.create');
+        $categorias = Categoria::all();
+        return view('producto.create',compact('categorias'));
     }
 
     /**
@@ -130,7 +131,10 @@ class ProductoController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'price' => 'required|numeric|min:0|max:100000',
                 'alias' => [
-                    'required', 'string', 'max:255', Rule::unique('productos', 'alias')->ignore($request->id)
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('productos', 'alias')->ignore($request->id)
                 ],
                 // 'description' => ['required', 'string'],
                 'description' => ['string', 'max:255'],

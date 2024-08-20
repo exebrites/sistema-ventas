@@ -63,7 +63,7 @@
                     <tr>
                         {{-- <th>ID</th> --}}
                         <th>Tipo de Usuario</th>
-                        <th>ID de Usuario</th>
+                        {{-- <th>ID de Usuario</th> --}}
                         <th>Evento</th>
                         <th>Tipo de Auditoría</th>
                         <th>Detalles</th>
@@ -80,7 +80,7 @@
                             <tr>
                                 {{-- <td>{{ $audit->id }}</td> --}}
                                 <td>{{ $audit->user_type }}</td>
-                                <td>{{ $audit->getName($audit->user_id) }}</td>
+                                {{-- <td>{{ $audit->getName($audit->user_id) }}</td> --}}
 
                                 <td>{{ $audit->event }}</td>
                                 <td>{{ $audit->auditable_type }}</td>

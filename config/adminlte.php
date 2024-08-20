@@ -311,38 +311,38 @@ return [
             //'route'=> 'ruta'
             'text' => 'Tienda',
             'route' => 'shop',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Productos',
             'route' => 'productos.index',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Clientes',
             'route' => 'clientes.index',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar Pedidos',
             'route' => 'pedidos.index',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
 
         [
 
             'text' => 'Gestionar proveedores',
             'route' => 'proveedores.index',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
 
             'text' => 'Gestionar materiales',
             'route' => 'materiales.index',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
 
@@ -353,8 +353,8 @@ return [
 
             'text' => 'Gestionar usuarios',
             'route' => 'usuarios.index',
-            'can'  => 'manage-blog',
-            'can'  => 'gestionar-sistema',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
         ],
 
 
@@ -380,35 +380,42 @@ return [
             //'route'=> 'ruta'
             'text' => 'Gestionar roles ',
             'route' => 'roles.index',
-            'can'  => 'manage-blog',
-            'can'  => 'gestionar-sistema',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Gestionar permisos ',
             'route' => 'permisos.index',
-            'can'  => 'manage-blog',
-            'can'  => 'gestionar-sistema',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Auditoria',
             'route' => 'auditoria.index',
-            'can'  => 'manage-blog',
-            'can'  => 'gestionar-sistema',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Productos mas vendidos',
             'route' => 'graficoIndex',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
             // 'can'  => 'gestionar-sistema',
         ],
         [
             //'route'=> 'ruta'
             'text' => 'Pedido cancelados',
             'route' => 'indexCliente',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-sistema',
+        ],
+        [
+            //'route'=> 'ruta'
+            'text' => 'Categorias',
+            'route' => 'categorias.index',
+            // 'can'  => 'manage-blog',
             // 'can'  => 'gestionar-sistema',
         ],
     ],
