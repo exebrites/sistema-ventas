@@ -63,9 +63,9 @@ return [
     |
     */
 
-    'logo' => '<b>Oliva</b>',
-    // 'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    // 'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => 'Sistema Oliva',
+    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => '',
@@ -107,7 +107,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -309,115 +309,123 @@ return [
 
         [
             //'route'=> 'ruta'
-            'text' => 'Tienda',
+            'text' => 'Tienda en linea ',
             'route' => 'shop',
+            'icon' => 'fa fa-shopping-bag',
             // 'can'  => 'manage-blog',
         ],
         [
-            //'route'=> 'ruta'
-            'text' => 'Gestionar Productos',
-            'route' => 'productos.index',
-            // 'can'  => 'manage-blog',
+            'text'        => 'Gestión de Inventario y Suministros',
+            'icon'        => 'fas fa-fw fa-archive',
+            'label_color' => 'success',
+            'submenu' => [
+                [
+                    'text' => 'Gestionar Productos',
+                    'route' => 'productos.index',
+                    'icon' => 'fa fa-cubes',
+                ],
+                [
+                    'text' => 'Gestionar Materiales',
+                    'route' => 'materiales.index',
+                    'icon' => 'fa fa-archive',
+                ],
+                [
+                    'text' => 'Gestionar Categorías',
+                    'route' => 'categorias.index',
+                    'icon' => 'fa fa-tags',
+                ],
+                [
+                    'text' => 'Gestionar Proveedores',
+                    'route' => 'proveedores.index',
+                    'icon' => 'fa fa-truck',
+                ],
+            ],
         ],
         [
-            //'route'=> 'ruta'
-            'text' => 'Gestionar Clientes',
-            'route' => 'clientes.index',
-            // 'can'  => 'manage-blog',
-        ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Gestionar Pedidos',
-            'route' => 'pedidos.index',
-            // 'can'  => 'manage-blog',
+            'text' => 'Gestión de Clientes y Pedidos',
+            'icon' => 'fas fa-fw fa-shopping-cart',
+            'submenu' => [
+                [
+                    'text' => 'Gestionar Clientes',
+                    'route' => 'clientes.index',
+                    // 'can'  => 'manage-blog',
+                    'icon' => 'fa fa-users',
+                ],
+                [
+                    'text' => 'Gestionar Pedidos',
+                    'route' => 'pedidos.index',
+                    // 'can'  => 'manage-blog',
+                    'icon' => 'fa fa-shopping-cart',
+                ],
+            ],
         ],
 
-        [
+       
 
-            'text' => 'Gestionar proveedores',
-            'route' => 'proveedores.index',
-            // 'can'  => 'manage-blog',
-        ],
-        [
-
-            'text' => 'Gestionar materiales',
-            'route' => 'materiales.index',
-            // 'can'  => 'manage-blog',
-        ],
         [
 
             'text' => 'Gestionar demandas/compra',
             'route' => 'demandas.index',
+            'icon' => 'fa fa-credit-card',
         ],
         [
-
-            'text' => 'Gestionar usuarios',
-            'route' => 'usuarios.index',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
-        ],
-
-
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Gestionar informacion de la empresa',
-        //     'route' => 'contacto.index',
-        // ],
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Preguntas para diseño',
-        //     'route' => 'preguntas.index',
-        // ],
-
-
-
-        // [
-        //     //'route'=> 'ruta'
-        //     'text' => 'Ver Stock ',
-        //     'route' => 'ver_stock',
-        // ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Gestionar roles ',
-            'route' => 'roles.index',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
-        ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Gestionar permisos ',
-            'route' => 'permisos.index',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
+            'text' => 'Gestión de Usuarios y Seguridad',
+            'icon' => 'fa fa-fw fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Gestionar usuarios',
+                    'route' => 'usuarios.index',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon' =>  'fa fa-user',
+                ],
+                [
+                    //'route'=> 'ruta'
+                    'text' => 'Gestionar roles ',
+                    'route' => 'roles.index',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon' => 'fa fa-id-badge',
+                ],
+                [
+                    //'route'=> 'ruta'
+                    'text' => 'Gestionar permisos ',
+                    'route' => 'permisos.index',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon' => 'fa fa-unlock-alt',
+                ],
+                [
+                    //'route'=> 'ruta'
+                    'text' => 'Auditoria',
+                    'route' => 'auditoria.index',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon' => 'fa fa-search',
+                ],
+            ],
         ],
         [
-            //'route'=> 'ruta'
-            'text' => 'Auditoria',
-            'route' => 'auditoria.index',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
+            'text'        => 'Análisis y Reportes',
+            'icon'        => 'fa fa-fw fa-chart-line',
+            'submenu' => [
+                [
+                    'text' => 'Productos mas vendidos',
+                    'route' => 'graficoIndex',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon'  => 'fa fa-star',
+                ],
+                [
+                    'text' => 'Pedido cancelados',
+                    'route' => 'indexCliente',
+                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-sistema',
+                    'icon' => 'fa fa-times-circle',
+                ],
+            ],
         ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Productos mas vendidos',
-            'route' => 'graficoIndex',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
-        ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Pedido cancelados',
-            'route' => 'indexCliente',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
-        ],
-        [
-            //'route'=> 'ruta'
-            'text' => 'Categorias',
-            'route' => 'categorias.index',
-            // 'can'  => 'manage-blog',
-            // 'can'  => 'gestionar-sistema',
-        ],
+       
     ],
 
     /*

@@ -50,6 +50,7 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
 
+        // return $request;
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
@@ -57,8 +58,8 @@ class ProductoController extends Controller
                 'alias' => ['required', 'string', 'max:255', Rule::unique('productos', 'alias')],
                 // 'description' => ['required', 'string'],
                 'description' => ['string', 'max:255'],
-                'file' => ['required', 'file', 'mimes:jpeg,png', 'max:2048']
-
+                'file' => ['required', 'file', 'mimes:jpeg,png', 'max:2048'],
+                'categoria_id' => ['required', 'exists:categorias,id'],
             ]);
         } catch (ValidationException $e) {
             // Manejar los errores de validación aquí
@@ -74,7 +75,7 @@ class ProductoController extends Controller
                 'price' => $request->price,
                 'slug' => $request->name,
                 'description' => $request->description,
-                'category_id' => 1,
+                'category_id' => $request->categoria_id,
                 'image_path' => $url,
                 'alias' => $request->alias,
                 'visitas' => 0

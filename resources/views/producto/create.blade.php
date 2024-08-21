@@ -59,9 +59,9 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label>Seleccionar imagen</label>
-                    <input type="file" class="form-control-file" name="file" accept="image/jpeg,png" required>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Seleccionar imagen</label>
+                    <input class="form-control" type="file" id="formFile" name="file" accept="image/jpeg,png" required>
                     @error('file')
                         <br>
                         <small style="color:red">{{ $message }}</small>
@@ -71,14 +71,17 @@
                     <label for="" class="form-label">(*)Categoria</label>
 
                     <select class="form-select" id="selector-categoria" data-placeholder="Seleccione una categoria"
-                        name="idCategoria" required>
+                        name="categoria_id" required>
                         <option></option>
 
                         @foreach ($categorias as $categoria)
                             <option value="{{ $categoria->id }}">{{ $categoria->titulo }}</option>
                         @endforeach
                     </select>
-
+                    @error('categoria_id')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
                 </div>
 
 

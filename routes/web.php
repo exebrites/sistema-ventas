@@ -165,32 +165,31 @@ Route::resource('/usuarios', UsuariosController::class);
 // });
 
 
-Route::group(['middleware' => 'role:cliente'], function () {
-    Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
-    Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
-    Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
-    Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
+Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
+Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
+Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
+Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
 
-    Route::get('/checkout', [CheckoutContorller::class, 'index'])->middleware(['auth', 'verified'])->name('checkout.index');
-    Route::get('/checkout{id}', [CheckoutContorller::class, 'show'])->middleware(['auth', 'verified'])->name('checkout.show');
-    Route::post('comprobantes/store', [ComprobanteController::class, 'store'])->name('comprobantes.store');
-    Route::post('entrega/store', [EntregaController::class, 'store'])->name('entrega.store');
-    route::get('/show_disenio{id}', [DisenioController::class, 'show_disenio'])->name('show_disenio'); // disenio y preguntas del lado cliente
-    route::get('/revision_disenio/{id}', [DisenioController::class, 'revision_disenio'])->name('revision_disenio'); //envia el disenio a revision lado empresa
-    Route::get('/buscar', [ProductoController::class, 'buscarProducto'])->name('busqueda');
-    route::get('/stock', [MaterialController::class, 'verStock'])->name('ver_stock');
-    Route::get('/pedido/cancelar/{id}', [PedidoController::class, 'cancelarPedido'])->name('cancelarPedido');
-    Route::get('/pedido/confirmar/{id}', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
-    Route::get('/bocetos/{id}', [BocetoController::class, 'create'])->name('bocetos.create');
-    Route::get('/perfilcliente', function () {
-        $email = Auth::user()->email;
-        // dd($email);
-        $cliente = Cliente::where('correo', $email)->get();
-        // dd($cliente);
-        // return $cliente;
-        return view('perfil', compact('cliente'));
-    })->name('miperfil');
-});
+Route::get('/checkout', [CheckoutContorller::class, 'index'])->middleware(['auth', 'verified'])->name('checkout.index');
+Route::get('/checkout{id}', [CheckoutContorller::class, 'show'])->middleware(['auth', 'verified'])->name('checkout.show');
+Route::post('comprobantes/store', [ComprobanteController::class, 'store'])->name('comprobantes.store');
+Route::post('entrega/store', [EntregaController::class, 'store'])->name('entrega.store');
+route::get('/show_disenio{id}', [DisenioController::class, 'show_disenio'])->name('show_disenio'); // disenio y preguntas del lado cliente
+route::get('/revision_disenio/{id}', [DisenioController::class, 'revision_disenio'])->name('revision_disenio'); //envia el disenio a revision lado empresa
+Route::get('/buscar', [ProductoController::class, 'buscarProducto'])->name('busqueda');
+route::get('/stock', [MaterialController::class, 'verStock'])->name('ver_stock');
+Route::get('/pedido/cancelar/{id}', [PedidoController::class, 'cancelarPedido'])->name('cancelarPedido');
+Route::get('/pedido/confirmar/{id}', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
+Route::get('/bocetos/{id}', [BocetoController::class, 'create'])->name('bocetos.create');
+Route::get('/perfilcliente', function () {
+    $email = Auth::user()->email;
+    // dd($email);
+    $cliente = Cliente::where('correo', $email)->get();
+    // dd($cliente);
+    // return $cliente;
+    return view('perfil', compact('cliente'));
+})->name('miperfil');
+
 
 
 route::get('/pedidoclientes/{pedido_id}', [TuPedidoController::class, 'verpedidos'])->name('verpedidos');
@@ -249,7 +248,7 @@ route::post('/auditoria/filtro/fecha', [AuditoriaController::class, 'filtroFecha
 
 route::get('/correos', function () {
     $correo = 'exequiel@gmail.com';
-    $disenio = Disenio::find(50);
+    $disenio = Disenio::find(68);
     $pedido =  $disenio->detallePedido->pedidos;
     $producto = $disenio->detallePedido->producto;
     $cliente = $pedido->cliente;
@@ -262,5 +261,5 @@ route::get('/correos', function () {
     Mail::to($correo)->send(new UsuarioProveedorMailable($user, $password));
 });
 
-route::resource('/categorias',CategoriaController::class);
+route::resource('/categorias', CategoriaController::class);
 require __DIR__ . '/auth.php';

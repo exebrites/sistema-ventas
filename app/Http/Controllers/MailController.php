@@ -25,7 +25,7 @@ class MailController extends Controller
         $estado = $request->estado;
         // $correo = Cliente::where('id', $idCliente)->value('correo');
         // dd($correo);
-        // Mail::to($correo)->send(new PagoMailable($id, $total));
+        Mail::to($correo)->send(new PagoMailable($id, $total));
         return view('checkout', ['estado' => $estado, 'id' => $id]);
         // return view('emails.Pago');
     }
