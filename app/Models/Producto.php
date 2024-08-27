@@ -58,7 +58,7 @@ class Producto extends Model implements Auditable
 
     public function detalleProducto()
     {
-        return $this->hasMany(DetalleProducto::class, 'producto_id', 'id');
+        return $this->hasMany(DetalleProducto::class,'producto_id','id');
     }
 
     // nombre de metodo en calmeCase

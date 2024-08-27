@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    {{-- {{ dd($detalleProducto[0]->productos) }} --}}
+    {{-- {{ dd($detalleProducto)}} --}}
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label for="">Nombre del producto</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId" value="{{ $detalleProducto[0]->productos->name }}" readonly>
+                    aria-describedby="helpId" value="{{ $producto->name }}" readonly>
             </div>
             <hr>
             <table class="table table-striped table-bordered" id="materiales">

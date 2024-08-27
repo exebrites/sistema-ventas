@@ -8,13 +8,15 @@
 
 @section('content')
     <div class="card">
-        @if ($errors->any())
+
+        @if (session('error'))
             <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
         <div class="card-header">
@@ -54,34 +56,27 @@
             <table class="table table-striped table-bordered" id="productos">
                 <thead>
                     <tr>
-                        {{-- <th>ID</th> --}}
+
                         <th>Producto</th>
                         <th>Alias</th>
                         <th>Precio de venta</th>
                         <th>Descripción</th>
-                        {{-- <th></th> --}}
                         <th></th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($productos as $item)
+                    @foreach ($productos as $producto)
                         <tr>
-                            {{-- <td>{{ $item->id }}</td> --}}
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->alias }}</td>
-                            <td>${{ $item->price }}</td>
-                            <td>{{ $item->description }}</td>
-                            {{-- <td>
-                                <button type="button" class="btn btn-primary btn btn-sm btn-fixed-width" data-toggle="modal"
-                                    data-target="#exampleModal{{ $item->id }}">
-                                    Ver imagen </button>
-                            </td> --}}
+                            <td>{{ $producto->name }}</td>
+                            <td>{{ $producto->alias }}</td>
+                            <td>${{ $producto->price }}</td>
+                            <td>{{ $producto->description }}</td>
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
-                                    href="{{ route('productos.edit', $item->id) }}">Editar</a></td>
+                                    href="{{ route('productos.edit', $producto->id) }}">Editar</a></td>
                             <td width="10px">
-                                <form action="{{ route('productos.destroy', $item->id) }}" method="post"
+                                <form action="{{ route('productos.destroy', $producto->id) }}" method="post"
                                     class="formulario-eliminar">
                                     @csrf
                                     @method('delete')
@@ -90,28 +85,8 @@
                                 </form>
                             </td>
                             <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
-                                    href="{{ route('productos.show', $item->id) }}">Ver mas</a></td>
+                                    href="{{ route('productos.show', $producto->id) }}">Ver mas</a></td>
                         </tr>
-                        <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">{{ $item->name }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img src="{{ $item->image_path }}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -137,7 +112,8 @@
             },
         });
         $('#iptNombre').keyup(function() {
-            table.column($(this).data('index')).search(this.value).draw();
+
+            table.column($(this).data('index')).search(this.value.toUpperCase()).draw();
         })
         $('#iptAlias').keyup(function() {
             table.column($(this).data('index')).search(this.value).draw();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\DetalleProducto;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -38,7 +39,7 @@ class ProductoController extends Controller
     public function create()
     {
         $categorias = Categoria::all();
-        return view('producto.create',compact('categorias'));
+        return view('producto.create', compact('categorias'));
     }
 
     /**
@@ -167,10 +168,19 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
+
+        // return $id;
         try {
             $producto = Producto::find($id);
+            $detalles  = $producto->detalleProducto;
+            // dd($detalles);
+            foreach ($detalles as $key => $detalle) {
+                # code...
+
+                $detalle->delete();
+            }
             $producto->delete();
-            return redirect()->route('productos.index');
+            return redirect()->back()->with('success', 'Producto eliminado con éxito!');
         } catch (\Illuminate\Database\QueryException $e) {
             // Manejar la excepción y proporcionar un mensaje descriptivo
             return redirect()->back()->with('error', 'El producto ' . $id . ' está relacionado a uno o varios pedidos.');

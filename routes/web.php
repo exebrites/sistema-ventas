@@ -125,6 +125,7 @@ Route::resource('entrega', EntregaController::class)->except([
 ]);
 
 Route::resource('/detalleproducto', DetalleProductoController::class);
+Route::get('/detalleproducto/{id}', [DetalleProductoController::class, 'crear_detalle_producto'])->name('crear_detalle_producto');
 Route::get('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'editar'])->name('detalleproducto.editar');
 Route::delete('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'eliminar'])->name('detalleproducto.eliminar');
 

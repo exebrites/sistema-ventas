@@ -18,7 +18,7 @@ class DetalleProducto extends Model
     }
     public function productos()
     {
-        return $this->belongsTo(Producto::class, 'producto_id', 'id');
+        return $this->belongsTo(Producto::class, 'producto_id', '');
     }
     use HasFactory;
 }
