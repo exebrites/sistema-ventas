@@ -51,11 +51,22 @@ class User extends Authenticatable implements Auditable
         return $this->hasRole('admin');
     }
 
-    public function nombre(){
+    public function nombre()
+    {
         $user  = Auth::user();
-        $cliente =  Cliente::where('correo',$user->email)->first();
-        $iniciales  = $cliente->nombre[0];
-        $iniciales.=$cliente->apellido[0];
+        $iniciales = null;
+
+        if ($this->hasRole('cliente')) {
+            $cliente =  Cliente::where('correo', $user->email)->first();
+
+            if ($cliente) {
+                $iniciales  = $cliente->nombre[0];
+                $iniciales .= $cliente->apellido[0];
+            }else{
+                $iniciales = $user->name[0];
+            }
+        }
+
         return $iniciales;
     }
 }

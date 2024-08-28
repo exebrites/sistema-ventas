@@ -117,7 +117,13 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center" href="">
-                            <span class="text-uppercase font-weight-bold rounded-circle bg-primary text-white px-2 py-1">{{ auth()->user()->nombre() }}</span>
+                            <span class="text-uppercase font-weight-bold rounded-circle bg-primary text-white px-2 py-1">
+                                @if (auth()->user()->nombre())
+                                    {{ auth()->user()->nombre() }}
+                                @else
+                                {{""}}
+                                @endif
+                            </span>
                             <span class="ml-2">{{ auth()->user()->name }}</span>
                         </a>
                     </li>
@@ -128,7 +134,8 @@
 
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

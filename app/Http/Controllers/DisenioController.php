@@ -179,16 +179,6 @@ class DisenioController extends Controller
      * @return \Illuminate\Http\Response - Una respuesta HTTP que contiene la imagen para su descarga.
      */
 
-
-
-
-
-
-
-
-
-
-
     public function descargar(Request $request)
     {
         // return $request;
@@ -196,9 +186,9 @@ class DisenioController extends Controller
         $id = $request->id;
         // Paso 1: Obtener la URL de la imagen a partir del ID proporcionado.
         $img = Disenio::where('id', $id)->value($descarga);
-
+// dd($img)
         // Paso 2: Crear la URL completa a la ubicación de la imagen en el servidor.
-        $url_full = "D:\Sist-Oliva\public" . $img;
+        $url_full = "/home/exe/repo_trabajo_final/public" . $img;
 
         // Paso 3: Generar una respuesta HTTP que permite la descarga de la imagen.
         return response()->download($url_full);
