@@ -32,7 +32,9 @@
 
 <body>
     <div id="app">
-        @include('partials.navbar')
+        {{-- @include('partials.navbar') --}}
+        @include('partials.navbar', ['titulo' => 'Mi título'])
+
         <main class="py-4">
             @yield('content')
         </main>

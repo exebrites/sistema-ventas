@@ -98,6 +98,30 @@
 
                 </ul>
 
+
+                {{-- <ul class="navbar-nav">
+               
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><img src="vendor/adminlte/dist/img/logo.png" alt="">{{ auth()->user()->name }}</a>
+                    </li>
+                  
+                </ul> --}}
+                {{-- <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="">
+                            <img src="vendor/adminlte/dist/img/logo.png" alt="" class="rounded-circle" width="30" height="30">
+                            <span class="ml-2">{{ auth()->user()->name }}</span>
+                        </a>
+                    </li>
+                </ul> --}}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="">
+                            <span class="text-uppercase font-weight-bold rounded-circle bg-primary text-white px-2 py-1">{{ auth()->user()->nombre() }}</span>
+                            <span class="ml-2">{{ auth()->user()->name }}</span>
+                        </a>
+                    </li>
+                </ul>
             @endguest
 
 

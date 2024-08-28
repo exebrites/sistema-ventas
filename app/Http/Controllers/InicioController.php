@@ -7,6 +7,7 @@ use App\Models\Pedido;
 use App\Models\Disenio;
 use App\Models\Comprobante;
 use App\Models\Demanda;
+use App\Models\Oferta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,5 +49,53 @@ class InicioController extends Controller
         }
         // dd($nroofertas); 
         return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta'));
+    }
+
+    public function ver_pedido($estado)
+    {
+
+        $pedidos = Pedido::where('estado_id', $estado)->get();
+
+        return view('pedido.index', compact('pedidos'));
+    }
+    public function ver_oferta($estado = "pendiente")
+    {
+        return $estado;
+    }
+    public function ver_pedido_boceto()
+    {
+        // objetivo
+        // mostrar solo los pedidos que tengan un boceto sin un disenio 
+        $pedidosSinFiltro = Pedido::all();
+        $pedidos = [];
+        foreach ($pedidosSinFiltro as $key => $pedido) {
+
+            foreach ($pedido->detallePedido as $key => $detalle) {
+
+                if ($detalle->boceto) {
+                    $pedidos[] = $pedido;
+                }
+            }
+        }
+        return  view('pedido.index', compact('pedidos'));
+    }
+    public function ver_pedido_disenio_revision()
+    {
+
+        // objetivo 
+        //     mostrar solo los pedidos que esten con disenio para revision
+
+        $estadoDisenio = 5;
+        $pedidos  = [];
+        $NroPedidosDisenio = Pedido::where('estado_id', $estadoDisenio)->get();
+        foreach ($NroPedidosDisenio as $key => $pedido) {
+            foreach ($pedido->detallePedido as $key => $detalle) {
+
+                if (!$detalle->disenio->revision) {
+                    $pedidos[] = $pedido;
+                }
+            }
+        }
+        return view('pedido.index', compact('pedidos'));
     }
 }

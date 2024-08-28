@@ -19,6 +19,7 @@
                             <div class="inner">
                                 <h3>{{ $NroComprobantes }}</h3>
                                 <p>Numero de pedidos con pago pendiente</p>
+                                <a href="{{ route('ver_pedido', 2) }}">Ver pedidos </a>
                             </div>
 
                         </div>
@@ -28,7 +29,8 @@
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3>{{ $nroboceto }}</h3>
-                                <p>Numero de bocetos solicitados</p>
+                                <p>Numero de pedidos con bocetos solicitados</p>
+                                <a href="{{ route('ver_pedido_boceto') }}">Ver pedidos</a>
                             </div>
                             {{-- <div class="icon">
                                 <i class="fas fa-check-circle"></i>
@@ -44,7 +46,8 @@
                         <div class="small-box bg-primary">
                             <div class="inner">
                                 <h3>{{ $NroRevision }}</h3>
-                                <p>Numero de diseños para revision</p>
+                                <p>Numero de pedidos con diseños para revision</p>
+                                <a href="{{ route('ver_pedido_disenio_revision') }}">Ver pedidos </a>
                             </div>
                             {{-- <div class="icon">
                                 <i class="fas fa-shopping-cart"></i>
@@ -60,6 +63,7 @@
                             <div class="inner">
                                 <h3>{{ $nroofertas }}</h3>
                                 <p>Numero de ofertas pendientes</p>
+                                <a href="{{ route('ver_oferta', 'pendiente') }}">Ver oferta</a>
                             </div>
                             {{-- <div class="icon">
                                 <i class="fas fa-check-circle"></i>
@@ -78,6 +82,8 @@
                             <div class="inner">
                                 <h3>{{ $nroPedidoImprenta }}</h3>
                                 <p>Numero pedidos en confirmacion de imprenta</p>
+                                <a href="{{ route('ver_pedido', 1) }}">Ver pedidos </a>
+
                             </div>
 
                         </div>

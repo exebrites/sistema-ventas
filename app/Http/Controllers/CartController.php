@@ -21,8 +21,8 @@ class CartController extends Controller
     {
         $products = Producto::paginate(10);
 
-
-        return view('shop', compact('products'));
+        $user = Auth::user();
+        return view('shop', compact('products','user'));
     }
     public function cart()
     {

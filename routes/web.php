@@ -263,7 +263,15 @@ route::get('/correos', function () {
 });
 
 route::resource('/categorias', CategoriaController::class);
-route::get('/data',function(){
+route::get('/data', function () {
     return view('data');
 });
+
+
+//rutas 28-08-24
+
+route::get('/verpedido/{estado}', [InicioController::class, 'ver_pedido'])->name('ver_pedido');
+route::get('/veroferta/{estado}', [InicioController::class, 'ver_oferta'])->name('ver_oferta');
+route::get('/verpedidoboceto', [InicioController::class, 'ver_pedido_boceto'])->name('ver_pedido_boceto');
+route::get('/verrevision', [InicioController::class, 'ver_pedido_disenio_revision'])->name('ver_pedido_disenio_revision');
 require __DIR__ . '/auth.php';
