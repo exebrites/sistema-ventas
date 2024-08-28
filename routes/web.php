@@ -263,4 +263,7 @@ route::get('/correos', function () {
 });
 
 route::resource('/categorias', CategoriaController::class);
+route::get('/data',function(){
+    return view('data');
+});
 require __DIR__ . '/auth.php';
