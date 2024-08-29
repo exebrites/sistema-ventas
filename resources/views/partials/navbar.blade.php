@@ -14,61 +14,43 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                {{-- <li class="nav-item active">
-          <a class="nav-link" href="#">Inicio</a>
-        </li> --}}
                 <li class="nav-item">
-                    {{-- <a class="nav-link" href="#">Productos</a> --}}
-                    {{-- <a href="http://"></a> --}}
                     <form class="form-inline my-2 my-lg-0" action="{{ route('busqueda') }}" method="GET">
                         <input name="buscar" class="form-control  mr-sm-2 " type="text" placeholder="Buscar"
                             aria-label="Buscar">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                     </form>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="#">Categorías</a>
-                </li> --}}
 
             </ul>
 
             <!-- Barra de búsqueda -->
-
-
             <br><br>
-            {{-- </nav> --}}
-
-
-            {{-- --------------------------------------------------- --}}
-
             @guest
-                <ul class="navbar-nav">
-                    {{-- <li class="nav-item">
-                  <a class="nav-link" href="#">Carrito</a>
-                </li> --}}
+                <ul class="navbar-nav">                
                     <li class="nav-item">
 
                         <a class="nav-link" href="{{ route('register') }}">Crear cuenta</a>
                     </li>
-                    {{-- </ul>
-                <ul class="navbar-nav">
-                    {{-- <li class="nav-item">
-                  <a class="nav-link" href="#">Carrito</a>
-                </li> --}} -
                     <li class="nav-item">
 
                         <a class="nav-link" href="{{ route('login') }}">Ingresar</a>
                     </li>
                 </ul>
             @else
-                {{-- <ul class="navbar-nav">
-                    <li class="nav-item" style="color:grey">asdasdasda</li>
-                </ul> --}}
-                <ul class="navbar-nav">
+                
+                <ul class="navbar-nav" style="margin-left: 61px;">
                     <div class="dropdown">
                         <a class=" dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                            aria-expanded="false">
-                            Menu
+                            aria-expanded="false" style="text-decoration:none">
+                            <span class="text-uppercase font-weight-bold rounded-circle bg-primary text-white px-2 py-1">
+                                @if (auth()->user()->nombre())
+                                    {{ auth()->user()->nombre() }}
+                                @else
+                                    {{ '' }}
+                                @endif
+                            </span>
+                            <span class="ml-2">{{ auth()->user()->name }}</span>
                         </a>
 
                         <div class="dropdown-menu">
@@ -97,37 +79,7 @@
                     </div>
 
                 </ul>
-
-
-                {{-- <ul class="navbar-nav">
                
-                    <li class="nav-item">
-                        <a class="nav-link" href=""><img src="vendor/adminlte/dist/img/logo.png" alt="">{{ auth()->user()->name }}</a>
-                    </li>
-                  
-                </ul> --}}
-                {{-- <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" href="">
-                            <img src="vendor/adminlte/dist/img/logo.png" alt="" class="rounded-circle" width="30" height="30">
-                            <span class="ml-2">{{ auth()->user()->name }}</span>
-                        </a>
-                    </li>
-                </ul> --}}
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" href="">
-                            <span class="text-uppercase font-weight-bold rounded-circle bg-primary text-white px-2 py-1">
-                                @if (auth()->user()->nombre())
-                                    {{ auth()->user()->nombre() }}
-                                @else
-                                {{""}}
-                                @endif
-                            </span>
-                            <span class="ml-2">{{ auth()->user()->name }}</span>
-                        </a>
-                    </li>
-                </ul>
             @endguest
 
 

@@ -208,8 +208,10 @@
                 lengthMenu: 'Mostrar _MENU_ registros',
                 zeroRecords: 'No se encontraron coincidencias',
                 search: 'Buscar:',
-                 emptyTable: 'No hay datos disponibles',
-            }
+                emptyTable: 'No hay datos disponibles',
+            },
+            // order: [[1, 'asc']] // Ordena la segunda columna (índice 1) en orden ascendente
+
         });
     </script>
 

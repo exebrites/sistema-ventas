@@ -13,24 +13,35 @@ use Illuminate\Support\Facades\Auth;
 
 class InicioController extends Controller
 {
+    private static function pedidos_revision($estado)
+    {
+        //objetivo :
+        // Calcular el numero de pedidos en estado de disenio que tiene para hacer revision de disenio
+        $nroPedidosRevision = 0;
+        $pedidosDisenio = Pedido::where('estado_id', $estado)->get();
+        foreach ($pedidosDisenio as $pedido) {
+            foreach ($pedido->detallePedido as $detalle) {
+                if (!$detalle->disenio->revision) {
+                    $nroPedidosRevision++;
+                }
+            }
+        }
+        return $nroPedidosRevision;
+    }
     public function inicio()
     {
         $estadoPendiente = 2;
-        $estadoDisenio = 4;
+        $estadoDisenio = 5;
         $estadoInicio = 3;
         $estadoImprenta = 1;
         $user = Auth::user();
         $NroComprobantes = Pedido::where('estado_id', $estadoPendiente)->count();
         $NroPedidos = Pedido::where('estado_id', 3)->count();
         $nroPedidoImprenta = Pedido::where('estado_id', $estadoImprenta)->count();
-        $NroPedidosDisenio = Pedido::where('estado_id', 4)->get();
+
         $NroDisenios = 1;
-        $NroRevision = 0;
-        foreach ($NroPedidosDisenio as $key => $pedido) {
-            foreach ($pedido->detallePedido as $key => $detalle) {
-                $NroRevision = $detalle->disenio->where('revision', 1)->count();
-            }
-        }
+        $NroRevision = $this->pedidos_revision($estadoDisenio);
+        
         $nroboceto = 0;
         $bocetos = Boceto::all();
         foreach ($bocetos as $key => $boceto) {
@@ -66,7 +77,11 @@ class InicioController extends Controller
     {
         // objetivo
         // mostrar solo los pedidos que tengan un boceto sin un disenio 
-        $pedidosSinFiltro = Pedido::all();
+        // $pedidosSinFiltro = Pedido::where('estado_id', '<>', 11);
+        $pedidosSinFiltro = Pedido::whereNotIn('estado_id', [11])->get();
+
+
+        // dd($pedidosSinFiltro);
         $pedidos = [];
         foreach ($pedidosSinFiltro as $key => $pedido) {
 

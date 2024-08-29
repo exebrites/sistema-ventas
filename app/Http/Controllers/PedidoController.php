@@ -12,8 +12,11 @@ use App\Models\Cliente;
 use App\Models\Disenio;
 use App\Mail\PagoMailable;
 use App\Events\OrdenCompra;
+use App\Mail\ConfirmacionImprenta;
+use App\Mail\ConfirmacionPago;
 use Darryldecode\Cart\Cart;
 use App\Mail\EstadoMailable;
+use App\Mail\PagoPendiente;
 use App\Models\CostoDisenio;
 use Illuminate\Http\Request;
 use App\Models\DetallePedido;
@@ -22,6 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use App\Mail\PedidoCancelado;
 
 class PedidoController extends Controller
 {
@@ -234,6 +238,14 @@ class PedidoController extends Controller
         $estado = 11;
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => $estado]);
+        //enviar correo
+        $usuario = $pedido->cliente;  // Asumiendo que el pedido tiene una relación con el usuario
+        $motivo = 'No especificado';
+
+        // Envía el correo usando Mailable
+        Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
+
+
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido cancelado con éxito');
     }
     public function confirmarPedido($id)
@@ -260,26 +272,32 @@ class PedidoController extends Controller
         $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();
-
-        // dd([$pedido, $nuevoEstado, $estado]);
-        // return  $estado;
-        // $estadosSecuenciales = ['en_confirmacion_imprenta', 'pendiente_pago', 'confirmado_pago', 'inicio', 'disenio', 'pre_produccion', 'produccion', 'terminado', 'despachado', 'entregado', 'cancelado'];
-
-        // if (in_array($nuevoEstado, $estadosSecuenciales)) {
-        //     $estadoActualIndex = array_search($pedido->estado->nombre, $estadosSecuenciales);
-        //     $nuevoEstadoIndex = array_search($nuevoEstado, $estadosSecuenciales);
-        //     dd([$estadoActualIndex, $nuevoEstadoIndex]);
-        //     if ($nuevoEstadoIndex >= $estadoActualIndex) {
-        //         // dd([$estadoActualIndex, $nuevoEstadoIndex]);
+        $usuario = $pedido->cliente;
         if ($estado->id != 6) {
 
-            // antes de confirmar el pago verificar si existe un comprobante
-
+            if ($estado->id === 1) {
+                Mail::to($usuario->correo)->send(new ConfirmacionImprenta($pedido, $usuario));
+            }
+            // if ($estado->id === 2) {
+            //     return "pendiente de pago";
+            //     Mail::to($usuario->correo)->send(new PagoPendiente($pedido));
+            // }
             if ($estado->id === 3) {
+                // antes de confirmar el pago verificar si existe un comprobante
 
                 if ($pedido->comprobante == null) {
                     return redirect()->route('pedidos.index')->with('error', 'No se puede pasar al siguiente estado. No existe un comprobante de pago para el pedido.');
                 }
+                // return "confirmacion de pago ";
+                Mail::to($usuario->correo)->send(new ConfirmacionPago($pedido, $usuario));
+            }
+            if ($estado->id === 11) {
+                //enviar correo
+                $usuario = $pedido->cliente;  // Asumiendo que el pedido tiene una relación con el usuario
+                $motivo = 'No especificado';
+
+                // Envía el correo usando Mailable
+                Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
             }
             $pedido->update([
                 'estado_id' => $estado->id,
@@ -294,7 +312,7 @@ class PedidoController extends Controller
 
 
                 // segun el pedido tengo que traer todo los detalles aprobados 
-                // Detalle->produccion = 1 
+
 
                 // solo pasar a preproduccion si todos los detalles tienen aprobado 
                 $aprobado  = 0;

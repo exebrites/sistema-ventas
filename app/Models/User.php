@@ -66,6 +66,9 @@ class User extends Authenticatable implements Auditable
                 $iniciales = $user->name[0];
             }
         }
+        else{
+            $iniciales = $user->name[0];
+        }
 
         return $iniciales;
     }

@@ -60,24 +60,16 @@ class DetalleProductoController extends Controller
     {
 
         try {
-            //code...
-
-            // return $request;
             $producto_id = $request->producto_id;
-            // dd($producto_id);
             $materiales = $request->materiales;
-            //materiales -> cantidad 
-            // dd($materiales);
-
-
-            foreach ($materiales as $material => $cantidad) {
-                // dd($material);
+            $listaCheck = $request->check;
+            $lista_final = array_intersect_key($materiales, $listaCheck);
+            foreach ($lista_final as $material => $cantidad) {
                 $existe = DetalleProducto::where('producto_id', $producto_id)
                     ->where('material_id', $material)->exists();
                 if ($existe) {
                     continue;
                 }
-
                 DetalleProducto::create([
                     'producto_id' => $producto_id,
                     'material_id' => $material,
@@ -85,17 +77,13 @@ class DetalleProductoController extends Controller
                 ]);
             }
         } catch (Exception $e) {
-            //throw $th;
-
             return $e;
         }
 
         // $producto_id = $materiales['producto_id'];
         // // dd($materiales['cantidades']);
         // $materiales = $materiales['cantidades'];
-        // $materiales = array_filter($materiales, function ($valor) {
-        //     return $valor !== null;
-        // });
+
         // // return $materiales;
         // foreach ($materiales as $key => $value) {
         //     # code...

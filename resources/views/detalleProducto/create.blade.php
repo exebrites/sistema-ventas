@@ -32,7 +32,8 @@
 
             <hr>
 
-            <form action="{{ route('detalleproducto.store') }}" method="post" class="needs-validation">
+            <form action="{{ route('detalleproducto.store') }}" method="post" class="needs-validation"
+                onsubmit="validacion(event);">
                 @csrf
                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                 <table class="table table-striped table-bordered">
@@ -49,12 +50,13 @@
                                 <td>{{ $material->nombre }}</td>
                                 <td>
                                     <input type="number" name="materiales[{{ $material->id }}]" id=""
-                                        class="form-control" required min="1" value="1" required pattern="[0-9]+">
+                                        class="form-control" required min="1" value="1" required
+                                        pattern="[0-9]+">
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input type="checkbox" value="{{ $material->id }}" class="form-check-input"
-                                            id="material-{{ $material->id }}">
+                                            id="material-{{ $material->id }}" name="check[{{ $material->id }}]">
                                         <label class="form-check-label"
                                             for="material-{{ $material->id }}">Seleccionar</label>
                                     </div>
@@ -88,7 +90,7 @@
 
                 }
             }
-            // console.log(input);
+            console.log(input);
             // 2. los renglones de la tabla tr
             tabla = document.querySelectorAll('tbody tr');
             // console.log(tabla);
@@ -108,4 +110,6 @@
             // event.target.value= ""
         }
     </script>
+
+
 @endsection

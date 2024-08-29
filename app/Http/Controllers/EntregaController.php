@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Entrega;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PedidoFinalizado;
 class EntregaController extends Controller
 {
     /**
@@ -23,9 +24,7 @@ class EntregaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -40,17 +39,23 @@ class EntregaController extends Controller
         $id = $request->id;
         // dd($request->id);
         if ($request->local == null) {
+            // dd("null");
 
-            $direccion = ($request->direccion != null) ? $request->direccion : " ";
-            $nombre = ($request->nombre != null) ? $request->nombre : " ";
-            $nota = ($request->nota != null) ? $request->nota : " ";
+            $request->validate([
+                'nombre' => ['required', 'string', 'max:255'],
+                'direccion' => ['required', 'string', 'max:255'],
+                'telefono' => ['required',],
+            ]);
+            // $direccion = ($request->direccion != null) ? $request->direccion : " ";
+            // $nombre = ($request->nombre != null) ? $request->nombre : " ";
+            // $nota = ($request->nota != null) ? $request->nota : " ";
 
             Entrega::create([
                 'pedido_id' => $id,
-                'direccion' => $direccion,
-                'telefono' => " ",
-                'recepcion' => $nombre,
-                'nota' => $nota,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'recepcion' => $request->nombre,
+                'nota' => $request->nota,
                 'local' => false,
             ]);
         } else {
@@ -66,9 +71,10 @@ class EntregaController extends Controller
 
 
         $estado = $request->estado;
-        $p = Pedido::find($id);
-        $p->update(['estado_id' => $estado + 1]);
-
+        $pedido = Pedido::find($id);
+        $pedido->update(['estado_id' => $estado + 1]);
+        $cliente = $pedido->cliente;
+        Mail::to($cliente->correo)->send(new PedidoFinalizado($pedido, $cliente));
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido completado con exito! Puede ver el estado de avance en "Tus pedidos"');;
     }
 

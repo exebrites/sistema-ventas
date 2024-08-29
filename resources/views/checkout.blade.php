@@ -79,28 +79,39 @@
                                                 <div class="form-group">
                                                     <label>Dirección del lugar de entrega</label>
                                                     <input type="text" class="form-control" name="direccion" value="">
+                                                    @error('direccion')
+                                                        <br>
+                                                        <small style="color:red">{{ $message }}</small>
+                                                    @enderror
+
                                                 </div>
-                                                {{-- <label>Telefono de contacto</label>
-                                                <input required type="tel" class="form-control" name="telefono"
-                                                    pattern="[0-9]{2,4}-[0-9]{6,8}" placeholder="Ej: 3758-122331" >
+                                                <label>Telefono de contacto</label>
+                                                <input type="tel" class="form-control" name="telefono"
+                                                    pattern="[0-9]{2,4}-[0-9]{6,8}" placeholder="Ej: 3758-122331">
                                                 @error('telefono')
                                                     <br>
                                                     <small style="color:red">{{ $message }}</small>
-                                                @enderror --}}
+                                                @enderror
                                                 <div class="form-group">
                                                     <label>Nombre de la persona que recibe</label>
                                                     <input type="text" class="form-control" name="nombre">
+                                                    @error('nombre')
+                                                        <br>
+                                                        <small style="color:red">{{ $message }}</small>
+                                                    @enderror
+
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Nota</label>
                                                     <textarea class="form-control" aria-label="With textarea" name="nota">Sin comentarios</textarea>
+
                                                 </div>
                                             </div>
                                             <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
                                             <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
                                             <button type="submit" id="sub1" class="btn btn-primary">Finalizar pedido</button>
-        
+
 
                                         </form>
                                     </div>
@@ -195,7 +206,7 @@
         // Obtén una referencia al checkbox
         const checkbox = document.getElementById('miCheckbox');
         const div = document.getElementById('div1');
-        
+
 
         // Agrega un evento de escucha al checkbox
         checkbox.addEventListener('click', function() {

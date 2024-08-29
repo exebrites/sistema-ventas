@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
-
+use App\Models\Entrega;
 
 class Pedido extends Model implements Auditable
 {
@@ -25,7 +25,7 @@ class Pedido extends Model implements Auditable
 
     public function entrega()
     {
-        return $this->hasOne(Entrega::class, 'pedido_id', '');
+        return $this->hasMany(Entrega::class, 'pedido_id', '');
     }
 
     public function diferenciaDias()

@@ -69,7 +69,7 @@ class MaterialController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
         $material = Material::create([
-            'nombre' => $request->nombre,
+            'nombre' => strtoupper($request->nombre),
             'descripcion' => $request->descripcion,
             'cod_interno' => $request->cod,
             'stock' => $request->stock,
@@ -138,7 +138,7 @@ class MaterialController extends Controller
 
         // 'notas' => $request->notas,
         Material::find($request->id)->update([
-            'nombre' => $request->nombre,
+            'nombre' => strtoupper($request->nombre),
             'descripcion' => $request->descripcion,
             'cod_interno' => $request->cod,
             'stock' => $request->stock,
