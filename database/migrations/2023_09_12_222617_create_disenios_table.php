@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('url_imagen')->nullable();
             $table->string('url_disenio')->nullable();
             $table->boolean('disenio_estado');
-            $table->boolean('revision');
+            $table->boolean('revision')->nullable();
 
             $table->timestamps();
         });

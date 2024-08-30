@@ -196,6 +196,8 @@ class DisenioController extends Controller
 
     public function show_disenio($id)
     {
+
+        // return "aqui";
         $disenio = Disenio::find($id);
         $preguntas = Pregunta::all();
         return view('disenio.indexCliente', compact('disenio', 'preguntas'));
@@ -233,7 +235,7 @@ class DisenioController extends Controller
     }
     public function revision_disenio($id)
     {
-        
+        // return "revision";
         // una vez enviado para revision no se puede cargar mas diseños 
         
         // Cuando Disenio->revision sea igual a 0 significa que se envió al cliente 

@@ -154,14 +154,16 @@ class PedidoController extends Controller
              
              */
             $idDP = detallePedido::max('id');
+            $estadoDisenio = 1; //tiene disenio
+            $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
             if ($p->attributes->disenio_estado == 'true') {
                 $url_imagen = $p->attributes->url_disenio;
                 Disenio::create([
                     'detallePedido_id' => $idDP,
                     'url_imagen' => $url_imagen,
                     'url_disenio' => "",
-                    'disenio_estado' => 1,
-                    'revision' => 1
+                    'disenio_estado' => $estadoDisenio,
+                    'revision' => $revisionDisenio
                 ]);
 
                 /**
@@ -184,7 +186,7 @@ class PedidoController extends Controller
                     'url_imagen' => "",
                     'url_disenio' => "",
                     'disenio_estado' => 0,
-                    'revision' => 1
+                    'revision' =>    $revisionDisenio
                 ]);
                 Boceto::create([
                     'negocio' => $p->attributes->nombre,
@@ -269,6 +271,7 @@ class PedidoController extends Controller
     public function update(Request $request, Pedido $pedido)
     {
 
+        // return "hola";
         $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();

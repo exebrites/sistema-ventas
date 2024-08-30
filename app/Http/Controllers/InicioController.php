@@ -21,12 +21,27 @@ class InicioController extends Controller
         $pedidosDisenio = Pedido::where('estado_id', $estado)->get();
         foreach ($pedidosDisenio as $pedido) {
             foreach ($pedido->detallePedido as $detalle) {
-                if (!$detalle->disenio->revision) {
+                if ($detalle->disenio->revision === 1) {
                     $nroPedidosRevision++;
                 }
             }
         }
         return $nroPedidosRevision;
+    }
+    private static function pedidos_disenios_aprobados($estado)
+    {
+        //objetivo :
+        // Calcular el numero de pedidos en estado de disenio que tiene diseños aprobados ->listos para preproduccion
+        $nroPedidosDiseniosAprobados = 0;
+        $pedidosDisenio = Pedido::where('estado_id', $estado)->get();
+        foreach ($pedidosDisenio as $pedido) {
+            foreach ($pedido->detallePedido as $detalle) {
+                if ($detalle->produccion === 1) {
+                    $nroPedidosDiseniosAprobados++;
+                }
+            }
+        }
+        return $nroPedidosDiseniosAprobados;
     }
     public function inicio()
     {
@@ -41,7 +56,7 @@ class InicioController extends Controller
 
         $NroDisenios = 1;
         $NroRevision = $this->pedidos_revision($estadoDisenio);
-        
+
         $nroboceto = 0;
         $bocetos = Boceto::all();
         foreach ($bocetos as $key => $boceto) {
@@ -59,7 +74,8 @@ class InicioController extends Controller
             }
         }
         // dd($nroofertas); 
-        return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta'));
+        $nroPedidosDiseniosAprobados =  $this->pedidos_disenios_aprobados($estadoDisenio);
+        return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta', 'nroPedidosDiseniosAprobados'));
     }
 
     public function ver_pedido($estado)
@@ -96,17 +112,42 @@ class InicioController extends Controller
     }
     public function ver_pedido_disenio_revision()
     {
-
         // objetivo 
         //     mostrar solo los pedidos que esten con disenio para revision
+        // Cuando Disenio->revision sea igual a 0 significa que se envió al cliente       
+        // * Cuando Disenio->revision sea igual a 1 significa que el cliente vió el Diseño, 
+        // lo califico y lo mando a revision. Disconformidad 
 
         $estadoDisenio = 5;
         $pedidos  = [];
         $NroPedidosDisenio = Pedido::where('estado_id', $estadoDisenio)->get();
+        // dd($NroPedidosDisenio);
         foreach ($NroPedidosDisenio as $key => $pedido) {
             foreach ($pedido->detallePedido as $key => $detalle) {
 
-                if (!$detalle->disenio->revision) {
+                if ($detalle->disenio->revision) {
+                    $pedidos[] = $pedido;
+                }
+            }
+        }
+        return view('pedido.index', compact('pedidos'));
+    }
+    public function ver_pedido_disenio_aprobado()
+    {
+        // objetivo 
+        //     mostrar solo los pedidos que esten con disenio para revision
+        // Cuando Disenio->revision sea igual a 0 significa que se envió al cliente       
+        // * Cuando Disenio->revision sea igual a 1 significa que el cliente vió el Diseño, 
+        // lo califico y lo mando a revision. Disconformidad 
+
+        $estadoDisenio = 5;
+        $pedidos  = [];
+        $pedidosDisenio = Pedido::where('estado_id', $estadoDisenio)->get();
+        // dd($NroPedidosDisenio);
+        foreach ($pedidosDisenio as $pedido) {
+            foreach ($pedido->detallePedido as  $detalle) {
+
+                if ($detalle->produccion === 1) {
                     $pedidos[] = $pedido;
                 }
             }

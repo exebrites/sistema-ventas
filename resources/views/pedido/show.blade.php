@@ -6,7 +6,7 @@
 @stop
 
 @section('content')
-    {{-- {{ dd($pedido) }} --}}
+    {{-- {{ dd($pedido->entrega) }} --}}
     <div class="card">
         @if (session('msg_success'))
             <div class="alert alert-success">
@@ -23,10 +23,11 @@
                 <a href="{{ route('comprobantes.show', $pedido->comprobante->id) }}" class="btn btn-primary">Ver
                     comprobante</a>
             @endif
-            @if ($pedido->entrega == null)
+            {{-- {{dd($pedido->entrega)}} --}}
+            @if ($pedido->entrega === null)
                 <a href="#" class="btn btn-light"> <b>No tiene lugar de entrega</b></a>
             @else
-                <a href="{{ route('entrega.show', $pedido->entrega->id) }}" class="btn btn-primary">Ver entrega</a>
+                <a href="{{ route('entrega.show', $pedido->entrega[0]->id) }}" class="btn btn-primary">Ver entrega</a>
             @endif
 
             @if ($pedido->comprobante == null)
@@ -85,15 +86,18 @@
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
                                 <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
                                 <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br>
-                                <b> Estado del diseño: </b>
-                                @if ($detalle->disenio->revision === 0)
-                                    @if ($detalle->produccion === 0)
-                                        <b style="color:green">Diseño enviado al cliente</b>
+
+                                @if ($detalle->disenio->disenio_estado === 1)
+                                    <b> Estado del diseño: </b>
+                                    @if ($detalle->disenio->revision === 0)
+                                        @if ($detalle->produccion === 0)
+                                            <b style="color:green">Diseño enviado al cliente</b>
+                                        @else
+                                            <b style="color:green">Diseño Aprobado</b>
+                                        @endif
                                     @else
-                                        <b style="color:green">Diseño Aprobado</b>
+                                        <b style="color:red">Realizar revisión del diseño </b>
                                     @endif
-                                @else
-                                    <b style="color:red">Realizar revisión del diseño </b>
                                 @endif
                                 <br>
                                 <br>

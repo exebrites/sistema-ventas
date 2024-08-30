@@ -87,7 +87,8 @@
                                                 </div>
                                                 <label>Telefono de contacto</label>
                                                 <input type="tel" class="form-control" name="telefono"
-                                                    pattern="[0-9]{2,4}-[0-9]{6,8}" placeholder="Ej: 3758-122331">
+                                                     placeholder="Ej: 3758-122331">
+                                                     {{-- pattern="[0-9]{2,4}-[0-9]{6,8}" --}}
                                                 @error('telefono')
                                                     <br>
                                                     <small style="color:red">{{ $message }}</small>

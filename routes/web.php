@@ -68,6 +68,8 @@ use App\Http\Controllers\DetallePresupuestoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoriaController;
 use App\Mail\PedidoCancelado;
+use App\Models\Pregunta;
+use App\Models\Respuesta;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -275,11 +277,6 @@ route::get('/verpedido/{estado}', [InicioController::class, 'ver_pedido'])->name
 route::get('/veroferta/{estado}', [InicioController::class, 'ver_oferta'])->name('ver_oferta');
 route::get('/verpedidoboceto', [InicioController::class, 'ver_pedido_boceto'])->name('ver_pedido_boceto');
 route::get('/verrevision', [InicioController::class, 'ver_pedido_disenio_revision'])->name('ver_pedido_disenio_revision');
+route::get('/verpedidodisenioaprobado', [InicioController::class, 'ver_pedido_disenio_aprobado'])->name('ver_pedido_disenio_aprobado');
 
-
-route::get('/entrega', function () {
-    $pedido = Pedido::find(83);
-    $entrega = $pedido->entrega;
-    return $entrega;
-});
 require __DIR__ . '/auth.php';

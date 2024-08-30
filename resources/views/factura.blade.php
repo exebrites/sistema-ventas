@@ -26,10 +26,14 @@
             margin: 3.5cm 0.5cm 1cm 0.5cm;
         }
 
+        body {
+            margin: ;
+        }
+
         #header {
             position: fixed;
-            top: -3.5cm;
-            left: 0cm;
+            top: -2cm;
+            /* left: 0cm;  */
         }
 
         .infoHeader {
@@ -47,7 +51,8 @@
         .imgHeader {
             float: left;
             width: 3cm;
-
+            position: relative;
+            margin-left: 0.4cm;
         }
 
         #footer {
@@ -93,7 +98,7 @@
     <div id="header">
         <div class="row">
             <div class="col-8">
-                <img class="imgHeader" src="{{ public_path() . '/images/images.png' }}" alt="" srcset="">
+                <img class="imgHeader" src="{{ public_path() . '/images/logo.png' }}" alt="" srcset="">
                 <div class="infoHeader">
                     <h1>Oliva</h1>
                     <p>Disenio e impresión</p>
@@ -107,25 +112,15 @@
         </div>
     </div>
     <div id="footer">
-
-
-        {{-- <p class="textFooter">laravel</p> --}}
     </div>
 
+    <div class="contenedor">
+        <h1>Comprobante de compra</h1>
+        <br>
+        <p>Numero :{{ $factura_id }}</p>
+        <p>Fecha de emisión: {{ $fecha }} </p>
 
-
-    <h1>Comprobante de compra</h1>
-    <br>
-    <p>Numero :{{ $factura_id }}</p>
-    <p>Fecha de emisión: {{ $fecha }} </p>
-    <br>
-
-    {{-- <h2>Cliente</h2>
-   
-    <br>
-    <h2>Vendedor</h2>
-    --}}
-
+    </div>
     <div class="contenedor">
         <div class="cliente">
             <h2>Cliente</h2>
@@ -161,46 +156,40 @@
         </div>
     </div>
     <br>
-    <h2>Productos/Servicios</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descripción</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach ($productos as $producto)
+        <h2>Productos/Servicios</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $producto['nombre'] }}</td>
-                    <td>{{ $producto['cantidad'] }}</td>
-                    <td>${{ $producto['precio'] }}</td>
-                    <td>${{ $producto['subtotal'] }}</td>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
                 </tr>
-            @endforeach
-            <tr>
-                <td>Servicios de diseño</td>
-                <td>-</td>
-                <td>-</td>
-                <td>${{ $servicios }}</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            {{-- Mostrar el total de la oferta en el pie de la tabla --}}
-            <tr>
-                <td colspan="3" style="text-align: right;"><b>Total</b></td>
-                <td>${{ $total }}</td>
-            </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody>
 
-    {{-- <h2>Resumen</h2> --}}
-
-    {{-- <p><b>Total: {{ $total }}</b></p> --}}
-
+                @foreach ($productos as $producto)
+                    <tr>
+                        <td>{{ $producto['nombre'] }}</td>
+                        <td>{{ $producto['cantidad'] }}</td>
+                        <td>${{ $producto['precio'] }}</td>
+                        <td>${{ $producto['subtotal'] }}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td>Servicios de diseño</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>${{ $servicios }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align: right;"><b>Total</b></td>
+                    <td>${{ $total }}</td>
+                </tr>
+            </tfoot>
+        </table>
 
     <script type="text/php" >
         if ( isset($pdf) ) {

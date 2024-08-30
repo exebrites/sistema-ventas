@@ -48,13 +48,7 @@
                                 <h3>{{ $NroRevision }}</h3>
                                 <p>Numero de pedidos con diseños para revision</p>
                                 <a href="{{ route('ver_pedido_disenio_revision') }}">Ver pedidos </a>
-                            </div>
-                            {{-- <div class="icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div> --}}
-                            {{-- <a href="#" class="small-box-footer">
-                                Ver mas <i class="fas fa-arrow-circle-right"></i>
-                            </a> --}}
+                            </div>                            
                         </div>
                     </div>
 
@@ -65,12 +59,7 @@
                                 <p>Numero de ofertas pendientes</p>
                                 <a href="{{ route('ver_oferta', 'pendiente') }}">Ver oferta</a>
                             </div>
-                            {{-- <div class="icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div> --}}
-                            {{-- <a href="#" class="small-box-footer">
-                                Ver mas <i class="fas fa-arrow-circle-right"></i>
-                            </a> --}}
+                            
                         </div>
 
                     </div>
@@ -88,15 +77,17 @@
 
                         </div>
                     </div>
-
+                    
                     <div class="col-md-6">
-                        {{-- <div class="small-box bg-info">
+                        <div class="small-box bg-default">
                             <div class="inner">
-                                <h3>{{ $nroofertas }}</h3>
-                                <p>Numero de ofertas pendientes</p>
-                            </div>
-                        </div> --}}
+                                <h3>{{ $nroPedidosDiseniosAprobados }}</h3>
+                                <p>Numero de pedidos con diseños aprobados</p>
+                                <a href="{{ route('ver_pedido_disenio_aprobado') }}">Ver pedidos </a>
 
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 

@@ -36,77 +36,80 @@
 
                             <div class="col-6">
                                 <div class="container mt-5">
-                                    <h2>Encuesta de Diseño</h2>
+                                    @if ($disenio->detallePedido->produccion == 0)
+                                        <h2>Encuesta de Diseño</h2>
 
-                                    <input type="hidden" name="{{ $i = 1 }}">
-                                    <form action="{{ route('respuestas.store') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" class="form-control" aria-describedby="textHelp"
-                                            name="disenio_id" value="{{ $disenio->id }}" readonly>
-                                        @foreach ($preguntas as $pregunta)
-                                            @if ($pregunta->contenido == 'comentario')
-                                                <div class="mb-3">
-                                                    <label for="comentarios" class="form-label">Comentarios
-                                                        adicionales:</label>
-                                                    <textarea class="form-control" id="comentarios" value="Sin comentarios" name="comentario" rows="4" cols="50">Sin comentarios</textarea>
-                                                </div>
-                                            @elseif($pregunta->id == 5)
-                                                <label for="">
-                                                    {{ $i++ }}){{ $pregunta->contenido }}</label><br>
-                                                {{-- <input type="text" name="{{ $pregunta->id }}" id=""
-                                                class="form-control" placeholder="" aria-describedby="helpId"
-                                                value="sin respuesta"> --}}
-                                                <select name="{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
-                                                    class="form-control" required>
-                                                    <option value="" selected>Selecciona una opción
-                                                    </option>
-                                                    <option value="Muy bueno">(1) Muy bueno</option>
-                                                    <option value="Bueno">(2) Bueno</option>
-                                                    <option value="Malo">(3) Malo</option>
-
-                                                </select>
-                                            @else
-                                                <div class="form-group">
+                                        <input type="hidden" name="{{ $i = 1 }}">
+                                        <form action="{{ route('respuestas.store') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" class="form-control" aria-describedby="textHelp"
+                                                name="disenio_id" value="{{ $disenio->id }}" readonly>
+                                            @foreach ($preguntas as $pregunta)
+                                                @if ($pregunta->contenido == 'comentario')
+                                                    <div class="mb-3">
+                                                        <label for="comentarios" class="form-label">Comentarios
+                                                            adicionales:</label>
+                                                        <textarea class="form-control" id="comentarios" value="Sin comentarios" name="comentario" rows="4" cols="50">Sin comentarios</textarea>
+                                                    </div>
+                                                @elseif($pregunta->id == 5)
                                                     <label for="">
                                                         {{ $i++ }}){{ $pregunta->contenido }}</label><br>
                                                     {{-- <input type="text" name="{{ $pregunta->id }}" id=""
-                                                        class="form-control" placeholder="" aria-describedby="helpId"
-                                                        value="sin respuesta"> --}}
+                                                class="form-control" placeholder="" aria-describedby="helpId"
+                                                value="sin respuesta"> --}}
                                                     <select name="{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
-                                                        class="form-control"required>
+                                                        class="form-control" required>
                                                         <option value="" selected>Selecciona una opción
                                                         </option>
-                                                        <option value="SI">Si</option>
-                                                        <option value="No">No</option>
+                                                        <option value="Muy bueno">(1) Muy bueno</option>
+                                                        <option value="Bueno">(2) Bueno</option>
+                                                        <option value="Malo">(3) Malo</option>
 
                                                     </select>
+                                                @else
+                                                    <div class="form-group">
+                                                        <label for="">
+                                                            {{ $i++ }}){{ $pregunta->contenido }}</label><br>
+                                                        {{-- <input type="text" name="{{ $pregunta->id }}" id=""
+                                                        class="form-control" placeholder="" aria-describedby="helpId"
+                                                        value="sin respuesta"> --}}
+                                                        <select name="{{ $pregunta->id }}"
+                                                            id="pregunta_{{ $pregunta->id }}" class="form-control"required>
+                                                            <option value="" selected>Selecciona una opción
+                                                            </option>
+                                                            <option value="SI">Si</option>
+                                                            <option value="No">No</option>
 
-                                                </div>
-                                            @endif
-                                        @endforeach
+                                                        </select>
+
+                                                    </div>
+                                                @endif
+                                            @endforeach
 
 
 
-                                        <small><b>Aclaracion:</b><br>Al momento de responder con un SI a la siguiente
-                                            pregunta,
-                                            nos da la confirmación para seguir con la siguiente etapa. En caso contrario
-                                            (respuesta: NO) el diseño volverá a revisar y se le notificará para su revision
-                                        </small>
-                                        <div class="mb-3">
-                                            <label for="pregunta3" class="form-label">¿Esta conforme con el diseño?</label>
-                                            <select id="pregunta3" name="revision" class="form-control"required>
-                                                <option value="" selected>Selecciona una opción
-                                                </option>
-                                                <option value="1">Sí</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+                                            <small><b>Aclaracion:</b><br>Al momento de responder con un SI a la siguiente
+                                                pregunta,
+                                                nos da la confirmación para seguir con la siguiente etapa. En caso contrario
+                                                (respuesta: NO) el diseño volverá a revisar y se le notificará para su
+                                                revision
+                                            </small>
+                                            <div class="mb-3">
+                                                <label for="pregunta3" class="form-label">¿Esta conforme con el
+                                                    diseño?</label>
+                                                <select id="pregunta3" name="revision" class="form-control"required>
+                                                    <option value="" selected>Selecciona una opción
+                                                    </option>
+                                                    <option value="1">Sí</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                            </div>
 
-                                        @if ($disenio->detallePedido->produccion == 0)
+
                                             <button type="submit" class="btn btn-primary">Enviar respuesta</button>
                                         @else
                                             <b style="color:green">Diseño aprobado</b>
-                                        @endif
+                                    @endif
                                     </form>
                                 </div>
 
