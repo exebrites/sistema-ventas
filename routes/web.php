@@ -279,4 +279,7 @@ route::get('/verpedidoboceto', [InicioController::class, 'ver_pedido_boceto'])->
 route::get('/verrevision', [InicioController::class, 'ver_pedido_disenio_revision'])->name('ver_pedido_disenio_revision');
 route::get('/verpedidodisenioaprobado', [InicioController::class, 'ver_pedido_disenio_aprobado'])->name('ver_pedido_disenio_aprobado');
 
+route::get('/virtual',function(){
+    StockVirtual::actualizar_stock_virtual();
+});
 require __DIR__ . '/auth.php';

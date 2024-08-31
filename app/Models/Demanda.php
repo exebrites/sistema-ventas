@@ -24,12 +24,25 @@ class Demanda extends Model implements Auditable
         // Crear un nuevo array para almacenar la combinación de ambos
         $resultado = [];
         // Recorrer el array $orden
+        // dd($resultado);
+
+        // Buscar el mismo material en el array $compra
+        // Buscar el mismo material en el array $compra
+        // Para hacer esto, creamos un nuevo array que tenga solo los valores de 'id'
+        // de cada elemento del array $compra
+
+        $arrays_de_ids = array_column($materiales_compra, 'id');
+
         foreach ($lista as $elemento_lista) {
             $materiales_id = $elemento_lista['id'];
             $cantidad_orden = $elemento_lista['cantidad'];
 
-            // Buscar el mismo material en el array $compra
-            $clave_compra = array_search($materiales_id, array_column($materiales_compra, 'id'));
+
+            // Luego, buscamos el valor de $materiales_id en ese nuevo array
+            // y guardamos la clave en la que se encuentra en $clave_compra
+            $clave_compra = array_search($materiales_id, $arrays_de_ids);
+            // dd($arrays_de_ids);
+            // dd($clave_compra);
 
             if ($clave_compra !== false) {
 
@@ -37,12 +50,10 @@ class Demanda extends Model implements Auditable
                 $cantidad_compra = $materiales_compra[$clave_compra]['cantidad'];
                 // dd($cantidad_compra);
                 $resultado[] = ['id' => $materiales_id, 'cantidad' => $cantidad_orden + $cantidad_compra];
-            } else {
-                // Si no se encuentra, agregar el elemento tal cual está en $orden
-                $resultado[] = $elemento_lista;
             }
         }
 
+        // dd($resultado);
         // Agregar los elementos de $compra que no estén en $orden
 
         foreach ($materiales_compra as $elemento_compra) {

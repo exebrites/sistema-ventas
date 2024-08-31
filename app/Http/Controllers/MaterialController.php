@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Events\RegistroMaterialEvent;
 use App\Mail\ReposicionStockMailable;
 use App\Models\Oferta;
+use App\Models\StockVirtual;
 use Illuminate\Validation\ValidationException;
 
 class MaterialController extends Controller
@@ -82,6 +83,7 @@ class MaterialController extends Controller
         ]);
         // dd($material);
         // event(new RegistroMaterialEvent($material));
+        StockVirtual::actualizar_stock_virtual();
         return redirect()->route('materiales.index');
     }
 
@@ -149,6 +151,7 @@ class MaterialController extends Controller
             'precio_compra' => $request->precio_compra
 
         ]);
+        StockVirtual::actualizar_stock_virtual();
         return redirect()->route('materiales.index');
     }
 

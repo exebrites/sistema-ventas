@@ -13,6 +13,7 @@ use App\Models\DetalleDemanda;
 use App\Models\RegistroPedidoDemanda;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Validation\Rules\Exists;
 
 class OrdenCompraListener
 {
@@ -21,6 +22,7 @@ class OrdenCompraListener
      *
      * @return void
      */
+    
     public function __construct()
     {
         //
@@ -58,15 +60,16 @@ class OrdenCompraListener
         // dd($ultimaDemanda);
 
         $ultimaOferta = Oferta::where('estado', 'aceptada')->latest()->first(); //acá
+        // $this->actualizar_stock_virtual();
         if ($ultimaDemanda) {
-            dd('demanda para actualizar ');
+            // dd('demanda para actualizar ');
             $pedidos = Pedido::pedidosSinOrden();
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
             } else {
-                dd('Hay pedidos sin orden de compra asociados');
+                // dd('Hay pedidos sin orden de compra asociados');
                 $lista = Pedido::listaMateriales($pedidos);
-                dd($lista);
+                // dd($lista);
                 $materiales_orden_compra = [];
                 foreach ($ultimaDemanda->detalleDemandas as $key => $detalle) {
                     $materiales_orden_compra[] = [
@@ -74,13 +77,13 @@ class OrdenCompraListener
                         'cantidad' => $detalle->cantidad
                     ];
                 }
-
-
+                // dd($materiales_orden_compra);
+// posible error 
                 $resultado = Demanda::combinar($lista, $materiales_orden_compra);
 
                 $materiales_orden_compra = $resultado;
-                dd($materiales_orden_compra);
-                dd('1.3');
+                // dd($materiales_orden_compra);
+                // dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
                     $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
                     $virtual_stock->update([
@@ -105,7 +108,7 @@ class OrdenCompraListener
                             ->where('materiales_id',  $material['id'])
                             ->update(['cantidad' => $material['cantidad']]);
                     } else {
-                        dd('1.3.2');
+                        // dd('1.3.2');
                         DetalleDemanda::create(
                             [
                                 'demandas_id' => $ultimaDemanda->id,
@@ -117,17 +120,17 @@ class OrdenCompraListener
                     }
                 }
             }
-            dd("fin");
+            // dd("fin");
         } else {
             if ($ultimaOferta) {
 
-                dd("oferta aceptada");
+                // dd("oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 // dd([$pedidos, $listaMaterilesNecesarios, $ultimaOferta->detalleOferta[0]]);
 
                 if ($listaMaterilesNecesarios != null) {
-                    dd('Hay lista de materiales');
+                    // dd('Hay lista de materiales');
                     $arrayMateriales = [];
                     foreach ($listaMaterilesNecesarios as $key => $material) {
                         $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
@@ -145,20 +148,20 @@ class OrdenCompraListener
                         }
                     }
                     // dd($arrayMateriales);                    
-                    dd('crear orden de compra');
+                    // dd('crear orden de compra');
                     $demanda = Demanda::create([
                         'estado' => 'en-confirmacion',
                         'fecha_cierre' => $fecha_cierre,
                     ]);
                     foreach ($arrayMateriales as $key => $material) {
                         if ($material['cantidad'] >= 0) {
-                            dd('actualizar stock virtual');
+                            // dd('actualizar stock virtual');
                             $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
                             $virtual_stock->update([
                                 'cantidad' => $material['cantidad']
                             ]);
                         } else {
-                            dd('Agregar material');
+                            // dd('Agregar material');
                             $detalle = DetalleDemanda::create([
                                 'demandas_id' => $demanda->id,
                                 'materiales_id' => $material['id'],
@@ -171,7 +174,7 @@ class OrdenCompraListener
                         }
                     }
                     if ($demanda->detalleDemandas->count() > 0) {
-                        dd('detalles asociados');
+                        // dd('detalles asociados');
                         $pedidos = config('pedidos');
                         foreach ($pedidos as $key => $id) {
                             RegistroPedidoDemanda::create([
@@ -180,15 +183,15 @@ class OrdenCompraListener
                             ]);
                         }
                     } else {
-                        dd('eliminar orden de compra');
+                        // dd('eliminar orden de compra');
                         $demanda->delete();
-                        dd('eliminacion con exito');
+                        // dd('eliminacion con exito');
                     }
                 } else {
-                    dd("lista vacia");
+                    // dd("lista vacia");
                 }
             } else {
-                dd("No hay demanda ni Oferta aceptada");
+                // dd("No hay demanda ni Oferta aceptada");
                 $listaMaterilesNecesarios = Pedido::listaMateriales(Pedido::pedidosSinOrden());
 
                 if ($listaMaterilesNecesarios != null) {
@@ -197,7 +200,7 @@ class OrdenCompraListener
                         'estado' =>  $EN_CONFIRMACION,
                         'fecha_cierre' => $fecha_cierre,
                     ]);
-                    $pedidos = config('pedidos');                    
+                    $pedidos = config('pedidos');
                     foreach ($pedidos as $id) {
                         RegistroPedidoDemanda::create([
                             'pedido_id' => $id,
@@ -216,15 +219,15 @@ class OrdenCompraListener
                                 'cantidad' =>  - ($Materialstock->stock - $material['cantidad']),
                             ]);
                         }
-                        dd('detalle demanda');
+                        // dd('detalle demanda');
                         $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
-                        // $virtual_stock->update([
-                        //     'cantidad' => $virtual_stock->cantidad - $material['cantidad']
-                        // ]);
-                        dd('sv');
+                        $virtual_stock->update([
+                            'cantidad' => $virtual_stock->cantidad - $material['cantidad']
+                        ]);
+                        // dd('sv');
                     }
                 }
-                dd("FINAL");
+                
             }
         }
         // una vez creada la orden de compra con un estado y una fecha de cierre 
