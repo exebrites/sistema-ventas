@@ -3,6 +3,7 @@
 @section('title')
 
 @section('content_header')
+    <h1>Asociar proveedor</h1>
 
 @stop
 
@@ -23,6 +24,7 @@
                             <th>Nombre del contacto proveedor</th>
                             <th>Telefono</th>
                             <th>Correo electronico</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +35,8 @@
                                 <td>{{ $proveedor->nombre_contacto }}</td>
                                 <td>{{ $proveedor->telefono }}</td>
                                 <td>{{ $proveedor->correo }}</td>
+                                <td><a href="{{ route('confirmacion_proveedor_orden_compra', ['proveedor_id' => $proveedor->id,'demanda_id'=> $demanda->id]) }}">Solicitud de
+                                        confirmación</a></td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmacionProveedor;
 use App\Models\Demanda;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use App\Models\DemandaProveedor;
+use Illuminate\Support\Facades\Mail;
 
 class RegDemandaProveedor extends Controller
 {
@@ -108,5 +110,13 @@ class RegDemandaProveedor extends Controller
         $reg =  DemandaProveedor::find($id);
         $reg->delete();
         return redirect()->back();
+    }
+    public function confirmacion_proveedor_orden_compra($proveedor_id, $demanda_id)
+    {
+        
+        $proveedor = Proveedor::find($proveedor_id);
+        $demanda = Demanda::find($demanda_id);
+        Mail::to($proveedor->correo)->send(new ConfirmacionProveedor($demanda, $proveedor));
+        return back();
     }
 }

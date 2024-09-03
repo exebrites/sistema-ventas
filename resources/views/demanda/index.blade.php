@@ -39,14 +39,14 @@
                                         href="{{ route('demandas.show', $demanda->id) }}">Ver</a></td>
                             @endrole
 
-                            @role(['proveedor'])
+                            {{-- @role(['proveedor']) --}}
                                 <td width="10px">
-                                    @if ($demanda->fechaCierre())
+                                    {{-- @if ($demanda->fechaCierre()) --}}
                                         <a class="btn btn-primary btn btn-sm btn-fixed-width"
                                             href="{{ route('demandas.showProveedor', $demanda->id) }}">Ver</a>
-                                    @endif
+                                    {{-- @endif --}}
                                 </td>
-                            @endrole
+                            {{-- @endrole --}}
                         </tr>
                     @endforeach
                 </tbody>

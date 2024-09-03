@@ -23,8 +23,8 @@
                 <a href="{{ route('comprobantes.show', $pedido->comprobante->id) }}" class="btn btn-primary">Ver
                     comprobante</a>
             @endif
-            {{-- {{dd($pedido->entrega)}} --}}
-            @if ($pedido->entrega === null)
+            {{-- {{dd(count($pedido->entrega))}} --}}
+            @if (count($pedido->entrega) === 0)
                 <a href="#" class="btn btn-light"> <b>No tiene lugar de entrega</b></a>
             @else
                 <a href="{{ route('entrega.show', $pedido->entrega[0]->id) }}" class="btn btn-primary">Ver entrega</a>
@@ -67,9 +67,10 @@
     </div>
     <div class="card">
         <div class="card-body">
-
+            {{-- {{dd($pedido->detallePedido[1]);}} --}}
             <div class="accordion" id="accordionExample">
                 @foreach ($pedido->detallePedido as $detalle)
+
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="{{ $pedido->id }}">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -86,7 +87,7 @@
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
                                 <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
                                 <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br>
-
+{{dump($detalle->disenio->disenio_estado)}}
                                 @if ($detalle->disenio->disenio_estado === 1)
                                     <b> Estado del diseño: </b>
                                     @if ($detalle->disenio->revision === 0)
@@ -98,7 +99,11 @@
                                     @else
                                         <b style="color:red">Realizar revisión del diseño </b>
                                     @endif
+                                @else
+                                <b style="color:red">Realizar disenio - Ver boceto </b>
+
                                 @endif
+
                                 <br>
                                 <br>
                                 <a href="{{ route('productos.show', $detalle->producto->id) }}" class="btn btn-primary">Ver

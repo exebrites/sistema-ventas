@@ -235,7 +235,7 @@ route::get('/reset', function () {
 
 route::resource('/registrodemandasproveedores', RegDemandaProveedor::class);
 route::get('/factura/{pedido_id}', [PdfController::class, 'generarFactura'])->name('factura');
-
+route::get('/confirmacionproveedor/{proveedor_id}/{demanda_id}',[RegDemandaProveedor::class,'confirmacion_proveedor_orden_compra'])->name('confirmacion_proveedor_orden_compra');
 route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
 route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
 route::get('/grafico/clientes', [GraficoController::class, 'indexCliente'])->name('indexCliente');
@@ -281,5 +281,5 @@ route::get('/verpedidodisenioaprobado', [InicioController::class, 'ver_pedido_di
 
 route::get('/virtual',function(){
     StockVirtual::actualizar_stock_virtual();
-});
+})->name('virtual');
 require __DIR__ . '/auth.php';

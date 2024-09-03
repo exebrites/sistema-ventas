@@ -186,7 +186,7 @@ class DisenioController extends Controller
         $id = $request->id;
         // Paso 1: Obtener la URL de la imagen a partir del ID proporcionado.
         $img = Disenio::where('id', $id)->value($descarga);
-// dd($img)
+// dd($img);
         // Paso 2: Crear la URL completa a la ubicación de la imagen en el servidor.
         $url_full = "/home/exe/repo_trabajo_final/public" . $img;
 
@@ -216,7 +216,9 @@ class DisenioController extends Controller
 
         // cuando el campo borrar sea igual a 0 se actualiza el diseño con la imagen que se suba (DISEÑO). Esta asociado al btn Subir
 
+        // return "actualizar";
 
+        // return $request;
         if ($request->borrar == "1") {
             $disenio = Disenio::find($request->id);
             $disenio->update(['url_disenio' => "", 'disenio_estado' => 0]);

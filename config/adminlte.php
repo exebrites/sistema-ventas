@@ -360,7 +360,7 @@ return [
             ],
         ],
 
-       
+
 
         [
 
@@ -425,7 +425,7 @@ return [
                 ],
             ],
         ],
-       
+        ['text' => 'reset stock virtual', 'route' => 'virtual'],
     ],
 
     /*

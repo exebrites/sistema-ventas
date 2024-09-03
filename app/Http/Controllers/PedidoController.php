@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Mail\PedidoCancelado;
+use App\Models\Demanda;
 
 class PedidoController extends Controller
 {
@@ -158,6 +159,7 @@ class PedidoController extends Controller
             $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
             if ($p->attributes->disenio_estado == 'true') {
                 $url_imagen = $p->attributes->url_disenio;
+                // dd($url_imagen);
                 Disenio::create([
                     'detallePedido_id' => $idDP,
                     'url_imagen' => $url_imagen,
@@ -308,7 +310,16 @@ class PedidoController extends Controller
             ]);
             return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
         } else {
+            // dd("hola");
             $oferta = Oferta::where('estado', 'pendiente')->latest()->first();
+            $demanda =  Demanda::where('estado','confirmado')->latest()->first();
+            
+            // dd();
+            if (count($demanda->oferta) === 0) {
+                # code...
+
+                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes una demanda sin ofertas.');
+            }
             if ($oferta) {
                 return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');
             } else {
