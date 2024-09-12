@@ -68,7 +68,9 @@ use App\Http\Controllers\DetallePresupuestoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoriaController;
 use App\Mail\PedidoCancelado;
+use App\Models\Demanda;
 use App\Models\Pregunta;
+use App\Models\Recepcion;
 use App\Models\Respuesta;
 /*
 |--------------------------------------------------------------------------
@@ -282,4 +284,18 @@ route::get('/verpedidodisenioaprobado', [InicioController::class, 'ver_pedido_di
 route::get('/virtual',function(){
     StockVirtual::actualizar_stock_virtual();
 })->name('virtual');
+
+route::get('/asignacion',function(){
+
+    $demanda = Demanda::find(177);
+    $ofertas= $demanda->oferta;
+    $registros = $demanda->demandaPedido;
+    $pedidos  = [];
+    foreach ($registros as $reg) {
+        # code...
+        $pedidos  [] = $reg->pedido;
+    }
+$recepciones = Recepcion::all(); 
+return view('material.asignacionMateriales',compact('demanda','pedidos','ofertas','recepciones'));
+})->name('asignacion');
 require __DIR__ . '/auth.php';

@@ -186,9 +186,10 @@ class DisenioController extends Controller
         $id = $request->id;
         // Paso 1: Obtener la URL de la imagen a partir del ID proporcionado.
         $img = Disenio::where('id', $id)->value($descarga);
-// dd($img);
+        // dd($img);
         // Paso 2: Crear la URL completa a la ubicación de la imagen en el servidor.
-        $url_full = "/home/exe/repo_trabajo_final/public" . $img;
+        $path = "/home/exe/repo_trabajo_final/public";
+        $url_full = $path . $img;
 
         // Paso 3: Generar una respuesta HTTP que permite la descarga de la imagen.
         return response()->download($url_full);
@@ -239,7 +240,7 @@ class DisenioController extends Controller
     {
         // return "revision";
         // una vez enviado para revision no se puede cargar mas diseños 
-        
+
         // Cuando Disenio->revision sea igual a 0 significa que se envió al cliente 
 
         // Cuando Disenio->revision sea igual a 1 significa que el cliente vió el Diseño, lo califico y lo mando a revision. Disconformidad 
@@ -247,7 +248,7 @@ class DisenioController extends Controller
 
         $disenio = Disenio::find($id);
         $disenio->update(['revision' => 0]);
-        $pedido =  $disenio->detallePedido->pedidos;        
+        $pedido =  $disenio->detallePedido->pedidos;
         $producto = $disenio->detallePedido->producto;
         $cliente = $pedido->cliente;
         $empresa = config('contacto.nombre');

@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Events\RegistroMaterialEvent;
 use App\Mail\ReposicionStockMailable;
 use App\Models\Oferta;
+use App\Models\Recepcion;
 use App\Models\StockVirtual;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Config;
 
 class MaterialController extends Controller
 {
@@ -291,6 +293,8 @@ class MaterialController extends Controller
     }
     public function entradaMateriales(Request $request)
     {
+
+        //1. RECEPCION Y ACTUALIZACION DE STOCK 
         $datos = $request->all();
 
         // Acceder a los datos
@@ -299,20 +303,21 @@ class MaterialController extends Controller
         $cantidades = $datos['cantidad'];
         $precios = $datos['precio'];
         $entradas = $datos['entrada'];
+
+
+
         // dd([$materialIds, $nombres, $cantidades, $precios, $entradas, $materialStock = Material::find($materialIds[0])]);
         // Ahora puedes procesar o almacenar estos datos según tus necesidades
         foreach ($materialIds as $key => $materialId) {
             // Accede a los datos asociados
-            $materialStock = Material::find($materialId);
-            $nombre = $nombres[$key];
+
+            // $material_id = $materialIds[0];
             $cantidad = $cantidades[$key];
-            $precio = $precios[$key];
-            $entrada = $entradas[$key];
-            $materialStock->update([
-                'stock' => $entrada +  $materialStock->stock,
-                'precio_compra' => $precio,
+            Recepcion::create([
+                'material_id' => $materialId,
+                'cantidad' => $cantidad
             ]);
         }
-        return redirect()->route('demandas.index')->with('success', 'Se agregó correctamente los materiales a stock');
+        return redirect()->route('asignacion')->with('success', 'Se agregó correctamente los materiales a stock');
     }
 }

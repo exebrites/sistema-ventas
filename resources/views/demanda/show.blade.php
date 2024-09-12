@@ -29,6 +29,9 @@
                 <a href="{{ route('registrodemandasproveedores.show', $demanda->id) }}" class="btn btn-primary">Asociar
                     proveedores</a>
             @endif
+
+            {{-- validar --}}
+                    <a href="{{route('asignacion',)}}" class="btn btn-primary">Asignacion de materiales </a>
         </div>
         <div class="card-body">
             {{-- <td>{{ $demanda->created_at->format('d-m-Y') }}</td>

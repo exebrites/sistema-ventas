@@ -19,7 +19,7 @@
                 </ul>
             </div>
         @endif
-        
+
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Inicio</a></li>
@@ -37,18 +37,18 @@
                 <div class="row">
                     @foreach ($products as $pro)
                         <div class="col-lg-3">
-                            <div class="card" style="margin-bottom: 20px; height: auto;">
+                            <div class="card" style="margin-bottom: 20px; height: 300px;">
 
-                                {{-- <img src="/storage/{{ $pro->image_path }}" --}}
-                                <img src="{{ $pro->image_path }}" class="card-img-top mx-auto"
-                                    style="height: 150px; width: 150px;display: block;" alt="{{ $pro->image_path }}">
+
                                 <div class="card-body">
-                                    {{-- acceder a los detalles del producto atraves del nombre --}}
+                                    <img src="{{ $pro->image_path }}" class="card-img-top mx-auto"
+                                        style="height: 150px; width: 150px;display: block;" alt="{{ $pro->image_path }}">
+                                    <br>
                                     <a href="{{ route('producto.detalle', ['id' => $pro->id]) }}">
                                         <h6 class="card-title">{{ $pro->name }}</h6>
                                     </a>
-                                    {{-- <a href="">{{ $pro->name }}</a> --}}
-                                    <p>${{ $pro->price }}</p>
+                                    <p>Precio: ${{ $pro->price }}</p>
+
                                     <form action="{{ route('cart.store') }}" method="POST">
                                         {{ csrf_field() }}
                                         <input type="hidden" value="{{ $pro->id }}" id="id" name="id">

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use OwenIt\Auditing\Contracts\Auditable;
-
+use App\Models\RegistroPedidoDemanda;
 
 class Demanda extends Model implements Auditable
 {
@@ -90,7 +90,7 @@ class Demanda extends Model implements Auditable
     }
     public function demandaPedido()
     {
-        return $this->hasOne(registroPedidoDemanda::class, 'demanda_id', '');
+        return $this->hasMany(RegistroPedidoDemanda::class, 'demanda_id', '');
     }
     public function fechaCierre()
     {

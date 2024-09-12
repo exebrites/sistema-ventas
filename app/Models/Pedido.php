@@ -117,11 +117,12 @@ class Pedido extends Model implements Auditable
         // acceder al pedido a los diferentes productos
 
         $detalles = $this->detallePedido;
+        // dump($detalles);
         // Inicializa el array resultante C
         $arrayC = [];
         foreach ($detalles as $key => $detalle) {
             $cantidad = $detalle->cantidad;
-
+// dump($detalle->producto_id);
             $producto = $detalle->producto;
             $proporcion = $producto->proporcionCantidad($cantidad);
             $arrayA = $proporcion;
@@ -193,10 +194,17 @@ class Pedido extends Model implements Auditable
     {
         $arrayPedidos = $pedidos;
         $arrayC = [];
-
+// dd($arrayPedidos);
         foreach ($arrayPedidos as $key => $pedido) {
-
+            // dump($pedido);
             $arrayA = $pedido->listaMaterialesPedidos();
+
+
+            //*Registrar la lista de materiales por pedido
+
+            //validar la comparacion con stock(?)
+
+
             foreach ($arrayA as $elementoA) {
                 $idA = $elementoA['id'];
                 $cantidadA = $elementoA['cantidad'];
@@ -211,7 +219,8 @@ class Pedido extends Model implements Auditable
                 }
             }
         }
-
+// dd($arrayC);
+// dd("fin");
         return $arrayC;
     }
 

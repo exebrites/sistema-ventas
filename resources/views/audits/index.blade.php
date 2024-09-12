@@ -62,8 +62,10 @@
                 <thead>
                     <tr>
                         {{-- <th>ID</th> --}}
-                        <th>Tipo de Usuario</th>
-                        {{-- <th>ID de Usuario</th> --}}
+                        {{-- <th>Modelo</th> --}}
+
+                        <th>Nombre de usuario</th>
+
                         <th>Evento</th>
                         <th>Tipo de Auditoría</th>
                         <th>Detalles</th>
@@ -79,11 +81,29 @@
                         @foreach ($audits as $audit)
                             <tr>
                                 {{-- <td>{{ $audit->id }}</td> --}}
-                                <td>{{ $audit->user_type }}</td>
-                                {{-- <td>{{ $audit->getName($audit->user_id) }}</td> --}}
+                                {{-- <td>{{ $audit-> }}</td> --}}
+                                {{-- <td>{{ $audit->user_type === 'App\Models\User' ? 'Usuario' : class_basename($audit->user_type) }}</td> --}}
+                                <td>{{ $audit->getUserNameAttribute($audit->user_id) }}</td>
 
-                                <td>{{ $audit->event }}</td>
-                                <td>{{ $audit->auditable_type }}</td>
+                                <td>
+                                    @switch($audit->event)
+                                        @case('created')
+                                            Creación
+                                        @break
+
+                                        @case('updated')
+                                            Actualización
+                                        @break
+
+                                        @case('deleted')
+                                            Eliminación
+                                        @break
+
+                                        @default
+                                            {{ $audit->event }}
+                                    @endswitch
+                                </td>
+                                <td>{{ class_basename($audit->auditable_type) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#auditDetailsModal{{ $audit->id }}">
@@ -109,10 +129,122 @@
                                         </div>
                                         <!-- Dentro del modal-body -->
                                         <div class="modal-body">
-                                            <strong>Valores anteriores:</strong> {{ json_encode($audit->old_values) }}<br>
-                                            <strong>Nuevos valores</strong> {{ json_encode($audit->new_values) }}<br>
-                                            {{-- Include other details as needed --}}
+                                            {{-- {{dd($audit->old_values)}} --}}
 
+                                            {{-- {{ json_encode($audit->old_values) }}
+                                            <br>
+                                            {{ json_encode($audit->new_values) }}
+                                            <br> --}}
+
+
+
+
+                                            @if (strcmp($audit->auditable_type, 'App\Models\User') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Cliente') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Pedido') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        {{-- <p><strong>{{ $key }}:</strong> {{ $value }}</p> --}}
+                                                        @if ($key == 'estado_id')
+                                                            <p><strong>{{ $key == 'estado_id' ? 'Estado' : $key }}:</strong>
+                                                                {{ $audit->getEstadoNameAttribute($value) }}</p>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    {{-- <p><strong>{{ $key }}:</strong> {{ $value }}</p> --}}
+                                                    @if ($key == 'estado_id')
+                                                    <p><strong>{{ $key == 'estado_id' ? 'Estado' : $key }}:</strong>
+                                                        {{ $audit->getEstadoNameAttribute($value) }}</p>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Disenio') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Producto') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Demanda') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Oferta') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                @endforeach
+                                            @endif
                                             <!-- Añade estilos para limitar la altura y agregar desplazamiento -->
                                             <style>
                                                 .modal-body {
@@ -143,10 +275,10 @@
 
 
 @section('css')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    {{-- --- --}}
     <link rel="stylesheet" href="{{ asset('css/btnFijo.css') }}">
     {{-- btn-fixed-width --}}
 
@@ -156,41 +288,18 @@
 
 @endsection
 @section('js')
-    {{-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-    <script>
-        var table = new DataTable('#auditoria', {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            },
-        });
-        // $('#iptAlias').keyup(function() {
-        //     table.column($(this).data('index')).search(this.value).draw();
-        // })
 
-        // $('#iptNombre').keyup(function() {
-        //     table.column($(this).data('index')).search(this.value).draw();
-        // })
-
-        // $('#iptDescripcion').keyup(function() {
-        //     table.column($(this).data('index')).search(this.value).draw();
-        // })
-
-        // $('#iptNombre', '#iptDescripcion').keyup(function() {
-        //     table.draw();
-        // })
-
-        // $.fn.dataTable.ext.search.push(
-        //     function(settings, data, dataIndex) {
-        //         var cosito = $('#iptNombre').val()
-        //         console.log(cosito)
-        //     }
-        // )
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
 
-
-{{-- DATATABLE --}}
+    {{-- DATATABLE --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
@@ -216,7 +325,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script> --}}
+    </script>
     {{-- implementacion de una confirmacion de borrado por el usuario --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/confirmacionBorrado.js') }}"></script>

@@ -44,13 +44,13 @@ class CostoDisenio extends Model
         */
 
         $porcentajeCobro = $costo_disenio->porcentaje_costo;    # code...
-        if ($cantidad >= 50 && $cantidad < 100) {
-            $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.1;    # code...
-        } elseif ($cantidad >= 100 && $cantidad < 200) {
-            $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.2;    # code...
-        } elseif ($cantidad >= 200) {
-            $porcentajeCobro = $costo_disenio->porcentaje_costo / 2;    # code...
-        }
+        // if ($cantidad >= 50 && $cantidad < 100) {
+        //     $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.1;    # code...
+        // } elseif ($cantidad >= 100 && $cantidad < 200) {
+        //     $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.2;    # code...
+        // } elseif ($cantidad >= 200) {
+        //     $porcentajeCobro = $costo_disenio->porcentaje_costo / 2;    # code...
+        // }
         // dd($porcentajeCobro);
         if ($estado) {
             $costo_hs = $costo_disenio->horas_disenio_asistido * $costo_disenio->hora_disenio;
@@ -60,11 +60,15 @@ class CostoDisenio extends Model
             $costo_porcentaje =  $porcentajeCobro * $subtotal;
         }
 
+        // dump($costo_porcentaje);
+        // dump($costo_hs);
         if ($costo_porcentaje >= $costo_hs) {
             $costo = $costo_porcentaje;
         } else {
             $costo = $costo_hs;
         }
+        // dump($costo);
+        // dd("");
 
         return $costo;
     }

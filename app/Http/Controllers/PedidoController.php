@@ -157,6 +157,21 @@ class PedidoController extends Controller
             $idDP = detallePedido::max('id');
             $estadoDisenio = 1; //tiene disenio
             $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
+            // dump($p->attributes->disenio_estado);
+            // dump(
+            //     mb_strlen($p->attributes->nombre, 'UTF-8')
+            // );
+
+            // dump(
+            //     mb_strlen($p->attributes->objetivo, 'UTF-8')
+            // );
+            // dump(
+            //     mb_strlen($p->attributes->publico, 'UTF-8')
+            // );
+            // dump(
+            //     mb_strlen($p->attributes->contenido, 'UTF-8')
+            // );
+            // dd("");
             if ($p->attributes->disenio_estado == 'true') {
                 $url_imagen = $p->attributes->url_disenio;
                 // dd($url_imagen);
@@ -312,8 +327,8 @@ class PedidoController extends Controller
         } else {
             // dd("hola");
             $oferta = Oferta::where('estado', 'pendiente')->latest()->first();
-            $demanda =  Demanda::where('estado','confirmado')->latest()->first();
-            
+            $demanda =  Demanda::where('estado', 'confirmado')->latest()->first();
+
             // dd();
             if (count($demanda->oferta) === 0) {
                 # code...

@@ -19,8 +19,7 @@ class CartController extends Controller
 {
     public function shop()
     {
-        $products = Producto::paginate(10);
-
+        $products = Producto::orderBy('visitas', 'desc')->paginate(8);
         return view('shop', compact('products'));
     }
     public function cart()
@@ -144,6 +143,7 @@ class CartController extends Controller
     public function update(Request $request)
     {
 
+        // dd("");
         \Cart::update(
             $request->id,
             array(
@@ -157,19 +157,23 @@ class CartController extends Controller
         $precio  = $p->price;
         $cantidad = $p->quantity;
         $disenio_estado = $p->attributes['disenio_estado'];
+        $imagen_path =  $p->attributes['imagen_path'];
 
+        // dump($p);
+        // dd("");
 
         if ($p->attributes['disenio_estado']) {
 
+            $url_disenio = $p->attributes['url_disenio'];
 
             $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
             \Cart::update(
                 $request->id,
                 array(
                     'attributes' => array(
-                        "imagen_path" => "/storage/FMPgTlCgn3tYPUGvjyrFkT9tpEQNga5OJGY1bGGX.jpg",
+                        "imagen_path" => $imagen_path,
                         "slug" => "Carpetas de Presentación",
-                        "url_disenio" => "/storage/0AwqRCXgH0RAcqsfkZeWge1AznvYuc0K2StKsbdV.jpg",
+                        "url_disenio" => $url_disenio,
                         "disenio_estado" => true,
                         "costo_disenio" => $costo
 
@@ -180,17 +184,23 @@ class CartController extends Controller
 
             $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
 
+            $nombre = $p->attributes['nombre'];
+            $objetivo =  $p->attributes['objetivo'];
+            $publico = $p->attributes['publico'];
+            $contenido = $p->attributes['contenido'];
+            $logo   = $p->attributes['logo'];
+            $img = $p->attributes['img'];
             \Cart::update(
                 $request->id,
                 array(
                     'attributes' => array(
-                        "imagen_path" => "/storage/sDTLkULx74Uzo0zEMALrmnmbAUrJ4WYqd7bTPbpQ.jpg",
-                        "nombre" => "asd",
-                        "objetivo" => "asd",
-                        "publico" => "asd",
-                        "contenido" => "asd",
-                        "logo" => "",
-                        "img" => "",
+                        "imagen_path" => $imagen_path,
+                        "nombre" => $nombre,
+                        "objetivo" => $objetivo,
+                        "publico" => $publico,
+                        "contenido" => $contenido,
+                        "logo" => $logo,
+                        "img" => $img,
                         "disenio_estado" => false,
                         "costo_disenio" => $costo
 

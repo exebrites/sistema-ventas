@@ -87,7 +87,6 @@
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
                                 <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
                                 <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br>
-{{dump($detalle->disenio->disenio_estado)}}
                                 @if ($detalle->disenio->disenio_estado === 1)
                                     <b> Estado del diseño: </b>
                                     @if ($detalle->disenio->revision === 0)

@@ -100,8 +100,8 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="">Fecha de entrega </label>
-                    <input type="date" name="fecha_e" id="" class="form-control"
+                    <label for="fecha_e">Fecha de entrega </label>
+                    <input type="date" name="fecha_e" id="fecha_e" class="form-control"
                         value="{{ $pedido->fecha_inicio }}" required>
 
                 </div>

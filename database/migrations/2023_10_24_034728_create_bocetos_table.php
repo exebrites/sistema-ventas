@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('bocetos', function (Blueprint $table) {
             $table->id();
             // $table->unsignedBigInteger('disenios_id')->unique();
-            $table->string('negocio');
-            $table->string('objetivo');
-            $table->string('publico');
-            $table->string('contenido');
+            $table->string('negocio', 500)->nullable();
+            $table->string('objetivo', 500)->nullable();
+            $table->string('publico', 500);
+            $table->string('contenido', 500);
             $table->string('url_logo');
             $table->string('url_img');
             $table->foreignId('detallePedido_id')->constrained('detalle_pedidos');

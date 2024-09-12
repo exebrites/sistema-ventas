@@ -125,35 +125,53 @@ class OrdenCompraListener
             if ($ultimaOferta) {
                 //objetivo 
                 // Crear una orden de compra teniendo en cuenta el stock previsto
-                // dd("oferta aceptada");
+                dd("oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 if ($listaMaterilesNecesarios === null) {
-                    # code...
                     dd("lista vacia");
                 }
-
-                $arrayMateriales = [];
-                foreach ($listaMaterilesNecesarios as $key => $material) {
-                    $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
-                    $comparacion = $virtual_stock->cantidad - $material['cantidad'];
-                    $virtual_stock->cantidad = $comparacion;
-                    $arrayMateriales[] = $virtual_stock;
+                // stock previsto = stock virtual + Oferta
+                $stock_previsto = [];
+                foreach ($ultimaOferta->detalleOferta as  $detalle) {
+                    $cantidadOferta = $detalle->cantidad;
+                    $material_stock_virtual = StockVirtual::where('material_id', $detalle->material_id)->first();
+                    $material_stock_virtual->cantidad = $material_stock_virtual->cantidad + $cantidadOferta;
+                    $stock_previsto[]  = $material_stock_virtual;
                 }
                 $demanda = Demanda::create([
                     'estado' => 'en-confirmacion',
                     'fecha_cierre' => $fecha_cierre,
                 ]);
-                foreach ($arrayMateriales as $key => $material) {
-                    $virtual_stock = StockVirtual::where('material_id', $material->material_id)->first();
-                    $virtual_stock->update([
-                        'cantidad' => $material->cantidad
-                    ]);
-                    if ($material->cantidad < 0) {
+                //objetivo :
+                // realizar la comparacion entre stock previsto y lista de materiales 
+                foreach ($listaMaterilesNecesarios as $materialLista) {
+                    //busco en el array de stock previsto el material que coincide con la lista de materiales necesarios
+                    //y lo guardo en la variable $material_stock_previsto
+                    //si no existe el material en el array de stock previsto, la variable $material_stock_previsto sera null
+                    $material_stock_previsto = collect($stock_previsto)->firstWhere('material_id', $materialLista['id']);
+                    $virtual_stock = StockVirtual::where('material_id', $materialLista['id'])->first();
+                    if (!$material_stock_previsto) {
+
+                        $comparacion =    $virtual_stock->cantidad - $materialLista['cantidad'];
+                    } else {
+                        $comparacion  = $material_stock_previsto->cantidad - $materialLista['cantidad'];
+                    }
+                    if ($comparacion >= 0) {
+
+                        $virtual_stock->update([
+                            'cantidad' => $virtual_stock->cantidad - $materialLista['cantidad'],
+                        ]);
+                    } else {
+
+                        $virtual_stock->update([
+                            'cantidad' => $comparacion,
+                        ]);
+
                         $detalle = DetalleDemanda::create([
                             'demandas_id' => $demanda->id,
-                            'materiales_id' => $material->material_id,
-                            'cantidad' =>  -$material->cantidad
+                            'materiales_id' => $materialLista['id'],
+                            'cantidad' =>  -$comparacion
                         ]);
                     }
                 }

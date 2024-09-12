@@ -152,11 +152,11 @@ class OfertaController extends Controller
 
         // Aca se genera el stock previo 
         // que es el stock virtual + la oferta
-        foreach ($detalles as $key => $detalle) {
-            $virtual_stock = StockVirtual::where('material_id', $detalle->material_id)->first();
-            $virtual_stock->update(['cantidad' => $virtual_stock->cantidad + $detalle->cantidad]);
-            // dump($virtual_stock);
-        }
+        // foreach ($detalles as $key => $detalle) {
+        //     $virtual_stock = StockVirtual::where('material_id', $detalle->material_id)->first();
+        //     $virtual_stock->update(['cantidad' => $virtual_stock->cantidad + $detalle->cantidad]);
+        //     // dump($virtual_stock);
+        // }
         $ofertas = Oferta::where('id', '!=', $ofertaConfirmada->id)->where('demanda_id', $demanda_id)->get();
         foreach ($ofertas as $o) {
             $o->estado = 'cancelada';

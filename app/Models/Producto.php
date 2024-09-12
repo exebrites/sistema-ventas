@@ -37,7 +37,7 @@ class Producto extends Model implements Auditable
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class,'category_id','');
+        return $this->belongsTo(Categoria::class, 'category_id', '');
     }
 
     public function sistOliva()
@@ -58,7 +58,7 @@ class Producto extends Model implements Auditable
 
     public function detalleProducto()
     {
-        return $this->hasMany(DetalleProducto::class,'producto_id','id');
+        return $this->hasMany(DetalleProducto::class, 'producto_id', 'id');
     }
 
     // nombre de metodo en calmeCase
@@ -86,19 +86,24 @@ class Producto extends Model implements Auditable
     }
 
 
-    public function proporcionCantidad($cantidad = 1)
+    public function proporcionCantidad($cantidad)
     {
         // retornar una lista de materiales con las cantidades proporcionales a la cantidad solictada
-
+        // dump("proporciion");
+        // dump($this->id . " " . $cantidad);
         $materiales = $this->listaMaterial();
         $proporcion = [];
         foreach ($materiales as $key => $material) {
+            // dump($material['id']);
             $proporcion[$key] = [
                 'id' => $material['id'],
                 'nombre' => $material['nombre'],
                 'cantidad' => $material['cantidad'] * $cantidad
             ];
+            // dump($material['cantidad'] * $cantidad);
         }
+
+        // dd($proporcion);
         return  $proporcion;
     }
     use HasFactory;

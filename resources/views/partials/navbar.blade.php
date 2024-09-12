@@ -14,10 +14,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0" action="{{ route('busqueda') }}" method="GET">
-                        <input name="buscar" class="form-control  mr-sm-2 " type="text" placeholder="Buscar"
-                            aria-label="Buscar">
+                <li class="nav-item" >
+                    <form class="form-inline my-2 my-lg-0" action="{{ route('busqueda') }}" method="GET"
+                        onsubmit="validar(event)" id="buscarForm">
+                        <input name="buscar" class="form-control mr-sm-2 w-50" type="text" placeholder="Buscar"
+                            aria-label="Buscar" id="buscar" style="min-width: 300px;">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                     </form>
                 </li>
@@ -27,7 +28,7 @@
             <!-- Barra de búsqueda -->
             <br><br>
             @guest
-                <ul class="navbar-nav">                
+                <ul class="navbar-nav" style="margin-left: 100px">
                     <li class="nav-item">
 
                         <a class="nav-link" href="{{ route('register') }}">Crear cuenta</a>
@@ -38,7 +39,6 @@
                     </li>
                 </ul>
             @else
-                
                 <ul class="navbar-nav" style="margin-left: 61px;">
                     <div class="dropdown">
                         <a class=" dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -71,7 +71,7 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                         this.closest('form').submit();">
-                                    Logout
+                                    Cerrar sesión
                                 </a>
                             </form>
 
@@ -79,7 +79,7 @@
                     </div>
 
                 </ul>
-               
+
             @endguest
 
 
@@ -118,3 +118,18 @@
         </div>
     </div>
 </nav>
+<script>
+    function validar(event) {
+        
+        event.preventDefault();
+        // console.log(event.tar);
+        let inputText = document.getElementById('buscar').value;
+        if (inputText.trim() === '') {
+            alert('Por favor, ingrese algo en el campo de búsqueda');
+            return;
+        }
+        else{
+            document.getElementById("buscarForm").submit();
+        }
+    }
+</script>

@@ -65,32 +65,7 @@
                         </div>
                         <div class="col-lg-5">
                             <p>
-                                {{-- <b><a href="/shop/{{ $item->attributes->slug }}">{{ $item->name }}</a></b><br> --}}
-
-                                {{-- Arreglar esta parte esta rota --}}
-                                {{-- <b><a href="{{route('productos.show',$item)}}">{{ $item->name }}</a></b><br> --}}
                                 <b>Precio unitario: </b>${{ $item->price }}<br>
-                                <b>SubTotal: </b>${{ \Cart::get($item->id)->getPriceSum() }}<br>
-                                {{--                                <b>With Discount: </b>${{ \Cart::get($item->id)->getPriceSumWithConditions() }} --}}
-                                {{-- {{ dd($item) }} --}}
-                                {{-- @if ($item->attributes['disenio_estado'])
-                                    <b> El costo del diseño asistido :</b>
-
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
-                                        data-placement="right"
-                                        title="Diseño asistido: donde usted como cliente sube un diseño inicial y nosotros lo completamos">
-                                        ?
-                                    </button>
-                                @else
-                                    <b> El costo del diseño completo:</b>
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
-                                        data-placement="right" title="Diseño completo: nosotros nos encargamos de todo el diseño para usted">
-                                        ?
-                                    </button>
-                                @endif
-                                <br>
-                                ${{ $item->attributes['costo_disenio'] }} --}}
-
 
                                 @if ($item->attributes['disenio_estado'])
                                     <b>El costo del diseño asistido:</b>
@@ -110,6 +85,11 @@
                                 @endif
                                 <br>
                                 ${{ $item->attributes['costo_disenio'] }}
+
+                                <br>
+                                <b>SubTotal:
+                                </b>${{ \Cart::get($item->id)->getPriceSum() + $item->attributes['costo_disenio'] }}<br>
+
 
                             </p>
                         </div>
@@ -156,9 +136,10 @@
 
 
                     <form action="{{ route('procesarPedido.procesar') }}" method="post">
-                        @csrf <label for="fechaEntrega" class="font-weight-bold">Fecha requerida para la entrega del pedido:</label>
+                        @csrf <label for="fechaEntrega" class="font-weight-bold">Fecha requerida para la entrega del
+                            pedido:</label>
                         <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" required
-                             max="2030-01-01">
+                            max="2030-01-01">
                         @error('fechaEntrega')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -166,7 +147,7 @@
                         @enderror
                         <br>
                         <a href="/" class="btn btn-dark">Continue en la tienda</a>
-                        <button type="submit" class="btn btn-success">Finalizar compra</button>
+                        <button type="submit" class="btn btn-success">Continuar compra</button>
                     </form>
 
 

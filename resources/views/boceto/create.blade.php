@@ -20,7 +20,8 @@
                         </div>
                     @endif
                     <h1>Realizar un boceto</h1>
-                    <form action="{{ route('cart.store_boceto') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('cart.store_boceto') }}" method="POST" enctype="multipart/form-data"
+                        id="formulario">
                         @csrf
                         <input type="hidden" value="{{ $pro->id }}" id="id" name="id">
                         <input type="hidden" value="{{ $pro->name }}" id="name" name="name">
@@ -33,35 +34,47 @@
                         <div class="form-group">
                             <label><b>(*)Nombre del negocio</b></label>
                             <input type="text" class="form-control" aria-describedby="emailHelp" name="nombre"
-                                placeholder="Ej: empresaSA">
+                                placeholder="Ej: empresaSA" onkeyup="caracteres(event)">
                             @error('nombre')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <b><label>(*)Para que quiere el diseño?</label></b>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" name="objetivo"
-                                placeholder="Ej: llegar a nuevos clientes">
+                            <textarea class="form-control" aria-describedby="emailHelp" name="objetivo" placeholder="Ej: llegar a nuevos clientes"
+                                maxlength="450" onkeyup="caracteres(event)"></textarea>
                             @error('objetivo')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
+                            @if (strlen(old('objetivo')) > 450)
+                                <div class="text-danger">El contenido excede la longitud maxima permitida (450 caracteres)
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group">
                             <b> <label>(*)A quien va dirigido el diseño</label>
                             </b>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" name="publico"
-                                placeholder="Ej: personas entre 18 30 años">
+                            <textarea class="form-control" aria-describedby="emailHelp" name="publico" placeholder="Ej: personas entre 18 30 a os"
+                                maxlength="450" id="publico" onkeyup="caracteres(elemento)"></textarea>
                             @error('publico')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
+                            @if (strlen(old('publico')) > 450)
+                                <div class="text-danger">El contenido excede la longitud maxima permitida (450 caracteres)
+                                </div>
+                            @endif
                         </div>
                         <div class="form-group">
                             <b><label>(*)Agregar contenido y texto</label></b>
-                            <textarea class="form-control" aria-label="With textarea" name="contenido"></textarea>
+                            <textarea class="form-control" aria-label="With textarea" name="contenido" maxlength="450" onkeyup="caracteres(event)"></textarea>
                             @error('contenido')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
+                            @if (strlen(old('contenido')) > 450)
+                                <div class="text-danger">El contenido excede la longitud maxima permitida (450 caracteres)
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group">
@@ -119,7 +132,7 @@
 
     </div>
 
-    <script>
+    {{-- <script>
         function manejarCambioArchivo() {
             var archivoInput = document.getElementById('archivoInput');
             var checkbox = document.getElementById('checkbox');
@@ -134,6 +147,16 @@
                 // checkbox.disabled = false;
                 checkbox.style.display = "block";
             }
+        }
+    </script> --}}
+    <script>
+        function caracteres(elemento, limite = 450) {
+            let publico = document.getElementById(elemento)
+            if (publico.value.length > limite) {
+                alert(`El campo "${elemento}" no debe superar los ${limite} caracteres`)
+                return false
+            }
+
         }
     </script>
 @endsection

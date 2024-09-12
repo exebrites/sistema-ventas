@@ -76,11 +76,12 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        <h5 style="text-align: center">Logo de la empresa</h5>  
+                        <h5 style="text-align: center">Logo de la empresa</h5>
                         <br>
-                        <br>                     
+                        <br>
                         @if ($boceto->url_logo != null)
-                            <img src="{{ $boceto->url_logo }}" class="img-fluid" alt="Logo">
+                            <img src="{{ $boceto->url_logo }}" class="img-fluid" alt="Logo" width="200"
+                                height="150">
                             <form action="{{ route('descargar_boceto') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="archivo" value="url_logo">
@@ -89,14 +90,15 @@
                                 <button type="submit" class="btn btn-primary">Descargar</button>
                             </form>
                         @else
-                            {{ 'No se subio ningun logo ' }}
+                            {{ 'No tiene logo' }}
                         @endif
                     </div>
 
                     <div class="col">
                         <h5 style="text-align: center">Imagen de lo que quiere que se muestre</h5><br>
                         @if ($boceto->url_img != null)
-                            <img src="{{ $boceto->url_img }}" class="img-fluid" alt="Imagen">
+                            <img src="{{ $boceto->url_img }}" class="img-fluid" alt="Imagen" width="400"
+                                height="300">
                             <form action="{{ route('descargar_boceto') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="archivo" value="url_img">
@@ -105,7 +107,7 @@
                                 <button type="submit" class="btn btn-primary">Descargar</button>
                             </form>
                         @else
-                            {{ 'No tiene imagen para el diseño' }}
+                            {{ 'No tiene imagen o recurso visual' }}
                         @endif
                     </div>
                 </div>
