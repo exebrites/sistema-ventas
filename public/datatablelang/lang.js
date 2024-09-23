@@ -11,11 +11,14 @@
 //         language: {
 //             info: 'Mostrar registros de _START_ a _END_ ',
 //             infoEmpty: 'No hay registros',
-//             infoFiltered: '(filtered from _MAX_ total records)',
+// infoFiltered: '(filtrado de _MAX_ registros totales)',
 //             lengthMenu: 'Mostrar _MENU_ registros',
 //             zeroRecords: 'No se encontraron coincidencias',
 //             search: 'Buscar:',
-
+// paginate: {
+//     previous: 'Anterior',
+//     next: 'Siguiente',
+// },
 //             emptyTable: 'No hay datos disponibles',
 //         }
 //     });

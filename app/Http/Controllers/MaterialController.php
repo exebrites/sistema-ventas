@@ -294,6 +294,8 @@ class MaterialController extends Controller
     public function entradaMateriales(Request $request)
     {
 
+
+        // return "actualizar stock";
         //1. RECEPCION Y ACTUALIZACION DE STOCK 
         $datos = $request->all();
 
@@ -309,15 +311,39 @@ class MaterialController extends Controller
         // dd([$materialIds, $nombres, $cantidades, $precios, $entradas, $materialStock = Material::find($materialIds[0])]);
         // Ahora puedes procesar o almacenar estos datos según tus necesidades
         foreach ($materialIds as $key => $materialId) {
-            // Accede a los datos asociados
 
-            // $material_id = $materialIds[0];
-            $cantidad = $cantidades[$key];
-            Recepcion::create([
-                'material_id' => $materialId,
-                'cantidad' => $cantidad
+
+            $material = Material::find($materialId);
+            $material->update([
+                'stock' => $material->stock + $cantidades[$key]
             ]);
         }
-        return redirect()->route('asignacion')->with('success', 'Se agregó correctamente los materiales a stock');
+        return redirect()->route('pedidos.index')->with('success', 'Se agregó correctamente los materiales a stock');
+    }
+    public function ver_stock($pedido_id)
+    {
+        // busco el pedido 
+        // busco los detalles
+        // conozco los productos
+        // busco el producto 
+        // conozco el detalle de fabricacion
+        // busco el detalle
+        $pedido = Pedido::find($pedido_id);
+        $lista = $pedido->listaMaterialesPedidosProducto();
+        $materialesNecesarios = [];
+        foreach ($lista as $key => $necesario) {
+            $material = Material::find($key);
+            $materialesNecesarios[] = [
+                'material_id' => $key,
+                'nombre' => $material->nombre,
+                'cantidad' => $necesario['cantidad'],
+                'stock'=>$material->stock
+            ];
+        }
+        // dd($materialesNecesarios);
+
+
+
+        return view('material.lista_materiales', compact('materialesNecesarios'));
     }
 }

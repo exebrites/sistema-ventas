@@ -34,11 +34,18 @@ class InicioController extends Controller
         // Calcular el numero de pedidos en estado de disenio que tiene diseños aprobados ->listos para preproduccion
         $nroPedidosDiseniosAprobados = 0;
         $pedidosDisenio = Pedido::where('estado_id', $estado)->get();
+        $auxpedido = null;
         foreach ($pedidosDisenio as $pedido) {
+
+
             foreach ($pedido->detallePedido as $detalle) {
+                if ($auxpedido && $auxpedido->id === $pedido->id) {
+                    continue;
+                }
                 if ($detalle->produccion === 1) {
                     $nroPedidosDiseniosAprobados++;
                 }
+                $auxpedido = $pedido;
             }
         }
         return $nroPedidosDiseniosAprobados;
@@ -148,7 +155,10 @@ class InicioController extends Controller
             foreach ($pedido->detallePedido as  $detalle) {
 
                 if ($detalle->produccion === 1) {
-                    $pedidos[] = $pedido;
+
+                    if (!in_array($pedido, $pedidos)) {
+                        $pedidos[] = $pedido;
+                    }
                 }
             }
         }

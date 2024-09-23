@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\View;
 
 class PdfController extends Controller
 {
+
+    // use Barryvdh\DomPDF\Facade as PDF;
+
+    public function generarPDFDespacho($pedido_id)
+    {
+
+        // $pedido = Pedido::with(['cliente', 'productos'])->findOrFail($pedidoId);
+        $pedido = Pedido::find($pedido_id);
+        $detalleProductos = $pedido->detallePedido;
+        $fecha_despacho = now()->format('d-m-Y H:i:s');
+        $entrega = $pedido->entrega[0];
+        // dd($entrega);
+        $pdf = Pdf::loadView('pedido.pedido_pdf', compact('pedido','detalleProductos','fecha_despacho','entrega'));
+
+        return $pdf->download('pedido_despacho_' . $pedido->id . '.pdf');
+        // return $pdf->stream();
+    }
+
+
     public function index()
     {
         return view('prueba');
@@ -119,6 +138,7 @@ class PdfController extends Controller
         ];
         $pdf = Pdf::loadView('factura', $datos);
         // return $pdf->download('control_recepcion_pdf.pdf');
-        return $pdf->stream();
+        return $pdf->download('factura' . $pedido->id . '.pdf');
+
     }
 }

@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Mail\PedidoCancelado;
 use App\Models\Demanda;
+use App\Mail\confirmacionEntrega;
 
 class PedidoController extends Controller
 {
@@ -39,7 +40,7 @@ class PedidoController extends Controller
     {
         $estadoCancelado = 11;
         $estadoEntregado = 10;
-        $pedidos =  Pedido::where('estado_id', '!=', $estadoCancelado)->where('estado_id', '!=', $estadoEntregado)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
+        $pedidos =  Pedido::where('estado_id', '!=', $estadoCancelado)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
@@ -49,6 +50,9 @@ class PedidoController extends Controller
                 $pedido->fecha_inicio = $fecha->format('d-m-Y');
             }
         }
+
+        $pedidos = $pedidos->sortBy('estado_id');
+        // dd($pedidos);
         return view('pedido.index', compact('pedidos'));
     }
 
@@ -130,7 +134,7 @@ class PedidoController extends Controller
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
         }
 
-
+        // dd("");
         return view('pedido.pedidoCliente', ['pedidos' => $pedidos]);
     }
     public function detallePedido(Request $request)
@@ -311,6 +315,9 @@ class PedidoController extends Controller
                 // return "confirmacion de pago ";
                 Mail::to($usuario->correo)->send(new ConfirmacionPago($pedido, $usuario));
             }
+            if ($estado->id === 10) {
+                Mail::to($usuario->correo)->send(new ConfirmacionEntrega($pedido, $usuario));
+            }
             if ($estado->id === 11) {
                 //enviar correo
                 $usuario = $pedido->cliente;  // Asumiendo que el pedido tiene una relación con el usuario
@@ -329,12 +336,12 @@ class PedidoController extends Controller
             $oferta = Oferta::where('estado', 'pendiente')->latest()->first();
             $demanda =  Demanda::where('estado', 'confirmado')->latest()->first();
 
-            // dd();
-            if (count($demanda->oferta) === 0) {
-                # code...
+            // // dd();
+            // if ($demanda->oferta === null) {
+            //     # code...
 
-                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes una demanda sin ofertas.');
-            }
+            //     return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes una demanda sin ofertas.');
+            // }
             if ($oferta) {
                 return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');
             } else {

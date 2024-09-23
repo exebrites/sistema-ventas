@@ -4,13 +4,14 @@
 
 @section('content_header')
     <h1>
-        materiales para oferta</h1>
+        Materiales para oferta</h1>
 @stop
 
 @section('content')
 
     <div class="card">
         <div class="card-header">
+           
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
 
         </div>
@@ -52,8 +53,8 @@
     <div class="card">
         <div class="card-body">
 
-            Aca el proveedor realiza su oferta y puede verla. Asi como modificar y borrar antes del cierre de oferta
-            ofertas realizadas
+            {{-- Aca el proveedor realiza su oferta y puede verla. Asi como modificar y borrar antes del cierre de oferta
+            ofertas realizadas --}}
             <table class="table table-striped table-bordered" id="detalles">
                 <thead>
                     <tr>
@@ -106,7 +107,7 @@
             <br><br>
             @if (count($oferta->detalleOferta) != 0)
                 @if (!$oferta->finalizar_oferta)
-                    <a href="{{ route('finalizar_oferta', $oferta->id) }}" class="btn btn-primary">finalizar oferta</a>
+                    <a href="{{ route('finalizar_oferta', $oferta->id) }}" class="btn btn-primary">Finalizar oferta</a>
                 @endif
 
             @endif
@@ -128,7 +129,17 @@
     <script>
         var table = new DataTable('#demandas', {
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                info: 'Mostrar registros de _START_ a _END_ ',
+                infoEmpty: 'No hay registros',
+                infoFiltered: '(filtrado de _MAX_ registros totales)',
+                lengthMenu: 'Mostrar _MENU_ registros',
+                zeroRecords: 'No se encontraron coincidencias',
+                search: 'Buscar:',
+                paginate: {
+                    previous: 'Anterior',
+                    next: 'Siguiente',
+                },
+                emptyTable: 'No hay datos disponibles',
             },
             order: [
                 [0, 'desc']
@@ -138,7 +149,17 @@
     <script>
         var table = new DataTable('#detalles', {
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                info: 'Mostrar registros de _START_ a _END_ ',
+                infoEmpty: 'No hay registros',
+                infoFiltered: '(filtrado de _MAX_ registros totales)',
+                lengthMenu: 'Mostrar _MENU_ registros',
+                zeroRecords: 'No se encontraron coincidencias',
+                search: 'Buscar:',
+                paginate: {
+                    previous: 'Anterior',
+                    next: 'Siguiente',
+                },
+                emptyTable: 'No hay datos disponibles',
             },
             order: [
                 [0, 'desc']

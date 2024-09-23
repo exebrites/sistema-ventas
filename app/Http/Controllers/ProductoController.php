@@ -107,7 +107,9 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
-        return view('producto.edit', compact('producto'));
+        $categorias = Categoria::all();
+
+        return view('producto.edit', compact('producto', 'categorias'));
     }
 
     /**
@@ -119,6 +121,7 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         if ($request->file('file') == null) {
             // sino $url toma el valor que tenia imagen_path cuando no se actualiza la foto
             $p = Producto::find($request->id);
@@ -140,7 +143,8 @@ class ProductoController extends Controller
                 ],
                 // 'description' => ['required', 'string'],
                 'description' => ['string', 'max:255'],
-                'file' => ['file', 'mimes:jpeg,png', 'max:2048']
+                'file' => ['file', 'mimes:jpeg,png', 'max:2048'],
+                'categoria_id' => ['required', 'exists:categorias,id']
 
             ]);
         } catch (ValidationException $e) {
@@ -153,7 +157,7 @@ class ProductoController extends Controller
             'price' => $request->price,
             'slug' => $request->name,
             'description' => $request->description,
-            'category_id' => 1,
+            'category_id' => $request->categoria_id,
             'image_path' => $url,
             'alias' => $request->alias
         ]);
@@ -205,7 +209,7 @@ class ProductoController extends Controller
     public function buscarProducto()
     {
         $buscar = request()->get('buscar', '');
-        
+
         $producto = Producto::all();
 
         if (request()->has('buscar')) {

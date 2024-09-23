@@ -12,48 +12,42 @@
 
 <body>
 
-    <div class="card">
+    <div class="container mt-5">
+        <div class="card">
 
-        <div class="card-body">
+            <div class="card-header">
+                <h1 class="text-center">Tu pedido</h1>
+            </div>
 
+            <div class="card-body">
+                <h5>
+                    Número de pedido: {{ $id }} <br>
+                    Costo total: {{ $total }} <br>
+                    Costo abonar: {{ $total * 0.5 }}
+                </h5>
 
-            <H1 style="align-content:center">Tu pedido </H1>
-
-            <h5>
-                <br>
-                Número de pedido : {{ $id }}
-                <br>
-                Costo total: {{ $total }}
-                <br>
-                Costo abonar: {{ $total * 0.5 }}
-
-            </h5>
-
-            <p> Se le recuerda que se debe abonar el 50% del costo total para poder comenzar con el pedido
-                <br>
-                <br>
-
-                CVU: {{ config('contacto.cvu') }}
-                <br>
-                Alias :{{ config('contacto.alias') }}
-                <br>
-                <br>
-                Una vez realizada la transferencia bancaria subí tú comprobante para luego ser
-                aprobado el pago
-
-                En caso de ya haber efectuado el pago y no verlo reflejado en el sistema escribinos a olivas@gmail.com
-                <br>
-                <br>
-                Podes realizar el pago a traves de mercado pago : <a href="https://www.mercadopago.com.ar/home">Mercado
-                    pago </a>
-                <br>
-                Recorda: Descargá tu comprobante y subirlo al sistema luego de haber realizado el pago
-                <br><br>
-                {{-- Siguiente pago: <a href="{{ route('checkout.index') }}">subir comprobate</a> --}}
-                Saludos desde {{ config('contacto.nombre') }}
-            </p>
+                <p class="text-justify">
+                    Se le recuerda que se debe abonar el 50% del costo total para poder comenzar con el pedido. <br>
+                    <br>
+                    CVU: {{ config('contacto.cvu') }} <br>
+                    Alias: {{ config('contacto.alias') }} <br>
+                    <br>
+                    Una vez realizada la transferencia bancaria subí tú comprobante para luego ser aprobado el pago <br>
+                    <br>
+                    En caso de ya haber efectuado el pago y no verlo reflejado en el sistema escribinos a
+                    <a href="mailto:olivas@gmail.com">olivas@gmail.com</a> <br>
+                    <br>
+                    Podes realizar el pago a traves de <a href="https://www.mercadopago.com.ar/home">Mercado pago</a> <br>
+                    <br>
+                    Recorda: Descargá tu comprobante y subirlo al sistema luego de haber realizado el pago <br>
+                    <br>
+                    {{-- Siguiente pago: <a href="{{ route('checkout.index') }}">subir comprobate</a> --}}
+                    Saludos desde {{ config('contacto.nombre') }}
+                </p>
+            </div>
         </div>
     </div>
 </body>
 
 </html>
+

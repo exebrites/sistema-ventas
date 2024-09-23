@@ -100,77 +100,77 @@ route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofer
 
 Route::resource('/respuestas', RespuestaController::class);
 
-// Route::group(['middleware' => 'role:empresa'], function () {
+Route::group(['middleware' => 'role:empresa'], function () {
 
 
-// Route::resource('/demandas', DemandaController::class);
+    // Route::resource('/demandas', DemandaController::class);
+    route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
+    route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
+    route::get('/grafico/clientes', [GraficoController::class, 'indexCliente'])->name('indexCliente');
+    route::post('/grafico/clientes', [GraficoController::class, 'graficoCliente'])->name('graficoCliente');
+    route::resource('/categorias', CategoriaController::class);
+    Route::resource('/disenios', DisenioController::class); //ver diseños para revisar con el cliente
+    Route::post('/descargar', [DisenioController::class, 'descargar'])->name('disenios_descargar');
+    Route::put('/actualizardisenio', [DisenioController::class, 'actualizar_disenio'])->name('actualizar_disenio');
+    Route::resource('/materiales', MaterialController::class);
+    route::get('/materiales/recepcion/{id}', [MaterialController::class, 'recepcion'])->name('recepcion');
+    route::post('/materiales/entrada/', [MaterialController::class, 'entradaMateriales'])->name('entradaMateriales');
+    Route::get('/stock{id}', [MaterialController::class, 'stock'])->name('materiales.stock');
+    Route::put('/actualizar_stock/{id}', [MaterialController::class, 'stock_update'])->name('materiales.stock_update');
+    Route::get('/materiales_necesarios/{id}', [MaterialController::class, 'materiales_necesarios'])->name('materiales_necesarios');
+    Route::post('/generar_materiales', [MaterialController::class, 'generar_material'])->name('generar_material');
+    Route::resource('/historialMateriales', MaterialProveedorController::class);
+    route::get('bocetos/show/{id}', [BocetoController::class, 'show'])->name('showBoceto');
+    route::post('/descargar_boceto', [BocetoController::class, 'descargar_boceto'])->name('descargar_boceto');
+    Route::resource('/proveedores', ProveedorController::class);
+    Route::get('/pago', [MailController::class, 'pago'])->name('pago');
+    Route::post('/comprobante', [MailController::class, 'comprobante'])->name('comprobante');
+    Route::resource('/comprobantes', ComprobanteController::class)->except([
+        'store'  // Excluye la ruta POST automática generada por el resource
+    ]);
+    // Route::resource('/ofertas', OfertaController::class);
+    Route::resource('entrega', EntregaController::class)->except([
+        'store'  // Excluye la ruta POST automática generada por el resource
+    ]);
 
-Route::resource('/disenios', DisenioController::class)->middleware('role:admin'); //ver diseños para revisar con el cliente
-Route::post('/descargar', [DisenioController::class, 'descargar'])->name('disenios_descargar');
-Route::put('/actualizardisenio', [DisenioController::class, 'actualizar_disenio'])->name('actualizar_disenio');
-Route::resource('/materiales', MaterialController::class);
-route::get('/materiales/recepcion/{id}', [MaterialController::class, 'recepcion'])->name('recepcion');
-route::post('/materiales/entrada/', [MaterialController::class, 'entradaMateriales'])->name('entradaMateriales');
-Route::get('/stock{id}', [MaterialController::class, 'stock'])->name('materiales.stock');
-Route::put('/actualizar_stock/{id}', [MaterialController::class, 'stock_update'])->name('materiales.stock_update');
-Route::get('/materiales_necesarios/{id}', [MaterialController::class, 'materiales_necesarios'])->name('materiales_necesarios');
-Route::post('/generar_materiales', [MaterialController::class, 'generar_material'])->name('generar_material');
-Route::resource('/historialMateriales', MaterialProveedorController::class);
-route::get('bocetos/show/{id}', [BocetoController::class, 'show'])->name('showBoceto');
-route::post('/descargar_boceto', [BocetoController::class, 'descargar_boceto'])->name('descargar_boceto');
-Route::resource('/proveedores', ProveedorController::class);
-Route::get('/pago', [MailController::class, 'pago'])->name('pago');
-Route::post('/comprobante', [MailController::class, 'comprobante'])->name('comprobante');
-Route::resource('/comprobantes', ComprobanteController::class)->except([
-    'store'  // Excluye la ruta POST automática generada por el resource
-]);
-// Route::resource('/ofertas', OfertaController::class);
-Route::resource('entrega', EntregaController::class)->except([
-    'store'  // Excluye la ruta POST automática generada por el resource
-]);
+    Route::resource('/detalleproducto', DetalleProductoController::class);
+    Route::get('/detalleproducto/{id}', [DetalleProductoController::class, 'crear_detalle_producto'])->name('crear_detalle_producto');
+    Route::get('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'editar'])->name('detalleproducto.editar');
+    Route::delete('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'eliminar'])->name('detalleproducto.eliminar');
 
-Route::resource('/detalleproducto', DetalleProductoController::class);
-Route::get('/detalleproducto/{id}', [DetalleProductoController::class, 'crear_detalle_producto'])->name('crear_detalle_producto');
-Route::get('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'editar'])->name('detalleproducto.editar');
-Route::delete('/detalleproducto/{producto_id}/{material_id}', [DetalleProductoController::class, 'eliminar'])->name('detalleproducto.eliminar');
-
-Route::resource('pedidos', PedidoController::class);
-Route::resource('productos', ProductoController::class);
-Route::resource('/preguntas', PreguntaController::class);
-Route::resource('/bocetos', BocetoController::class)->except([
-    'create',
-    'show'  // Excluye la ruta POST automática generada por el resource
-]);
-Route::resource('clientes', ClienteController::class);
-route::get('/recepcionpdf/{id}', [PdfController::class, 'generarPDF'])->name('pdfRecepcion');
-route::get('/pdf', [PdfController::class, 'index'])->name('pdf');
-route::get('/welcome', [InicioController::class, 'inicio'])->name('pag.inicio');
-route::resource('/contacto', ContactoController::class);
-Route::get('/ordenCompra', [DemandaController::class, 'ordenCompra'])->name('ordenCompra');
-Route::get('/ordenCompra/confirmarOrden/{id}', [DemandaController::class, 'confirmarOrden'])->name('confirmar');
-Route::resource('/detallepedidos', DetallePedidoController::class);
-
-
-Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
-
-
-
-// Route::group(['middleware' => 'role:admin'], function () {
-// Rutas que requieren ser admin y empresa
-Route::resource('roles', RoleController::class);
-Route::resource('permisos', PermisosController::class);
-route::get('roles/asociar/{id}', [RoleController::class, 'editRol'])->name('editRol');
-route::put('roles/asociar/{id}', [RoleController::class, 'updateRol'])->name('updateRol');
-Route::post('/roles/{roleId}/remove-permission', [RoleController::class, 'remover'])->name('remover');
-Route::get('/users/{userId}/assign-multiple-roles-form', [UsuariosController::class, 'showAssignMultipleRolesForm'])->name('usuarios.showAssignMultipleRolesForm');
-Route::post('/users/{userId}/assign-multiple-roles', [UsuariosController::class, 'assignMultipleRoles'])->name('usuarios.assignMultipleRoles');
-Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
-Route::resource('/auditoria', AuditoriaController::class);
-Route::resource('/usuarios', UsuariosController::class);
-//     });
-// });
+    Route::resource('pedidos', PedidoController::class);
+    Route::resource('productos', ProductoController::class);
+    Route::resource('/preguntas', PreguntaController::class);
+    Route::resource('/bocetos', BocetoController::class)->except([
+        'create',
+        'show'  // Excluye la ruta POST automática generada por el resource
+    ]);
+    Route::resource('clientes', ClienteController::class);
+    route::get('/recepcionpdf/{id}', [PdfController::class, 'generarPDF'])->name('pdfRecepcion');
+    route::get('/pdf', [PdfController::class, 'index'])->name('pdf');
+    route::get('/welcome', [InicioController::class, 'inicio'])->name('pag.inicio');
+    route::resource('/contacto', ContactoController::class);
+    Route::get('/ordenCompra', [DemandaController::class, 'ordenCompra'])->name('ordenCompra');
+    Route::get('/ordenCompra/confirmarOrden/{id}', [DemandaController::class, 'confirmarOrden'])->name('confirmar');
+    Route::resource('/detallepedidos', DetallePedidoController::class);
 
 
+    Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
+});
+
+Route::group(['middleware' => 'role:admin'], function () {
+    // Rutas que requieren ser admin y empresa
+    Route::resource('roles', RoleController::class);
+    Route::resource('permisos', PermisosController::class);
+    route::get('roles/asociar/{id}', [RoleController::class, 'editRol'])->name('editRol');
+    route::put('roles/asociar/{id}', [RoleController::class, 'updateRol'])->name('updateRol');
+    Route::post('/roles/{roleId}/remove-permission', [RoleController::class, 'remover'])->name('remover');
+    Route::get('/users/{userId}/assign-multiple-roles-form', [UsuariosController::class, 'showAssignMultipleRolesForm'])->name('usuarios.showAssignMultipleRolesForm');
+    Route::post('/users/{userId}/assign-multiple-roles', [UsuariosController::class, 'assignMultipleRoles'])->name('usuarios.assignMultipleRoles');
+    Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
+    Route::resource('/auditoria', AuditoriaController::class);
+    Route::resource('/usuarios', UsuariosController::class);
+});
 Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
 Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
 Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
@@ -237,11 +237,8 @@ route::get('/reset', function () {
 
 route::resource('/registrodemandasproveedores', RegDemandaProveedor::class);
 route::get('/factura/{pedido_id}', [PdfController::class, 'generarFactura'])->name('factura');
-route::get('/confirmacionproveedor/{proveedor_id}/{demanda_id}',[RegDemandaProveedor::class,'confirmacion_proveedor_orden_compra'])->name('confirmacion_proveedor_orden_compra');
-route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
-route::get('/grafico', [GraficoController::class, 'index'])->name('graficoIndex');
-route::get('/grafico/clientes', [GraficoController::class, 'indexCliente'])->name('indexCliente');
-route::post('/grafico/clientes', [GraficoController::class, 'graficoCliente'])->name('graficoCliente');
+route::get('/confirmacionproveedor/{proveedor_id}/{demanda_id}', [RegDemandaProveedor::class, 'confirmacion_proveedor_orden_compra'])->name('confirmacion_proveedor_orden_compra');
+
 
 
 route::get('/otro', function () {
@@ -252,22 +249,22 @@ route::get('/otro', function () {
 route::post('/auditoria/filtro/fecha', [AuditoriaController::class, 'filtroFecha'])->name('filtroFecha');
 
 
-route::get('/correos', function () {
-    $correo = 'exequiel@gmail.com';
-    $disenio = Disenio::find(68);
-    $pedido =  $disenio->detallePedido->pedidos;
-    $producto = $disenio->detallePedido->producto;
-    $cliente = $pedido->cliente;
-    $empresa = config('contacto.nombre');
-    $user = User::find(1);
-    $password = "tupapi";
-    Mail::to($correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
-    Mail::to($correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
-    Mail::to($correo)->send(new EstadoMailable($pedido->estado->descripcion, $cliente->nombre, $pedido->id));
-    Mail::to($correo)->send(new UsuarioProveedorMailable($user, $password));
-});
+// route::get('/correos', function () {
+//     $correo = 'exequiel@gmail.com';
+//     $disenio = Disenio::find(68);
+//     $pedido =  $disenio->detallePedido->pedidos;
+//     $producto = $disenio->detallePedido->producto;
+//     $cliente = $pedido->cliente;
+//     $empresa = config('contacto.nombre');
+//     $user = User::find(1);
+//     $password = "tupapi";
+//     Mail::to($correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
+//     Mail::to($correo)->send(new DisenoRealizado($pedido, $producto, $cliente, $empresa));
+//     Mail::to($correo)->send(new EstadoMailable($pedido->estado->descripcion, $cliente->nombre, $pedido->id));
+//     Mail::to($correo)->send(new UsuarioProveedorMailable($user, $password));
+// });
 
-route::resource('/categorias', CategoriaController::class);
+
 route::get('/data', function () {
     return view('data');
 });
@@ -281,21 +278,26 @@ route::get('/verpedidoboceto', [InicioController::class, 'ver_pedido_boceto'])->
 route::get('/verrevision', [InicioController::class, 'ver_pedido_disenio_revision'])->name('ver_pedido_disenio_revision');
 route::get('/verpedidodisenioaprobado', [InicioController::class, 'ver_pedido_disenio_aprobado'])->name('ver_pedido_disenio_aprobado');
 
-route::get('/virtual',function(){
+route::get('/virtual', function () {
     StockVirtual::actualizar_stock_virtual();
 })->name('virtual');
 
-route::get('/asignacion',function(){
+route::get('/asignacion', function () {
 
     $demanda = Demanda::find(177);
-    $ofertas= $demanda->oferta;
+    $ofertas = $demanda->oferta;
     $registros = $demanda->demandaPedido;
     $pedidos  = [];
     foreach ($registros as $reg) {
         # code...
-        $pedidos  [] = $reg->pedido;
+        $pedidos[] = $reg->pedido;
     }
-$recepciones = Recepcion::all(); 
-return view('material.asignacionMateriales',compact('demanda','pedidos','ofertas','recepciones'));
+    $recepciones = Recepcion::all();
+    return view('material.asignacionMateriales', compact('demanda', 'pedidos', 'ofertas', 'recepciones'));
 })->name('asignacion');
+
+
+
+route::get('/pedido_pdf/{pedido}', [PdfController::class, 'generarPDFDespacho'])->name('generarPDFDespacho');
+route::get('/compararStock/{pedido}', [MaterialController::class, 'ver_stock'])->name('ver_stock');
 require __DIR__ . '/auth.php';

@@ -14,10 +14,10 @@
         
                 </div>
         <div class="card-body">
-            <h5>Informacion de demanda</h5>
+            <h5>Información de demanda</h5>
 
             <div class="form-group">
-                <label for="">Nro de demanda</label>
+                <label for="">Número de demanda</label>
                 <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId"
                     value="{{ $demanda->id }}" readonly>
             </div>

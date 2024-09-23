@@ -6,7 +6,7 @@
     <h1>Detalle de diseño</h1>
 @stop
 @section('content')
-
+{{-- {{d}} --}}
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
@@ -87,7 +87,7 @@
                                         <button type="submit" class="btn btn-primary">Descargar</button>
                                     </form>
                                     <br>
-                                    @if ($disenio->revision === 1)
+                                    @if ($disenio->revision === 1 || $disenio->revision===null)
                                         <form action="{{ route('actualizar_disenio', $disenio) }}" method="post"
                                             class="formulario-eliminar">
                                             @csrf
@@ -158,52 +158,51 @@
                     </div>
             @endfor
         </div>
-    </div>
-</div>
-
-
-
-<div class="container ">
-    <div class="row">
-        <div class="col d-flex">
-            @if ($disenio->detallePedido->produccion !== 1)
-                <div id="btn-cancelar">
-                    <a href="{{ route('pedidos.show', $disenio->detallePedido->pedido_id) }}"
-                        class="btn btn-danger btn-ampliado">Cancelar</a>
+        <div class="container ">
+            <div class="row">
+                <div class="col d-flex">
+                    @if ($disenio->detallePedido->produccion !== 1)
+                        <div id="btn-cancelar">
+                            <a href="{{ route('pedidos.show', $disenio->detallePedido->pedido_id) }}"
+                                class="btn btn-danger btn-ampliado">Cancelar</a>
+                        </div>
+                        @if ($disenio->url_disenio == null || $disenio->revision == 0)
+                            <div>
+                                <a class="btn btn-default btn-ampliado" aria-disabled="true">Enviar a revision</a>
+                            </div>
+                        @endif
+                        @if ($disenio->url_disenio != null && $disenio->revision === 1)
+                            <div>
+                                <a href="{{ route('revision_disenio', $disenio->id) }}"
+                                    class="btn btn-primary btn-ampliado">Enviar a revision</a>
+                            </div>
+                        @endif
+                    @endif
                 </div>
-                @if ($disenio->url_disenio == null || $disenio->revision == 0)
-                    <div>
-                        <a class="btn btn-default btn-ampliado" aria-disabled="true">Enviar a revision</a>
-                    </div>
-                @endif
-                {{-- @if ($disenio->url_disenio != null && $disenio->revision === 1) --}}
-                <div>
-                    <a href="{{ route('revision_disenio', $disenio->id) }}"
-                        class="btn btn-primary btn-ampliado">Enviar a revision</a>
-                </div>
-                {{-- @endif --}}
-            @endif
+            </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+
+
+
+
+
 @endsection
 @section('css')
 
-<link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
-<style>
-    .fixed-size {
-        width: 550px;
-        /* Tamaño fijo en píxeles */
-        height: 400px;
-        /* Tamaño fijo en píxeles */
-    }
-</style>
+    <link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
+    <style>
+        .fixed-size {
+            width: 550px;
+            /* Tamaño fijo en píxeles */
+            height: 400px;
+            /* Tamaño fijo en píxeles */
+        }
+    </style>
 
 @endsection
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
 @endsection

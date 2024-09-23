@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title')
 @section('content_header')
-    <h1>Demandas</h1>
+    <h1>Orden de compra</h1>
 @stop
 @section('content')
     <div class="card">
@@ -14,7 +14,7 @@
             <table class="table table-striped table-bordered" id="demandas">
                 <thead>
                     <tr>
-                        <th>Numero de demanda</th>
+                        <th>Numero de Orden</th>
                         <th>Fecha de creación</th>
                         <th>Fecha de cierre</th>
                         <th>Estado</th>
@@ -26,12 +26,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $estados = ['en-confirmacion' => 'En confirmacion', 'confirmado' => 'Confirmado', 'rechazado' => 'Rechazado']; ?>
                     @foreach ($demandas as $demanda)
+                        <?php
+                        $estado = array_key_exists($demanda->estado, $estados) ? $estados[$demanda->estado] : $demanda->estado;
+                        ?>
                         <tr>
                             <td>{{ $demanda->id }}</td>
                             <td>{{ $demanda->created_at->format('d-m-Y') }}</td>
                             <td>{{ $demanda->fecha_cierre->format('d-m-Y') }}</td>
-                            <td>{{ $demanda->estado }}</td>
+                            <td>{{ $estado }}</td>
                             @role(['admin', 'empresa'])
                                 <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                         href="{{ route('demandas.edit', $demanda->id) }}">Editar</a></td>
@@ -39,14 +43,14 @@
                                         href="{{ route('demandas.show', $demanda->id) }}">Ver</a></td>
                             @endrole
 
-                            {{-- @role(['proveedor']) --}}
+                            @role(['proveedor'])
                                 <td width="10px">
-                                    {{-- @if ($demanda->fechaCierre()) --}}
+                                    @if ($demanda->fechaCierre())
                                         <a class="btn btn-primary btn btn-sm btn-fixed-width"
                                             href="{{ route('demandas.showProveedor', $demanda->id) }}">Ver</a>
-                                    {{-- @endif --}}
+                                    @endif
                                 </td>
-                            {{-- @endrole --}}
+                            @endrole
                         </tr>
                     @endforeach
                 </tbody>

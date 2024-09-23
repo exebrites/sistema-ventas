@@ -8,7 +8,7 @@
 @stop
 
 @section('content')
-
+{{-- {{dd($producto)}} --}}
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
@@ -76,6 +76,23 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
+
+                <div class="categoria mb-3">
+                    <label for="" class="form-label">(*)Categoria</label>
+
+                    <select class="form-select" id="selector-categoria" data-placeholder="Seleccione una categoria"
+                        name="categoria_id" required>
+                        <option></option>
+
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->id }}" {{ $categoria->id === $producto->category_id ? 'selected' : '' }}>{{ $categoria->titulo }}</option>
+                        @endforeach
+                    </select>
+                    @error('categoria_id')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
+                </div>
                 <br>
                 <br>
                 <div class="container ">
@@ -127,6 +144,36 @@
                     // Asigna el valor del alias al campo correspondiente
                     $('#alias').val(alias);
                 });
+            });
+        </script>
+    @stop
+    @section('css')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+        <!-- Or for RTL support -->
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+
+    @endsection
+    @section('js')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+        <script>
+            $('#selector-categoria').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
+            });
+            $('#selector-proveedor').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
             });
         </script>
     @stop

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Oferta;
 use App\Models\Demanda;
+use App\Models\DetalleDemanda;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use App\Models\DetalleOferta;
@@ -34,7 +35,10 @@ class DetalleOfertaController extends Controller
         // return $demanda_id;
         // return $oferta_id;
         $material = Material::find($material_id);
-        return view('oferta.create_detalle', compact('demanda_id', 'oferta_id', 'material'));
+        $demanda = Demanda::find($demanda_id);
+        $detalle = DetalleDemanda::select()->where('demandas_id',$demanda_id)->where('materiales_id',$material_id)->first();
+        // dd($detalle);
+        return view('oferta.create_detalle', compact('demanda_id', 'oferta_id', 'material','detalle'));
     }
 
     /**
@@ -49,6 +53,11 @@ class DetalleOfertaController extends Controller
         $demanda = Demanda::find($request->demanda_id);
         $oferta = Oferta::find($request->oferta_id);
 
+        $detalleOferta = DetalleOferta::where('oferta_id',$oferta->id)->where('material_id',$request->material_id)->first();
+        if($detalleOferta){
+            return back()->withErrors(['material' => 'El material ya se ha agregado a esta oferta']);
+        }
+        
         DetalleOferta::create([
             'oferta_id' => $oferta->id,
             'material_id' => $request->material_id,

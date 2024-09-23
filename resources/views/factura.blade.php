@@ -101,7 +101,7 @@
                 <img class="imgHeader" src="{{ public_path() . '/images/logo.png' }}" alt="" srcset="">
                 <div class="infoHeader">
                     <h1>Oliva</h1>
-                    <p>Disenio e impresión</p>
+                    <p>Diseño e impresión</p>
                 </div>
             </div>
             <div class="col-4 infoHeader">

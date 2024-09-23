@@ -230,7 +230,8 @@ class DisenioController extends Controller
             $disenio = Disenio::find($request->id);
             $disenio->update([
                 'url_disenio' =>   $url,
-                'disenio_estado' => 1
+                'disenio_estado' => 1,
+                'revision' => 1
             ]);
         }
 

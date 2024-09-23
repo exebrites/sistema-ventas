@@ -62,14 +62,14 @@ class OrdenCompraListener
         $ultimaOferta = Oferta::where('estado', 'aceptada')->latest()->first(); //acá
         // $this->actualizar_stock_virtual();
         if ($ultimaDemanda) {
-            dd('demanda para actualizar ');
+            // dd('demanda para actualizar ');
             $pedidos = Pedido::pedidosSinOrden();
             if (count($pedidos) == 0) {
                 return "pedidos vacio";
             } else {
-                dd('Hay pedidos sin orden de compra asociados');
+                // dd('Hay pedidos sin orden de compra asociados');
                 $lista = Pedido::listaMateriales($pedidos);
-                dd($lista);
+                // dd($lista);
                 $materiales_orden_compra = [];
                 foreach ($ultimaDemanda->detalleDemandas as $key => $detalle) {
                     $materiales_orden_compra[] = [
@@ -77,12 +77,12 @@ class OrdenCompraListener
                         'cantidad' => $detalle->cantidad
                     ];
                 }
-                dd($materiales_orden_compra);
+                // dd($materiales_orden_compra);
 
                 $resultado = Demanda::combinar($lista, $materiales_orden_compra);
 
                 $materiales_orden_compra = $resultado;
-                dd($materiales_orden_compra);
+                // dd($materiales_orden_compra);
                 // dd('1.3');
                 foreach ($materiales_orden_compra as $key => $material) {
                     $virtual_stock = StockVirtual::where('material_id', $material['id'])->first();
@@ -125,7 +125,7 @@ class OrdenCompraListener
             if ($ultimaOferta) {
                 //objetivo 
                 // Crear una orden de compra teniendo en cuenta el stock previsto
-                dd("oferta aceptada");
+                // dd("oferta aceptada");
                 $pedidos = Pedido::pedidosSinOrden();
                 $listaMaterilesNecesarios = Pedido::listaMateriales($pedidos);
                 if ($listaMaterilesNecesarios === null) {
@@ -187,7 +187,7 @@ class OrdenCompraListener
                     $demanda->delete();
                 }
             } else {
-                dd("No hay demanda ni Oferta aceptada");
+                // dd("No hay demanda ni Oferta aceptada");
                 $listaMaterilesNecesarios = Pedido::listaMateriales(Pedido::pedidosSinOrden());
 
                 if ($listaMaterilesNecesarios != null) {
@@ -196,6 +196,7 @@ class OrdenCompraListener
                         'estado' =>  $EN_CONFIRMACION,
                         'fecha_cierre' => $fecha_cierre,
                     ]);
+                    session()->flash('message', 'Se ha creado una nueva orden de compra');
                     $pedidos = config('pedidos');
                     foreach ($pedidos as $id) {
                         RegistroPedidoDemanda::create([

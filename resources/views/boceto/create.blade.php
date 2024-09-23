@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <b> <label>(*)A quien va dirigido el diseño</label>
                             </b>
-                            <textarea class="form-control" aria-describedby="emailHelp" name="publico" placeholder="Ej: personas entre 18 30 a os"
+                            <textarea class="form-control" aria-describedby="emailHelp" name="publico" placeholder="Ej: personas entre 18 y 30 años"
                                 maxlength="450" id="publico" onkeyup="caracteres(elemento)"></textarea>
                             @error('publico')
                                 <div class="text-danger">{{ $message }}</div>

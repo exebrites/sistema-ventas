@@ -42,6 +42,7 @@ class RespuestaController extends Controller
     {
         // En cualquiera de los casos se guardan las respuestas relacionadas al diseño
         // return "respuestas";
+        // dd("");
         $disenio_id = $request->disenio_id;
         $comentario = $request->comentario;
         $campoRevision = $request->revision;

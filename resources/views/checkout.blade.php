@@ -87,8 +87,8 @@
                                                 </div>
                                                 <label>Telefono de contacto</label>
                                                 <input type="tel" class="form-control" name="telefono"
-                                                     placeholder="Ej: 3758-122331">
-                                                     {{-- pattern="[0-9]{2,4}-[0-9]{6,8}" --}}
+                                                    placeholder="Ej: 3758-122331">
+                                                {{-- pattern="[0-9]{2,4}-[0-9]{6,8}" --}}
                                                 @error('telefono')
                                                     <br>
                                                     <small style="color:red">{{ $message }}</small>
@@ -127,16 +127,15 @@
                                         <h5 class="card-title">Estado de tu pedido: "{{ $pedido->estado->descripcion }}"</h5>
                                         <p class="card-text">
                                             <small>
-                                                El estado "{{ $pedido->estado->descripcion }}" significa que la empresa está
-                                                evaluando la
-                                                fecha requerida.
-                                                Te informaremos si es posible realizar el pedido para esa fecha o si se debe
-                                                cambiar.
+                                                El estado "{{ $pedido->estado->descripcion }}" indica que se está evaluando tu
+                                                pedido,
+                                                verificando la viabilidad de la fecha de entrega requerida. Te notificaremos si se
+                                                puede realizar el pedido para la fecha requerida o si se debe realizar un ajuste.
                                             </small>
                                         </p>
                                         <hr>
                                         <div class="form-group">
-                                            <label for="">Numero de pedido</label>
+                                            <label for="">Número de pedido</label>
                                             <input type="text" name="" id="" class="form-control" placeholder=""
                                                 aria-describedby="helpId" value="{{ $pedido->id }}" readonly>
                                             {{-- <small id="helpId" class="text-muted">Help text</small> --}}

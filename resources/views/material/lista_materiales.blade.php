@@ -11,7 +11,7 @@
 @section('title')
 
 @section('content_header')
-    <h1>Stock</h1>
+    <h1>Lista de materiales necesarios </h1>
 @stop
 
 @section('content')
@@ -20,59 +20,26 @@
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
 
         </div>
-        <div class="card-body">
-            <h2>Materiales disponibles</h2>
 
-            <table class="table table-bordered">
+        <div class="card-body">
+            <table class="table table-striped table-bordered" id="materiales">
                 <thead>
                     <tr>
-
-                        <th>Nombre</th>
-
-                        <th>Cantidad en stock</th>
-                        <th>orden de compra</th>
-                        <th>Diferencia en stock</th>
-
-                        {{-- <th>Reposición</th> --}}
+                        <th>Material</th>
+                        <th>Cantidad</th>
+                        <th>Stock</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($materialesStock as $id => $material)
-                        {{-- <tr class="{{ $dato['reposicion'] ? 'resaltado' : '' }}"> --}}
-                        <tr>
+                    @foreach ($materialesNecesarios as $material)
+                        <tr style="background-color: {{ $material['stock'] < $material['cantidad'] ? '#FF0000' : '#008000' }}">
                             <td>{{ $material['nombre'] }}</td>
-
-                            <td>{{ $material['stockActual'] }}</td>
-                            <td>{{ $material['stockSolicitado'] }}</td>
-                            <td>{{ -$material['diferenciaStock'] }}</td>
-
-                            {{-- <td>{{ $material['reposicion'] ? 'Sí' : 'No' }}</td> --}}
+                            <td>{{ $material['cantidad']}}</td>
+                            <td>{{ $material['stock']}}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <br>
-            {{-- <a href="{{ route('demandas.create', $datos) }}">Generar orden de compra</a> --}}
-
-
-            <div class="container ">
-                <div class="row">
-                    <div class="col d-flex">
-                        {{-- 
-                        <div id="btn-cancelar">
-                            <a href="{{ route('productos.index') }}" class="btn btn-danger btn-ampliado">Cancelar</a>
-                        </div>
-
-
-                        <div>
-                            <a class="btn btn-primary btn-ampliado"
-                                href="{{ route('demandas.create') }}?{{ http_build_query($datos) }}">Generar orden de
-                                compra</a>
-                        </div> --}}
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @stop

@@ -17,7 +17,7 @@
             <table class="table table-striped table-bordered" id="usuarios">
                 <thead>
                     <tr>
-                        <th>Identificador</th>
+                        {{-- <th>Identificador</th> --}}
                         <th>Nombre</th>
                         <th>Correo electronico</th>
                         <th>Tipo de Usuario</th>
@@ -30,7 +30,7 @@
                 <tbody>
                     @foreach ($usuarios as $usuario)
                         <tr>
-                            <td>{{ $usuario->id }}</td>
+                            {{-- <td>{{ $usuario->id }}</td> --}}
                             <td>{{ $usuario->name }}</td>
                             <td>{{ $usuario->email }}</td>
                             <td>{{ $usuario->tipo_usuario }}</td>

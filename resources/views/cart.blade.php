@@ -65,6 +65,7 @@
                         </div>
                         <div class="col-lg-5">
                             <p>
+                                {{ $item->name }}<br>
                                 <b>Precio unitario: </b>${{ $item->price }}<br>
 
                                 @if ($item->attributes['disenio_estado'])

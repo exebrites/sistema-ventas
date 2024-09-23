@@ -312,7 +312,7 @@ return [
             'text' => 'Tienda en linea ',
             'route' => 'shop',
             'icon' => 'fa fa-shopping-bag',
-            // 'can'  => 'manage-blog',
+            // 'can'  => 'gestionar-imprenta',
         ],
         [
             'text'        => 'Gestión de Inventario y Suministros',
@@ -340,6 +340,7 @@ return [
                     'icon' => 'fa fa-truck',
                 ],
             ],
+            'can'  => 'gestionar-imprenta',
         ],
         [
             'text' => 'Gestión de Clientes y Pedidos',
@@ -348,23 +349,24 @@ return [
                 [
                     'text' => 'Gestionar Clientes',
                     'route' => 'clientes.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     'icon' => 'fa fa-users',
                 ],
                 [
                     'text' => 'Gestionar Pedidos',
                     'route' => 'pedidos.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     'icon' => 'fa fa-shopping-cart',
                 ],
             ],
+            'can'  => 'gestionar-imprenta',
         ],
 
 
 
         [
 
-            'text' => 'Gestionar demandas/compra',
+            'text' => 'Gestionar compra',
             'route' => 'demandas.index',
             'icon' => 'fa fa-credit-card',
         ],
@@ -375,7 +377,7 @@ return [
                 [
                     'text' => 'Gestionar usuarios',
                     'route' => 'usuarios.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon' =>  'fa fa-user',
                 ],
@@ -383,7 +385,7 @@ return [
                     //'route'=> 'ruta'
                     'text' => 'Gestionar roles ',
                     'route' => 'roles.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon' => 'fa fa-id-badge',
                 ],
@@ -391,7 +393,7 @@ return [
                     //'route'=> 'ruta'
                     'text' => 'Gestionar permisos ',
                     'route' => 'permisos.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon' => 'fa fa-unlock-alt',
                 ],
@@ -399,11 +401,13 @@ return [
                     //'route'=> 'ruta'
                     'text' => 'Auditoria',
                     'route' => 'auditoria.index',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon' => 'fa fa-search',
                 ],
             ],
+            'can'  => 'gestionar-imprenta',
+            'can'=> 'gestionar-sistema'
         ],
         [
             'text'        => 'Análisis y Reportes',
@@ -412,20 +416,21 @@ return [
                 [
                     'text' => 'Productos mas vendidos',
                     'route' => 'graficoIndex',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon'  => 'fa fa-star',
                 ],
                 [
                     'text' => 'Pedido cancelados',
                     'route' => 'indexCliente',
-                    // 'can'  => 'manage-blog',
+                    // 'can'  => 'gestionar-imprenta',
                     // 'can'  => 'gestionar-sistema',
                     'icon' => 'fa fa-times-circle',
                 ],
             ],
+            'can'  => 'gestionar-imprenta',
         ],
-        ['text' => 'reset stock virtual', 'route' => 'virtual'],
+        // ['text' => 'reset stock virtual', 'route' => 'virtual'],
     ],
 
     /*

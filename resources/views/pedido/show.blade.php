@@ -16,6 +16,8 @@
 
         <div class="card-header">
             <a href="{{ route('pedidos.index') }}" class="btn btn-secondary">Volver atrás</a>
+            <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn btn-primary">Ir al pedido </a>
+
             <a href="{{ route('clientes.show', $pedido->clientes_id) }}" class="btn btn-primary">Ver cliente</a>
             @if ($pedido->comprobante == null)
                 <a href="#" class="btn btn-light"><b>No tiene comprobante</b></a>
@@ -36,7 +38,12 @@
                 <a href="{{ route('factura', $pedido->id) }}" class="btn btn-primary">Generar factura</a>
             @endif
 
-
+            @if ($pedido->estado->nombre === 'pre_produccion')
+                <a href="{{ route('ver_stock', $pedido) }}" class="btn btn-primary">Lista de materiales</a>
+            @endif
+            @if ($pedido->estado->id >= 8)
+                <a href="{{ route('generarPDFDespacho', $pedido) }}" class="btn btn-primary">Control de entrega</a>
+            @endif
         </div>
         <div class="card-body">
             <div class="row g-2">
@@ -99,8 +106,7 @@
                                         <b style="color:red">Realizar revisión del diseño </b>
                                     @endif
                                 @else
-                                <b style="color:red">Realizar disenio - Ver boceto </b>
-
+                                    <b style="color:red">Realizar disenio - Ver boceto </b>
                                 @endif
 
                                 <br>

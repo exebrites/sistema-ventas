@@ -11,7 +11,7 @@ use App\Mail\OfertaGerenteMailable;
 use App\Models\StockVirtual;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Carbon;
 class OfertaController extends Controller
 {
     /**
@@ -42,6 +42,9 @@ class OfertaController extends Controller
     public function crear($id)
     {
         $demanda = Demanda::find($id);
+        // dd($demanda->fecha_cierre);
+        $fecha =  Carbon::parse($demanda->fecha_cierre);
+        $demanda->fecha_cierre = $fecha->format('d-m-Y');
         $user = Auth::user();
         $proveedor = Proveedor::where('correo', $user->email)->first();
         // dd([$proveedor]);
@@ -63,6 +66,7 @@ class OfertaController extends Controller
      */
     public function store(Request $request)
     {
+        // return "hola";
         $finalizar = false;
         $proveedor = Proveedor::find($request->proveedor_id);
         $oferta =  Oferta::create([

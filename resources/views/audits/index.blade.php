@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-
+    {{-- {{dd($audits[0])}} --}}
     <div class="card">
         <div class="card-body">
             @if ($errors->any())
@@ -79,6 +79,16 @@
                 <tbody>
                     @if ($audits)
                         @foreach ($audits as $audit)
+                            {{-- {{dump($audit)}} --}}
+                            @if (count($audit->old_values) === 1 && array_key_exists('visitas', $audit->old_values))
+                                @continue
+                            @endif
+                            @if (array_key_exists('old_values', $audit->getAttributes()) &&
+                                    array_key_exists('remember_token', $audit->old_values) &&
+                                    array_key_exists('new_values', $audit->getAttributes()) &&
+                                    array_key_exists('remember_token', $audit->new_values))
+                                @continue
+                            @endif
                             <tr>
                                 {{-- <td>{{ $audit->id }}</td> --}}
                                 {{-- <td>{{ $audit-> }}</td> --}}
@@ -103,7 +113,8 @@
                                             {{ $audit->event }}
                                     @endswitch
                                 </td>
-                                <td>{{ class_basename($audit->auditable_type) }}</td>
+                                <td>{{ class_basename($audit->auditable_type) === 'User' ? 'Usuario' : class_basename($audit->auditable_type) }}
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#auditDetailsModal{{ $audit->id }}">
@@ -184,8 +195,8 @@
                                                 @foreach ($audit->new_values as $key => $value)
                                                     {{-- <p><strong>{{ $key }}:</strong> {{ $value }}</p> --}}
                                                     @if ($key == 'estado_id')
-                                                    <p><strong>{{ $key == 'estado_id' ? 'Estado' : $key }}:</strong>
-                                                        {{ $audit->getEstadoNameAttribute($value) }}</p>
+                                                        <p><strong>{{ $key == 'estado_id' ? 'Estado' : $key }}:</strong>
+                                                            {{ $audit->getEstadoNameAttribute($value) }}</p>
                                                     @endif
                                                 @endforeach
                                             @endif
@@ -209,12 +220,54 @@
                                                     <p>No existen valores anteriores.</p>
                                                 @else
                                                     @foreach ($audit->old_values as $key => $value)
-                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                        {{-- <p><strong>{{ $key }}:</strong> {{ $value }}</p> --}}
+                                                        <ul>
+                                                            @if ($key === 'name')
+                                                                <li>Nombre: {{ $value }}</li>
+                                                            @endif
+                                                            @if ($key === 'price')
+                                                                <li>Precio: ${{ $value }}</li>
+                                                            @endif
+                                                            @if ($key === 'description')
+                                                                <li>Descripción: {{ $value }}</li>
+                                                            @endif
+                                                            @if ($key === 'slug')
+                                                                <li>Slug: {{ $value }}</li>
+                                                            @endif
+                                                            @if ($key === 'image_path')
+                                                                <li>Imagen: {{ $value }}</li>
+                                                            @endif
+                                                            @if ($key === 'category_id')
+                                                                <li>Categoría:
+                                                                    {{ $audit->getTituloCategoriaAttribute($value) }}</li>
+                                                            @endif
+                                                        </ul>
                                                     @endforeach
                                                 @endif
                                                 <strong>Nuevos valores:</strong><br>
                                                 @foreach ($audit->new_values as $key => $value)
-                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    {{-- <p><strong>{{ $key }}:</strong> {{ $value }}</p> --}}
+                                                    <ul>
+                                                        @if ($key === 'name')
+                                                            <li>Nombre: {{ $value }}</li>
+                                                        @endif
+                                                        @if ($key === 'price')
+                                                            <li>Precio: ${{ $value }}</li>
+                                                        @endif
+                                                        @if ($key === 'description')
+                                                            <li>Descripción: {{ $value }}</li>
+                                                        @endif
+                                                        @if ($key === 'slug')
+                                                            <li>Slug: {{ $value }}</li>
+                                                        @endif
+                                                        @if ($key === 'image_path')
+                                                            <li>Imagen: {{ $value }}</li>
+                                                        @endif
+                                                        @if ($key === 'category_id')
+                                                            <li>Categoría:
+                                                                {{ $audit->getTituloCategoriaAttribute($value) }}</li>
+                                                        @endif
+                                                    </ul>
                                                 @endforeach
                                             @endif
                                             @if (strcmp($audit->auditable_type, 'App\Models\Demanda') === 0)
@@ -232,6 +285,33 @@
                                                 @endforeach
                                             @endif
                                             @if (strcmp($audit->auditable_type, 'App\Models\Oferta') === 0)
+                                                <strong>Valores anteriores:</strong>
+                                                @if (empty($audit->old_values))
+                                                    <p>No existen valores anteriores.</p>
+                                                @else
+                                                    @foreach ($audit->old_values as $key => $value)
+                                                        <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                        {{-- @if (array_key_exists('finalizar_oferta', $audit->old_values))
+                                                            <p><strong>Finalizar oferta:</strong>
+                                                                {{ $audit->old_values['finalizar_oferta'] === 0 ? 'NO' : 'SI' }}
+                                                            </p>
+                                                        @endif --}}
+                                                    @endforeach
+                                                @endif
+                                                <strong>Nuevos valores:</strong><br>
+                                                @foreach ($audit->new_values as $key => $value)
+                                                    <p><strong>{{ $key }}:</strong> {{ $value }}</p>
+                                                    {{-- <p><strong>Finalizar oferta:</strong>
+                                                        {{ $audit->old_values['finalizar_oferta'] === 0 ? 'NO' : 'SI' }}
+                                                    </p> --}}
+                                                    {{-- @if (array_key_exists('finalizar_oferta', $audit->old_values))
+                                                        <p><strong>Finalizar oferta:</strong>
+                                                            {{ $audit->old_new_valuesvalues['finalizar_oferta'] === 0 ? 'NO' : 'SI' }}
+                                                        </p>
+                                                    @endif --}}
+                                                @endforeach
+                                            @endif
+                                            @if (strcmp($audit->auditable_type, 'App\Models\Material') === 0)
                                                 <strong>Valores anteriores:</strong>
                                                 @if (empty($audit->old_values))
                                                     <p>No existen valores anteriores.</p>
@@ -315,7 +395,8 @@
                 search: 'Buscar:',
 
                 emptyTable: 'No hay datos disponibles',
-            }
+            },
+            order: [12, 'asc'],
         });
     </script>
 

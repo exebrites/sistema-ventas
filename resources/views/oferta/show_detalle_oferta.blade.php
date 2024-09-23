@@ -3,14 +3,14 @@
 @section('title')
 
 @section('content_header')
-    <h1>Confirmacion de oferta</h1>
+    <h1>Confirmación de oferta</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-            <a href="{{ route('pdfRecepcion', $oferta->id) }}" class="btn btn-primary">Generar PDF</a>
+            <a href="{{ route('pdfRecepcion', $oferta->id) }}" class="btn btn-primary">Control de recepción</a>
         </div>
         <div class="card-body">
 
@@ -31,7 +31,7 @@
             @endswitch
             <hr>
             <div class="form-group">
-                <label for="">Numero de oferta</label>
+                <label for="">Número de oferta</label>
                 <input type="text" class="form-control" value="{{ $oferta->id }}" readonly>
 
             </div>
@@ -39,9 +39,13 @@
                 <label for="">Fecha de entrega</label>
                 <input type="text" class="form-control" value="{{ $oferta->fecha_entrega }}" readonly>
             </div>
+            <?php
+            $estados = ['aceptada' => 'Aceptada', 'pendiente' => 'Pendiente', 'cancelada' => 'Cancelada'];
+            $estado = array_key_exists($oferta->estado, $estados) ? $estados[$oferta->estado] : $oferta->estado;
+            ?>
             <div class="form-group">
                 <label for="">Estado</label>
-                <input type="text" class="form-control" value="{{ $oferta->estado }}" readonly>
+                <input type="text" class="form-control" value="{{ $estado}}" readonly>
             </div>
             <hr>
             <table class="table table-striped table-bordered" id="ofertas">
@@ -65,8 +69,8 @@
                         <tr>
                             <td>{{ $detalle->nombre }}</td>
                             <td>{{ $detalle->cantidad }}</td>
-                            <td>{{ $detalle->precio }}</td>
-                            <td>{{ $detalle->precio * $detalle->cantidad }}</td>
+                            <td>${{ $detalle->precio }}</td>
+                            <td>${{ $detalle->precio * $detalle->cantidad }}</td>
                         </tr>
 
                         @php
@@ -80,8 +84,8 @@
                 <tfoot>
                     {{-- Mostrar el total de la oferta en el pie de la tabla --}}
                     <tr>
-                        <td colspan="3" style="text-align: right;">Total</td>
-                        <td>{{ $totalOferta }}</td>
+                        <td colspan="3" style="text-align: right;"><b>Total</b></td>
+                        <td>${{ $totalOferta }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -144,10 +148,21 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-        var table = new DataTable('#ofertas', {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+         new DataTable('#ofertas', {
+        language: {
+            info: 'Mostrar registros de _START_ a _END_ ',
+            infoEmpty: 'No hay registros',
+            infoFiltered: '(filtrado de _MAX_ registros totales)',
+            lengthMenu: 'Mostrar _MENU_ registros',
+            zeroRecords: 'No se encontraron coincidencias',
+            search: 'Buscar:',
+
+            emptyTable: 'No hay datos disponibles',
+            paginate: {
+                previous: 'Anterior',
+                next: 'Siguiente',
             },
-        });
+        }
+    });
     </script>
 @endsection

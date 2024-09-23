@@ -13,7 +13,7 @@
         @endif
         <div class="card-body">
             <div class="form-group">
-                <label for="">Numero de pedido </label>
+                <label for="">Número de pedido </label>
                 <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId"
                     value="{{ $pedido->id }}" readonly>
             </div>
@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label for="">Fecha de entrega</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId" readonly value="{{ $pedido->fecha_inicio }}">
+                    aria-describedby="helpId" readonly value="{{ $pedido->fecha_inicio ?? 'No hay fecha propuesta' }}">
             </div>
             <div class="form-group">
                 <label for="">Precio total</label>
@@ -35,25 +35,37 @@
 
             <br>
             <br>
-            <div class="row">
-                @foreach ($pedido->detallePedido as $detalle)
-                    <div class="col-sm-6">
-                        <div class="card" style="width: 18rem;">
+            {{-- <div class="row"> --}}
 
-                            <img src="{{ $detalle->producto->image_path }}" class="card-img-top" alt="..."
-                                style="height: 300; width: 300px;display: block;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $detalle->producto->name }}</h5>
-                                <br>
+            <div style="display: flex; justify-content: center;">
+                {{-- @if ($busqueda->count() > 0) --}}
+                {{-- @foreach ($busqueda as $producto) --}}
+                @foreach ($pedido->detallePedido as $detalle)
+                    <div class="card" style="width: 18rem; margin: 5px;">
+                        {{-- <img src="{{ $producto->image_path }}" class="card-img-top" alt="..."> --}}
+                        <div class="card-body">
+                            <img src="{{ $detalle->producto->image_path }}" class="card-img-top mx-auto"
+                                style="height: 150px; width: 150px;display: block;">
+                            <br>
+
+
+                            {{-- <h5 class="card-title"></h5> --}}
+                            <small>{{ $detalle->producto->name }}</small>
+
+                            <br>
+                            <br>
+                            <div>
+                                <?php $disenio = $costoDisenio->costo_disenio($detalle->producto->price, $detalle->cantidad, $detalle->disenio->disenio_estado);
+                                ?>
                                 Costo unitario :$ {{ $detalle->producto->price }} <br>
-                                Cantidad : {{ $detalle->cantidad }}
+                                Cantidad : {{ $detalle->cantidad }} u.
                                 <br>
-                                Costo subtotal: $ {{ $detalle->subtotal }} <br>
-                                Costo de diseño: $
-                                {{ $costoDisenio->costo_disenio($detalle->producto->price, $detalle->cantidad, $detalle->disenio->disenio_estado) }}
+                                Costo de diseño: $ {{$disenio}}
                                 <br>
-                                @if ($detalle->produccion == 0)
-                                    @if ($detalle->disenio->revision == 0)
+                                Costo subtotal: $ {{ $detalle->subtotal + $disenio }} <br>
+
+                                @if ($detalle->produccion === 0)
+                                    @if ($detalle->disenio->revision === 0)
                                         <b style="color:red">Revisar diseño</b>
                                     @endif
                                 @else
@@ -61,16 +73,16 @@
                                 @endif <br>
                                 <br>
                                 @if ($pedido->estado->nombre == 'disenio')
-                                    <a href="{{ route('show_disenio', $detalle->disenio->id) }}"
-                                        class="btn btn-primary">Ver
+                                    <a href="{{ route('show_disenio', $detalle->disenio->id) }}" class="btn btn-primary">Ver
                                         disenio</a><br>
                                 @endif
-
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+
+            {{-- </div> --}}
         </div>
 
     </div>

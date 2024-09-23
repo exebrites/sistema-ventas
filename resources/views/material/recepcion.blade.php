@@ -3,7 +3,7 @@
 @section('title')
 
 @section('content_header')
-    <h1>Recepcion de materiales</h1>
+    <h1>Recepción de materiales</h1>
 @stop
 
 @section('content')
@@ -14,7 +14,7 @@
         </div>
         <div class="card-body">
             <div class="form-group">
-                <label for="">Nro de oferta</label>
+                <label for="">Número de oferta</label>
                 <input type="text" class="form-control" readonly value="{{ $oferta->id }}">
 
             </div>
@@ -108,7 +108,17 @@
     <script>
         var table = new DataTable('#ofertas', {
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                info: 'Mostrar registros de _START_ a _END_ ',
+                infoEmpty: 'No hay registros',
+                infoFiltered: '(filtered from _MAX_ total records)',
+                lengthMenu: 'Mostrar _MENU_ registros',
+                zeroRecords: 'No se encontraron coincidencias',
+                search: 'Buscar:',
+                paginate: {
+                previous: 'Anterior',
+                next: 'Siguiente',
+            },
+                emptyTable: 'No hay datos disponibles',
             },
             order: [
                 [0, 'desc']

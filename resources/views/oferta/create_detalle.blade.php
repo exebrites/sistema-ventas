@@ -8,6 +8,15 @@
 
 @section('content')
     <div class="card">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
 
@@ -22,15 +31,15 @@
 
                 <div class="mb-3">
                     <label>Marca</label>
-                    <input type="text" class="form-control" id="" name="marca">
+                    <input type="text" class="form-control" id="" name="marca" required>
                 </div>
                 <div class="mb-3">
                     <label>Cantidad</label>
-                    <input type="text" class="form-control" id="" name="cantidad">
+                    <input type="text" class="form-control" id="" name="cantidad" value="{{ $detalle->cantidad }}">
                 </div>
                 <div class="mb-3">
                     <label>Precio</label>
-                    <input type="text" class="form-control" id="" name="precio">
+                    <input type="text" class="form-control" id="" name="precio" required>
                 </div>
 
                 <div class="mb-3">

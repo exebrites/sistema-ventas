@@ -95,9 +95,66 @@ class Pedido extends Model implements Auditable
     {
         return $this->hasOne('\App\Models\Comprobante', 'pedido_id', '');
     }
+    public  function listaMaterialesPedidosProducto()
+    {
+        
+
+        // la idea es traer la lista de materiales de cada producto y unificarlas en una sola lista para el pedido
+
+        // tendras un array donde ir almacenando el valor final lo que seria el array C que esta vacio en un principio
+
+        // luego tenes que ir trayendo la lista de materiales de cada producto enbase  a su proporcion
+
+        // la primera vez se asignan todos los materiales del primero producto al array C
+
+        // ya la segunda vez se van comparando y actualizando el array C en base a la existencia y cantidad
+
+        // y generar una sumatoria de los materiales utilizados
+        // como fin tnees que tener la lista total de materiales utlizados en el pedido
+
+
+        // conocer la lista de materiales total que se utiliza en el pedido
+
+        // acceder al pedido a los diferentes productos
+
+        $detalles = $this->detallePedido;
+        // dump($detalles);
+        // Inicializa el array resultante C
+        $arrayC = [];
+        foreach ($detalles as $key => $detalle) {
+            $cantidad = $detalle->cantidad;
+// dump($detalle->producto_id);
+            $producto = $detalle->producto;
+            $proporcion = $producto->proporcionCantidad($cantidad);
+            $arrayA = $proporcion;
+
+            // Combina los elementos de A y B en C
+            foreach ($arrayA as $elementoA) {
+                $idA = $elementoA['id'];
+                $cantidadA = $elementoA['cantidad'];
+
+                // Verifica si el elemento ya existe en C
+                if (isset($arrayC[$idA])) {
+                    // Si existe, suma las cantidades
+                    $arrayC[$idA]['cantidad'] += $cantidadA;
+                } else {
+                    // Si no existe, agrega el elemento a C
+                    $arrayC[$idA] = ['id' => $idA, 'cantidad' => $cantidadA];
+                }
+            }
+        }
+
+        // un pedido tendra varios productos por ende una lista de materiales para cada uno donde los materiales se pueden repetir en varios productos
+        // lo que quiero es tener una lista unifica de todos los materiales que necesito para este pedido en particular.
+
+        // Convierte el array asociativo C a un array indexado si es necesario
+        // $arrayC = array_values($arrayC);
+
+      
+        return $arrayC;
+    }
     public function listaMaterialesPedidos()
     {
-
         // la idea es traer la lista de materiales de cada producto y unificarlas en una sola lista para el pedido
 
         // tendras un array donde ir almacenando el valor final lo que seria el array C que esta vacio en un principio
