@@ -106,5 +106,12 @@ class Producto extends Model implements Auditable
         // dd($proporcion);
         return  $proporcion;
     }
+
+
+    //Query Scopes
+    public function scopeBuscar($query, $buscar)
+    {
+        return $query->where('name', 'like', '%' . $buscar . '%')->take(5);
+    }
     use HasFactory;
 }

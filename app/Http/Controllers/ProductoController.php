@@ -23,7 +23,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::orderBy('id', 'desc')->get();
+        $productos = Producto::orderBy('id', 'desc')->get(); //productos deforma descendente
         return view('producto.index', compact('productos'));
     }
 
@@ -166,11 +166,8 @@ class ProductoController extends Controller
     public function buscarProducto()
     {
         $buscar = request()->get('buscar', '');
-
-        $producto = Producto::all();
-
         if (request()->has('buscar')) {
-            $busqueda = Producto::where('name', 'like', '%' . $buscar . '%')->take(5)->get();
+            $busqueda = Producto::buscar($buscar)->get();
         }
         return view('producto.busqueda', compact('busqueda'));
     }
