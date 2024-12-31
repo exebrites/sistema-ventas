@@ -113,5 +113,11 @@ class Producto extends Model implements Auditable
     {
         return $query->where('name', 'like', '%' . $buscar . '%')->take(5);
     }
+
+    //mutadores y accesors
+    public function setNameAttribute($name)
+    {
+        return $this->attributes['name'] = strtoupper($name);
+    }
     use HasFactory;
 }

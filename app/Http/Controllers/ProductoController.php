@@ -109,15 +109,15 @@ class ProductoController extends Controller
 
         $producto = Producto::find($request->id);
         $producto->image_path = $url;
-
+        $producto->name = $request->validated(['name']);
         $producto->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'slug' => $request->name,
-            'description' => $request->description,
-            'category_id' => $request->categoria_id,
-            'alias' => $request->alias
+            'price' => $request->validated(['price']),
+            'slug' => $request->validated(['name']),
+            'description' => $request->validated(['description']),
+            'category_id' => $request->validated(['categoria_id']),
+            'alias' => $request->validated(['alias'])
         ]);
+
         return redirect()->route('productos.index');
     }
 
