@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateProductoRequest;
 use App\Models\Material;
 use App\Models\Producto;
 use App\Models\Categoria;
@@ -22,12 +23,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-
-        // $pedidos = Pedido::paginate(10)
-        // $productos = Producto::paginate();
-        // $productos= Producto::all();
         $productos = Producto::orderBy('id', 'desc')->get();
-        // dd($productos);
         return view('producto.index', compact('productos'));
     }
 
@@ -48,41 +44,20 @@ class ProductoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // public function store(Request $request)
+    public function store(StoreUpdateProductoRequest $request)
     {
-
-        // return $request;
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'price' => 'required|numeric|min:0|max:100000',
-                'alias' => ['required', 'string', 'max:255', Rule::unique('productos', 'alias')],
-                // 'description' => ['required', 'string'],
-                'description' => ['string', 'max:255'],
-                'file' => ['required', 'file', 'mimes:jpeg,png', 'max:2048'],
-                'categoria_id' => ['required', 'exists:categorias,id'],
-            ]);
-        } catch (ValidationException $e) {
-            // Manejar los errores de validación aquí
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        }
-
         $imagen =  $request->file('file')->store('public');
         $url = Storage::url($imagen);
-
-        $producto = Producto::create(
-            [
-                'name' => Str::upper($request->name),
-                'price' => $request->price,
-                'slug' => $request->name,
-                'description' => $request->description,
-                'category_id' => $request->categoria_id,
-                'image_path' => $url,
-                'alias' => $request->alias,
-                'visitas' => 0
-            ]
-        );
-
+        $producto = new Producto(); //porque no, crear un constructor y usar save()
+        $producto->name = $request->validated(['name']);
+        $producto->price = $request->validated(['price']);
+        $producto->description = $request->validated(['description']);
+        $producto->category_id = $request->validated(['categoria_id']);
+        $producto->alias = $request->validated(['alias']);
+        $producto->visitas = 0;
+        $producto->image_path = $url;
+        $producto->save();
         return redirect()->route('productos.index');
     }
 
@@ -119,7 +94,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProductoRequest $request, $id)
     {
         // return $request;
         if ($request->file('file') == null) {
@@ -131,34 +106,16 @@ class ProductoController extends Controller
             $imagen =  $request->file('file')->store('public');
             $url = Storage::url($imagen);
         }
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'price' => 'required|numeric|min:0|max:100000',
-                'alias' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    Rule::unique('productos', 'alias')->ignore($request->id)
-                ],
-                // 'description' => ['required', 'string'],
-                'description' => ['string', 'max:255'],
-                'file' => ['file', 'mimes:jpeg,png', 'max:2048'],
-                'categoria_id' => ['required', 'exists:categorias,id']
 
-            ]);
-        } catch (ValidationException $e) {
-            // dd($e);
-            // Manejar los errores de validación aquí
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        }
-        Producto::find($request->id)->update([
+        $producto = Producto::find($request->id);
+        $producto->image_path = $url;
+
+        $producto->update([
             'name' => $request->name,
             'price' => $request->price,
             'slug' => $request->name,
             'description' => $request->description,
             'category_id' => $request->categoria_id,
-            'image_path' => $url,
             'alias' => $request->alias
         ]);
         return redirect()->route('productos.index');
