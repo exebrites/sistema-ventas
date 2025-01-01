@@ -10,9 +10,9 @@ use App\Models\DetalleProducto;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\Environment\Runtime;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -47,8 +47,7 @@ class ProductoController extends Controller
     // public function store(Request $request)
     public function store(StoreUpdateProductoRequest $request)
     {
-        $imagen =  $request->file('file')->store('public');
-        $url = Storage::url($imagen);
+
         $producto = new Producto(); //porque no, crear un constructor y usar save()
         $producto->name = $request->validated(['name']);
         $producto->price = $request->validated(['price']);
@@ -56,7 +55,7 @@ class ProductoController extends Controller
         $producto->category_id = $request->validated(['categoria_id']);
         $producto->alias = $request->validated(['alias']);
         $producto->visitas = 0;
-        $producto->image_path = $url;
+        $producto->imagen = $request;
         $producto->save();
         return redirect()->route('productos.index');
     }
@@ -96,19 +95,13 @@ class ProductoController extends Controller
      */
     public function update(StoreUpdateProductoRequest $request, $id)
     {
-        // return $request;
-        if ($request->file('file') == null) {
-            // sino $url toma el valor que tenia imagen_path cuando no se actualiza la foto
-            $p = Producto::find($request->id);
-            $url = $p->image_path;
-        } else {
-            // si actualiza debe pasar ...
-            $imagen =  $request->file('file')->store('public');
-            $url = Storage::url($imagen);
-        }
 
         $producto = Producto::find($request->id);
-        $producto->image_path = $url;
+        // sino $url toma el valor que tenia imagen_path cuando no se actualiza la foto
+        // si actualiza debe actualizar con la imagen ingresada
+        if ($request->file('file') != null) {
+            $producto->imagen = $request;
+        }
         $producto->name = $request->validated(['name']);
         $producto->update([
             'price' => $request->validated(['price']),

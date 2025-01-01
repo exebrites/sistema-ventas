@@ -10,6 +10,7 @@ use App\Models\DetalleProducto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Support\Facades\Storage;
 
 class Producto extends Model implements Auditable
 {
@@ -119,5 +120,12 @@ class Producto extends Model implements Auditable
     {
         return $this->attributes['name'] = strtoupper($name);
     }
+    public function setImagenAttribute($request)
+    {
+        $imagen =  $request->file('file')->store('public');
+        $url = Storage::url($imagen);
+        return $this->attributes['image_path'] = $url;
+    }
+
     use HasFactory;
 }
