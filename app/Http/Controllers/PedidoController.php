@@ -42,25 +42,8 @@ class PedidoController extends Controller
     // const ESTADO_ENTREGADO = 10;
     public function index()
     {
-        // establece los estados de los pedidos
-        // $estadoCancelado = 11;
-        // $estadoEntregado = 10;
-        // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado y id de creacion
-        // $pedidos =  Pedido::where('estado_id', '!=', self::ESTADO_CANCELADO)->orderBy('estado_id', 'asc')->orderBy('id', 'desc')->get();
+        // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
         $pedidos = Pedido::activo();
-        // formatea las fechas
-        foreach ($pedidos as $key => $pedido) {
-            $fecha =  Carbon::parse($pedido->fecha_entrega);
-            $pedido->fecha_entrega = $fecha->format('d-m-Y');
-
-            if ($pedido->fecha_inicio != null) {
-                $fecha =  Carbon::parse($pedido->fecha_inicio);
-                $pedido->fecha_inicio = $fecha->format('d-m-Y');
-            }
-        }
-        //ordena los pedidos por su estado
-        $pedidos = $pedidos->sortBy('estado_id');
-
         return view('pedido.index', compact('pedidos'));
     }
 

@@ -26,7 +26,8 @@ class Pedido extends Model implements Auditable
     public function scopeActivo($query)
     {
         //11 estado cancelado
-        return $query->where('estado_id', '!=', 11)->get();
+        $pedidos =  $query->where('estado_id', '!=', 11)->get();
+        return $pedidos->sortBy('estado_id');
     }
     // funciones protegidas
     // el nombre del accesors en calmeCase igual al nombre del atributo
