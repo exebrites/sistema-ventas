@@ -32,11 +32,6 @@ use App\Mail\confirmacionEntrega;
 
 class PedidoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     const ESTADO_CANCELADO = 11;
     // const ESTADO_ENTREGADO = 10;
@@ -46,17 +41,6 @@ class PedidoController extends Controller
         $pedidos = Pedido::activo();
         return view('pedido.index', compact('pedidos'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('pedido.create');
-    }
-
     public function show($id)
     {
         $pedido = Pedido::find($id);
