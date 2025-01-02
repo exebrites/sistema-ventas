@@ -44,8 +44,6 @@ class PedidoController extends Controller
     public function show($id)
     {
         $pedido = Pedido::find($id);
-        $fecha =  Carbon::parse($pedido->fecha_inicio);
-        $pedido->fecha_inicio = $fecha->format('d-m-Y');
         return view('pedido.show', compact('pedido'));
     }
     public function edit($id)
