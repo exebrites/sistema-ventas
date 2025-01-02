@@ -30,6 +30,12 @@ class Pedido extends Model implements Auditable
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
+    protected function getFechaInicioAttribute($fecha_inicio)
+    {
+        if ($fecha_inicio != null) {
+            return Carbon::parse($fecha_inicio)->format('d-m-Y');
+        }
+    }
 
     public function entrega()
     {
