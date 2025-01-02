@@ -23,7 +23,11 @@ class Pedido extends Model implements Auditable
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
     //scopes
-
+    public function scopeActivo($query)
+    {
+        //11 estado cancelado
+        return $query->where('estado_id', '!=', 11)->get();
+    }
     // funciones protegidas
     // el nombre del accesors en calmeCase igual al nombre del atributo
     protected function getFechaEntregaAttribute($value)
