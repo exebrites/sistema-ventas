@@ -52,9 +52,6 @@ class PedidoController extends Controller
         return view('pedido.edit', compact('pedido'));
     }
 
-
-    //FIN DE FUNCIONES DE GESTIONAR PEDIDO
-
     //Registrar pedido y relacionar con el cliente
     public function procesarPedido(ProcesarPedidoRequest $request)
     {
@@ -82,18 +79,18 @@ class PedidoController extends Controller
 
     public function pedidoCliente()
     {
-        //logica trambolica para usuarios y clientes
+        //obtener el cliente logueado
         $cliente = Cliente::obtenerCliente(Auth::user());
 
-        //    dd($cliente);
+        //obtener los pedidos del cliente ordenados por id
         $pedidos = Pedido::where('clientes_id', $cliente->id)->orderBy('id', 'desc')->get();
-        // dd($pedidos);
+
+        //formatear la fecha 
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
         }
-
-        // dd("");
+        
         return view('pedido.pedidoCliente', ['pedidos' => $pedidos]);
     }
     public function detallePedido(Request $request)
