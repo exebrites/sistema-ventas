@@ -81,16 +81,9 @@ class PedidoController extends Controller
     {
         //obtener el cliente logueado
         $cliente = Cliente::obtenerCliente(Auth::user());
-
-        //obtener los pedidos del cliente ordenados por id
-        $pedidos = Pedido::where('clientes_id', $cliente->id)->orderBy('id', 'desc')->get();
-
-        //formatear la fecha 
-        foreach ($pedidos as $key => $pedido) {
-            $fecha =  Carbon::parse($pedido->fecha_entrega);
-            $pedido->fecha_entrega = $fecha->format('d-m-Y');
-        }
         
+        //obtener los pedidos del cliente ordenados por id
+        $pedidos = Pedido::pedidosCliente($cliente); //llamado en calmeCase
         return view('pedido.pedidoCliente', compact('pedidos'));
     }
     public function detallePedido(Request $request)

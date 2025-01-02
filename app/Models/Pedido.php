@@ -29,6 +29,10 @@ class Pedido extends Model implements Auditable
         $pedidos =  $query->where('estado_id', '!=', 11)->get();
         return $pedidos->sortBy('estado_id');
     }
+    public function scopePedidosCliente($query, $cliente)
+    {
+        return $query->where('clientes_id', $cliente->id)->orderBy('id', 'desc')->get();
+    }
     // funciones protegidas
     // el nombre del accesors en calmeCase igual al nombre del atributo
     protected function getFechaEntregaAttribute($value)
