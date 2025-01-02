@@ -90,8 +90,7 @@ class PedidoController extends Controller
 
         $fechaEntrega = $request->validated(['fechaEntrega']);
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
-        $correo = Auth::user()->email;
-        $cliente = Cliente::where('correo', $correo)->first();
+        $cliente = Cliente::obtenerCliente(Auth::user());
 
         //determina el costo del diseño asistido o completo
         $costoTotal = \Cart::getTotal() + CostoDisenio::costo_total_disenio();
@@ -113,13 +112,10 @@ class PedidoController extends Controller
     public function pedidoCliente()
     {
         //logica trambolica para usuarios y clientes
-        $id = Auth::user()->id;
-        $correo = User::where('id', $id)->value('email');
-        $cliente = Cliente::where('correo', $correo)->first();
-        $cliente_id = $cliente->id;
+        $cliente = Cliente::obtenerCliente(Auth::user());
 
         //    dd($cliente);
-        $pedidos = Pedido::where('clientes_id', $cliente_id)->orderBy('id', 'desc')->get();
+        $pedidos = Pedido::where('clientes_id', $cliente->id)->orderBy('id', 'desc')->get();
         // dd($pedidos);
         foreach ($pedidos as $key => $pedido) {
             $fecha =  Carbon::parse($pedido->fecha_entrega);

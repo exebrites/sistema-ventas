@@ -51,4 +51,10 @@ class Cliente extends Model implements Auditable
     }
 
     use HasFactory;
+
+    //scopes
+    public function scopeObtenerCliente($query, $user)
+    {
+        return $query->where('correo', $user->email)->first();
+    }
 }
