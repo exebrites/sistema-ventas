@@ -91,7 +91,7 @@ class PedidoController extends Controller
             $pedido->fecha_entrega = $fecha->format('d-m-Y');
         }
         
-        return view('pedido.pedidoCliente', ['pedidos' => $pedidos]);
+        return view('pedido.pedidoCliente', compact('pedidos'));
     }
     public function detallePedido(Request $request)
     {
