@@ -127,46 +127,30 @@ class PedidoController extends Controller
     }
     public function detallePedido(Request $request)
     {
-        $id = $request->id;
-        $pedido = Pedido::find($id);
-        $estado_id = Pedido::where('id', $id)->value('estado_id');
-        $estado =  Estado::find($estado_id);
+        //recupera el ultimo pedido creado y su estado. 
+        $pedido = Pedido::find($request->id);
+        $estado =  $pedido->estado;
+
+        //recuper los productos del carrito y crea 1 detalle por producto asociandolo al pedido
         $producto = \Cart::getContent();
         foreach ($producto as $p) {
             $idPr = $p->id;
             detallePedido::create([
-                'pedido_id' => $id,
+                'pedido_id' => $pedido->id,
                 'producto_id' => $idPr,
                 'cantidad' => $p->quantity,
                 'subtotal' => \Cart::get($idPr)->getPriceSum(),
                 'produccion' => false
             ]);
-
-            /**
-             Bueno aqui tendré que replicar el codigo de crear detalle  
-             
-             */
+            //recupera el ultimo detalle creado
             $idDP = detallePedido::max('id');
             $estadoDisenio = 1; //tiene disenio
             $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
-            // dump($p->attributes->disenio_estado);
-            // dump(
-            //     mb_strlen($p->attributes->nombre, 'UTF-8')
-            // );
 
-            // dump(
-            //     mb_strlen($p->attributes->objetivo, 'UTF-8')
-            // );
-            // dump(
-            //     mb_strlen($p->attributes->publico, 'UTF-8')
-            // );
-            // dump(
-            //     mb_strlen($p->attributes->contenido, 'UTF-8')
-            // );
-            // dd("");
+            //asocia un diseño con el detalle pedido en caso de tener sino asocia un disenio vacio 
+            // con su boceto
             if ($p->attributes->disenio_estado == 'true') {
                 $url_imagen = $p->attributes->url_disenio;
-                // dd($url_imagen);
                 Disenio::create([
                     'detallePedido_id' => $idDP,
                     'url_imagen' => $url_imagen,
@@ -174,22 +158,7 @@ class PedidoController extends Controller
                     'disenio_estado' => $estadoDisenio,
                     'revision' => $revisionDisenio
                 ]);
-
-                /**
-                 *ELEGIR EL COSTO QUE EL CLIENTE DEBE PAGAR 
-                 *
-                  detallePedido::create([
-                'pedido_id' => $id,
-                'producto_id' => $idPr, =>  que será el diseño asistido
-                'cantidad' => 1,
-                'subtotal' => $$$$, => que será el costo del diseño asistido 
-                'produccion' => false
-            ]);
-                 */
             } else {
-                // dd();
-
-
                 Disenio::create([
                     'detallePedido_id' => $idDP,
                     'url_imagen' => "",
@@ -206,41 +175,19 @@ class PedidoController extends Controller
                     'url_img' => $p->attributes->img,
                     'detallePedido_id' => $idDP
                 ]);
-
-                /**
-                 *ELEGIR EL COSTO QUE EL CLIENTE DEBE PAGAR 
-                 *
-                  detallePedido::create([
-                'pedido_id' => $id,
-                'producto_id' => $idPr, =>  que será el diseño completo
-                'cantidad' => 1,
-                'subtotal' => $$$$, => que será el costo del diseño completo 
-                'produccion' => false
-            ]);
-                 */
             }
         }
+        //obtiene el costo total del carrito y borra el carrito 
         $total = \Cart::getTotal();
-        // dd($total);
         \Cart::clear();
 
-        /**
-         redireccionar a una vista intermedia anterior a realizar el pago
-         
-         */
-        // return redirect()->route('pago', ['id' => $id, 'estado' => $estado, 'total' =>  $total]);
-
-
-
-
-
+        //Da un formato dd/mm/yyyy a la fecha de entrega  y de inicio
         $fecha =  Carbon::parse($pedido->fecha_entrega);
         $pedido->fecha_entrega = $fecha->format('d-m-Y');
         if ($pedido->fecha_inicio != null) {
             $fecha =  Carbon::parse($pedido->fecha_inicio);
             $pedido->fecha_inicio = $fecha->format('d-m-Y');
         }
-
         return view('checkout', compact('estado', 'pedido'));
     }
 
