@@ -34,6 +34,7 @@ class PedidoController extends Controller
 {
 
     const ESTADO_CANCELADO = 11;
+    const ESTADO_PENDIENTE_PAGO = 2;
     // const ESTADO_ENTREGADO = 10;
     public function index()
     {
@@ -81,7 +82,7 @@ class PedidoController extends Controller
     {
         //obtener el cliente logueado
         $cliente = Cliente::obtenerCliente(Auth::user());
-        
+
         //obtener los pedidos del cliente ordenados por id
         $pedidos = Pedido::pedidosCliente($cliente); //llamado en calmeCase
         return view('pedido.pedidoCliente', compact('pedidos'));
@@ -150,34 +151,25 @@ class PedidoController extends Controller
 
     public function cancelarPedido($id)
     {
-        $estado = 11;
+        //cambiar el estado del pedido a cancelado
         $pedido = Pedido::find($id);
-        $pedido->update(['estado_id' => $estado]);
-        //enviar correo
-        $usuario = $pedido->cliente;  // Asumiendo que el pedido tiene una relación con el usuario
+        $pedido->update(['estado_id' => self::ESTADO_CANCELADO]);
         $motivo = 'No especificado';
-
         // Envía el correo usando Mailable
-        Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
-
+        Mail::to($pedido->cliente->correo)->send(new PedidoCancelado($pedido, $motivo));
 
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido cancelado con éxito');
     }
     public function confirmarPedido($id)
     {
-        $estado = 2;
+        //recuperar el pedido y actualizar su estado
         $pedido = Pedido::find($id);
-        $pedido->update(['estado_id' => $estado]);
-        $estado = Estado::find($pedido->estado_id);
+        $pedido->update(['estado_id' => self::ESTADO_PENDIENTE_PAGO]);
+        $estado = $pedido->estado;
 
-
-        $total = $pedido->costo_total;
-
-        $cliente = $pedido->cliente;
-        $correo = $cliente->correo;
-        // dd($correo);
-        Mail::to($correo)->send(new PagoMailable($id, $total));
-
+        //envio de correo al cliente con el id del pedido y su costo total
+        Mail::to($$pedido->cliente->correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
+        
         return view('checkout', compact('estado', 'pedido'));
     }
 
