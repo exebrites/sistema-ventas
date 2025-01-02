@@ -23,9 +23,9 @@ class Pedido extends Model implements Auditable
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
     //scopes
-    public function setFechaEntregaAttribute($value)
+    public function getFormatoFechaEntregaAttribute($value)
     {
-        $this->attributes['fecha_entrega'] = Carbon::parse($value)->format('Y-m-d');
+        return Carbon::parse($value)->format('Y-m-d');
     }
 
     public function entrega()

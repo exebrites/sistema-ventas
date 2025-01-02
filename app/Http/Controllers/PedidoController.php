@@ -177,8 +177,9 @@ class PedidoController extends Controller
         \Cart::clear();
 
         //Da un formato dd/mm/yyyy a la fecha de entrega  y de inicio
-        $fecha =  Carbon::parse($pedido->fecha_entrega);
-        $pedido->fecha_entrega = $fecha->format('d-m-Y');
+        // $fecha =  Carbon::parse($pedido->fecha_entrega);
+        // $pedido->fecha_entrega = $fecha->format('d-m-Y');
+        $pedido->fecha_entrega = $pedido->formato_fecha_entrega;
         if ($pedido->fecha_inicio != null) {
             $fecha =  Carbon::parse($pedido->fecha_inicio);
             $pedido->fecha_inicio = $fecha->format('d-m-Y');
