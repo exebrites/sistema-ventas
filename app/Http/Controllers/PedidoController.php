@@ -12,6 +12,7 @@ use App\Models\Cliente;
 use App\Models\Disenio;
 use App\Mail\PagoMailable;
 use App\Events\OrdenCompra;
+use App\Http\Requests\ProcesarPedidoRequest;
 use App\Mail\ConfirmacionImprenta;
 use App\Mail\ConfirmacionPago;
 use Darryldecode\Cart\Cart;
@@ -83,39 +84,30 @@ class PedidoController extends Controller
 
     //FIN DE FUNCIONES DE GESTIONAR PEDIDO
 
-    public function procesarPedido(Request $request)
+    //Registrar pedido y relacionar con el cliente
+    public function procesarPedido(ProcesarPedidoRequest $request)
     {
-        // dd();
-        try {
-            $request->validate([
-                'fechaEntrega' => [
-                    'required',
-                    'date',
-                    'after_or_equal:today', // Asegura que la fecha de entrega sea hoy o en el futuro
-                    // Puedes agregar más reglas según tus requisitos
-                ],
-            ]);
-        } catch (ValidationException $e) {
-            // Manejar los errores de validación aquí
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        }
 
-        $id = Auth::user()->id;
-        $correo = User::where('id', $id)->value('email');
+        $fechaEntrega = $request->validated(['fechaEntrega']);
+        //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
+        $correo = Auth::user()->email;
         $cliente = Cliente::where('correo', $correo)->first();
-        $cliente_id = $cliente->id;
 
+        //determina el costo del diseño asistido o completo
         $costoTotal = \Cart::getTotal() + CostoDisenio::costo_total_disenio();
         $estado =  1;
-        Pedido::create([
-            'clientes_id' => $cliente_id,
+
+        //crear un pedido cuyo estado es pendiente de confirmacion 
+        $pedido = Pedido::create([
+            'clientes_id' => $cliente->id,
             'fecha_inicio' => null,
-            'fecha_entrega' => $request->fechaEntrega,
+            'fecha_entrega' => $fechaEntrega,
             'estado_id' => $estado,
             'costo_total' => $costoTotal
         ]);
-        $id = Pedido::max('id');
-        return redirect()->route('pedido-detallePedido', ['id' => $id]);
+
+        //traer el ultimo pedido creado y lo envia al metodo detallePedido
+        return redirect()->route('pedido-detallePedido', ['id' => $pedido->id]);
     }
 
     public function pedidoCliente()
