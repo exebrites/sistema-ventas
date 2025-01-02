@@ -22,6 +22,11 @@ class Pedido extends Model implements Auditable
     protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'costo_total'];
     // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
 
+    //scopes
+    public function setFechaEntregaAttribute($value)
+    {
+        $this->attributes['fecha_entrega'] = Carbon::parse($value)->format('Y-m-d');
+    }
 
     public function entrega()
     {
@@ -97,7 +102,7 @@ class Pedido extends Model implements Auditable
     }
     public  function listaMaterialesPedidosProducto()
     {
-        
+
 
         // la idea es traer la lista de materiales de cada producto y unificarlas en una sola lista para el pedido
 
@@ -123,7 +128,7 @@ class Pedido extends Model implements Auditable
         $arrayC = [];
         foreach ($detalles as $key => $detalle) {
             $cantidad = $detalle->cantidad;
-// dump($detalle->producto_id);
+            // dump($detalle->producto_id);
             $producto = $detalle->producto;
             $proporcion = $producto->proporcionCantidad($cantidad);
             $arrayA = $proporcion;
@@ -150,7 +155,7 @@ class Pedido extends Model implements Auditable
         // Convierte el array asociativo C a un array indexado si es necesario
         // $arrayC = array_values($arrayC);
 
-      
+
         return $arrayC;
     }
     public function listaMaterialesPedidos()
@@ -179,7 +184,7 @@ class Pedido extends Model implements Auditable
         $arrayC = [];
         foreach ($detalles as $key => $detalle) {
             $cantidad = $detalle->cantidad;
-// dump($detalle->producto_id);
+            // dump($detalle->producto_id);
             $producto = $detalle->producto;
             $proporcion = $producto->proporcionCantidad($cantidad);
             $arrayA = $proporcion;
@@ -251,7 +256,7 @@ class Pedido extends Model implements Auditable
     {
         $arrayPedidos = $pedidos;
         $arrayC = [];
-// dd($arrayPedidos);
+        // dd($arrayPedidos);
         foreach ($arrayPedidos as $key => $pedido) {
             // dump($pedido);
             $arrayA = $pedido->listaMaterialesPedidos();
@@ -276,8 +281,8 @@ class Pedido extends Model implements Auditable
                 }
             }
         }
-// dd($arrayC);
-// dd("fin");
+        // dd($arrayC);
+        // dd("fin");
         return $arrayC;
     }
 

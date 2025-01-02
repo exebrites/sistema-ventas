@@ -132,48 +132,43 @@ class PedidoController extends Controller
         $estado =  $pedido->estado;
 
         //recuper los productos del carrito y crea 1 detalle por producto asociandolo al pedido
-        $producto = \Cart::getContent();
-        foreach ($producto as $p) {
-            $idPr = $p->id;
-            detallePedido::create([
+        $productos = \Cart::getContent();
+        foreach ($productos as $producto) {
+            $detalle = detallePedido::create([
                 'pedido_id' => $pedido->id,
-                'producto_id' => $idPr,
-                'cantidad' => $p->quantity,
-                'subtotal' => \Cart::get($idPr)->getPriceSum(),
+                'producto_id' => $producto->id,
+                'cantidad' => $producto->quantity,
+                'subtotal' => \Cart::get($producto->id)->getPriceSum(),
                 'produccion' => false
             ]);
-            //recupera el ultimo detalle creado
-            $idDP = detallePedido::max('id');
+
             $estadoDisenio = 1; //tiene disenio
             $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
 
             //asocia un diseño con el detalle pedido en caso de tener sino asocia un disenio vacio 
             // con su boceto
-            if ($p->attributes->disenio_estado == 'true') {
-                $url_imagen = $p->attributes->url_disenio;
-                Disenio::create([
-                    'detallePedido_id' => $idDP,
-                    'url_imagen' => $url_imagen,
-                    'url_disenio' => "",
-                    'disenio_estado' => $estadoDisenio,
-                    'revision' => $revisionDisenio
-                ]);
+            $disenio =  new Disenio();
+            $disenio->detallePedido_id = $detalle->id;
+            $disenio->url_disenio = "";
+            $disenio->revision = $revisionDisenio;
+            if ($producto->attributes->disenio_estado == 'true') {
+                //asocia el disenio con el detalle pedido y disenio estado tiene para revision
+                $disenio->url_imagen = $producto->attributes->url_disenio;
+                $disenio->disenio_estado = $estadoDisenio;
+                $disenio->save();
             } else {
-                Disenio::create([
-                    'detallePedido_id' => $idDP,
-                    'url_imagen' => "",
-                    'url_disenio' => "",
-                    'disenio_estado' => 0,
-                    'revision' =>    $revisionDisenio
-                ]);
+                $disenio->url_imagen = "";
+                $disenio->disenio_estado = 0;
+                $disenio->save();
+
                 Boceto::create([
-                    'negocio' => $p->attributes->nombre,
-                    'objetivo' => $p->attributes->objetivo,
-                    'publico' => $p->attributes->publico,
-                    'contenido' => $p->attributes->contenido,
-                    'url_logo' => $p->attributes->logo,
-                    'url_img' => $p->attributes->img,
-                    'detallePedido_id' => $idDP
+                    'negocio' => $producto->attributes->nombre,
+                    'objetivo' => $producto->attributes->objetivo,
+                    'publico' => $producto->attributes->publico,
+                    'contenido' => $producto->attributes->contenido,
+                    'url_logo' => $producto->attributes->logo,
+                    'url_img' => $producto->attributes->img,
+                    'detallePedido_id' => $detalle->id
                 ]);
             }
         }
