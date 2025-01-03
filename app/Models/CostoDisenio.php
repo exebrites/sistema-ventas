@@ -6,7 +6,7 @@ use Cart;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CostoDisenio extends Model
+final class CostoDisenio extends Model
 {
     protected  $table = "costo_disenios";
     protected $fillable = ['hora_disenio', 'horas_disenio_completo', 'horas_disenio_asistido', 'porcentaje_costo'];
@@ -20,13 +20,8 @@ class CostoDisenio extends Model
         }
         return $costo_total;
     }
-    public static function costo_disenio($precio, $cantidad, $estado)
+    public  function costo_disenio($precio, $cantidad, $estado, $costo_disenio) //1. Usar calmeCase
     {
-        $subtotal = $precio * $cantidad;
-        $costo_disenio = CostoDisenio::find(1);
-        $costo = 0;
-
-
         /*
         REGLA DE NEGOCIO 
 
@@ -38,17 +33,13 @@ class CostoDisenio extends Model
             mayor a 200 u. se cobra un 25% al costo total del pedido 
 
         */
+        $subtotal = $precio * $cantidad;
+        // $costo_disenio = CostoDisenio::find(1); //2. Evitar acoplamiento
+        $costo = 0;
+        $porcentajeCobro = $costo_disenio->porcentaje_costo;
 
-        $porcentajeCobro = $costo_disenio->porcentaje_costo;    # code...
-        // if ($cantidad >= 50 && $cantidad < 100) {
-        //     $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.1;    # code...
-        // } elseif ($cantidad >= 100 && $cantidad < 200) {
-        //     $porcentajeCobro = $costo_disenio->porcentaje_costo - 0.2;    # code...
-        // } elseif ($cantidad >= 200) {
-        //     $porcentajeCobro = $costo_disenio->porcentaje_costo / 2;    # code...
-        // }
-        // dd($porcentajeCobro);
-        if ($estado) {
+        //Calcular el costo de diseño si tiene diseño o no
+        if ($estado) { //3. Desacoplar if
             $costo_hs = $costo_disenio->horas_disenio_asistido * $costo_disenio->hora_disenio;
             $costo_porcentaje =  $porcentajeCobro * $subtotal;
         } else {
@@ -56,17 +47,19 @@ class CostoDisenio extends Model
             $costo_porcentaje =  $porcentajeCobro * $subtotal;
         }
 
-        // dump($costo_porcentaje);
-        // dump($costo_hs);
-        if ($costo_porcentaje >= $costo_hs) {
+
+        //Determinar el costo a cobrar
+        if ($this->determinarCostoCobrar($costo_porcentaje, $costo_hs)) { //4. Desacoplar if
             $costo = $costo_porcentaje;
         } else {
             $costo = $costo_hs;
         }
-        // dump($costo);
-        // dd("");
 
         return $costo;
+    }
+    private  function determinarCostoCobrar($costo_porcentaje, $costo_hs)
+    {
+        return $costo_porcentaje >= $costo_hs;
     }
     use HasFactory;
 }
