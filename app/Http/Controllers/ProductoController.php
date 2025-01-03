@@ -21,7 +21,9 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+     
+    public function index()//Feature test
     {
         $productos = Producto::orderBy('id', 'desc')->get(); //productos deforma descendente
         return view('producto.index', compact('productos'));
@@ -32,7 +34,7 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create()//Feature test
     {
         $categorias = Categoria::all();
         return view('producto.create', compact('categorias'));
@@ -45,7 +47,7 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     // public function store(Request $request)
-    public function store(StoreUpdateProductoRequest $request)
+    public function store(StoreUpdateProductoRequest $request) //Feature test
     {
 
         $producto = new Producto(); //porque no, crear un constructor y usar save()
@@ -66,7 +68,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id)//Feature test
     {
         $producto = Producto::find($id);
         return view('producto.show', compact('producto'));
@@ -78,7 +80,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)//Feature test
     {
         $producto = Producto::find($id);
         $categorias = Categoria::all();
@@ -93,7 +95,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdateProductoRequest $request, $id)
+    public function update(StoreUpdateProductoRequest $request, $id)//Feature test
     {
 
         $producto = Producto::find($request->id);
@@ -120,7 +122,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id)//Feature test
     {
 
         // return $id;
@@ -142,7 +144,7 @@ class ProductoController extends Controller
     }
 
     //idea manejar con otra funcion la parte del detalle de productos
-    public function detalle($id)
+    public function detalle($id)//Feature test
     {
 
         $pro = Producto::find($id);
@@ -156,7 +158,7 @@ class ProductoController extends Controller
         return view('detalleProducto', compact('pro', 'url_imagen'));
     }
 
-    public function buscarProducto()
+    public function buscarProducto()//Feature test
     {
         $buscar = request()->get('buscar', '');
         if (request()->has('buscar')) {

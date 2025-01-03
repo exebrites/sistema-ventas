@@ -14,8 +14,9 @@ class AuditoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function filtroFecha(Request $request)
+    public function filtroFecha(Request $request)//Feature test
     {
+        /*REFACTORY*/
 
         // validaciones 
         // return $request;

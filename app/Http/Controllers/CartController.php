@@ -19,7 +19,7 @@ class CartController extends Controller
 {
     public function shop()
     {
-        $products = Producto::orderBy('visitas', 'desc')->paginate(8);
+        $products = Producto::orderBy('visitas', 'desc')->paginate(8); //scope visitas
         return view('shop', compact('products'));
     }
     public function cart()
