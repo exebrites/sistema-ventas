@@ -20,7 +20,7 @@ final class CostoDisenio extends Model
         }
         return $costo_total;
     }
-    public  function costo_disenio($precio, $cantidad, $estado, $costo_disenio) //1. Usar calmeCase
+    public  function costo_disenio($precio, $cantidad, $estado) //1. Usar calmeCase
     {
         /*
         REGLA DE NEGOCIO 
@@ -36,14 +36,14 @@ final class CostoDisenio extends Model
         $subtotal = $precio * $cantidad;
         // $costo_disenio = CostoDisenio::find(1); //2. Evitar acoplamiento
         $costo = 0;
-        $porcentajeCobro = $costo_disenio->porcentaje_costo;
+        $porcentajeCobro = $this->attributes['porcentaje_costo'];
 
         //Calcular el costo de diseño si tiene diseño o no
         if ($estado) { //3. Desacoplar if
-            $costo_hs = $costo_disenio->horas_disenio_asistido * $costo_disenio->hora_disenio;
+            $costo_hs = $this->horas_disenio_asistido * $this->hora_disenio;
             $costo_porcentaje =  $porcentajeCobro * $subtotal;
         } else {
-            $costo_hs = $costo_disenio->horas_disenio_completo * $costo_disenio->hora_disenio;
+            $costo_hs = $this->horas_disenio_completo * $this->hora_disenio;
             $costo_porcentaje =  $porcentajeCobro * $subtotal;
         }
 

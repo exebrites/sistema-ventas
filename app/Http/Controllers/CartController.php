@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ContactoController;
 use App\Models\CostoDisenio;
 use Illuminate\Validation\ValidationException;
-
+use  App\Http\Requests\CartAddResquest;
 
 class CartController extends Controller
 {
@@ -33,36 +33,30 @@ class CartController extends Controller
         \Cart::remove($request->id);
         return redirect()->route('cart.index')->with('success_msg', 'Producto removido!');
     }
-    public function add(Request $request)
-    {
-        // return $request;
-        // Aplica reglas de validación
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|image|mimes:jpeg,png,jpg|dimensions:max=2048', // Ajusta las extensiones y el tamaño máximo según tus necesidades
-        ]);
 
-        // Verifica si las reglas de validación han sido cumplidas
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+    private function cargarImagen($request)
+    {
 
         // Sube el archivo recibido en la solicitud con el nombre 'file' al directorio 'public' del sistema de archivos de Laravel.
         $imagen = $request->file('file')->store('public');
 
         // Obtiene la URL pública del archivo recién almacenado utilizando el servicio Storage de Laravel.
-        $url_imagen = Storage::url($imagen);
+        return  Storage::url($imagen);
         //agrega el producto y su diseño al carrito
 
         // dd("disenio asistido");
-        /**
-         Si pasa por aca se que es un diseño asistido por ende se puede realizar el calculo del costo de diseño y luego asignar el valor del costo 
-         al atribito
-         */
+    }
+    public function add(CartAddResquest $request)
+    {
+
+        // return $request;
+        $url_imagen = $this->cargarImagen($request);
+        // $url_imagen = "null";
         $disenio_estado = true;
-        $costo_disenio = CostoDisenio::find(1);
-        $costo_disenio_asistido = CostoDisenio::costo_disenio($request->price, $request->quantity, $disenio_estado, $costo_disenio);
+        $costo_disenio = CostoDisenio::find(1);//en db
+        $costo_disenio_asistido = $costo_disenio->costo_disenio($request->price, $request->quantity, $disenio_estado,);
+        // $costo_disenio_asistido = 200;
+
         // dd($costo_disenio_asistido);
         \Cart::add(array(
             'id' => $request->id,
@@ -73,14 +67,12 @@ class CartController extends Controller
                 'imagen_path' => $request->img,
                 'slug' => $request->slug,
                 'url_disenio' => $url_imagen,
-                'disenio_estado' => $disenio_estado, // $request->disenio_estado
+                'disenio_estado' => $disenio_estado,
                 'costo_disenio' => $costo_disenio_asistido
             )
         ));
 
         return redirect()->route('cart.index')->with('success_msg', 'Producto agregado a su Carrito!');
-
-        // return     $url_disenio;
     }
 
     public function add_boceto(Request $request)

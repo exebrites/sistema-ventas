@@ -2,13 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Models\CostoDisenio;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Darryldecode\Cart\Cart;
+use Illuminate\Http\Request;
+
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class CartTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -59,5 +65,40 @@ class CartTest extends TestCase
         $response->assertRedirect(route('cart.index'));
         $response->assertSessionHas('success_msg', 'Carrito borrado!');
         $this->assertEquals(0, \Cart::getTotal());
+    }
+
+
+    public function test_add()
+    {
+
+        CostoDisenio::create([ //crea un costo disenio en la base de datos
+            'hora_disenio' => 500,
+            'horas_disenio_completo' => 5,
+            'horas_disenio_asistido' => 2,
+            'porcentaje_costo' => 0.5
+        ]);
+        // Simula el sistema de almacenamiento
+        Storage::fake('local');
+
+        // Crea una imagen falsa
+        $image = UploadedFile::fake()->image('example.jpg', 600, 400);
+
+
+        // 1. Pasaje de paramatros
+        $response  = $this->post(route('cart.store'), [
+            'id' => 1,
+            'name' => 'Product 1',
+            'price' => 100,
+            'img' => 'file',
+            'slug' => 'cosito',
+            'quantity' => 1,
+            'disenio_estado' => true,
+            'file' => $image //2. Validacion de archivo
+
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('cart.index'));
+        $response->assertSessionHas('success_msg', 'Producto agregado a su Carrito!');
     }
 }
