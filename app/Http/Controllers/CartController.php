@@ -61,7 +61,8 @@ class CartController extends Controller
          al atribito
          */
         $disenio_estado = true;
-        $costo_disenio_asistido = CostoDisenio::costo_disenio($request->price, $request->quantity, $disenio_estado);
+        $costo_disenio = CostoDisenio::find(1);
+        $costo_disenio_asistido = CostoDisenio::costo_disenio($request->price, $request->quantity, $disenio_estado, $costo_disenio);
         // dd($costo_disenio_asistido);
         \Cart::add(array(
             'id' => $request->id,
