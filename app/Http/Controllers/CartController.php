@@ -25,9 +25,7 @@ class CartController extends Controller
     public function cart()
     {
         $cartCollection = \Cart::getContent();
-        //dd($cartCollection);
-
-        $costo = CostoDisenio::costo_total_disenio();
+        $costo = CostoDisenio::costo_total_disenio($cartCollection);
         return view('cart')->with(['cartCollection' => $cartCollection, 'costo'  => $costo]);
     }
     public function remove(Request $request)

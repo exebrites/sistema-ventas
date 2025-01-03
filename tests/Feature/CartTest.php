@@ -19,4 +19,10 @@ class CartTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('shop');
     }
+    public function test_cart()
+    {
+        $response = $this->get(route('cart.index'));
+        $response->assertStatus(200);
+        $response->assertViewIs('cart');
+    }
 }

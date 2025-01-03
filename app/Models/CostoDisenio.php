@@ -11,15 +11,11 @@ class CostoDisenio extends Model
     protected  $table = "costo_disenios";
     protected $fillable = ['hora_disenio', 'horas_disenio_completo', 'horas_disenio_asistido', 'porcentaje_costo'];
 
-    public static function costo_total_disenio()
+    //Calcular el costo total de diseños en el carrito de compras
+    public static function costo_total_disenio($cartCollection) //1. Usar calmeCase 
     {
-        $cartCollection = \Cart::getContent();
-        // dd($cartCollection);
         $costo_total = 0;
-
-
-
-        foreach ($cartCollection as $key => $producto) {
+        foreach ($cartCollection as $producto) {
             $costo_total =  $costo_total +   $producto->attributes['costo_disenio'];
         }
         return $costo_total;
