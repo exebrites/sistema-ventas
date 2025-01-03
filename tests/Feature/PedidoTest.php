@@ -13,7 +13,7 @@ class PedidoTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_pedido()
     {
         $response = $this->post(route('procesarPedido.procesar'), [
             'fechaEntrega' => '2025-01-10'
