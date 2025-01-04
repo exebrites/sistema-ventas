@@ -101,4 +101,44 @@ class CartTest extends TestCase
         $response->assertRedirect(route('cart.index'));
         $response->assertSessionHas('success_msg', 'Producto agregado a su Carrito!');
     }
+
+    public function test_add_boceto()
+    {
+        CostoDisenio::create([ //crea un costo disenio en la base de datos
+            'hora_disenio' => 500,
+            'horas_disenio_completo' => 5,
+            'horas_disenio_asistido' => 2,
+            'porcentaje_costo' => 0.5
+        ]);
+
+        // Simula el sistema de almacenamiento
+        Storage::fake('local');
+
+        // Crea una imagen falsa
+        $logo = UploadedFile::fake()->image('logo.jpg', 600, 400);
+        $img = UploadedFile::fake()->image('img.jpg', 600, 400);
+
+        $response  = $this->post(route('cart.store_boceto'), [
+            'id' => 1,
+            'name' => 'Product 1',
+            'price' => 100,
+            'img_path' => 'file',
+            'slug' => 'cosito',
+            'quantity' => 1,
+            'disenio_estado' => false,
+            'logo' => $logo,
+            'img' => $img,
+            'nombre' => 'Product 1',
+            'objetivo' => 'Product 1',
+            'publico' => 'Product 1',
+            'contenido' => 'Product 1',
+
+        ]);
+
+
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('cart.index'));
+        $response->assertSessionHas('success_msg', 'Producto agregado a su Carrito!');
+    }
 }
