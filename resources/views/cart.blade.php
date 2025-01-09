@@ -68,7 +68,7 @@
                                 {{ $item->name }}<br>
                                 <b>Precio unitario: </b>${{ $item->price }}<br>
 
-                                @if ($item->attributes['disenio_estado'])
+                                {{-- @if ($item->attributes['disenio_estado'])
                                     <b>El costo del diseño asistido:</b>
                                     <span class="help-icon" data-toggle="tooltip" data-placement="right"
                                         title="Diseño asistido: donde usted como cliente sube un diseño inicial y nosotros lo completamos">
@@ -83,9 +83,9 @@
                                         <i class="fa fa-question-circle" aria-hidden="true"></i>
 
                                     </span>
-                                @endif
+                                @endif --}}
                                 <br>
-                                ${{ $item->attributes['costo_disenio'] }}
+                                {{-- ${{ $item->attributes['costo_disenio'] }} --}}
 
                                 <br>
                                 <b>SubTotal:
