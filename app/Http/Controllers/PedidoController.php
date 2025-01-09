@@ -62,7 +62,9 @@ class PedidoController extends Controller
         $cliente = Cliente::obtenerCliente(Auth::user());
 
         //determina el costo del diseño asistido o completo
-        $costoTotal = \Cart::getTotal() + CostoDisenio::costo_total_disenio();
+        $costoDisenio = new CostoDisenio();
+        $productos  = \Cart::getContent();
+        $costoTotal = \Cart::getTotal() + $costoDisenio->costo_total_disenio($productos);
         $estado =  1;
 
         //crear un pedido cuyo estado es pendiente de confirmacion 
