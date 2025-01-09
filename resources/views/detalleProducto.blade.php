@@ -74,7 +74,7 @@
                                     <input type="hidden" value="{{ $pro->slug }}" id="slug" name="slug">
                                     <input type="hidden" value="1" id="quantity" name="quantity">
                                     <input type="hidden" name="disenio_estado" id="" value="true">
-{{-- 
+                                    {{-- 
                                     <label><b> Subir imagen del diseño</b></label><br>
                                     <small>Aqui podes subir la imagen de tu diseño que luego se usará para crear el diseño
                                         del
@@ -104,8 +104,8 @@
                             <hr>
                             <div class="col-5">
                                 <div class="container mt-4">
-                                    <b> <label for="miCheckbox">No tienes diseño?</label></b>
-                                    <a href="{{ Route('bocetos.create', ['id' => $pro->id]) }}">Cliquea aquí</a>
+                                    {{-- <b> <label for="miCheckbox">No tienes diseño?</label></b>
+                                    <a href="{{ Route('bocetos.create', ['id' => $pro->id]) }}">Cliquea aquí</a> --}}
 
                                     {{-- <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="miCheckbox"
