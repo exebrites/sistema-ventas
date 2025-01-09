@@ -64,7 +64,8 @@
                             <div class="col-7">
 
 
-                                <form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data" id="detalleProductoForm">
+                                <form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data"
+                                    id="detalleProductoForm">
                                     {{ csrf_field() }}
                                     <input type="hidden" value="{{ $pro->id }}" id="id" name="id">
                                     <input type="hidden" value="{{ $pro->name }}" id="name" name="name">
@@ -109,8 +110,8 @@
                                     {{-- <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="miCheckbox"
                                             name="miCheckbox"> --}}
-                                        {{-- <label class="custom-control-label" for="miCheckbox">Cliquea aquí</label> --}}
-                                        {{-- <a href="{{ Route('bocetos.create', ['id' => $pro->id]) }}">Cliquea aquí</a>
+                                    {{-- <label class="custom-control-label" for="miCheckbox">Cliquea aquí</label> --}}
+                                    {{-- <a href="{{ Route('bocetos.create', ['id' => $pro->id]) }}">Cliquea aquí</a>
                                     </div> --}}
                                     {{-- <h3 id="h3" style="display: none">No tienes un diseño propio? Hace click aquí
                                         <br>
@@ -161,21 +162,21 @@
 
 
 
-<script>
-    document.getElementById('detalleProductoForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-// console.log("holaaaaa");
-        const fileInput = document.querySelector('input[type="file"]');
+    <script>
+        //   document.getElementById('detalleProductoForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        // console.log("holaaaaa");
+        //   const fileInput = document.querySelector('input[type="file"]');
         // console.log(fileInput.value);
-       
-        if (fileInput.value === "") {
-            alert('Debe seleccionar un archivo');
-            return;
-        }
 
-        this.submit();
-        
-    });
-</script>
+        // if (fileInput.value === "") {
+        //   alert('Debe seleccionar un archivo');
+        // return;
+        //}
+
+        //this.submit();
+
+        //d });
+    </script>
     <script src="/js/app.js"></script>
 @endsection
