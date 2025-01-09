@@ -50,7 +50,8 @@ class CartController extends Controller
     public function add(CartAddResquest $request)
     {
         //configurar el disenio cargado 
-        $url_imagen = $this->cargarImagen($request);
+        // $url_imagen = $this->cargarImagen($request);
+        $url_imagen="null";
         $disenio_estado = true;
         //determinar el costo de diseño
         $costo_disenio = CostoDisenio::find(1); //en db
