@@ -139,8 +139,8 @@
                     <form action="{{ route('procesarPedido.procesar') }}" method="post">
                         @csrf <label for="fechaEntrega" class="font-weight-bold">Fecha requerida para la entrega del
                             pedido:</label>
-                        <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" required
-                            max="2030-01-01">
+                        {{-- <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" required
+                            max="2030-01-01"> --}}
                         @error('fechaEntrega')
                             <div class="invalid-feedback">
                                 {{ $message }}

@@ -57,7 +57,8 @@ class PedidoController extends Controller
     public function procesarPedido(ProcesarPedidoRequest $request)
     {
 
-        $fechaEntrega = $request->validated(['fechaEntrega']);
+        // $fechaEntrega = $request->validated(['fechaEntrega']);
+        $fechaEntrega = "2022-12-12";
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
 
@@ -171,7 +172,7 @@ class PedidoController extends Controller
 
         //envio de correo al cliente con el id del pedido y su costo total
         Mail::to($$pedido->cliente->correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
-        
+
         return view('checkout', compact('estado', 'pedido'));
     }
 
@@ -191,7 +192,7 @@ class PedidoController extends Controller
             if ($estado->id === 1) {
                 Mail::to($usuario->correo)->send(new ConfirmacionImprenta($pedido, $usuario));
             }
-            
+
             //enviar correo de confirmacion de pago
             if ($estado->id === 3) {
                 // antes de confirmar el pago verificar si existe un comprobante

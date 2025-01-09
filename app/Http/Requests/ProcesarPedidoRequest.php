@@ -24,11 +24,11 @@ class ProcesarPedidoRequest extends FormRequest
     public function rules()
     {
         return [
-            'fechaEntrega' => [
-                'required',
-                'date',
-                'after_or_equal:today', // Asegura que la fecha de entrega sea hoy o en el futuroE
-            ],
+            // 'fechaEntrega' => [
+            //     'required',
+            //     'date',
+            //     'after_or_equal:today', // Asegura que la fecha de entrega sea hoy o en el futuroE
+            // ],
         ];
     }
 }
