@@ -74,14 +74,14 @@
                                     <input type="hidden" value="{{ $pro->slug }}" id="slug" name="slug">
                                     <input type="hidden" value="1" id="quantity" name="quantity">
                                     <input type="hidden" name="disenio_estado" id="" value="true">
-
+{{-- 
                                     <label><b> Subir imagen del diseño</b></label><br>
                                     <small>Aqui podes subir la imagen de tu diseño que luego se usará para crear el diseño
                                         del
                                         producto solicitado</small>
                                     <br><br>
                                     <input type="file" name="file" id="" accept="image/*" id="file"><br>
-                                    <br>
+                                    <br> --}}
 
 
                                     <div class="form-group">
