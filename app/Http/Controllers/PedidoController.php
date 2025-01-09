@@ -61,7 +61,6 @@ class PedidoController extends Controller
         $fechaEntrega = "2022-12-12";
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
-
         //determina el costo del diseño asistido o completo
         $costoDisenio = new CostoDisenio();
         $productos  = \Cart::getContent();
