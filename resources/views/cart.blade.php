@@ -89,8 +89,8 @@
 
                                 <br>
                                 <b>SubTotal:
-                                </b>${{ \Cart::get($item->id)->getPriceSum() + $item->attributes['costo_disenio'] }}<br>
-
+                                {{-- </b>${{ \Cart::get($item->id)->getPriceSum() + $item->attributes['costo_disenio'] }}<br> --}}
+                            </b>${{ \Cart::get($item->id)->getPriceSum()}} <br>
 
                             </p>
                         </div>
