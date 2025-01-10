@@ -364,12 +364,12 @@ return [
 
 
 
-        [
+        // [
 
-            'text' => 'Gestionar compra',
-            'route' => 'demandas.index',
-            'icon' => 'fa fa-credit-card',
-        ],
+        //     'text' => 'Gestionar compra',
+        //     'route' => 'demandas.index',
+        //     'icon' => 'fa fa-credit-card',
+        // ],
         [
             'text' => 'Gestión de Usuarios y Seguridad',
             'icon' => 'fa fa-fw fa-users',

@@ -19,24 +19,24 @@
             <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn btn-primary">Ir al pedido </a>
 
             <a href="{{ route('clientes.show', $pedido->clientes_id) }}" class="btn btn-primary">Ver cliente</a>
-            @if ($pedido->comprobante == null)
+            {{-- @if ($pedido->comprobante == null)
                 <a href="#" class="btn btn-light"><b>No tiene comprobante</b></a>
             @else
                 <a href="{{ route('comprobantes.show', $pedido->comprobante->id) }}" class="btn btn-primary">Ver
                     comprobante</a>
-            @endif
+            @endif --}}
             {{-- {{dd(count($pedido->entrega))}} --}}
-            @if (count($pedido->entrega) === 0)
+            {{-- @if (count($pedido->entrega) === 0)
                 <a href="#" class="btn btn-light"> <b>No tiene lugar de entrega</b></a>
             @else
                 <a href="{{ route('entrega.show', $pedido->entrega[0]->id) }}" class="btn btn-primary">Ver entrega</a>
-            @endif
+            @endif --}}
 
-            @if ($pedido->comprobante == null)
+            {{-- @if ($pedido->comprobante == null)
                 <a href="#" class="btn btn-light"> <b>No se ha confirmado el pago</b></a>
             @else
                 <a href="{{ route('factura', $pedido->id) }}" class="btn btn-primary">Generar factura</a>
-            @endif
+            @endif --}}
 
             @if ($pedido->estado->nombre === 'pre_produccion')
                 <a href="{{ route('ver_stock', $pedido) }}" class="btn btn-primary">Lista de materiales</a>
@@ -54,14 +54,14 @@
                             readonly>
                     </div>
                 </div>
-
+{{-- 
                 <div class="col-md">
                     <div class="form-group">
                         <label for="">Fecha Entrega</label>
                         <input type="text" name="" id="" class="form-control"
                             value="{{ $pedido->fecha_inicio }}" readonly>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md">
                     <div class="form-group">
                         <label for="">Estado</label>
@@ -92,9 +92,9 @@
                                 <b> Nombre del producto:</b> {{ $detalle->producto->name }} <br>
                                 <b> Descripcion:</b> {{ $detalle->producto->description }} <br>
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
-                                <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
-                                <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br>
-                                @if ($detalle->disenio->disenio_estado === 1)
+                                {{-- <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
+                                <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br> --}}
+                                {{-- @if ($detalle->disenio->disenio_estado === 1)
                                     <b> Estado del diseño: </b>
                                     @if ($detalle->disenio->revision === 0)
                                         @if ($detalle->produccion === 0)
@@ -107,7 +107,7 @@
                                     @endif
                                 @else
                                     <b style="color:red">Realizar disenio - Ver boceto </b>
-                                @endif
+                                @endif --}}
 
                                 <br>
                                 <br>
