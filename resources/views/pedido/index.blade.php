@@ -88,9 +88,9 @@
                     <tr>
                         <th>Nro de pedido</th>
                         <th>Estado</th>
-                        <th>Fecha de entrega</th>
+                        {{-- <th>Fecha de entrega</th> --}}
                         <th>Costo total</th>
-                        <th>Dias faltantes</th>
+                        {{-- <th>Dias faltantes</th> --}}
                         <th></th>
                         <th></th>
                     </tr>
@@ -108,16 +108,16 @@
                                     {{ $pedido->cliente->nombre }}
                                 </a></td> --}}
                             {{-- <td>{{ $pedido->fecha_entrega }} </td> --}}
-                            <td>
+                            {{-- <td>
                                 @if ($pedido->fecha_inicio != null)
                                     {{ $pedido->fecha_inicio }}
                                 @else
                                     {{ 'No tiene fecha de entrega' }}
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>$ {{ $pedido->costo_total }}</td>
 
-                            <td>{{ $pedido->diferenciaDias() }}</td>
+                            {{-- <td>{{ $pedido->diferenciaDias() }}</td> --}}
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                     href="{{ route('pedidos.edit', $pedido->id) }}">Editar</a></td>
                             <td><a href="{{ Route('pedidos.show', $pedido->id) }}"
