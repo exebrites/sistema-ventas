@@ -15,8 +15,70 @@
                     </div>
                 @endif
                 <div class="row">
-                    @switch($estado->id)
-                        @case(2)
+
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Tu estado de pedido es el siguiente: Pago confirmado</h5>
+                                <p class="card-text">
+                                    <small>
+                                        El estado "Pago confirmado" indica que el pago ha sido confirmado. Ahora necesitas
+                                        completar los siguientes campos para que sepamos dónde entregar el pedido.
+                                    </small>
+                                </p>
+                                <h5>Datos de entrega</h5>
+                                <form action="{{ route('entrega.store') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" name="local" id="miCheckbox">
+                                        <label class="form-check-label" for="miCheckbox">Retiro en local</label>
+                                    </div>
+                                    <div id="div1">
+                                        <div class="form-group">
+                                            <label>Dirección del lugar de entrega</label>
+                                            <input type="text" class="form-control" name="direccion" value="">
+                                            @error('direccion')
+                                                <br>
+                                                <small style="color:red">{{ $message }}</small>
+                                            @enderror
+
+                                        </div>
+                                        <label>Telefono de contacto</label>
+                                        <input type="tel" class="form-control" name="telefono"
+                                            placeholder="Ej: 3758-122331">
+                                        @error('telefono')
+                                            <br>
+                                            <small style="color:red">{{ $message }}</small>
+                                        @enderror
+                                        <div class="form-group">
+                                            <label>Nombre de la persona que recibe</label>
+                                            <input type="text" class="form-control" name="nombre">
+                                            @error('nombre')
+                                                <br>
+                                                <small style="color:red">{{ $message }}</small>
+                                            @enderror
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Nota</label>
+                                            <textarea class="form-control" aria-label="With textarea" name="nota">Sin comentarios</textarea>
+
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
+                                    <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
+                                    <button type="submit" id="sub1" class="btn btn-primary">Finalizar pedido</button>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- @switch($estado->id)
+                        @case(1)
                             <div class="col">
                                 <div class="card">
                                     <div class="card-header">
@@ -55,8 +117,8 @@
                                     </div>
                                 </div>
                             </div>
-                        @break
-
+                        @break --}}
+                {{-- 
                         @case(3)
                             <div class="col">
                                 <div class="card">
@@ -88,7 +150,6 @@
                                                 <label>Telefono de contacto</label>
                                                 <input type="tel" class="form-control" name="telefono"
                                                     placeholder="Ej: 3758-122331">
-                                                {{-- pattern="[0-9]{2,4}-[0-9]{6,8}" --}}
                                                 @error('telefono')
                                                     <br>
                                                     <small style="color:red">{{ $message }}</small>
@@ -118,9 +179,9 @@
                                     </div>
                                 </div>
                             </div>
-                        @break
+                        @break --}}
 
-                        @case(1)
+                {{-- @case(1)
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -138,14 +199,13 @@
                                             <label for="">Número de pedido</label>
                                             <input type="text" name="" id="" class="form-control" placeholder=""
                                                 aria-describedby="helpId" value="{{ $pedido->id }}" readonly>
-                                            {{-- <small id="helpId" class="text-muted">Help text</small> --}}
+
                                         </div>
                                         <hr>
                                         <div class="form-group">
                                             <label for="">Fecha requerida</label>
                                             <input type="text" name="" id="" class="form-control" placeholder=""
                                                 aria-describedby="helpId" value="{{ $pedido->fecha_entrega }}" readonly>
-                                            {{-- <small id="helpId" class="text-muted">Help text</small> --}}
                                         </div>
 
                                         <div class="form-group">
@@ -165,7 +225,6 @@
                                         </div>
 
                                         <hr>
-                                        {{-- {{dd($pedido->fecha_inicio )}} --}}
                                         @if ($pedido->fecha_inicio != null)
                                             <a href="{{ route('cancelarPedido', $pedido->id) }}"
                                                 class="btn btn-danger">Cancelar</a>
@@ -176,9 +235,9 @@
                                     </div>
                                 </div>
                             </div>
-                        @break
+                        @break --}}
 
-                        @default
+                {{-- @default
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -190,14 +249,14 @@
                                     </div>
                                 </div>
                             </div>
-                    @endswitch
-                </div>
+                    @endswitch --}}
             </div>
-
-            <br>
-            <br>
-
         </div>
+
+        <br>
+        <br>
+
+    </div>
 
     </div>
 
