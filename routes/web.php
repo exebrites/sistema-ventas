@@ -100,7 +100,7 @@ route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofer
 
 Route::resource('/respuestas', RespuestaController::class);
 
-Route::group(['middleware' => 'role:empresa'], function () {
+// Route::group(['middleware' => 'role:empresa'], function () {
 
 
     // Route::resource('/demandas', DemandaController::class);
@@ -156,9 +156,9 @@ Route::group(['middleware' => 'role:empresa'], function () {
 
 
     Route::post('/comprar', [DemandaController::class, 'comprar'])->name('comprar');
-});
+// });
 
-Route::group(['middleware' => 'role:admin'], function () {
+// Route::group(['middleware' => 'role:admin'], function () {
     // Rutas que requieren ser admin y empresa
     Route::resource('roles', RoleController::class);
     Route::resource('permisos', PermisosController::class);
@@ -170,7 +170,7 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
     Route::resource('/auditoria', AuditoriaController::class);
     Route::resource('/usuarios', UsuariosController::class);
-});
+// });
 Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
 Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
 Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);

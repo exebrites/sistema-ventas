@@ -132,7 +132,7 @@ class ClienteController extends Controller
                     'string',
                     'min:8',
                     'max:8',
-                    Rule::unique('clientes', 'dni'), // Ajusta 'tu_tabla' al nombre real de tu tabla de base de datos
+                    Rule::unique('clientes', 'dni')->ignore($request->id), // Ajusta 'tu_tabla' al nombre real de tu tabla de base de datos
                     'regex:/^\d{8}$/',
                 ],
                 'nombre' => ['required', 'string', 'max:100'],

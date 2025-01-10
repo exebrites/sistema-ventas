@@ -36,6 +36,8 @@ class PedidoController extends Controller
     const ESTADO_CANCELADO = 11;
     const ESTADO_PENDIENTE_PAGO = 2;
     // const ESTADO_ENTREGADO = 10;
+    const PENDIENTE =  1;
+
     public function index()
     {
         // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
@@ -62,17 +64,18 @@ class PedidoController extends Controller
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
         //determina el costo del diseño asistido o completo
-        $costoDisenio = new CostoDisenio();
-        $productos  = \Cart::getContent();
-        $costoTotal = \Cart::getTotal() + $costoDisenio->costo_total_disenio($productos);
-        $estado =  1;
+        // $costoDisenio = new CostoDisenio();
+        // $productos  = \Cart::getContent();
+        // $costoTotal = \Cart::getTotal() + $costoDisenio->costo_total_disenio($productos);
+
+        $costoTotal = \Cart::getTotal();
 
         //crear un pedido cuyo estado es pendiente de confirmacion 
         $pedido = Pedido::create([
             'clientes_id' => $cliente->id,
             'fecha_inicio' => null,
-            'fecha_entrega' => $fechaEntrega,
-            'estado_id' => $estado,
+            'fecha_entrega' => null,
+            'estado_id' => self::PENDIENTE,
             'costo_total' => $costoTotal
         ]);
 
@@ -119,21 +122,21 @@ class PedidoController extends Controller
                 //asocia el disenio con el detalle pedido y disenio estado tiene para revision
                 $disenio->url_imagen = $producto->attributes->url_disenio;
                 $disenio->disenio_estado = $estadoDisenio;
-                $disenio->save();
+                // $disenio->save();
             } else {
                 $disenio->url_imagen = "";
                 $disenio->disenio_estado = 0;
-                $disenio->save();
+                // $disenio->save();
 
-                Boceto::create([
-                    'negocio' => $producto->attributes->nombre,
-                    'objetivo' => $producto->attributes->objetivo,
-                    'publico' => $producto->attributes->publico,
-                    'contenido' => $producto->attributes->contenido,
-                    'url_logo' => $producto->attributes->logo,
-                    'url_img' => $producto->attributes->img,
-                    'detallePedido_id' => $detalle->id
-                ]);
+                // Boceto::create([
+                //     'negocio' => $producto->attributes->nombre,
+                //     'objetivo' => $producto->attributes->objetivo,
+                //     'publico' => $producto->attributes->publico,
+                //     'contenido' => $producto->attributes->contenido,
+                //     'url_logo' => $producto->attributes->logo,
+                //     'url_img' => $producto->attributes->img,
+                //     'detallePedido_id' => $detalle->id
+                // ]);
             }
         }
         //obtiene el costo total del carrito y borra el carrito 
