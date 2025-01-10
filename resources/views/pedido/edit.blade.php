@@ -92,7 +92,7 @@
                 </div>
 
 
-
+{{-- 
                 <div class="form-group">
                     <label for="">Fecha de requerida </label>
                     <input type="date" name="fecha_entrega" id="" class="form-control"
@@ -104,7 +104,7 @@
                     <input type="date" name="fecha_e" id="fecha_e" class="form-control"
                         value="{{ $pedido->fecha_inicio }}" required>
 
-                </div>
+                </div> --}}
 
                 <div class="container ">
                     <div class="row">
