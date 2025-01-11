@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pedido_id')->unique();
             $table->string('direccion');
-            $table->char('telefono');
+            $table->string('telefono');
             $table->string('recepcion');
             $table->string('nota');
             $table->boolean('local');
