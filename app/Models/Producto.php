@@ -18,24 +18,13 @@ class Producto extends Model implements Auditable
 
 
     protected $table = 'productos';
-    protected $fillable = ['name', 'price', 'slug', 'description', 'category_id', 'image_path', 'alias', 'visitas'];
-    /*----------------------------ATRIBUTOS----------------------------------------*/
-    /*AGREGAR ATRIBUTOS*/
+    protected $fillable = ['nombre', 'precio',  'descripcion', 'category_id', 'imagen', 'alias', 'visitas'];
     private string $nombre;
     private float $precio;
-    /*----------------------------METODOS-----------------------------------------*/
-
-    /*AGREGAR METODOS*/
-
-    /*----------------------------RELACIONES----------------------------------------*/
-    /*AGREGAR RELACIONES*/
     public function disenio()
     {
         return $this->hasOne(Disenio::class, 'idProducto'); //tiene como FK a idproducto
     }
-
-    //SIN PROBAR 
-
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'category_id', '');
@@ -45,13 +34,6 @@ class Producto extends Model implements Auditable
     {
         return $this->hasMany(SistOliva::class, 'idSistema');
     }
-
-    // public function pedidos()
-    // {
-    //     return $this->hasMany('\App\Models\Pedido','productos_id','');
-
-    // }
-
     public function detallePedido()
     {
         return $this->hasMany('\App\Models\DetallePedido', 'producto_id', '');

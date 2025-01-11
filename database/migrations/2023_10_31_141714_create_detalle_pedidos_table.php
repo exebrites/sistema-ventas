@@ -14,14 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('detalle_pedidos', function (Blueprint $table) {
-         
             $table->id();
             $table->foreignId('pedido_id')->constrained('pedidos');
             $table->foreignId('producto_id')->constrained('productos');
             $table->integer('cantidad');
             $table->float('subtotal');
-            $table->boolean('produccion');
-
             $table->timestamps();
         });
     }
