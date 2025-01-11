@@ -1,6 +1,5 @@
 @extends('adminlte::page')
 @section('title')
-
 @section('content_header')
     <h1>Editar pedido</h1>
 @stop
@@ -39,7 +38,6 @@
                             <option value="pendiente_pago" @if ($pedido->estado->nombre == 'pendiente_pago') selected @endif>Pendiente de
                                 pago
                             </option>
-
                             <option value="confirmado_pago">Confirmado de
                                 pago
                             </option>
@@ -59,10 +57,8 @@
                             </option>
                         @elseif($pedido->estado->nombre == 'disenio')
                             <option value="disenio" @if ($pedido->estado->nombre == 'disenio') selected @endif>Diseño</option>
-
                             <option value="pre_produccion">Pre produccion
                             </option>
-
                             </option>
                         @elseif($pedido->estado->nombre == 'pre_produccion')
                             <option value="pre_produccion" @if ($pedido->estado->nombre == 'pre_produccion') selected @endif>Pre produccion
@@ -87,52 +83,23 @@
                             <option value="entregado" @if ($pedido->estado->nombre == 'entregado') selected @endif>Entregado
                             </option>
                         @endif
-
                     </select>
                 </div>
-
-
-{{-- 
-                <div class="form-group">
-                    <label for="">Fecha de requerida </label>
-                    <input type="date" name="fecha_entrega" id="" class="form-control"
-                        value="{{ $pedido->fecha_entrega }}" readonly>
-
-                </div>
-                <div class="form-group">
-                    <label for="fecha_e">Fecha de entrega </label>
-                    <input type="date" name="fecha_e" id="fecha_e" class="form-control"
-                        value="{{ $pedido->fecha_inicio }}" required>
-
-                </div> --}}
-
                 <div class="container ">
                     <div class="row">
                         <div class="col d-flex">
-
                             <div id="btn-cancelar">
                                 <a href="{{ route('pedidos.index') }}" class="btn btn-danger btn-ampliado">Cancelar</a>
                             </div>
-
-
                             <div>
                                 <button type="submit" class="btn btn-success btn-ampliado">Actualizar</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </form>
-
         </div>
-
     </div>
-
-
-
-
-
-
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/btnCancelarAceptar.css') }}">
