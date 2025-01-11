@@ -70,14 +70,13 @@ class PedidoController extends Controller
         $pedidos = Pedido::pedidosCliente($cliente);
         return view('pedido.pedidoCliente', compact('pedidos'));
     }
-    public function cancelarPedido($id)
+    public function cancelarPedido(Pedido $pedido)
     {
 
         /**
          MEJORA:
          * 1). Usar inyeccion de dependencias para traer el pedido
          */
-        $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => self::ESTADO_CANCELADO]);
         $motivo = 'No especificado';
         // Envía el correo usando Mailable
