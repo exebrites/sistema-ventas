@@ -22,7 +22,7 @@ class PdfController extends Controller
 
         // $pedido = Pedido::with(['cliente', 'productos'])->findOrFail($pedidoId);
         $pedido = Pedido::find($pedido_id);
-        $detalleProductos = $pedido->detallePedido;
+        $detalleProductos = $pedido->detallesPedido;
         $fecha_despacho = now()->format('d-m-Y H:i:s');
         $entrega = $pedido->entrega[0];
         // dd($entrega);

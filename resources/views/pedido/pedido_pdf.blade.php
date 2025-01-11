@@ -6,15 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido Despacho</title>
     <style>
-        /* body {
-            font-family: sans-serif;
-        } */
-
-
         .header {
             position: fixed;
             top: -2cm;
-            /* left: 0cm;  */
         }
 
         .infoHeader {
@@ -23,7 +17,6 @@
         }
 
         .hijo {
-            /* width: 2cm; */
             height: 1cm;
             margin: 0.2cm;
 
@@ -38,7 +31,6 @@
 
         .header-otro {
             text-align: center;
-            /* position: relative; */
         }
 
         .order-details,
@@ -70,7 +62,6 @@
 </head>
 
 <body>
-
     <div id="header">
         <div class="row">
             <div class="col-8">
@@ -89,7 +80,6 @@
     </div>
     <br>
     <br>
-
     <br>
     <br><br><br>
     <h1 class="header-otro">Detalle del Pedido para Despacho</h1>
@@ -108,18 +98,15 @@
             <tbody>
                 @foreach ($detalleProductos as $detalle)
                     <tr>
-                        <td>{{ $detalle->producto->name }}</td>
+                        <td>{{ $detalle->producto->nombre }}</td>
                         <td style="text-align: center;">{{ $detalle->cantidad }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-
     <div class="delivery-info">
         <h3>Información de Entrega</h3>
-
-        {{-- {{ dd($entrega) }} --}}
         @if ($entrega->local)
             <p style="text-align: center;"><strong>RETIRO EN LOCAL</strong></p>
         @else
@@ -128,15 +115,10 @@
             <p><strong>Telefono de contacto:</strong> {{ $entrega->telefono }}</p>
             <p><strong>Nota de Entrega:</strong> {{ $entrega->nota }}</p>
         @endif
-
-
-
     </div>
-
     <div class="signature">
         <p>Firma del Cliente</p>
     </div>
-
     <script type="text/php" >
         if ( isset($pdf) ) {
             $pdf->page_script('
@@ -146,5 +128,4 @@
         }
 	</script>
 </body>
-
 </html>
