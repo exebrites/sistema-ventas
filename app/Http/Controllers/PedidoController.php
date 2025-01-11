@@ -2,34 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Boceto;
 use App\Models\Estado;
-use App\Models\Oferta;
 use App\Models\Pedido;
 use App\Models\Cliente;
-use App\Models\Disenio;
-use App\Mail\PagoMailable;
-use App\Events\OrdenCompra;
-use App\Http\Requests\ProcesarPedidoRequest;
-use App\Mail\ConfirmacionImprenta;
-use App\Mail\ConfirmacionPago;
-use Darryldecode\Cart\Cart;
-use App\Mail\EstadoMailable;
-use App\Mail\PagoPendiente;
-use App\Models\CostoDisenio;
 use Illuminate\Http\Request;
 use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use App\Mail\PedidoCancelado;
-use App\Models\Demanda;
-use App\Mail\confirmacionEntrega;
-use Svg\Tag\Rect;
 
 class PedidoController extends Controller
 {
@@ -43,11 +23,21 @@ class PedidoController extends Controller
     }
     public function show($id)
     {
+
+        /**
+         MEJORA:
+         * 1). Usar inyeccion de dependencias para traer el pedido
+        */
         $pedido = Pedido::find($id);
         return view('pedido.show', compact('pedido'));
     }
     public function edit($id)
     {
+
+        /**
+         MEJORA:
+         * 1). Usar inyeccion de dependencias para traer el pedido
+        */
         $pedido = Pedido::find($id);
         return view('pedido.edit', compact('pedido'));
     }
@@ -55,6 +45,11 @@ class PedidoController extends Controller
     //Registrar pedido y relacionar con el cliente
     public function procesarPedido(Request $request)
     {
+        /**
+         MEJORA:
+         * 1). Usar un ServiceProvider para crear el pedido y sus detalles
+         * 
+        */
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
         $costoTotal = \Cart::getTotal();
@@ -89,6 +84,11 @@ class PedidoController extends Controller
     }
     public function cancelarPedido($id)
     {
+
+        /**
+         MEJORA:
+         * 1). Usar inyeccion de dependencias para traer el pedido
+        */
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => self::ESTADO_CANCELADO]);
         $motivo = 'No especificado';
@@ -98,6 +98,10 @@ class PedidoController extends Controller
     }
     public function update(Request $request, Pedido $pedido)
     {
+        /**
+         MEJORA:
+         * 1). Usar inyeccion de dependencias para traer el pedido
+        */
         $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();
