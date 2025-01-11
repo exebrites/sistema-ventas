@@ -98,88 +98,20 @@ class PedidoController extends Controller
     }
     public function update(Request $request, Pedido $pedido)
     {
-
-        //recuperar el pedido, el estado y el cliente
         $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();
         $usuario = $pedido->cliente;
-
-
-        //determinar si esta en preproduccion
-        if ($estado->id != 6) {
-            //enviar correo de confirmacion de imprenta
-            if ($estado->id === 1) {
-                Mail::to($usuario->correo)->send(new ConfirmacionImprenta($pedido, $usuario));
-            }
-
-            //enviar correo de confirmacion de pago
-            if ($estado->id === 3) {
-                // antes de confirmar el pago verificar si existe un comprobante
-                if ($pedido->comprobante == null) {
-                    return redirect()->route('pedidos.index')->with('error', 'No se puede pasar al siguiente estado. No existe un comprobante de pago para el pedido.');
-                }
-                Mail::to($usuario->correo)->send(new ConfirmacionPago($pedido, $usuario));
-            }
-
-            //enviar correo de confirmacion de entrega
-            if ($estado->id === 10) {
-                Mail::to($usuario->correo)->send(new ConfirmacionEntrega($pedido, $usuario));
-            }
-
-            //enviar correo de cancelacion
-            if ($estado->id === 11) {
-                //enviar correo
-                $usuario = $pedido->cliente;  // Asumiendo que el pedido tiene una relación con el usuario
-                $motivo = 'No especificado';
-
-                // Envía el correo usando Mailable
-                Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
-            }
-
-            //actualizar estado del pedido y fecha de inicio
-            $pedido->update([
-                'estado_id' => $estado->id,
-                'fecha_inicio' => $request->fecha_e
-            ]);
-
-            return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
-        } else {
-            //pedido en preproduccion
-
-            //recuperar la oferta y la demanda ultimas
-            $oferta = Oferta::where('estado', 'pendiente')->latest()->first();
-            $demanda =  Demanda::where('estado', 'confirmado')->latest()->first();
-
-            //si existe una oferta pendiente no se puede pasar a preproduccion
-            if ($oferta) {
-                return redirect()->route('pedidos.index')->with('error', 'No podes agregar mas pedidos a pre produccion, tenes ofertas pendientes.');
-            } else {
-                // solo pasar a preproduccion si todos los detalles tienen aprobado 
-                $aprobado  = 0;
-                // $noAprobado = 0;
-                //determinar el numero de detalles por producto y disenios aprobados
-                $totalDetalle = count($pedido->detallePedido);
-                foreach ($pedido->detallePedido as $detalle) {
-                    if ($detalle->produccion) {
-                        $aprobado++;
-                    }
-                }
-
-                //si todos los detalles tienen aprobado pasar a preproduccion
-                if (($totalDetalle - $aprobado) == 0) {
-                    $pedido->update([
-                        'estado_id' => $estado->id,
-                        'fecha_inicio' => $request->fecha_e
-                    ]);
-
-                    //generar orden de compra
-                    event(new OrdenCompra());
-                    return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
-                } else {
-                    return redirect()->route('pedidos.index')->with('error', 'Tenes diseños pendientes de aprobación');
-                }
-            }
+        //enviar correo de cancelacion
+        if ($estado->id === SELF::ESTADO_CANCELADO) {
+            $motivo = 'No especificado';
+            // Envía el correo usando Mailable
+            Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
         }
+        //actualizar estado del pedido y fecha de inicio
+        $pedido->update([
+            'estado_id' => $estado->id,
+        ]);
+        return redirect()->route('pedidos.index')->with('success', 'Actualizado correctamente.');
     }
 }
