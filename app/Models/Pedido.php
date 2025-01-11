@@ -25,7 +25,7 @@ class Pedido extends Model implements Auditable
     }
     public function scopePedidosCliente($query, $cliente)
     {
-        return $query->where('clientes_id', $cliente->id)->orderBy('id', 'desc')->get();
+        return $query->where('clientes_id', $cliente->id)->orderBy('id', 'desc');
     }
     protected function getFechaEntregaAttribute($value)
     {
