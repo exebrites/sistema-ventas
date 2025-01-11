@@ -12,14 +12,14 @@ class DetallePedido extends Model
     use HasFactory;
     protected $table = "detalle_pedidos";
     protected $fillable = ['pedido_id', 'producto_id', 'cantidad', 'subtotal', 'produccion'];
-    public function disenio()
-    {
-        return $this->hasOne('\App\Models\Disenio', 'detallePedido_id', '');
-    }
-    public function boceto()
-    {
-        return $this->hasOne('\App\Models\Boceto', 'detallePedido_id', '');
-    }
+    // public function disenio()
+    // {
+    //     return $this->hasOne('\App\Models\Disenio', 'detallePedido_id', '');
+    // }
+    // public function boceto()
+    // {
+    //     return $this->hasOne('\App\Models\Boceto', 'detallePedido_id', '');
+    // }
 
     public function pedidos()
     {

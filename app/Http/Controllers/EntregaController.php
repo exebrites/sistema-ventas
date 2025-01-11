@@ -7,6 +7,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PedidoFinalizado;
+
 class EntregaController extends Controller
 {
     /**
@@ -46,35 +47,35 @@ class EntregaController extends Controller
                 'direccion' => ['required', 'string', 'max:255'],
                 'telefono' => ['required',],
             ]);
-            // $direccion = ($request->direccion != null) ? $request->direccion : " ";
-            // $nombre = ($request->nombre != null) ? $request->nombre : " ";
-            // $nota = ($request->nota != null) ? $request->nota : " ";
+            $direccion = ($request->direccion != null) ? $request->direccion : " ";
+            $nombre = ($request->nombre != null) ? $request->nombre : " ";
+            $nota = ($request->nota != null) ? $request->nota : " ";
 
-            // Entrega::create([
-            //     'pedido_id' => $id,
-            //     'direccion' => $request->direccion,
-            //     'telefono' => $request->telefono,
-            //     'recepcion' => $request->nombre,
-            //     'nota' => $request->nota,
-            //     'local' => false,
-            // ]);
+            Entrega::create([
+                'pedido_id' => $id,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'recepcion' => $request->nombre,
+                'nota' => $request->nota,
+                'local' => false,
+            ]);
         } else {
-            // Entrega::create([
-            //     'pedido_id' => $id,
-            //     'direccion' => " ",
-            //     'telefono' => " ",
-            //     'recepcion' => " ",
-            //     'nota' => " ",
-            //     'local' => true,
-            // ]);
+            Entrega::create([
+                'pedido_id' => $id,
+                'direccion' => " ",
+                'telefono' => " ",
+                'recepcion' => " ",
+                'nota' => " ",
+                'local' => true,
+            ]);
         }
 
 
-        // $estado = $request->estado;
-        // $pedido = Pedido::find($id);
+        $estado = $request->estado;
+        $pedido = Pedido::find($id);
         // $pedido->update(['estado_id' => $estado + 1]);
-        // $cliente = $pedido->cliente;
-        // Mail::to($cliente->correo)->send(new PedidoFinalizado($pedido, $cliente));
+        $cliente = $pedido->cliente;
+        Mail::to($cliente->correo)->send(new PedidoFinalizado($pedido, $cliente));
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido completado con exito! Puede ver el estado de avance en "Tus pedidos"');;
     }
 
