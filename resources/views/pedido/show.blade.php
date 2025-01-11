@@ -1,43 +1,19 @@
 @extends('adminlte::page')
 @section('title')
-
 @section('content_header')
     <h1>Pedido</h1>
 @stop
-
 @section('content')
-    {{-- {{ dd($pedido->entrega) }} --}}
     <div class="card">
         @if (session('msg_success'))
             <div class="alert alert-success">
                 {{ session('msg_success') }}
             </div>
         @endif
-
         <div class="card-header">
             <a href="{{ route('pedidos.index') }}" class="btn btn-secondary">Volver atrás</a>
             <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn btn-primary">Ir al pedido </a>
-
             <a href="{{ route('clientes.show', $pedido->clientes_id) }}" class="btn btn-primary">Ver cliente</a>
-            {{-- @if ($pedido->comprobante == null)
-                <a href="#" class="btn btn-light"><b>No tiene comprobante</b></a>
-            @else
-                <a href="{{ route('comprobantes.show', $pedido->comprobante->id) }}" class="btn btn-primary">Ver
-                    comprobante</a>
-            @endif --}}
-            {{-- {{dd(count($pedido->entrega))}} --}}
-            {{-- @if (count($pedido->entrega) === 0)
-                <a href="#" class="btn btn-light"> <b>No tiene lugar de entrega</b></a>
-            @else
-                <a href="{{ route('entrega.show', $pedido->entrega[0]->id) }}" class="btn btn-primary">Ver entrega</a>
-            @endif --}}
-
-            {{-- @if ($pedido->comprobante == null)
-                <a href="#" class="btn btn-light"> <b>No se ha confirmado el pago</b></a>
-            @else
-                <a href="{{ route('factura', $pedido->id) }}" class="btn btn-primary">Generar factura</a>
-            @endif --}}
-
             @if ($pedido->estado->nombre === 'pre_produccion')
                 <a href="{{ route('ver_stock', $pedido) }}" class="btn btn-primary">Lista de materiales</a>
             @endif
@@ -54,14 +30,6 @@
                             readonly>
                     </div>
                 </div>
-{{-- 
-                <div class="col-md">
-                    <div class="form-group">
-                        <label for="">Fecha Entrega</label>
-                        <input type="text" name="" id="" class="form-control"
-                            value="{{ $pedido->fecha_inicio }}" readonly>
-                    </div>
-                </div> --}}
                 <div class="col-md">
                     <div class="form-group">
                         <label for="">Estado</label>
@@ -74,10 +42,8 @@
     </div>
     <div class="card">
         <div class="card-body">
-            {{-- {{dd($pedido->detallePedido[1]);}} --}}
             <div class="accordion" id="accordionExample">
-                @foreach ($pedido->detallePedido as $detalle)
-
+                @foreach ($pedido->detallesPedido as $detalle)
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="{{ $pedido->id }}">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -92,75 +58,15 @@
                                 <b> Nombre del producto:</b> {{ $detalle->producto->nombre }} <br>
                                 <b> Descripcion:</b> {{ $detalle->producto->descripcion }} <br>
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
-                                {{-- <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
-                                <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br> --}}
-                                {{-- @if ($detalle->disenio->disenio_estado === 1)
-                                    <b> Estado del diseño: </b>
-                                    @if ($detalle->disenio->revision === 0)
-                                        @if ($detalle->produccion === 0)
-                                            <b style="color:green">Diseño enviado al cliente</b>
-                                        @else
-                                            <b style="color:green">Diseño Aprobado</b>
-                                        @endif
-                                    @else
-                                        <b style="color:red">Realizar revisión del diseño </b>
-                                    @endif
-                                @else
-                                    <b style="color:red">Realizar disenio - Ver boceto </b>
-                                @endif --}}
-
-                                <br>
-                                <br>
                                 <a href="{{ route('productos.show', $detalle->producto->id) }}" class="btn btn-primary">Ver
                                     producto</a>
-
-                                @if ($pedido->estado->id >= 5)
-                                    {{-- <a href="{{ route('disenios.show', $detalle->disenio->id) }}"
-                                        class="btn btn-primary">Ver
-                                        diseño</a> --}}
-
-                                    {{-- @if ($detalle->boceto != null)
-                                        <a href="{{ route('showBoceto', $detalle->boceto->id) }}"
-                                            class="btn btn-primary">Ver
-                                            boceto</a>
-                                    @endif --}}
-                                @endif
-
                             </div>
                         </div>
                     </div>
                 @endforeach
-
-
             </div>
         </div>
     </div>
-
-
-    {{-- <div class="accordion" id="accordionPanelsStayOpenExample">
-        @foreach ($pedido->detallePedido as $detalle)
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-{{ $detalle->id }}">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#panelsStayOpen-{{ $detalle->id }}" aria-expanded="true"
-                        aria-controls="panelsStayOpen-{{ $detalle->id }}">
-                        Detalle del Pedido #{{ $detalle->id }}
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-{{ $detalle->id }}" class="accordion-collapse collapse show"
-                    aria-labelledby="panelsStayOpen-{{ $detalle->id }}">
-                    <div class="accordion-body">
-                        <strong>Este es el cuerpo del acordeón del ítem #{{ $detalle->id }}.</strong> Se muestra por
-                        defecto, hasta que el plugin de colapso agrega las clases apropiadas que usamos para dar estilo a
-                        cada elemento. Estas clases controlan la apariencia general, así como la visualización y ocultamiento
-                        mediante transiciones CSS. Puedes modificar cualquiera de esto con CSS personalizado o sobrescribiendo
-                        nuestras variables predeterminadas. También vale la pena señalar que casi cualquier HTML puede ir dentro
-                        del <code>.accordion-body</code>, aunque la transición limita el desbordamiento.
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div> --}}
 @stop
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
