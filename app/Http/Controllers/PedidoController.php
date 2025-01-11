@@ -29,15 +29,11 @@ use Illuminate\Validation\ValidationException;
 use App\Mail\PedidoCancelado;
 use App\Models\Demanda;
 use App\Mail\confirmacionEntrega;
+use Svg\Tag\Rect;
 
 class PedidoController extends Controller
 {
-
-    const ESTADO_CANCELADO = 11;
-    const ESTADO_PENDIENTE_PAGO = 2;
-    // const ESTADO_ENTREGADO = 10;
     const PENDIENTE =  1;
-
     public function index()
     {
         // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
@@ -56,21 +52,11 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function procesarPedido(ProcesarPedidoRequest $request)
+    public function procesarPedido(Request $request)
     {
-
-        // $fechaEntrega = $request->validated(['fechaEntrega']);
-        $fechaEntrega = "2022-12-12";
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
-        //determina el costo del diseño asistido o completo
-        // $costoDisenio = new CostoDisenio();
-        // $productos  = \Cart::getContent();
-        // $costoTotal = \Cart::getTotal() + $costoDisenio->costo_total_disenio($productos);
-
         $costoTotal = \Cart::getTotal();
-
-        //crear un pedido cuyo estado es pendiente de confirmacion 
         $pedido = Pedido::create([
             'clientes_id' => $cliente->id,
             'fecha_inicio' => null,
@@ -79,10 +65,19 @@ class PedidoController extends Controller
             'costo_total' => $costoTotal
         ]);
 
-        //traer el ultimo pedido creado y lo envia al metodo detallePedido
-        return redirect()->route('pedido-detallePedido', ['id' => $pedido->id]);
+        $productos = \Cart::getContent();
+        foreach ($productos as $producto) {
+            $detalle = detallePedido::create([
+                'pedido_id' => $pedido->id,
+                'producto_id' => $producto->id,
+                'cantidad' => $producto->quantity,
+                'subtotal' => \Cart::get($producto->id)->getPriceSum(),
+            ]);
+        }
+        \Cart::clear();
+        $estado = Estado::find(self::PENDIENTE);
+        return view('checkout', compact('estado', 'pedido'));
     }
-
     public function pedidoCliente()
     {
         //obtener el cliente logueado
@@ -92,68 +87,6 @@ class PedidoController extends Controller
         $pedidos = Pedido::pedidosCliente($cliente); //llamado en calmeCase
         return view('pedido.pedidoCliente', compact('pedidos'));
     }
-    public function detallePedido(Request $request)
-    {
-        //recupera el ultimo pedido creado y su estado. 
-        $pedido = Pedido::find($request->id);
-        $estado =  $pedido->estado;
-
-        //recuper los productos del carrito y crea 1 detalle por producto asociandolo al pedido
-        $productos = \Cart::getContent();
-        foreach ($productos as $producto) {
-            $detalle = detallePedido::create([
-                'pedido_id' => $pedido->id,
-                'producto_id' => $producto->id,
-                'cantidad' => $producto->quantity,
-                'subtotal' => \Cart::get($producto->id)->getPriceSum(),
-                // 'produccion' => false
-            ]);
-
-            $estadoDisenio = 1; //tiene disenio
-            $revisionDisenio = null; // null indicando que se desconoce o todavia no esta para los estados validos
-
-            //asocia un diseño con el detalle pedido en caso de tener sino asocia un disenio vacio 
-            // con su boceto
-            // $disenio =  new Disenio();
-            // $disenio->detallePedido_id = $detalle->id;
-            // $disenio->url_disenio = "";
-            // $disenio->revision = $revisionDisenio;
-            if ($producto->attributes->disenio_estado == 'true') {
-                //asocia el disenio con el detalle pedido y disenio estado tiene para revision
-                // $disenio->url_imagen = $producto->attributes->url_disenio;
-                // $disenio->disenio_estado = $estadoDisenio;
-                // $disenio->save();
-            } else {
-                // $disenio->url_imagen = "";
-                // $disenio->disenio_estado = 0;
-                // $disenio->save();
-
-                // Boceto::create([
-                //     'negocio' => $producto->attributes->nombre,
-                //     'objetivo' => $producto->attributes->objetivo,
-                //     'publico' => $producto->attributes->publico,
-                //     'contenido' => $producto->attributes->contenido,
-                //     'url_logo' => $producto->attributes->logo,
-                //     'url_img' => $producto->attributes->img,
-                //     'detallePedido_id' => $detalle->id
-                // ]);
-            }
-        }
-        //obtiene el costo total del carrito y borra el carrito 
-        $total = \Cart::getTotal();
-        \Cart::clear();
-
-        //Da un formato dd/mm/yyyy a la fecha de entrega  y de inicio
-        // $fecha =  Carbon::parse($pedido->fecha_entrega);
-        // $pedido->fecha_entrega = $fecha->format('d-m-Y');
-        // $pedido->fecha_entrega = $pedido->formato_fecha_entrega;
-        // if ($pedido->fecha_inicio != null) {
-        //     $fecha =  Carbon::parse($pedido->fecha_inicio);
-        //     $pedido->fecha_inicio = $fecha->format('d-m-Y');
-        // }
-        return view('checkout', compact('estado', 'pedido'));
-    }
-
     public function cancelarPedido($id)
     {
         //cambiar el estado del pedido a cancelado
