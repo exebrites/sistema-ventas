@@ -28,49 +28,18 @@
                             <option value="despachado">Pendiente de pago</option>
                         </select>
                     </div>
-                    {{-- <div style="width: 30%" class="mx-2">
-                        <label for="">Alias del producto</label>
-
-                        <input type="text" id="iptAlias" class="form-control" placeholder="ingrese el alias"
-                            data-index="2">
-                    </div>
-
-                    <div style="width: 30%" class="mx-2">
-                        <label for="">Descripcion del producto</label>
-
-                        <input type="text" id="iptDescripcion" class="form-control" placeholder="ingrese la Descripcion"
-                            data-index="4">
-
-                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
     <div class="card">
-        {{-- @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-        <div class="card-header">
-            <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-            {{-- <a href="{{ route('shop') }}" class="btn btn-success">Agregar nuevo pedido</a> 
-        </div> --}}
         <div class="card-body">
             <table class="table table-striped table-bordered" id="pedidos">
-
                 <thead>
                     <tr>
                         <th>Nro de pedido</th>
                         <th>Estado</th>
-                        {{-- <th>Fecha de entrega</th> --}}
                         <th>Costo total</th>
-                        {{-- <th>Dias faltantes</th> --}}
                         <th></th>
                         <th></th>
                     </tr>
@@ -80,24 +49,7 @@
                         <tr>
                             <td>{{ $pedido->id }}</td>
                             <td id="1">{{ $pedido->estado->descripcion }}</td>
-                            {{-- <td>{{ $pedido->getPedidoNuevo($pedido->id) ? 'NUEVO' : '' }}</td> --}}
-
-
-
-                            {{-- <td><a data-toggle="modal" data-target="#exampleModal{{ $pedido->cliente->id }}">
-                                    {{ $pedido->cliente->nombre }}
-                                </a></td> --}}
-                            {{-- <td>{{ $pedido->fecha_entrega }} </td> --}}
-                            {{-- <td>
-                                @if ($pedido->fecha_inicio != null)
-                                    {{ $pedido->fecha_inicio }}
-                                @else
-                                    {{ 'No tiene fecha de entrega' }}
-                                @endif
-                            </td> --}}
                             <td>$ {{ $pedido->costo_total }}</td>
-
-                            {{-- <td>{{ $pedido->diferenciaDias() }}</td> --}}
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                     href="{{ route('pedidos.edit', $pedido->id) }}">Editar</a></td>
                             <td><a href="{{ Route('pedidos.show', $pedido->id) }}"
@@ -135,14 +87,10 @@
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/btnFijo.css') }}">
-
 @endsection
 @section('js')
-
-    {{-- DATATABLE --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css">
-    {{-- DATATABLE --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
@@ -157,20 +105,12 @@
                 zeroRecords: 'No se encontraron coincidencias',
                 search: 'Buscar:',
                 emptyTable: 'No hay datos disponibles',
-                // infoFiltered: '(filtered from _MAX_ total records)',
             },
-            // "order": [
-            //     [5, "asc"]
-
-            // ],
             "order": [
                 [5, "asc"],
 
             ],
         });
-        // $('#iptNombre').keyup(function() {
-        //     table.column($(this).data('index')).search(this.value).draw();
-        // })
         $('#sltEstado').change(function() {
             var estado = $(this).val();
             // table.column(1).search(estado).draw();
@@ -180,11 +120,6 @@
 
                 table.column(1).search('^' + estado + '$', true, false).draw();
             }
-
-            // table.column(1).search('^' + estado + '$', true, false).draw();
-            // Acceder a la primera columna (0)
-
-
         });
     </script>
 
