@@ -54,9 +54,9 @@ class CartController extends Controller
         $url_imagen="null";
         $disenio_estado = true;
         //determinar el costo de diseño
-        $costo_disenio = CostoDisenio::find(1); //en db
-        $costo_disenio_asistido = $costo_disenio->costo_disenio($request->price, $request->quantity, $disenio_estado,);
-
+        // $costo_disenio = CostoDisenio::find(1); //en db
+        // $costo_disenio_asistido = $costo_disenio->costo_disenio($request->price, $request->quantity, $disenio_estado,);
+        $costo_disenio_asistido=0;
         // agreaga el producto y su disenio al carrito
         \Cart::add(array(
             'id' => $request->id,
@@ -131,7 +131,8 @@ class CartController extends Controller
 
             $url_disenio = $p->attributes['url_disenio'];
 
-            $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
+            // $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
+            $costo=0;
             \Cart::update(
                 $request->id,
                 array(
@@ -147,8 +148,8 @@ class CartController extends Controller
             );
         } else {
 
-            $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
-
+            // $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
+            $costo=0;
             $nombre = $p->attributes['nombre'];
             $objetivo =  $p->attributes['objetivo'];
             $publico = $p->attributes['publico'];

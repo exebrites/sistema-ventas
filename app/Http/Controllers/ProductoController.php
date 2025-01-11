@@ -22,8 +22,8 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
-    public function index()//Feature test
+
+    public function index() //Feature test
     {
         $productos = Producto::orderBy('id', 'desc')->get(); //productos deforma descendente
         return view('producto.index', compact('productos'));
@@ -34,7 +34,7 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()//Feature test
+    public function create() //Feature test
     {
         $categorias = Categoria::all();
         return view('producto.create', compact('categorias'));
@@ -68,7 +68,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)//Feature test
+    public function show($id) //Feature test
     {
         $producto = Producto::find($id);
         return view('producto.show', compact('producto'));
@@ -80,7 +80,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//Feature test
+    public function edit($id) //Feature test
     {
         $producto = Producto::find($id);
         $categorias = Categoria::all();
@@ -95,7 +95,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdateProductoRequest $request, $id)//Feature test
+    public function update(StoreUpdateProductoRequest $request, $id) //Feature test
     {
 
         $producto = Producto::find($request->id);
@@ -104,11 +104,11 @@ class ProductoController extends Controller
         if ($request->file('file') != null) {
             $producto->imagen = $request;
         }
-        $producto->name = $request->validated(['name']);
+        $producto->nombre = $request->validated(['name']);
         $producto->update([
-            'price' => $request->validated(['price']),
-            'slug' => $request->validated(['name']),
-            'description' => $request->validated(['description']),
+            'precio' => $request->validated(['price']),
+            // 'slug' => $request->validated(['name']),
+            'descripcion' => $request->validated(['description']),
             'category_id' => $request->validated(['categoria_id']),
             'alias' => $request->validated(['alias'])
         ]);
@@ -122,7 +122,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)//Feature test
+    public function destroy($id) //Feature test
     {
 
         // return $id;
@@ -144,21 +144,21 @@ class ProductoController extends Controller
     }
 
     //idea manejar con otra funcion la parte del detalle de productos
-    public function detalle($id)//Feature test
+    public function detalle($id) //Feature test
     {
 
-        $pro = Producto::find($id);
+        $producto = Producto::find($id);
         // Incrementa el valor del campo 'cantidad' en 1
-        $pro->increment('visitas');
+        $producto->increment('visitas');
 
         // Guarda los cambios en la base de datos
-        $pro->save();
+        $producto->save();
 
         $url_imagen = '';
-        return view('detalleProducto', compact('pro', 'url_imagen'));
+        return view('detalleProducto', compact('producto', 'url_imagen'));
     }
 
-    public function buscarProducto()//Feature test
+    public function buscarProducto() //Feature test
     {
         $buscar = request()->get('buscar', '');
         if (request()->has('buscar')) {

@@ -35,27 +35,27 @@
                 </div>
                 <hr>
                 <div class="row">
-                    @foreach ($products as $pro)
+                    @foreach ($products as $producto)
                         <div class="col-lg-3">
                             <div class="card" style="margin-bottom: 20px; height: 300px;">
 
 
                                 <div class="card-body">
-                                    <img src="{{ $pro->image_path }}" class="card-img-top mx-auto"
-                                        style="height: 150px; width: 150px;display: block;" alt="{{ $pro->image_path }}">
+                                    <img src="{{ $producto->imagen }}" class="card-img-top mx-auto"
+                                        style="height: 150px; width: 150px;display: block;" alt="{{ $producto->imagen }}">
                                     <br>
-                                    <a href="{{ route('producto.detalle', ['id' => $pro->id]) }}">
-                                        <h6 class="card-title">{{ $pro->name }}</h6>
+                                    <a href="{{ route('producto.detalle', ['id' => $producto->id]) }}">
+                                        <h6 class="card-title">{{ $producto->nombre }}</h6>
                                     </a>
-                                    <p>Precio: ${{ $pro->price }}</p>
+                                    <p>Precio: ${{ $producto->precio }}</p>
 
                                     <form action="{{ route('cart.store') }}" method="POST">
                                         {{ csrf_field() }}
-                                        <input type="hidden" value="{{ $pro->id }}" id="id" name="id">
-                                        <input type="hidden" value="{{ $pro->name }}" id="name" name="name">
-                                        <input type="hidden" value="{{ $pro->price }}" id="price" name="price">
-                                        <input type="hidden" value="{{ $pro->image_path }}" id="img" name="img">
-                                        <input type="hidden" value="{{ $pro->slug }}" id="slug" name="slug">
+                                        <input type="hidden" value="{{ $producto->id }}" id="id" name="id">
+                                        <input type="hidden" value="{{ $producto->nombre }}" id="name" name="name">
+                                        <input type="hidden" value="{{ $producto->precio }}" id="price" name="price">
+                                        <input type="hidden" value="{{ $producto->imagen }}" id="img" name="img">
+                                        {{-- <input type="hidden" value="{{ $pro->slug }}" id="slug" name="slug"> --}}
                                         <input type="hidden" value="1" id="quantity" name="quantity">
                                         {{-- <div class="card-footer" style="background-color: white;">
                                               <div class="row">
