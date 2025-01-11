@@ -21,7 +21,7 @@ class Pedido extends Model implements Auditable
     public function scopeActivo($query)
     {
         $pedidos =  $query->where('estado_id', '!=', 11);
-        return $pedidos->sortBy('estado_id');
+        return $pedidos->orderBy('estado_id');
     }
     public function scopePedidosCliente($query, $cliente)
     {
