@@ -24,8 +24,8 @@
                         <label for="">Estado</label>
                         <select id="sltEstado" class="form-control">
                             <option value="">Todos</option>
-                            <option value="pendiente">En confirmación de imprenta</option>
-                            <option value="despachado">Pendiente de pago</option>
+                            <option value="pendiente">PENDIENTE</option>
+                            <option value="despachado">DESPACHADO</option>
                         </select>
                     </div>
                 </div>
