@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('nombre_empresa')->nullable();
             $table->string('nombre_contacto');
             $table->string('cuit');
-            $table->string('telefono')->nullable();
-            $table->string('correo')->nullable();
-
+            $table->string('telefono')->nullable()->unique();
+            $table->string('correo')->nullable()->unique();
             $table->timestamps();
         });
     }
