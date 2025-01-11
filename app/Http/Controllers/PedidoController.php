@@ -36,10 +36,37 @@ class PedidoController extends Controller
         /**
          MEJORA:
          * 1). Usar un ServiceProvider para crear el pedido y sus detalles
+         * 2).  Agregar validaciones explícitas:
+         *          Validar que el carrito no esté vacío.
+         *          Validar que los productos existen y tienen stock suficiente.
+         *          Validar que el usuario este autenticado y el cliente exista.
+         * 
+         * 3).Implementar manejo de excepciones con un bloque try-catch y transacciones para garantizar consistencia:
+         * 4).Renombrar variables para mayor claridad
+         * 5).Crear una capa de abstracción que encapsule el acceso al carrito
+         * 6).Definicion de constantes
+         * 7). Uso inadecuado de compact();Pasar los datos explícitamente
+         * 8). Cargar las relaciones al momento de crear el pedido
+         * 9). Buenas prácticas en nombres de clases
+         * 10). snake_case para el nombre de metodos
+         * 11). Nombre de metodos descriptivos
          * 
          */
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
+
+
+        // 2.1) Validar que el carrito no esté vacío.
+        $productos = \Cart::getContent();
+        if ($productos->isEmpty()) {
+            return back()->withErrors(['error' => 'El carrito está vacío.']);
+        }
+        //2.3) Validar que el usuario este autenticado y el cliente exista.
         $cliente = Cliente::obtenerCliente(Auth::user());
+        if (!$cliente) {
+            return back()->withErrors(['error' => 'El usuario no está asociado a un cliente.']);
+        }
+
+
         $costoTotal = \Cart::getTotal();
         $pedido = Pedido::create([
             'clientes_id' => $cliente->id,
@@ -49,7 +76,7 @@ class PedidoController extends Controller
             'costo_total' => $costoTotal
         ]);
         //creacion de detalles de pedido con los productos del carrito
-        $productos = \Cart::getContent();
+
         foreach ($productos as $producto) {
             $detalle = detallePedido::create([
                 'pedido_id' => $pedido->id,
