@@ -172,7 +172,7 @@ Route::resource('/respuestas', RespuestaController::class);
     Route::resource('/usuarios', UsuariosController::class);
 // });
 Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
-Route::post('/procesar', [PedidoController::class, 'procesarPedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
+Route::post('/procesar', [PedidoController::class, 'creacion_pedido_detalles_pedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
 Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
 Route::get('/detallePedido{id}', [PedidoController::class, 'detallePedido'])->name('pedido-detallePedido');
 

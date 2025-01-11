@@ -32,7 +32,7 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function procesarPedido(Request $request)
+    public function creacion_pedido_detalles_pedido(Request $request)//10 y 11 snake_case && nombre descriptivo
     {
         /**
          MEJORA:
@@ -88,7 +88,8 @@ class PedidoController extends Controller
         //creacion de detalles de pedido con los productos del carrito
 
         foreach ($productosCarrito as $producto) {
-            $detalle = detallePedido::create([
+            // 9). Buenas prácticas en nombres de clases
+            $detalle = DetallePedido::create([
                 'pedido_id' => $pedido->id,
                 'producto_id' => $producto->id,
                 'cantidad' => $producto->quantity,
@@ -97,6 +98,8 @@ class PedidoController extends Controller
         }
         \Cart::clear();
         $estado = Estado::find(self::PENDIENTE);
+
+        // 7 - Uso inadecuado de compact();Pasar los datos explícitamente
         return view('checkout', [
             'pedido' => $pedido,
             'estado' => $estado
