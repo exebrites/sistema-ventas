@@ -18,17 +18,15 @@ class PedidoController extends Controller
     public function index()
     {
         // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
-        $pedidos = Pedido::activo();
+        $pedidos = Pedido::activo()->get();
         return view('pedido.index', compact('pedidos'));
     }
-    public function show($id)
+    public function show(Pedido $pedido)
     {
-
         /**
          MEJORA:
          * 1). Usar inyeccion de dependencias para traer el pedido
-        */
-        $pedido = Pedido::find($id);
+         */
         return view('pedido.show', compact('pedido'));
     }
     public function edit($id)
@@ -37,7 +35,7 @@ class PedidoController extends Controller
         /**
          MEJORA:
          * 1). Usar inyeccion de dependencias para traer el pedido
-        */
+         */
         $pedido = Pedido::find($id);
         return view('pedido.edit', compact('pedido'));
     }
@@ -49,7 +47,7 @@ class PedidoController extends Controller
          MEJORA:
          * 1). Usar un ServiceProvider para crear el pedido y sus detalles
          * 
-        */
+         */
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
         $cliente = Cliente::obtenerCliente(Auth::user());
         $costoTotal = \Cart::getTotal();
@@ -88,7 +86,7 @@ class PedidoController extends Controller
         /**
          MEJORA:
          * 1). Usar inyeccion de dependencias para traer el pedido
-        */
+         */
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => self::ESTADO_CANCELADO]);
         $motivo = 'No especificado';
@@ -101,7 +99,7 @@ class PedidoController extends Controller
         /**
          MEJORA:
          * 1). Usar inyeccion de dependencias para traer el pedido
-        */
+         */
         $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();

@@ -19,9 +19,8 @@ class Pedido extends Model implements Auditable
     protected $table = "pedidos";
     protected $fillable = ['clientes_id',  'fecha_inicio', 'fecha_entrega', 'estado_id',  'costo_total'];
     public function scopeActivo($query)
-    {
-        $pedidos =  $query->where('estado_id', '!=', 11);
-        return $pedidos->orderBy('estado_id');
+    { //404 cancelados
+        return $query->where('estado_id', '!=', 404)->orderBy('estado_id');
     }
     public function scopePedidosCliente($query, $cliente)
     {
