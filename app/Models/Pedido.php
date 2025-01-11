@@ -39,11 +39,7 @@ class Pedido extends Model implements Auditable
     }
     public function getTotal()
     {
-        $total = 0;
-        foreach ($this->detallePedido as $detalle) {
-            $total += $detalle->subtotal;
-        }
-        return $total;
+        return $this->detallesPedido->sum('subtotal');
     }
     //COMIENZO DE RELACIONES
     public function entrega()
