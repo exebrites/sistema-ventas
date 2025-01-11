@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DetalleProducto extends Model
 {
-    protected $fillable = ['producto_id', 'material_id', 'cantidad'];
+    protected $fillable = ['producto_id', 'proveedor_id', 'cantidad'];
     protected $table = "detalle_productos";
     
-    public function materiales()
+   public function proveedores ()
     {
-        return $this->belongsTo(Material::class, 'material_id', 'id');
-    }
+       return $this->belongsTo(Proveedor::class, 'proveedor_id', '');
+   }
     public function productos()
     {
         return $this->belongsTo(Producto::class, 'producto_id', '');
