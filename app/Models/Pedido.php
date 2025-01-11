@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Models\Estado;
@@ -13,13 +12,12 @@ use App\Models\Entrega;
 
 class Pedido extends Model implements Auditable
 {
-
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
 
     protected $table = "pedidos";
-    protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'costo_total'];
+    protected $fillable = ['clientes_id',  'fecha_inicio', 'fecha_entrega', 'estado_id',  'costo_total'];
     public function scopeActivo($query)
     {
         //11 estado cancelado

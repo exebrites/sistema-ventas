@@ -14,16 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pedidos', function (Blueprint $table) {
-
             $table->id();
-            $table->unsignedBigInteger('clientes_id');
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_entrega')->nullable();
-            $table->foreignId('estado_id')->constrained('estados');
-
             $table->float('costo_total');
             $table->foreign('clientes_id')->references('id')->on('clientes')->onDelete('cascade');
-
+            $table->foreignId('estado_id')->constrained('estados');
             $table->timestamps();
         });
     }
