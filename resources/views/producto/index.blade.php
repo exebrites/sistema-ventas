@@ -69,10 +69,10 @@
                 <tbody>
                     @foreach ($productos as $producto)
                         <tr>
-                            <td>{{ $producto->name }}</td>
+                            <td>{{ $producto->nombre }}</td>
                             <td>{{ $producto->alias }}</td>
-                            <td>${{ $producto->price }}</td>
-                            <td>{{ $producto->description }}</td>
+                            <td>${{ $producto->precio }}</td>
+                            <td>{{ $producto->descripcion }}</td>
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.edit', $producto->id) }}">Editar</a></td>
                             <td width="10px">
