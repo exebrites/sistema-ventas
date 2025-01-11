@@ -114,18 +114,18 @@ class PedidoController extends Controller
 
             //asocia un diseño con el detalle pedido en caso de tener sino asocia un disenio vacio 
             // con su boceto
-            $disenio =  new Disenio();
-            $disenio->detallePedido_id = $detalle->id;
-            $disenio->url_disenio = "";
-            $disenio->revision = $revisionDisenio;
+            // $disenio =  new Disenio();
+            // $disenio->detallePedido_id = $detalle->id;
+            // $disenio->url_disenio = "";
+            // $disenio->revision = $revisionDisenio;
             if ($producto->attributes->disenio_estado == 'true') {
                 //asocia el disenio con el detalle pedido y disenio estado tiene para revision
-                $disenio->url_imagen = $producto->attributes->url_disenio;
-                $disenio->disenio_estado = $estadoDisenio;
+                // $disenio->url_imagen = $producto->attributes->url_disenio;
+                // $disenio->disenio_estado = $estadoDisenio;
                 // $disenio->save();
             } else {
-                $disenio->url_imagen = "";
-                $disenio->disenio_estado = 0;
+                // $disenio->url_imagen = "";
+                // $disenio->disenio_estado = 0;
                 // $disenio->save();
 
                 // Boceto::create([
