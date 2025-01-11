@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\Estado;
 use App\Models\Cliente;
-use App\Models\Producto;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +20,7 @@ class Pedido extends Model implements Auditable
     protected $fillable = ['clientes_id',  'fecha_inicio', 'fecha_entrega', 'estado_id',  'costo_total'];
     public function scopeActivo($query)
     {
-        $pedidos =  $query->where('estado_id', '!=', 11)->get();
+        $pedidos =  $query->where('estado_id', '!=', 11);
         return $pedidos->sortBy('estado_id');
     }
     public function scopePedidosCliente($query, $cliente)
