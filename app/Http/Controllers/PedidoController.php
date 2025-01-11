@@ -23,20 +23,10 @@ class PedidoController extends Controller
     }
     public function show(Pedido $pedido)
     {
-        /**
-         MEJORA:
-         * 1). Usar inyeccion de dependencias para traer el pedido
-         */
         return view('pedido.show', compact('pedido'));
     }
-    public function edit($id)
+    public function edit(Pedido $pedido)
     {
-
-        /**
-         MEJORA:
-         * 1). Usar inyeccion de dependencias para traer el pedido
-         */
-        $pedido = Pedido::find($id);
         return view('pedido.edit', compact('pedido'));
     }
 
