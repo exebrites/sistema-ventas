@@ -324,11 +324,11 @@ return [
                     'route' => 'productos.index',
                     'icon' => 'fa fa-cubes',
                 ],
-                [
-                    'text' => 'Gestionar Materiales',
-                    'route' => 'materiales.index',
-                    'icon' => 'fa fa-archive',
-                ],
+                // [
+                //     'text' => 'Gestionar Materiales',
+                //     'route' => 'materiales.index',
+                //     'icon' => 'fa fa-archive',
+                // ],
                 [
                     'text' => 'Gestionar Categorías',
                     'route' => 'categorias.index',

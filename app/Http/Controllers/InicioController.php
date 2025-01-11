@@ -65,21 +65,21 @@ class InicioController extends Controller
         $NroRevision = $this->pedidos_revision($estadoDisenio);
 
         $nroboceto = 0;
-        $bocetos = Boceto::all();
-        foreach ($bocetos as $key => $boceto) {
-            if (!$boceto->detallePedido->disenio->disenio_estado) {
-                $nroboceto++;
-            }
-        }
+        // $bocetos = Boceto::all();
+        // foreach ($bocetos as $key => $boceto) {
+        //     if (!$boceto->detallePedido->disenio->disenio_estado) {
+        //         $nroboceto++;
+        //     }
+        // }
         $nroofertas = 0;
-        $demandas = Demanda::all();
-        foreach ($demandas as $key => $demanda) {
-            foreach ($demanda->oferta as $key => $oferta) {
-                if ($oferta->estado == "pendiente") {
-                    $nroofertas++;
-                }
-            }
-        }
+        // $demandas = Demanda::all();
+        // foreach ($demandas as $key => $demanda) {
+        //     foreach ($demanda->oferta as $key => $oferta) {
+        //         if ($oferta->estado == "pendiente") {
+        //             $nroofertas++;
+        //         }
+        //     }
+        // }
         // dd($nroofertas); 
         $nroPedidosDiseniosAprobados =  $this->pedidos_disenios_aprobados($estadoDisenio);
         return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta', 'nroPedidosDiseniosAprobados'));
