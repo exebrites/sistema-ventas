@@ -14,7 +14,7 @@
 
             <div class="form-group">
                 <label for="">Nombre</label>
-                <input type="text" class="form-control" value="{{ $producto->name }}" readonly>
+                <input type="text" class="form-control" value="{{ $producto->nombre }}" readonly>
             </div>
 
             <div class="form-group">
@@ -25,19 +25,19 @@
 
             <div class="form-group">
                 <label for="">Descripción</label>
-                <input type="text" class="form-control" value="{{ $producto->description }}" readonly>
+                <input type="text" class="form-control" value="{{ $producto->descripcion }}" readonly>
             </div>
 
             <div claass="form-group">
                 <label for="">Precio de venta</label>
-                <input type="text" class="form-control" value="$ {{ $producto->price }}" readonly>
+                <input type="text" class="form-control" value="$ {{ $producto->precio }}" readonly>
             </div>
             <hr>
 
             <div class="container text-center">
                 <h2>Imagen del producto</h2>
                 <p>{{ $producto->name }}</p>
-                <img src="{{ $producto->image_path }}" alt="Descripción de la imagen" class="img-fluid">
+                <img src="{{ $producto->imagen }}" alt="Descripción de la imagen" class="img-fluid">
             </div>
 
         </div>

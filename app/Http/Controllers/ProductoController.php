@@ -51,9 +51,9 @@ class ProductoController extends Controller
     {
 
         $producto = new Producto(); //porque no, crear un constructor y usar save()
-        $producto->name = $request->validated(['name']);
-        $producto->price = $request->validated(['price']);
-        $producto->description = $request->validated(['description']);
+        $producto->nombre = $request->validated(['name']);
+        $producto->precio = $request->validated(['price']);
+        $producto->descripcion = $request->validated(['description']);
         $producto->category_id = $request->validated(['categoria_id']);
         $producto->alias = $request->validated(['alias']);
         $producto->visitas = 0;

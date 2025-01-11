@@ -98,15 +98,15 @@ class Producto extends Model implements Auditable
     }
 
     //mutadores y accesors
-    public function setNameAttribute($name)
+    public function setNombreAttribute($name)
     {
-        return $this->attributes['name'] = strtoupper($name);
+        return $this->attributes['nombre'] = strtoupper($name);
     }
     public function setImagenAttribute($request)
     {
         $imagen =  $request->file('file')->store('public');
         $url = Storage::url($imagen);
-        return $this->attributes['image_path'] = $url;
+        return $this->attributes['imagen'] = $url;
     }
 
     use HasFactory;
