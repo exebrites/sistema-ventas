@@ -4,8 +4,6 @@
     <h1>Pedidos</h1>
 @stop
 @section('content')
-
-
     <div class="card">
         @if (session('success'))
             <div class="alert alert-success">
@@ -17,35 +15,17 @@
                 {{ session('error') }}
             </div>
         @endif
-
         <div class="card-body">
             <h5> Criterios de busqueda
             </h5><br>
             <div class="row">
                 <div class="col d-flex">
-                    {{-- <div style="width: 30%" class="mx-2">
-                        <label for="">Estado</label>
-                        <input type="text" id="iptNombre" class="form-control" placeholder="ingrese el estado"
-                            data-index="1">
-                    </div> --}}
-
                     <div style="width: 30%" class="mx-2">
                         <label for="">Estado</label>
                         <select id="sltEstado" class="form-control">
                             <option value="">Todos</option>
-                            <option value="En confirmación de imprenta">En confirmación de imprenta</option>
-                            <option value="Pendiente de pago">Pendiente de pago</option>
-                            <option value="Confirmado de pago">Confirmado de pago</option>
-                            <option value="Inicio">Inicio</option>
-                            <option value="Diseño">Diseño</option>
-                            <option value="Pre producción">Pre producción</option>
-                            <option value="Producción">Producción</option>
-                            <option value="Terminado">Terminado</option>
-                            <option value="Despachado">Despachado</option>
-                            <option value="Entregado">Entregado</option>
-                            {{-- <option value="Cancelado">Cancelado</option> --}}
-
-                            <!-- Agrega más opciones según sea necesario -->
+                            <option value="pendiente">En confirmación de imprenta</option>
+                            <option value="despachado">Pendiente de pago</option>
                         </select>
                     </div>
                     {{-- <div style="width: 30%" class="mx-2">
