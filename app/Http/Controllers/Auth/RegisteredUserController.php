@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
 
-        $rol = Role::find(6);
+        $rol = Role::find(1);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
