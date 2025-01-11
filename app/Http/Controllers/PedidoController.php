@@ -57,13 +57,13 @@ class PedidoController extends Controller
 
 
         // 2.1) Validar que el carrito no esté vacío.
-        $productos = \Cart::getContent();
-        if ($productos->isEmpty()) {
+        $productosCarrito = \Cart::getContent();
+        if ($productosCarrito->isEmpty()) {
             return back()->withErrors(['error' => 'El carrito está vacío.']);
         }
 
         //2.2) Validar que los productos existen y tienen stock suficiente.PENDIENTE
-        foreach ($productos as $producto) {
+        foreach ($productosCarrito as $producto) {
             $productoDB = Producto::find($producto->id);
             if (!$productoDB) {
                 return back()->withErrors(['error' => 'El producto no existe.']);
@@ -87,7 +87,7 @@ class PedidoController extends Controller
         ]);
         //creacion de detalles de pedido con los productos del carrito
 
-        foreach ($productos as $producto) {
+        foreach ($productosCarrito as $producto) {
             $detalle = detallePedido::create([
                 'pedido_id' => $pedido->id,
                 'producto_id' => $producto->id,
