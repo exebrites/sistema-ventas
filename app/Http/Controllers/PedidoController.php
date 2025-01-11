@@ -10,6 +10,7 @@ use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PedidoCancelado;
+use App\Models\Producto;
 
 class PedidoController extends Controller
 {
@@ -59,6 +60,15 @@ class PedidoController extends Controller
         $productos = \Cart::getContent();
         if ($productos->isEmpty()) {
             return back()->withErrors(['error' => 'El carrito está vacío.']);
+        }
+
+        //2.2) Validar que los productos existen y tienen stock suficiente.PENDIENTE
+        foreach ($productos as $producto) {
+            $productoDB = Producto::find($producto->id);
+            if (!$productoDB) {
+                return back()->withErrors(['error' => 'El producto no existe.']);
+            }
+            // if ($producto->quantity > $productoDB->) {
         }
         //2.3) Validar que el usuario este autenticado y el cliente exista.
         $cliente = Cliente::obtenerCliente(Auth::user());
