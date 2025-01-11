@@ -97,7 +97,10 @@ class PedidoController extends Controller
         }
         \Cart::clear();
         $estado = Estado::find(self::PENDIENTE);
-        return view('checkout', compact('estado', 'pedido'));
+        return view('checkout', [
+            'pedido' => $pedido,
+            'estado' => $estado
+        ]);
     }
     public function pedidoCliente()
     {
