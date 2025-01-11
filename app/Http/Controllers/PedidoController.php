@@ -85,19 +85,13 @@ class PedidoController extends Controller
     }
     public function update(Request $request, Pedido $pedido)
     {
-        /**
-         MEJORA:
-         * 1). Usar inyeccion de dependencias para traer el pedido
-         */
-        $pedido = Pedido::find($request->pedido_id);
         $nuevoEstado = $request->estado;
         $estado = Estado::where('nombre', $nuevoEstado)->first();
-        $usuario = $pedido->cliente;
         //enviar correo de cancelacion
         if ($estado->id === SELF::ESTADO_CANCELADO) {
             $motivo = 'No especificado';
             // Envía el correo usando Mailable
-            Mail::to($usuario->correo)->send(new PedidoCancelado($pedido, $motivo));
+            Mail::to($pedido->cliente->correo)->send(new PedidoCancelado($pedido, $motivo));
         }
         //actualizar estado del pedido y fecha de inicio
         $pedido->update([
