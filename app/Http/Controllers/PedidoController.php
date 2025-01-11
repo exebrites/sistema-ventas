@@ -34,6 +34,7 @@ use Svg\Tag\Rect;
 class PedidoController extends Controller
 {
     const PENDIENTE =  1;
+    const ESTADO_CANCELADO = 404;
     public function index()
     {
         // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
@@ -64,7 +65,7 @@ class PedidoController extends Controller
             'estado_id' => self::PENDIENTE,
             'costo_total' => $costoTotal
         ]);
-
+        //creacion de detalles de pedido con los productos del carrito
         $productos = \Cart::getContent();
         foreach ($productos as $producto) {
             $detalle = detallePedido::create([
@@ -82,35 +83,19 @@ class PedidoController extends Controller
     {
         //obtener el cliente logueado
         $cliente = Cliente::obtenerCliente(Auth::user());
-
         //obtener los pedidos del cliente ordenados por id
-        $pedidos = Pedido::pedidosCliente($cliente); //llamado en calmeCase
+        $pedidos = Pedido::pedidosCliente($cliente);
         return view('pedido.pedidoCliente', compact('pedidos'));
     }
     public function cancelarPedido($id)
     {
-        //cambiar el estado del pedido a cancelado
         $pedido = Pedido::find($id);
         $pedido->update(['estado_id' => self::ESTADO_CANCELADO]);
         $motivo = 'No especificado';
         // Envía el correo usando Mailable
         Mail::to($pedido->cliente->correo)->send(new PedidoCancelado($pedido, $motivo));
-
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido cancelado con éxito');
     }
-    public function confirmarPedido($id)
-    {
-        //recuperar el pedido y actualizar su estado
-        $pedido = Pedido::find($id);
-        $pedido->update(['estado_id' => self::ESTADO_PENDIENTE_PAGO]);
-        $estado = $pedido->estado;
-
-        //envio de correo al cliente con el id del pedido y su costo total
-        Mail::to($$pedido->cliente->correo)->send(new PagoMailable($pedido->id, $pedido->costo_total));
-
-        return view('checkout', compact('estado', 'pedido'));
-    }
-
     public function update(Request $request, Pedido $pedido)
     {
 
