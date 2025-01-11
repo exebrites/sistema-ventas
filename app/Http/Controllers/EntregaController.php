@@ -75,7 +75,7 @@ class EntregaController extends Controller
         $pedido = Pedido::find($id);
         // $pedido->update(['estado_id' => $estado + 1]);
         $cliente = $pedido->cliente;
-        Mail::to($cliente->correo)->send(new PedidoFinalizado($pedido, $cliente));
+        // Mail::to($cliente->correo)->send(new PedidoFinalizado($pedido, $cliente));
         return redirect()->route('shop')->with('success_msg', 'Su pedido ha sido completado con exito! Puede ver el estado de avance en "Tus pedidos"');;
     }
 

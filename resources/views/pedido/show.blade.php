@@ -83,14 +83,14 @@
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne{{ $detalle->id }}" aria-expanded="true"
                                 aria-controls="collapseOne">
-                                Producto: {{ $detalle->producto->name }}
+                                Producto: {{ $detalle->producto->nombre }}
                             </button>
                         </h2>
                         <div id="collapseOne{{ $detalle->id }}" class="accordion-collapse collapse show "
                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <b> Nombre del producto:</b> {{ $detalle->producto->name }} <br>
-                                <b> Descripcion:</b> {{ $detalle->producto->description }} <br>
+                                <b> Nombre del producto:</b> {{ $detalle->producto->nombre }} <br>
+                                <b> Descripcion:</b> {{ $detalle->producto->descripcion }} <br>
                                 <b>Cantidad solicitada:</b> {{ $detalle->cantidad }} <br>
                                 {{-- <b>Diseño Aprobado :</b> {{ $detalle->produccion ? 'Si' : 'NO' }} <br>
                                 <b>Con Diseño:</b> {{ $detalle->disenio->disenio_estado ? 'Si ' : 'No' }} <br> --}}
@@ -115,15 +115,15 @@
                                     producto</a>
 
                                 @if ($pedido->estado->id >= 5)
-                                    <a href="{{ route('disenios.show', $detalle->disenio->id) }}"
+                                    {{-- <a href="{{ route('disenios.show', $detalle->disenio->id) }}"
                                         class="btn btn-primary">Ver
-                                        diseño</a>
+                                        diseño</a> --}}
 
-                                    @if ($detalle->boceto != null)
+                                    {{-- @if ($detalle->boceto != null)
                                         <a href="{{ route('showBoceto', $detalle->boceto->id) }}"
                                             class="btn btn-primary">Ver
                                             boceto</a>
-                                    @endif
+                                    @endif --}}
                                 @endif
 
                             </div>
