@@ -18,7 +18,7 @@ class Producto extends Model implements Auditable
 
 
     protected $table = 'productos';
-    protected $fillable = ['nombre', 'precio',  'descripcion', 'category_id', 'imagen', 'alias', 'visitas'];
+    protected $fillable = ['nombre', 'precio',  'descripcion', 'category_id', 'imagen', 'alias', 'visitas','stock'];
     private string $nombre;
     private float $precio;
     public function disenio()

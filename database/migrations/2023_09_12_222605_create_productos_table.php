@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('imagen')->nullable()->unique();
             $table->string('alias')->nullable()->unique();
             $table->integer('visitas')->default(1);
+            $table->integer('stock')->default(1);
             $table->foreignId('category_id')->constrained('categorias');
             $table->timestamps();
         });
