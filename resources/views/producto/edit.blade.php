@@ -17,7 +17,7 @@
         <div class="card-body">
 
             <div class="text-center">
-                <img src="{{ $producto->image_path }}" class="rounded" alt="..." style="width: 300px; height: auto;">
+                <img src="{{ $producto->imagen }}" class="rounded" alt="..." style="width: 300px; height: auto;">
             </div>
             <form action="{{ route('productos.update', $producto) }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -30,8 +30,8 @@
                 <div class="form-group">
                     <label>Nombre</label>
                     <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        value="{{ $producto->name }}" name="name">
-                    @error('name')
+                        value="{{ $producto->nombre }}" name="name">
+                    @error('nombre')
                         <br>
                         <small style="color:red">{{ $message }}</small>
                     @enderror
@@ -39,9 +39,9 @@
 
                 <div class="form-group">
                     <label for="exampleInputPassword1">Descripcion</label>
-                    <input type="text" class="form-control" id="description" value="{{ $producto->description }}"
+                    <input type="text" class="form-control" id="description" value="{{ $producto->descripcion }}"
                         name="description">
-                    @error('description')
+                    @error('descripcion')
                         <br>
                         <small style="color:red">{{ $message }}</small>
                     @enderror
@@ -57,8 +57,8 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">Precio</label>
                     <input type="number" class="form-control" name="price" required min="0" max="100000"
-                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->price }}">
-                    @error('price')
+                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->precio}}">
+                    @error('precio')
                         <br>
                         <small style="color:red">{{ $message }}</small>
                     @enderror
