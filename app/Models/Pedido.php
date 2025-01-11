@@ -9,20 +9,17 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
-
 use App\Models\Entrega;
 
 class Pedido extends Model implements Auditable
 {
 
     use \OwenIt\Auditing\Auditable;
+    use HasFactory;
 
 
     protected $table = "pedidos";
     protected $fillable = ['clientes_id', 'productos_id', 'disenios_id', 'fecha_inicio', 'fecha_entrega', 'estado_id', 'disenio_estado', 'cantidad', 'costo_total'];
-    // public static $estados = ['pendiente_pago', 'pago', 'en_produccion', 'entregado'];
-
-    //scopes
     public function scopeActivo($query)
     {
         //11 estado cancelado
@@ -92,32 +89,30 @@ class Pedido extends Model implements Auditable
 
         return $total;
     }
+
+    //COMIENZO DE RELACIONES
     public function pedidoDemanda()
     {
         return $this->hasOne(registroPedidoDemanda::class, 'pedido_id', '');
     }
     public function detallePedido()
     {
-        // llamo al modelo, fk en tabla pedidos, pk en tabla clientes
-        // como se llama pk de clientes en tabla pedidos
         return $this->hasMany('\App\Models\DetallePedido', 'pedido_id', '');
     }
     public function cliente()
     {
-        // llamo al modelo, fk en tabla pedidos, pk en tabla clientes
-        // como se llama pk de clientes en tabla pedidos
-        return $this->belongsTo('\App\Models\Cliente', 'clientes_id', 'id');
+        return $this->belongsTo(Cliente::class, 'clientes_id', 'id');
     }
-
     public function disenio()
     {
         return $this->belongsTo('\App\Models\Disenio', 'disenios_id', 'id');
     }
-
     public function comprobante()
     {
         return $this->hasOne('\App\Models\Comprobante', 'pedido_id', '');
     }
+    //FIN DE RELACIONES
+
     public  function listaMaterialesPedidosProducto()
     {
 
@@ -303,6 +298,4 @@ class Pedido extends Model implements Auditable
         // dd("fin");
         return $arrayC;
     }
-
-    use HasFactory;
 }
