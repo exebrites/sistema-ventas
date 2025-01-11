@@ -106,7 +106,7 @@ class PedidoController extends Controller
                 'producto_id' => $producto->id,
                 'cantidad' => $producto->quantity,
                 'subtotal' => \Cart::get($producto->id)->getPriceSum(),
-                'produccion' => false
+                // 'produccion' => false
             ]);
 
             $estadoDisenio = 1; //tiene disenio
