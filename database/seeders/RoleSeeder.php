@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
@@ -17,19 +18,18 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        //     $role1= Role::create(['name'=>'admin']);
-        //     $role2= Role::create(['name'=>'cliente']);
+        $permission1 = Permission::create(['name' => 'gestionar-imprenta']);
+        // $permission2 = Permission::create(['name' => 'gestionar-sistema']);
+        $role = Role::create(['name' => 'admin']);
 
-        // Permission::create(['name'=>'admin.home'])->syncRoles($role1);
+        $role->givePermissionTo($permission1);
+        // $role->givePermissionTo($permission2);
 
-        // Permission::create(['name'=>'admin.productos.index'])->syncRoles($role1);
-        // Permission::create(['name'=>'admin.productos.create'])->syncRoles($role1);
-        // Permission::create(['name'=>'admin.productos.edit'])->syncRoles($role1);
-        // Permission::create(['name'=>'admin.productos.destroy'])->syncRoles($role1);
-
-
-        $role1=User::where('tipo_usuario','cliente')->get();
-        $role1= Role::create(['name'=>'admin']);
-
+        $user = User::create([
+            'name' => 'exe',
+            'email' => 'exe@gmail.com',
+            'password' => Hash::make('123123123'),
+        ]);
+        $user->assignRole($role);
     }
 }

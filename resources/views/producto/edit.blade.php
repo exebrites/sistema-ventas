@@ -63,11 +63,15 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
-
-
-
-
-
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Stock</label>
+                    <input type="number" class="form-control" name="stock" required min="0" max="100000"
+                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->stock}}">
+                    @error('stock')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
+                </div>
                 <div class="form-group">
                     <label>Seleccionar imagen</label>
                     <input type="file" class="form-control-file" name="file"accept="image/jpeg,png">
