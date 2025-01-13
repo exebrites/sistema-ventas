@@ -13,6 +13,7 @@ use App\Mail\PedidoCancelado;
 use App\Models\Producto;
 use App\Services\PedidoService;
 use App\Contracts\ShoppingCartInterface;
+use App\Services\ProductoService;
 
 class PedidoController extends Controller
 {
@@ -36,7 +37,7 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function creacion_pedido_detalles_pedido(PedidoService $pedidoService, ShoppingCartInterface $shoppingCart) //10 y 11 snake_case && nombre descriptivo
+    public function creacion_pedido_detalles_pedido(PedidoService $pedidoService, ShoppingCartInterface $shoppingCart, ProductoService $productoService) //10 y 11 snake_case && nombre descriptivo
     {
         /**
          MEJORA:
@@ -69,14 +70,10 @@ class PedidoController extends Controller
 
         //2.2) Validar que los productos existen y tienen stock suficiente.PENDIENTE
         foreach ($productosCarrito as $producto) {
-            // $productoDB = Producto::find($producto->id);
-            // if (!$productoDB) {
-            //     return back()->withErrors(['error' => 'El producto no existe.']);
-            // }
-            // if ($producto->quantity > $productoDB->stock) {
-            //     return back()->withErrors(['error' => 'El producto no tiene stock suficiente.']);
-            // }
-            // $productoDB->decrement('stock', $producto->quantity);
+            $resultado = $productoService->control_stock($producto, $producto->quantity);
+            if ($resultado !== true) {
+                return redirect()->back()->withErrors(['error' => $resultado]);
+            }
         }
         //2.3) Validar que el usuario este autenticado y el cliente exista.
         $cliente = Cliente::obtenerCliente(Auth::user());
