@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Contracts;
-
+use Illuminate\Support\Collection;
 interface ShoppingCartInterface
 {
     public function getTotal(): float;
 
-    public function getContent(): array; //cuidaodo
+    public function getContent(): Collection; //cuidaodo
 
     public function getItem($id): ?object;
 

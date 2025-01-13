@@ -19,12 +19,7 @@ class PedidoController extends Controller
     const PENDIENTE =  1;
     const ESTADO_CANCELADO = 404;
 
-    protected $shoppingCart;
 
-    public function __construct(ShoppingCartInterface $shoppingCart)
-    {
-        $this->shoppingCart = $shoppingCart;
-    }
     public function index()
     {
         // obtiene los pedidos que no tengan el estado cancelado y los ordena por estado 
@@ -41,7 +36,7 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function creacion_pedido_detalles_pedido(Request $request, PedidoService $pedidoService) //10 y 11 snake_case && nombre descriptivo
+    public function creacion_pedido_detalles_pedido(Request $request, PedidoService $pedidoService, ShoppingCartInterface $shoppingCart) //10 y 11 snake_case && nombre descriptivo
     {
         /**
          MEJORA:
@@ -66,7 +61,8 @@ class PedidoController extends Controller
 
 
         // 2.1) Validar que el carrito no esté vacío.
-        $productosCarrito = \Cart::getContent();
+        // $productosCarrito = \Cart::getContent();
+        $productosCarrito = $shoppingCart->getContent();
         if ($productosCarrito->isEmpty()) {
             return back()->withErrors(['error' => 'El carrito está vacío.']);
         }
@@ -87,7 +83,7 @@ class PedidoController extends Controller
 
         $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
 
-        \Cart::clear();
+        $shoppingCart->clear();
         $estado = Estado::find(self::PENDIENTE);
 
         // 7 - Uso inadecuado de compact();Pasar los datos explícitamente
