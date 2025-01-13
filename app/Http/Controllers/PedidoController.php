@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PedidoCancelado;
 use App\Models\Producto;
-
+use App\Services\PedidoService;
 class PedidoController extends Controller
 {
     const PENDIENTE =  1;
@@ -32,7 +32,7 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function creacion_pedido_detalles_pedido(Request $request)//10 y 11 snake_case && nombre descriptivo
+    public function creacion_pedido_detalles_pedido(Request $request, PedidoService $pedidoService)//10 y 11 snake_case && nombre descriptivo
     {
         /**
          MEJORA:
@@ -77,25 +77,27 @@ class PedidoController extends Controller
         }
 
 
-        $costoTotal = \Cart::getTotal();
-        $pedido = Pedido::create([
-            'clientes_id' => $cliente->id,
-            'fecha_inicio' => null,
-            'fecha_entrega' => null,
-            'estado_id' => self::PENDIENTE,
-            'costo_total' => $costoTotal
-        ]);
-        //creacion de detalles de pedido con los productos del carrito
+        // $costoTotal = \Cart::getTotal();
+        // $pedido = Pedido::create([
+        //     'clientes_id' => $cliente->id,
+        //     'fecha_inicio' => null,
+        //     'fecha_entrega' => null,
+        //     'estado_id' => self::PENDIENTE,
+        //     'costo_total' => $costoTotal
+        // ]);
+        // //creacion de detalles de pedido con los productos del carrito
 
-        foreach ($productosCarrito as $producto) {
-            // 9). Buenas prácticas en nombres de clases
-            $detalle = DetallePedido::create([
-                'pedido_id' => $pedido->id,
-                'producto_id' => $producto->id,
-                'cantidad' => $producto->quantity,
-                'subtotal' => \Cart::get($producto->id)->getPriceSum(),
-            ]);
-        }
+        // foreach ($productosCarrito as $producto) {
+        //     // 9). Buenas prácticas en nombres de clases
+        //     $detalle = DetallePedido::create([
+        //         'pedido_id' => $pedido->id,
+        //         'producto_id' => $producto->id,
+        //         'cantidad' => $producto->quantity,
+        //         'subtotal' => \Cart::get($producto->id)->getPriceSum(),
+        //     ]);
+        // }
+        $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
+
         \Cart::clear();
         $estado = Estado::find(self::PENDIENTE);
 
