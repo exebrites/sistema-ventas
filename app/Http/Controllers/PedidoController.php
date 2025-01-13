@@ -69,11 +69,14 @@ class PedidoController extends Controller
 
         //2.2) Validar que los productos existen y tienen stock suficiente.PENDIENTE
         foreach ($productosCarrito as $producto) {
-            $productoDB = Producto::find($producto->id);
-            if (!$productoDB) {
-                return back()->withErrors(['error' => 'El producto no existe.']);
-            }
-            // if ($producto->quantity > $productoDB->) {
+            // $productoDB = Producto::find($producto->id);
+            // if (!$productoDB) {
+            //     return back()->withErrors(['error' => 'El producto no existe.']);
+            // }
+            // if ($producto->quantity > $productoDB->stock) {
+            //     return back()->withErrors(['error' => 'El producto no tiene stock suficiente.']);
+            // }
+            // $productoDB->decrement('stock', $producto->quantity);
         }
         //2.3) Validar que el usuario este autenticado y el cliente exista.
         $cliente = Cliente::obtenerCliente(Auth::user());
