@@ -36,7 +36,7 @@ class PedidoController extends Controller
     }
 
     //Registrar pedido y relacionar con el cliente
-    public function creacion_pedido_detalles_pedido(Request $request, PedidoService $pedidoService, ShoppingCartInterface $shoppingCart) //10 y 11 snake_case && nombre descriptivo
+    public function creacion_pedido_detalles_pedido(PedidoService $pedidoService, ShoppingCartInterface $shoppingCart) //10 y 11 snake_case && nombre descriptivo
     {
         /**
          MEJORA:
@@ -59,7 +59,7 @@ class PedidoController extends Controller
          */
         //traer el cliente segun su usuario logueado. No todos los usuarios son clientes
 
-
+        // 1). Usar un ServiceProvider para crear el pedido y sus detalles
         // 2.1) Validar que el carrito no esté vacío.
         // $productosCarrito = \Cart::getContent();
         $productosCarrito = $shoppingCart->getContent();
@@ -80,9 +80,10 @@ class PedidoController extends Controller
         if (!$cliente) {
             return back()->withErrors(['error' => 'El usuario no está asociado a un cliente.']);
         }
-
+        // 3).Implementar manejo de excepciones con un bloque try-catch y transacciones para garantizar consistencia:
         $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
-
+        // 4).Renombrar variables para mayor claridad
+        // 5).Crear una capa de abstracción que encapsule el acceso al carrito
         $shoppingCart->clear();
         $estado = Estado::find(self::PENDIENTE);
 
