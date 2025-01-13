@@ -76,26 +76,6 @@ class PedidoController extends Controller
             return back()->withErrors(['error' => 'El usuario no está asociado a un cliente.']);
         }
 
-
-        // $costoTotal = \Cart::getTotal();
-        // $pedido = Pedido::create([
-        //     'clientes_id' => $cliente->id,
-        //     'fecha_inicio' => null,
-        //     'fecha_entrega' => null,
-        //     'estado_id' => self::PENDIENTE,
-        //     'costo_total' => $costoTotal
-        // ]);
-        // //creacion de detalles de pedido con los productos del carrito
-
-        // foreach ($productosCarrito as $producto) {
-        //     // 9). Buenas prácticas en nombres de clases
-        //     $detalle = DetallePedido::create([
-        //         'pedido_id' => $pedido->id,
-        //         'producto_id' => $producto->id,
-        //         'cantidad' => $producto->quantity,
-        //         'subtotal' => \Cart::get($producto->id)->getPriceSum(),
-        //     ]);
-        // }
         $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
 
         \Cart::clear();
