@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\ShoppingCartInterface;
+use Illuminate\Support\Collection;
 
 class ShoppingCartService implements ShoppingCartInterface
 {
@@ -11,11 +12,11 @@ class ShoppingCartService implements ShoppingCartInterface
         return \Cart::getTotal();
     }
 
-    public function getContent(): array
+  
+    public function getContent():Collection
     {
-        return \Cart::getContent()->toArray();
+        return \Cart::getContent();
     }
-
     public function getItem($id): ?object
     {
         return \Cart::get($id);
