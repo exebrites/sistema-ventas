@@ -64,6 +64,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +85,8 @@
                                         type="submit">Borrar</button>
                                 </form>
                             </td>
+                            <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
+                                href="#">Actualizar stock</a></td>
                             <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.show', $producto->id) }}">Ver mas</a></td>
                         </tr>
