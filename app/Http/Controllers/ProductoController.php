@@ -166,4 +166,8 @@ class ProductoController extends Controller
         }
         return view('producto.busqueda', compact('busqueda'));
     }
+    public function actualizarStock(Producto $producto, Request $request)
+    {
+        return $request->stock;
+    }
 }
