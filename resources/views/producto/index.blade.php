@@ -101,7 +101,7 @@
             <!-- Button trigger modal -->
 
             <!-- Modal -->
-            <form action="{{ route('actualizarStock', $producto) }}" method="post">
+            <form action="{{ route('actualizarStock', $producto->id) }}" method="post">
                 @csrf
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -124,9 +124,10 @@
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Cantidades</label>
                                     <input type="number" class="form-control" id="exampleFormControlInput1"
-                                        placeholder="Ingresa cantidades" name ="stock">
+                                        placeholder="Ingresa cantidades" name ="cantidad">
                                 </div>
-
+                                <input type="hidden" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Ingresa cantidades" name ="id" value="{{ $producto->id }}">
 
                             </div>
                             <div class="modal-footer">

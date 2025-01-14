@@ -168,6 +168,30 @@ class ProductoController extends Controller
     }
     public function actualizarStock(Producto $producto, Request $request)
     {
-        return $request->stock;
+        try {
+            //code...
+            $request->validate([
+                'cantidad' => 'required|numeric'
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', 'Ingrese una cantidad');
+        }
+
+
+        $producto = Producto::find($request->id);
+        $cantidad = $request->cantidad;
+        // dd($cantidad);
+        //verificar que exita
+        if (!$producto) {
+            return redirect()->back()->with('error', 'El producto no existe');
+        }
+        // if (($producto->stock - $cantidad) <= 0) {
+        //     return redirect()->back()->with('error', 'No hay suficiente stock, no se puede decrementar');
+        // }
+        //actualizar
+        $producto->stock = $producto->stock + $cantidad;
+        $producto->save();
+        return redirect()->route('productos.index')->with('success', 'Stock actualizado');
     }
 }

@@ -301,5 +301,5 @@ route::get('/asignacion', function () {
 route::get('/pedido_pdf/{pedido}', [PdfController::class, 'generarPDFDespacho'])->name('generarPDFDespacho');
 route::get('/compararStock/{pedido}', [MaterialController::class, 'ver_stock'])->name('ver_stock');
 
-Route::post('/actualizarStock/{id}', [ProductoController::class, 'actualizarStock'])->name('actualizarStock');
+Route::post('/actualizarStock/{producto}', [ProductoController::class, 'actualizarStock'])->name('actualizarStock');
 require __DIR__ . '/auth.php';
