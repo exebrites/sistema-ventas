@@ -15,11 +15,83 @@ use App\Services\PedidoService;
 use App\Contracts\ShoppingCartInterface;
 use App\Services\ProductoService;
 
+/**
+ * @OA\Info(
+ *             title="Título que mostraremos en swagger", 
+ *             version="1.0",
+ *             description="Descripcion"
+ * )
+ *
+ * @OA\Server(url="http://127.0.0.1:8000")
+ */
 class PedidoController extends Controller
 {
     const PENDIENTE =  1;
     const ESTADO_CANCELADO = 404;
 
+
+
+    /**
+     * Listado de pedidos 
+     * @OA\Get (
+     *     path="/pedidos",
+     *     tags={"pedido"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="descripción o el nombre del código de la petición",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="clientes_id",
+     *                         type="string",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="fecha_inicio",
+     *                         type="string",
+     *                         example="J2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="fecha_entrega",
+     *                         type="string",
+     *                         example="J2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     
+     *                     @OA\Property(
+     *                         property="estado_id",
+     *                         type="string",
+     *                         example="1"
+     *                     ),
+     *                  @OA\Property(
+     *                         property="costo_total",
+     *                         type="float",
+     *                         example="J2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2023-02-23T12:33:45.000000Z"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
 
     public function index()
     {

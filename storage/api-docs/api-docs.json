@@ -1,0 +1,85 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Título que mostraremos en swagger",
+        "description": "Descripcion",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/pedidos": {
+            "get": {
+                "tags": [
+                    "pedido"
+                ],
+                "summary": "Listado de pedidos",
+                "operationId": "a199173bdc5d7b882c1414cc6d087637",
+                "responses": {
+                    "200": {
+                        "description": "descripción o el nombre del código de la petición",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "clientes_id": {
+                                                        "type": "string",
+                                                        "example": "1"
+                                                    },
+                                                    "fecha_inicio": {
+                                                        "type": "string",
+                                                        "example": "J2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "fecha_entrega": {
+                                                        "type": "string",
+                                                        "example": "J2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "estado_id": {
+                                                        "type": "string",
+                                                        "example": "1"
+                                                    },
+                                                    "costo_total": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": "J2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "pedido",
+            "description": "pedido"
+        }
+    ]
+}

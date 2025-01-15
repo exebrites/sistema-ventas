@@ -197,7 +197,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ShoppingCartServiceProvider::class,
         //otros 
-        Darryldecode\Cart\CartServiceProvider::class
+        Darryldecode\Cart\CartServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
 
 
     ],
