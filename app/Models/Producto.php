@@ -35,54 +35,6 @@ class Producto extends Model implements Auditable
         return $this->hasMany(DetalleProducto::class, 'producto_id', 'id');
     }
 
-    // nombre de metodo en calmeCase
-    public function listaMaterial()
-    {
-
-        // que materiales y cual es la cantidad para producir este producto 
-
-
-        // conocer que materiales y cual es la cantidad asociada 
-        $detalles = $this->detalleProducto;
-        $materiales = [];
-        foreach ($detalles as $key => $detalle) {
-            # code...
-            // print($detalle->cantidad);
-            // nombre y cantidad clave valor
-            $materiales[$key] = [
-                'id' => $detalle->materiales->id,
-                'nombre' => $detalle->materiales->nombre,
-                'cantidad' => $detalle->cantidad
-            ];
-        }
-
-        return $materiales;
-    }
-
-
-    public function proporcionCantidad($cantidad)
-    {
-        // retornar una lista de materiales con las cantidades proporcionales a la cantidad solictada
-        // dump("proporciion");
-        // dump($this->id . " " . $cantidad);
-        $materiales = $this->listaMaterial();
-        $proporcion = [];
-        foreach ($materiales as $key => $material) {
-            // dump($material['id']);
-            $proporcion[$key] = [
-                'id' => $material['id'],
-                'nombre' => $material['nombre'],
-                'cantidad' => $material['cantidad'] * $cantidad
-            ];
-            // dump($material['cantidad'] * $cantidad);
-        }
-
-        // dd($proporcion);
-        return  $proporcion;
-    }
-
-
-    //Query Scopes
     public function scopeBuscar($query, $buscar)
     {
         return $query->where('name', 'like', '%' . $buscar . '%')->take(5);

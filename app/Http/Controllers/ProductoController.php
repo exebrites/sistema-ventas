@@ -124,10 +124,10 @@ class ProductoController extends Controller
     }
 
     //idea manejar con otra funcion la parte del detalle de productos
-    public function detalle($id) //Feature test
+    public function detalle(Producto $producto) //Feature test
     {
 
-        $producto = Producto::find($id);
+        // $producto = Producto::find($id);
         // Incrementa el valor del campo 'cantidad' en 1
         $producto->increment('visitas');
 
@@ -135,7 +135,10 @@ class ProductoController extends Controller
         $producto->save();
 
         $url_imagen = '';
-        return view('detalleProducto', compact('producto', 'url_imagen'));
+        return view('detalleProducto', [
+            'producto' => $producto,
+            'url_imagen' => $url_imagen
+        ]);
     }
 
     public function buscarProducto() //Feature test
