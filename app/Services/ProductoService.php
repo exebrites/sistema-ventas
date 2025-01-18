@@ -20,6 +20,17 @@ class ProductoService
         ]);
         return $producto;
     }
+    public function actualizarProducto($producto, $request)
+    {
+
+        $producto->update([
+            'nombre' => $request->name,
+            'precio' => $request->price,
+            'descripcion' => $request->description,
+            'category_id' => $request->categoria_id,
+            'alias' => $request->alias
+        ]);
+    }
     public function control_stock($producto, $cantidad)
     {
 

@@ -41,9 +41,9 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     // public function store(Request $request)
-    public function store(StoreUpdateProductoRequest $request, ProductoService $producto) //Feature test
+    public function store(StoreUpdateProductoRequest $request, ProductoService $productoService) //Feature test
     {
-        $producto->crearProducto($request);
+        $productoService->crearProducto($request);
         return redirect()->route('productos.index');
     }
 
@@ -82,7 +82,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdateProductoRequest $request, $id) //Feature test
+    public function update(StoreUpdateProductoRequest $request, $id, ProductoService $productoService) //Feature test
     {
 
         $producto = Producto::find($request->id);
@@ -91,14 +91,7 @@ class ProductoController extends Controller
         if ($request->file('file') != null) {
             $producto->imagen = $request;
         }
-        $producto->nombre = $request->validated(['name']);
-        $producto->update([
-            'precio' => $request->validated(['price']),
-            // 'slug' => $request->validated(['name']),
-            'descripcion' => $request->validated(['description']),
-            'category_id' => $request->validated(['categoria_id']),
-            'alias' => $request->validated(['alias'])
-        ]);
+        $productoService->actualizarProducto($producto, $request);
 
         return redirect()->route('productos.index');
     }
