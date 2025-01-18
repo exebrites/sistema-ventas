@@ -20,40 +20,23 @@ class MercadoPagoController extends Controller
     public function createPaymentPreference(Request $request)
     {
 
-        // return response()->json(['message' => $request->all()]);
+
         // Log::info('Creando preferencia de pago');
         $this->authenticate();
         // Log::info('Autenticado con éxito');
 
         // Paso 1: Obtener la información del producto desde la solicitud JSON
-        // $product = $request->input('product'); // Asumiendo que envías un campo 'product' con los datos
+        $product = $request->input('product'); // Asumiendo que envías un campo 'product' con los datos
 
-        // if (empty($product) || !is_array($product)) {
-        //     return response()->json(['error' => 'Los datos del producto son requeridos.'], 400);
-        // }
+        if (empty($product) || !is_array($product)) {
+            return response()->json(['error' => 'Los datos del producto son requeridos.'], 400);
+        }
 
-        // Fill the data about the product(s) being pruchased
-        $product1 = array(
-            "id" => "1234567890",
-            "title" => "Product 1 Title",
-            "description" => "Product 1 Description",
-            "currency_id" => "BRL",
-            "quantity" => 12,
-            "unit_price" => 9.90
-        );
 
-        $product2 = array(
-            "id" => "9012345678",
-            "title" => "Product 2 Title",
-            "description" => "Product 2 Description",
-            "currency_id" => "BRL",
-            "quantity" => 5,
-            "unit_price" => 19.90
-        );
 
         // Mount the array of products that will integrate the purchase amount
-        $items = array($product1, $product2);
-        $product = $items;
+        // $items = array($product1, $product2);
+
         // Paso 2: Información del comprador (esto puedes obtenerlo desde el usuario autenticado) 
         // $payer = [
         //     "name" => $request->input('name', 'asd'), // Puedes obtener el nombre del request o usar un valor predeterminado

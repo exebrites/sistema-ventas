@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     {{-- {{dd($pedido)}} --}}
     <div class="card">
         <div class="card-body">
@@ -28,7 +29,7 @@
                                     </small>
                                 </p>
                                 <h5>Datos de entrega</h5>
-                                <form>
+                                <form action="{{ route('entrega.store') }}" method="POST">
                                     @csrf
                                     <div class="form-group form-check">
                                         <input type="checkbox" class="form-check-input" name="local" id="miCheckbox">
@@ -69,9 +70,10 @@
                                     </div>
                                     <input type="hidden" name="estado" value="{{ $estado->id }}" id="">
                                     <input type="hidden" name="id" value="{{ $pedido->id }}" id="">
+                                    {{-- <button type="submit" id="checkout-btn" class="btn btn-primary">Finalizar
+                                        pedido</button> --}}
                                     <button type="submit" id="checkout-btn" class="btn btn-primary">Finalizar
                                         pedido</button>
-
 
                                 </form>
                             </div>
@@ -151,33 +153,34 @@
 
             // console.log('Datos del pedido:', orderData);
 
-            //     fetch('/create-preference', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-            //             },
-            //             body: JSON.stringify(orderData)
-            //         })
-            //         .then(response => {
-            //             if (!response.ok) {
-            //                 throw new Error('Error en la respuesta del servidor');
-            //             }
-            //             return response.json();
-            //         })
-            //         .then(preference => {
-            //             if (preference.error) {
-            //                 throw new Error(preference.error);
-            //             }
-            //             mp.checkout({
-            //                 preference: {
-            //                     id: preference.id // Asegúrate de que esta línea sea correcta
-            //                 },
-            //                 autoOpen: true
-            //             });
-            //             console.log('Respuesta de la preferencia:', preference);
-            //         })
-            //         .catch(error => console.error('Error al crear la preferencia:', error));
+            fetch('/create-preference', {
+                    method: 'POST',
+                    z
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify(orderData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(preference => {
+                    if (preference.error) {
+                        throw new Error(preference.error);
+                    }
+                    mp.checkout({
+                        preference: {
+                            id: preference.id // Asegúrate de que esta línea sea correcta
+                        },
+                        autoOpen: true
+                    });
+                    console.log('Respuesta de la preferencia:', preference);
+                })
+                .catch(error => console.error('Error al crear la preferencia:', error));
         });
     </script>
 @endsection
