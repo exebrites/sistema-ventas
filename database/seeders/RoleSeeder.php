@@ -18,18 +18,13 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $permission1 = Permission::create(['name' => 'gestionar-imprenta']);
-        // $permission2 = Permission::create(['name' => 'gestionar-sistema']);
+        
         $role = Role::create(['name' => 'admin']);
+        $p1 = Permission::find(1);
+        $p2 = Permission::find(2);
 
-        $role->givePermissionTo($permission1);
-        // $role->givePermissionTo($permission2);
+        $role->givePermissionTo($p1);
+        $role->givePermissionTo($p2);
 
-        $user = User::create([
-            'name' => 'exe',
-            'email' => 'exe@gmail.com',
-            'password' => Hash::make('123123123'),
-        ]);
-        $user->assignRole($role);
     }
 }
