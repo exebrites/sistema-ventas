@@ -3,16 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateProductoRequest;
-use App\Models\Material;
 use App\Models\Producto;
 use App\Models\Categoria;
-use App\Models\DetalleProducto;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use SebastianBergmann\Environment\Runtime;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
