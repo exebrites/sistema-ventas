@@ -35,7 +35,7 @@ class EntregaController extends Controller
      */
     public function store(Request $request)
     {
-
+        dd("Pagando...");
         // return $request;
         $id = $request->id;
         // dd($request->id);

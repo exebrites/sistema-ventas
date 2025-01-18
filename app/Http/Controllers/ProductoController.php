@@ -124,10 +124,10 @@ class ProductoController extends Controller
     }
 
     //idea manejar con otra funcion la parte del detalle de productos
-    public function detalle(Producto $producto) //Feature test
+    public function detalle($id) //Feature test
     {
 
-        // $producto = Producto::find($id);
+        $producto = Producto::find($id);
         // Incrementa el valor del campo 'cantidad' en 1
         $producto->increment('visitas');
 
