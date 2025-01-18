@@ -149,6 +149,9 @@
                         <br>
                         <a href="/" class="btn btn-dark">Continue en la tienda</a>
                         <button type="submit" class="btn btn-success">Continuar compra</button>
+                        <br>
+                        <br>
+                        <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a>
                     </form>
 
 

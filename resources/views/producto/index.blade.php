@@ -101,7 +101,7 @@
             <!-- Button trigger modal -->
 
             <!-- Modal -->
-            <form action="{{ route('actualizarStock', $producto->id) }}" method="post">
+            {{-- <form action="{{ route('actualizarStock', $producto->id) }}" method="post">
                 @csrf
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> --}}
         </div>
     </div>
 @stop
