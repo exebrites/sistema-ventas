@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class ProductoService
 {
 
-    public function crear_producto($request)
+    public function crearProducto($request)
     {
         $producto = Producto::create([
             'nombre' => $request->name,

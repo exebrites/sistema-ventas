@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Services\ProductoService;
+
 class ProductoController extends Controller
 {
     /**
@@ -42,7 +43,7 @@ class ProductoController extends Controller
     // public function store(Request $request)
     public function store(StoreUpdateProductoRequest $request, ProductoService $producto) //Feature test
     {
-        $producto->crear_producto($request);
+        $producto->crearProducto($request);
         return redirect()->route('productos.index');
     }
 
@@ -54,7 +55,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto) //Feature test
     {
-        
+
         return view('producto.show', compact('producto'));
     }
 
@@ -64,12 +65,14 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) //Feature test
+    public function edit(Producto $producto) //Feature test
     {
-        $producto = Producto::find($id);
         $categorias = Categoria::all();
 
-        return view('producto.edit', compact('producto', 'categorias'));
+        return view('producto.edit', [
+            'producto' => $producto,
+            'categorias' => $categorias
+        ]);
     }
 
     /**
