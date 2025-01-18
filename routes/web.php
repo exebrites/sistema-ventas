@@ -72,6 +72,8 @@ use App\Models\Demanda;
 use App\Models\Pregunta;
 use App\Models\Recepcion;
 use App\Models\Respuesta;
+
+use App\Http\Controllers\MercadoPagoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -302,4 +304,13 @@ route::get('/pedido_pdf/{pedido}', [PdfController::class, 'generarPDFDespacho'])
 route::get('/compararStock/{pedido}', [MaterialController::class, 'ver_stock'])->name('ver_stock');
 
 Route::post('/actualizarStock/{producto}', [ProductoController::class, 'actualizarStock'])->name('actualizarStock');
+
+
+Route::post('/create-preference', [MercadoPagoController::class, 'createPaymentPreference']);
+Route::get('/mercadopago/success', [MercadoPagoController::class, 'success'])->name('mercadopago.success');
+Route::get('/mercadopago/failed', [MercadoPagoController::class, 'failed'])->name('mercadopago.failed');
+
+Route::get('/mercado', function () {
+    return view('mp');
+});
 require __DIR__ . '/auth.php';
