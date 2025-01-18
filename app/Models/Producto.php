@@ -15,25 +15,16 @@ use Illuminate\Support\Facades\Storage;
 class Producto extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
+    use HasFactory;
 
     protected $table = 'productos';
     protected $fillable = ['nombre', 'precio',  'descripcion', 'category_id', 'imagen', 'alias', 'visitas','stock'];
-    private string $nombre;
-    private float $precio;
-    public function disenio()
-    {
-        return $this->hasOne(Disenio::class, 'idProducto'); //tiene como FK a idproducto
-    }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'category_id', '');
     }
 
-    public function sistOliva()
-    {
-        return $this->hasMany(SistOliva::class, 'idSistema');
-    }
     public function detallePedido()
     {
         return $this->hasMany(DetallePedido::class, 'producto_id', '');
@@ -109,5 +100,4 @@ class Producto extends Model implements Auditable
         return $this->attributes['imagen'] = $url;
     }
 
-    use HasFactory;
 }
