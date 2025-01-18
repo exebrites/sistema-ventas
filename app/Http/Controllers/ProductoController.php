@@ -6,7 +6,7 @@ use App\Http\Requests\StoreUpdateProductoRequest;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
-
+use App\Services\ProductoService;
 class ProductoController extends Controller
 {
     /**
@@ -40,18 +40,9 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     // public function store(Request $request)
-    public function store(StoreUpdateProductoRequest $request) //Feature test
+    public function store(StoreUpdateProductoRequest $request, ProductoService $producto) //Feature test
     {
-
-        $producto = new Producto(); //porque no, crear un constructor y usar save()
-        $producto->nombre = $request->validated(['name']);
-        $producto->precio = $request->validated(['price']);
-        $producto->descripcion = $request->validated(['description']);
-        $producto->category_id = $request->validated(['categoria_id']);
-        $producto->alias = $request->validated(['alias']);
-        $producto->visitas = 0;
-        $producto->imagen = $request;
-        $producto->save();
+        $producto->crear_producto($request);
         return redirect()->route('productos.index');
     }
 
@@ -61,9 +52,9 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) //Feature test
+    public function show(Producto $producto) //Feature test
     {
-        $producto = Producto::find($id);
+        
         return view('producto.show', compact('producto'));
     }
 

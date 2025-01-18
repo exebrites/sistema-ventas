@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\DB;
 class ProductoService
 {
 
+    public function crear_producto($request)
+    {
+        $producto = Producto::create([
+            'nombre' => $request->name,
+            'category_id' => $request->categoria_id,
+            'precio' => $request->price,
+            'descripcion' => $request->description,
+            'alias' => $request->alias,
+            'imagen' => $request,
+        ]);
+        return $producto;
+    }
     public function control_stock($producto, $cantidad)
     {
 
