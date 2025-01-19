@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('producto_id')->constrained('productos');
             $table->foreignId('proveedor_id')->constrained('proveedores');
+            $table->float('precio')->nullable();
             $table->timestamps();
         });
     }

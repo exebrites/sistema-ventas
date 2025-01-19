@@ -7,36 +7,40 @@
 @stop
 
 @section('content')
-    {{-- {{ dd($detalleProducto)}} --}}
+     
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-
+            <a href="{{ route('detalleproducto.create') }}" class="btn btn-primary">Crear detalle</a>
         </div>
         <div class="card-body">
             <div class="form-group">
                 <label for="">Nombre del producto</label>
                 <input type="text" name="" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId" value="{{ $producto->name }}" readonly>
+                    aria-describedby="helpId" value="{{ $producto->nombre }}" readonly>
             </div>
             <hr>
-            <table class="table table-striped table-bordered" id="materiales">
+            @if ($producto->detalleProducto->count() > 0)
+                <table class="table table-striped table-bordered" id="materiales">
 
-                <thead>
-                    <tr>
-                        <th>Material</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($detalleProducto as $detalle)
+                    <thead>
                         <tr>
-                            <td>{{ $detalle->materiales->nombre }}</td>
-                            <td>{{ $detalle->cantidad }}</td>
+                            <th>Nombre de empresa</th>
+                            <th>Nombre del proveedor</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($producto->detalleProducto as $detalle)
+                            <tr>
+                                <td>{{ $detalle->proveedores->nombre_empresa }}</td>
+                                <td>{{ $detalle->proveedores->nombre_contacto }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No tiene asignado proveedores</p>
+            @endif
         </div>
     </div>
 @endsection
