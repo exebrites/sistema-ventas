@@ -309,8 +309,8 @@ Route::post('/actualizarStock/{producto}', [ProductoController::class, 'actualiz
 Route::post('/create-preference', [MercadoPagoController::class, 'createPaymentPreference']);
 Route::get('/mercadopago/success', [MercadoPagoController::class, 'success'])->name('mercadopago.success');
 Route::get('/mercadopago/failed', [MercadoPagoController::class, 'failed'])->name('mercadopago.failed');
-
 Route::get('/mercado', function () {
     return view('mp');
 });
+Route::get('/producos/cambiarestado/{id}',[ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
 require __DIR__ . '/auth.php';

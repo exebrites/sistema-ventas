@@ -65,6 +65,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,6 +95,10 @@
 
                             <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.show', $producto->id) }}">Ver mas</a></td>
+                            <td>
+                                <a
+                                    href="{{ route('cambiarEstado', $producto->id) }}">{{ $producto->activo ? 'Activo' : 'Inactivo' }}</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

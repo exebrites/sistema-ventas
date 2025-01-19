@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateProductoRequest;
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\DetallePedido;
+use App\Models\Estado;
+use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Services\ProductoService;
 
 class ProductoController extends Controller
 {
+
+
+    protected const ESTADO_CANCELADO = 3;
     /**
      * Display a listing of the resource.
      *
@@ -176,5 +182,19 @@ class ProductoController extends Controller
         $producto->stock = $producto->stock + $cantidad;
         $producto->save();
         return redirect()->route('productos.index')->with('success', 'Stock actualizado');
+    }
+
+    public function cambiarEstado($id)
+    {
+        $producto   =  Producto::find($id);
+        $producto->activo = !$producto->activo;
+        $producto->save();
+
+        $detalles = DetallePedido::where('producto_id', $id)->get();
+        foreach ($detalles as  $detalle) {
+            $detalle->pedidos()->update(['estado_id' => self::ESTADO_CANCELADO]);
+        }
+
+        return redirect()->route('productos.index')->with('success', 'Estado actualizado');
     }
 }

@@ -19,7 +19,7 @@ class CartController extends Controller
 {
     public function shop()
     {
-        $products = Producto::orderBy('visitas', 'desc')->paginate(8); //scope visitas
+        $products = Producto::where('activo', true)->orderBy('visitas', 'desc')->paginate(8); //scope visitas
         return view('shop', compact('products'));
     }
     public function cart()
@@ -51,12 +51,12 @@ class CartController extends Controller
     {
         //configurar el disenio cargado 
         // $url_imagen = $this->cargarImagen($request);
-        $url_imagen="null";
+        $url_imagen = "null";
         $disenio_estado = true;
         //determinar el costo de diseño
         // $costo_disenio = CostoDisenio::find(1); //en db
         // $costo_disenio_asistido = $costo_disenio->costo_disenio($request->price, $request->quantity, $disenio_estado,);
-        $costo_disenio_asistido=0;
+        $costo_disenio_asistido = 0;
         // agreaga el producto y su disenio al carrito
         \Cart::add(array(
             'id' => $request->id,
@@ -132,7 +132,7 @@ class CartController extends Controller
             $url_disenio = $p->attributes['url_disenio'];
 
             // $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
-            $costo=0;
+            $costo = 0;
             \Cart::update(
                 $request->id,
                 array(
@@ -149,7 +149,7 @@ class CartController extends Controller
         } else {
 
             // $costo = CostoDisenio::costo_disenio($precio, $cantidad, $disenio_estado);
-            $costo=0;
+            $costo = 0;
             $nombre = $p->attributes['nombre'];
             $objetivo =  $p->attributes['objetivo'];
             $publico = $p->attributes['publico'];

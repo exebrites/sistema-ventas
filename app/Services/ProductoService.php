@@ -28,7 +28,7 @@ class ProductoService
             'precio' => $request->price,
             'descripcion' => $request->description,
             'category_id' => $request->categoria_id,
-            'alias' => $request->alias
+            'alias' => $request->alias,
         ]);
     }
     public function control_stock($producto, $cantidad)

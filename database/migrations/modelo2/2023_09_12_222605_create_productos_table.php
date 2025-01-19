@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('alias')->nullable()->unique();
             $table->integer('visitas')->default(1);
             $table->integer('stock')->default(1);
+            $table->boolean('activo')->default(true);
             $table->foreignId('category_id')->constrained('categorias');
             $table->timestamps();
         });

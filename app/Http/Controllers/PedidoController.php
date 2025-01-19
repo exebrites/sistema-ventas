@@ -27,7 +27,7 @@ use App\Services\ProductoService;
 class PedidoController extends Controller
 {
     const PENDIENTE =  1;
-    const ESTADO_CANCELADO = 404;
+    const ESTADO_CANCELADO = 3;
 
     public function index()
     {
