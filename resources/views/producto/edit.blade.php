@@ -97,7 +97,18 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
-
+                <div class="mb-3">
+                    <label for="" class="form-label">SKU</label>
+                    <input
+                        type="text"
+                        name="sku"
+                        id=""
+                        class="form-control"
+                        placeholder=""
+                        aria-describedby="helpId"
+                        value="{{ $producto->sku }}"
+                    />
+                   </div>
                 
                 <br>
                 <br>
