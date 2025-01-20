@@ -54,6 +54,6 @@ class Producto extends Model implements Auditable
 
     public function setSKUAttribute($sku)
     {
-        return $this->atrributes['sku'] = strtoupper($sku);
+        return $this->attributes['sku'] = strtoupper($sku);
     }
 }

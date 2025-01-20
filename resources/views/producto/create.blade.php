@@ -62,7 +62,8 @@
 
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Seleccionar imagen</label>
-                    <input class="form-control" type="file" id="formFile" name="file" accept="image/jpeg,png" required>
+                    <input class="form-control" type="file" id="formFile" name="file" accept="image/jpeg,png"
+                        required>
                     @error('file')
                         <br>
                         <small style="color:red">{{ $message }}</small>
@@ -84,18 +85,16 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
-               <div class="mb-3">
-                <label for="" class="form-label">SKU</label>
-                <input
-                    type="text"
-                    name="sku"
-                    id=""
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                />
-               </div>
-               
+                <div class="mb-3">
+                    <label for="" class="form-label">SKU</label>
+                    <input type="text" name="sku" id="" class="form-control" placeholder=""
+                        aria-describedby="helpId" />
+                    @error('sku')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
+                </div>
+
 
 
                 <hr>

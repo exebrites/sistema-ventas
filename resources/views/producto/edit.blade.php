@@ -8,7 +8,7 @@
 @stop
 
 @section('content')
-{{-- {{dd($producto)}} --}}
+    {{-- {{dd($producto)}} --}}
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">Precio</label>
                     <input type="number" class="form-control" name="price" required min="0" max="100000"
-                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->precio}}">
+                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->precio }}">
                     @error('precio')
                         <br>
                         <small style="color:red">{{ $message }}</small>
@@ -66,7 +66,7 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">Stock</label>
                     <input type="number" class="form-control" name="stock" required min="0" max="100000"
-                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->stock}}">
+                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->stock }}">
                     @error('stock')
                         <br>
                         <small style="color:red">{{ $message }}</small>
@@ -89,7 +89,9 @@
                         <option></option>
 
                         @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id }}" {{ $categoria->id === $producto->category_id ? 'selected' : '' }}>{{ $categoria->titulo }}</option>
+                            <option value="{{ $categoria->id }}"
+                                {{ $categoria->id === $producto->category_id ? 'selected' : '' }}>{{ $categoria->titulo }}
+                            </option>
                         @endforeach
                     </select>
                     @error('categoria_id')
@@ -99,17 +101,14 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">SKU</label>
-                    <input
-                        type="text"
-                        name="sku"
-                        id=""
-                        class="form-control"
-                        placeholder=""
-                        aria-describedby="helpId"
-                        value="{{ $producto->sku }}"
-                    />
-                   </div>
-                
+                    <input type="text" name="sku" id="" class="form-control" placeholder=""
+                        aria-describedby="helpId" value="{{ $producto->sku }}" />
+                    @error('sku')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
+                </div>
+
                 <br>
                 <br>
                 <div class="container ">

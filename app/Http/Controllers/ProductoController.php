@@ -49,6 +49,7 @@ class ProductoController extends Controller
     // public function store(Request $request)
     public function store(StoreUpdateProductoRequest $request, ProductoService $productoService) //Feature test
     {
+        // return $request;
         $productoService->crearProducto($request);
         return redirect()->route('productos.index');
     }
