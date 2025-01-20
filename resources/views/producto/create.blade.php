@@ -8,13 +8,14 @@
 @stop
 
 @section('content')
-
+    {{-- {{dd($skuUltimoProducto)}} --}}
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
             {{-- <a href="{{route('detalleproducto.create')}}" class="btn btn-primary">Fabricacion</a> --}}
 
         </div>
+        <input type="hidden" id="sku-ultimo" value="{{ $skuUltimoProducto }}">
         <div class="card-body">
             <form action="{{ route('productos.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -73,7 +74,7 @@
                     <label for="" class="form-label">(*)Categoria</label>
 
                     <select class="form-select" id="selector-categoria" data-placeholder="Seleccione una categoria"
-                        name="categoria_id" required>
+                        name="categoria_id" required onchange="generarSKU(this)">
                         <option></option>
 
                         @foreach ($categorias as $categoria)
@@ -87,7 +88,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">SKU</label>
-                    <input type="text" name="sku" id="" class="form-control" placeholder=""
+                    <input type="text" name="sku" id="input-sku" class="form-control" placeholder=""
                         aria-describedby="helpId" />
                     @error('sku')
                         <br>
@@ -201,5 +202,22 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
         });
+    </script>
+
+
+
+    <script>
+        function generarSKU(valor) {
+            let sku = document.getElementById('input-sku');
+            // let categoria = event.target
+            let ultimo_sku = document.getElementById('sku-ultimo').value;
+
+            let index_sku = ultimo_sku.split("-")[2]
+            const index = parseInt(index_sku[3]) + 1;
+
+            sku.value = 'SIN' + '-' + 'ALm' + '-' + '000' + index
+
+        }
+        //ultimo sku agregado 
     </script>
 @stop

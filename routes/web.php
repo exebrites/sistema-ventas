@@ -313,4 +313,6 @@ Route::get('/mercado', function () {
     return view('mp');
 });
 Route::get('/producos/cambiarestado/{id}',[ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
+// Route::get('/productos/ultimo',[ProductoController::class,'consultarUltimoProducto']);
+
 require __DIR__ . '/auth.php';
