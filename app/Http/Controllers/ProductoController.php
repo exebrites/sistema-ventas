@@ -51,7 +51,7 @@ class ProductoController extends Controller
     {
         // return $request;
         $productoService->crearProducto($request);
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto creado con exito');
     }
 
     /**
@@ -100,7 +100,7 @@ class ProductoController extends Controller
         }
         $productoService->actualizarProducto($producto, $request);
 
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado con exito');
     }
 
     /**
