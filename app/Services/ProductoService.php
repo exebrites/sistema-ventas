@@ -17,6 +17,7 @@ class ProductoService
             'descripcion' => $request->description,
             'alias' => $request->alias,
             'imagen' => $request,
+            'sku'=> $request->sku
         ]);
         return $producto;
     }
@@ -29,6 +30,7 @@ class ProductoService
             'descripcion' => $request->description,
             'category_id' => $request->categoria_id,
             'alias' => $request->alias,
+            'sku'=> $request->sku
         ]);
     }
     public function control_stock($producto, $cantidad)
