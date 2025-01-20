@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContactoController extends Controller
 {
@@ -70,11 +71,15 @@ class ContactoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return $request;
+
+      $url='';
+        // $imagen =  $request->file('file')->store('public');
+        // $url = Storage::url($imagen);
         $newConfig = [
             'correo' => $request->input('email'),
             'telefono' => $request->input('telefono'),
             'direccion' => $request->input('direccion'),
+            'imagen' => $url
         ];
 
         // Guarda la nueva configuración

@@ -407,7 +407,7 @@ return [
                 ],
             ],
             'can'  => 'gestionar-imprenta',
-            'can'=> 'gestionar-sistema'
+            'can' => 'gestionar-sistema'
         ],
         [
             'text'        => 'Análisis y Reportes',
@@ -429,6 +429,12 @@ return [
                 ],
             ],
             'can'  => 'gestionar-imprenta',
+        ],
+
+        [
+            'text' => 'Gestión informacion de la empresa',
+            'route' => 'contacto.index',
+            'icon' => '',
         ],
         // ['text' => 'reset stock virtual', 'route' => 'virtual'],
     ],

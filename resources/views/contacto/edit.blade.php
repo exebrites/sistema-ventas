@@ -34,6 +34,18 @@
                         aria-describedby="helpId" value="{{ $contacto['direccion'] }}">
 
                 </div>
+                <div class="form-group">
+                    <label for="">Logo de la empresa</label>
+                    <input type="file" name="file" id="" class="form-control-file" placeholder="" aria-describedby="helpId">
+                    @error('logo')
+                        <br>
+                        <small style="color:red">{{ $message }}</small>
+                    @enderror
+                    @if (isset($contacto['logo']))
+                        <img src="{{ asset('storage/' . $contacto['logo']) }}" alt="Logo de la empresa" class="img-fluid">
+                    @endif
+
+                </div>
                 
 
                 <div class="container ">
