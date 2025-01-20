@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('visitas')->default(1);
             $table->integer('stock')->default(1);
             $table->boolean('activo')->default(true);
+            $table->string('sku')->nullable()->unique();
             $table->foreignId('category_id')->constrained('categorias');
             $table->timestamps();
         });
