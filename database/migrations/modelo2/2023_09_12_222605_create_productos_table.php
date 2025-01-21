@@ -24,6 +24,25 @@ return new class extends Migration
             $table->integer('stock')->default(1);
             $table->boolean('activo')->default(true);
             $table->string('sku')->nullable()->unique();
+
+            $table->string('codigo_barras')->nullable()->unique();
+            $table->string('marca')->nullable();
+            $table->string('dimensiones')->nullable();
+            $table->string('peso')->nullable();
+            $table->string('material')->nullable();
+            $table->string('color')->nullable();
+            $table->string('formato')->nullable();
+            $table->string('tinta')->nullable();
+            $table->string('gramaje')->nullable();
+            $table->string('tamanio')->nullable();
+            $table->string('autor')->nullable();
+            $table->string('editorial')->nullable();
+            $table->integer('numero_paginas')->nullable();
+            $table->string('idioma')->nullable();
+            $table->string('edicion')->nullable();
+            $table->integer('anio_publicacion')->nullable();
+            $table->string('genero')->nullable();
+            
             $table->foreignId('category_id')->constrained('categorias');
             $table->timestamps();
         });
