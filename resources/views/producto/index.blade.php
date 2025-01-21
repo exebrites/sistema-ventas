@@ -66,6 +66,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,6 +99,9 @@
                             <td>
                                 <a
                                     href="{{ route('cambiarEstado', $producto->id) }}">{{ $producto->activo ? 'Activo' : 'Inactivo' }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ route('sku', $producto->id) }}">sku</a>
                             </td>
                         </tr>
                     @endforeach

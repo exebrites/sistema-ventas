@@ -314,5 +314,5 @@ Route::get('/mercado', function () {
 });
 Route::get('/producos/cambiarestado/{id}',[ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
 // Route::get('/productos/ultimo',[ProductoController::class,'consultarUltimoProducto']);
-
+Route::get('/sku/{id}',[ProductoController::class,'consultarSku'])->name('sku');    
 require __DIR__ . '/auth.php';

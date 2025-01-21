@@ -8,18 +8,28 @@ use Illuminate\Support\Facades\DB;
 class ProductoService
 {
 
-    private function categoria($producto)
+    private function subCadenaUpperCase($cadena)
+    {
+        $inicioTitulo = substr($cadena, 0, 3);
+        return strtoupper($inicioTitulo);
+    }
+    private function extraerCategoria($producto)
     {
         $tituloCategoria  = $producto->categoria->titulo;
-        $inicioTitulo = substr($tituloCategoria, 0, 3);
-        return strtoupper($inicioTitulo);
+
+        return $this->subCadenaUpperCase($tituloCategoria);
     }
     public function generarSkuFormato1($producto)
     {
         // CATEGORÍA-MATERIAL-COLOR-AÑO-ID
         // WSHD-PL-SB-2010-0001
-
-
+        $categoria  = $this->extraerCategoria($producto);
+        $material = $this->subCadenaUpperCase($producto->material);
+        $color = $this->subCadenaUpperCase($producto->color);
+        $anio = $producto->anio_publicacion;
+        $id = $producto->id;
+        $sku = $categoria . '-' . $material . '-' . strtoupper($color) . '-' . $anio . '-' . $id;
+        return 'CATEGORÍA-MATERIAL-COLOR-AÑO-ID ->' . $sku;
     }
     public function generarSkuFormato2($producto)
     {
@@ -63,7 +73,7 @@ class ProductoService
             'alias' => $request->alias,
             'imagen' => $request,
         ]);
-        return $this->generarSkuFormato4($producto);
+        return $this->generarSkuFormato1($producto);
     }
     public function actualizarProducto($producto, $request)
     {
