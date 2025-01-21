@@ -60,11 +60,38 @@ class ProductoService
         $sku = $nombre . '-' . $marca . '-' . $tamanio . '-' . $numeroLote;
         return $estructura . '->' . $sku;
     }
+    private function formatoDimensiones($dimensiones)
+    {
+
+        $dimensiones = str_replace(' ', '', $dimensiones);
+        // $dimensiones = explode('x', $dimensiones);
+        // $alto  = $dimensiones[0];
+
+        // $ancho = $dimensiones[1];
+        // $profundidad = $dimensiones[2];
+        // return $alto . 'x' . $ancho . 'x' . $profundidad;
+        return $dimensiones;
+    }
+    private function extraerAutor($autor)
+    {
+        $nombreApellidoAutor = explode(' ', $autor);
+        $nombre = $this->subCadenaUpperCase($nombreApellidoAutor[0]);
+        $apellido = $this->subCadenaUpperCase($nombreApellidoAutor[1]);
+        $autor = $nombre . ':' . $apellido;
+        return $autor;
+    }
     public function generarSkuFormato3($producto)
     {
-        //         Estructura: SUBCAT-DIM-PÚBLICO-ID
+        //         Estructura: CAT-DIM-AUTOR-ID
         // Ejemplo:
         // FHFM-3213x137558x75090-1-295
+        $estructura = 'CAT-DIM-AUTOR-ID';
+        $categoria  = $this->extraerCategoria($producto);
+        $dim =  $this->formatoDimensiones($producto->dimensiones);
+        $autor = $this->extraerAutor($producto->autor);
+        $id = $producto->id;
+        $sku = $categoria . '-' . $dim . '-' . $autor . '-' . $id;
+        return $estructura . '->' . $sku;
     }
     public function generarSkuFormato4($producto)
     { //generacion de sku apartir de la categoria,nombre y numero secuencia lote

@@ -27,7 +27,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        return $productoService->generarSkuFormato2($producto);
+        return $productoService->generarSkuFormato3($producto);
     }
     public function index() //Feature test
     {
