@@ -23,11 +23,12 @@ class ProductoController extends Controller
      */
 
 
-     public function consultarSku($id, ProductoService $productoService){
+    public function consultarSku($id, ProductoService $productoService)
+    {
         $producto = Producto::find($id);
 
-        return $productoService->generarSkuFormato1($producto);
-     }
+        return $productoService->generarSkuFormato2($producto);
+    }
     public function index() //Feature test
     {
         $productos = Producto::orderBy('id', 'desc')->get(); //productos deforma descendente

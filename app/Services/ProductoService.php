@@ -13,6 +13,20 @@ class ProductoService
         $inicioTitulo = substr($cadena, 0, 3);
         return strtoupper($inicioTitulo);
     }
+    private function generarNumeroLote($id)
+    {
+        $numeroLote = (string)$id;
+        if (($id) < 10) {
+            $numeroLote  = '000' . $numeroLote;
+        }
+        if ($id >= 10 && $id < 100) {
+            $numeroLote  = '00' . $numeroLote;
+        }
+        if ($id >= 100 && $id < 1000) {
+            $numeroLote  = '0' . $numeroLote;
+        }
+        return $numeroLote;
+    }
     private function extraerCategoria($producto)
     {
         $tituloCategoria  = $producto->categoria->titulo;
@@ -36,6 +50,15 @@ class ProductoService
         // Estructura: NOMBRE-MARCA-TAMAÑO-SKU
         // Ejemplo:
         // SOLBERG-MURH-GRA-79204347
+        $estructura = 'NOMBRE-MARCA-TAMAÑO-SKU';
+        // $nombre =  $producto->nombre;
+        $nombre =  $this->subCadenaUpperCase($producto->nombre);
+        $marca = $this->subCadenaUpperCase($producto->marca);
+        // $tamanio = $this->subCadenaUpperCase($producto->talla);
+        $tamanio = $this->subCadenaUpperCase($producto->tamanio);
+        $numeroLote = $this->generarNumeroLote($producto->id);
+        $sku = $nombre . '-' . $marca . '-' . $tamanio . '-' . $numeroLote;
+        return $estructura . '->' . $sku;
     }
     public function generarSkuFormato3($producto)
     {
@@ -48,16 +71,7 @@ class ProductoService
         $tituloCategoria  = $producto->categoria->titulo;
         $inicioTitulo = substr($tituloCategoria, 0, 3);
         $inicioNombreProducto  = substr($producto->nombre, 0, 3);
-        $numeroLote = (string)$producto->id;
-        if (($producto->id) < 10) {
-            $numeroLote  = '000' . $numeroLote;
-        }
-        if ($producto->id >= 10 && $producto->id < 100) {
-            $numeroLote  = '00' . $numeroLote;
-        }
-        if ($producto->id >= 100 && $producto->id < 1000) {
-            $numeroLote  = '0' . $numeroLote;
-        }
+        $numeroLote = $this->generarNumeroLote($producto->id);
         $producto->sku =  strtoupper($inicioTitulo) . '-' . strtoupper($inicioNombreProducto) . '-' . $numeroLote;
         $producto->save();
         return $producto;
