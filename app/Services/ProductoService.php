@@ -7,6 +7,25 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoService
 {
+    public function generarSku($producto)
+    { //generacion de sku apartir de la categoria,nombre y numero secuencia lote
+        $tituloCategoria  = $producto->categoria->titulo;
+        $inicioTitulo = substr($tituloCategoria, 0, 3);
+        $inicioNombreProducto  = substr($producto->nombre, 0, 3);
+        $numeroLote = (string)$producto->id;
+        if (($producto->id) < 10) {
+            $numeroLote  = '000' . $numeroLote;
+        }
+        if ($producto->id >= 10 && $producto->id < 100) {
+            $numeroLote  = '00' . $numeroLote;
+        }
+        if ($producto->id >= 100 && $producto->id < 1000) {
+            $numeroLote  = '0' . $numeroLote;
+        }
+        $producto->sku =  strtoupper($inicioTitulo) . '-' . strtoupper($inicioNombreProducto) . '-' . $numeroLote;
+        $producto->save();
+        return $producto;
+    }
 
     public function crearProducto($request)
     {
@@ -17,9 +36,8 @@ class ProductoService
             'descripcion' => $request->description,
             'alias' => $request->alias,
             'imagen' => $request,
-            'sku'=> $request->sku
         ]);
-        return $producto;
+        return $this->generarSku($producto);
     }
     public function actualizarProducto($producto, $request)
     {
@@ -30,7 +48,7 @@ class ProductoService
             'descripcion' => $request->description,
             'category_id' => $request->categoria_id,
             'alias' => $request->alias,
-            'sku'=> $request->sku
+            'sku' => $request->sku
         ]);
     }
     public function control_stock($producto, $cantidad)

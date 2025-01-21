@@ -38,7 +38,7 @@ class ProductoController extends Controller
     {
         $categorias = Categoria::all();
         $skuUltimoProducto  = Producto::latest()->value('sku');
-        return view('producto.create', compact('categorias','skuUltimoProducto'));
+        return view('producto.create', compact('categorias', 'skuUltimoProducto'));
     }
 
     /**
@@ -52,6 +52,8 @@ class ProductoController extends Controller
     {
         // return $request;
         $productoService->crearProducto($request);
+
+
         return redirect()->route('productos.index')->with('success', 'Producto creado con exito');
     }
 
@@ -200,11 +202,12 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Estado actualizado');
     }
 
-    public function consultarUltimoProducto (){
+    public function consultarUltimoProducto()
+    {
 
         $producto = Producto::latest()->value('sku');
         return response()->json([
-            'data'=>$producto
+            'data' => $producto
         ]);
     }
 }

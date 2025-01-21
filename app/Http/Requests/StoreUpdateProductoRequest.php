@@ -38,12 +38,12 @@ class StoreUpdateProductoRequest extends FormRequest
             'description' => ['string', 'max:255'],
             'file' => ['file', 'mimes:jpeg,png', 'max:2048'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'sku' => [
-                'string',
-                'min:8',
-                'max:12',
-                Rule::unique('productos', 'sku')->ignore($id)
-            ]
+            // 'sku' => [
+            //     'string',
+            //     'min:8',
+            //     'max:12',
+            //     Rule::unique('productos', 'sku')->ignore($id)
+            // ]
         ];
     }
 }

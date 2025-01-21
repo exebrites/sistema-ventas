@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label>Nombre</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
-                        required placeholder="Ej: Almanaque Anillado">
+                        required placeholder="Ej: Almanaque Anillado" onchange="generarSKU(this)">
                     @error('name')
                         <br>
                         <small style="color:red">{{ $message }}</small>
@@ -207,17 +207,21 @@
 
 
     <script>
-        function generarSKU(valor) {
-            let sku = document.getElementById('input-sku');
-            // let categoria = event.target
-            let ultimo_sku = document.getElementById('sku-ultimo').value;
+        // function generarSKU(valor) {
+        //     let sku = document.getElementById('input-sku');
+        //     // let categoria = event.target
+        //     let ultimo_sku = document.getElementById('sku-ultimo').value;
 
-            let index_sku = ultimo_sku.split("-")[2]
-            const index = parseInt(index_sku[3]) + 1;
+        //     let index_sku = ultimo_sku.split("-")[2]
+        //     const index = parseInt(index_sku[3]) + 1;
 
-            sku.value = 'SIN' + '-' + 'ALm' + '-' + '000' + index
+        //     const nombre  = document.getElementById('name');
+        //     console.log(nombre.value);
+            
+        //     sku.value = 'SIN' + '-' + 'ALm' + '-' + '000' + index
 
-        }
+
+        // }
         //ultimo sku agregado 
     </script>
 @stop
