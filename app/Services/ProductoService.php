@@ -7,7 +7,33 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoService
 {
-    public function generarSku($producto)
+
+    private function categoria($producto)
+    {
+        $tituloCategoria  = $producto->categoria->titulo;
+        $inicioTitulo = substr($tituloCategoria, 0, 3);
+        return strtoupper($inicioTitulo);
+    }
+    public function generarSkuFormato1($producto)
+    {
+        // CATEGORÍA-MATERIAL-COLOR-AÑO-ID
+        // WSHD-PL-SB-2010-0001
+
+
+    }
+    public function generarSkuFormato2($producto)
+    {
+        // Estructura: NOMBRE-MARCA-TAMAÑO-SKU
+        // Ejemplo:
+        // SOLBERG-MURH-GRA-79204347
+    }
+    public function generarSkuFormato3($producto)
+    {
+        //         Estructura: SUBCAT-DIM-PÚBLICO-ID
+        // Ejemplo:
+        // FHFM-3213x137558x75090-1-295
+    }
+    public function generarSkuFormato4($producto)
     { //generacion de sku apartir de la categoria,nombre y numero secuencia lote
         $tituloCategoria  = $producto->categoria->titulo;
         $inicioTitulo = substr($tituloCategoria, 0, 3);
@@ -37,7 +63,7 @@ class ProductoService
             'alias' => $request->alias,
             'imagen' => $request,
         ]);
-        return $this->generarSku($producto);
+        return $this->generarSkuFormato4($producto);
     }
     public function actualizarProducto($producto, $request)
     {
