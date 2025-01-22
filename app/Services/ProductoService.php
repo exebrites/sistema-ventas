@@ -149,7 +149,7 @@ class ProductoService
                 break;
             case 'B':
                 # code...
-                // $attributes = $this->generarSkuFormato2($producto);
+                $attributes = $this->generarSkuFormato2($producto);
                 break;
             case 'C':
                 # code...

@@ -5,6 +5,7 @@ namespace App\Services\Factories;
 use App\Services\Sku\Strategies\SkuGenerationStrategy;
 use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
 use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
+use App\Services\Sku\Strategies\NombreMarcaTamanioSkuStrategy;
 use invalidArgumentException;
 
 class SkuStrategyFactory
@@ -17,7 +18,7 @@ class SkuStrategyFactory
         //F2:NOMBRE-MARCA-TAMAÑO-SKU
         if (isset($attributes['marca']) && isset($attributes['tamanio'])) {
 
-            // return new CategoryMaterialColorStrategy();
+            return new NombreMarcaTamanioSkuStrategy();
         }
         //F3:CAT-DIM-AUTOR-ID
 

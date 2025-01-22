@@ -1,4 +1,3 @@
-
 @extends('adminlte::page')
 @section('title')
 @section('content_header')
@@ -19,7 +18,7 @@
                     <label for="tipo_sku" class="form-label">Tipo de SKU</label>
                     <select name="tipo" id="tipo_sku" class="form-select">
                         <option value="A">Formato 1</option>
-                        {{-- <option value="B">Formato 2</option> --}}
+                        <option value="B">Formato 2</option>
                         <option value="C">Formato 3</option>
                         {{-- <option value="D">Formato 4</option> --}}
                     </select>
