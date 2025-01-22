@@ -11,7 +11,7 @@ class SkuGenerator
     {
         $this->strategy  = $strategy;
     }
-    public function generation(array $attributes): string
+    public function generate(array $attributes): string
     {
         return $this->strategy->generateSku($attributes);
     }

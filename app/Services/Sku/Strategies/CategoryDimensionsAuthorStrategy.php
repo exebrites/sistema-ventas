@@ -5,7 +5,7 @@ namespace App\Services\Sku\Strategies;
 use App\Services\Sku\Strategies\SkuGenerationStrategy;
 
 
-class CategoryDimesionAuthorStrategy implements SkuGenerationStrategy
+class CategoryDimensionsAuthorStrategy implements SkuGenerationStrategy
 {
 
     public function generateSku(array $attributes): string

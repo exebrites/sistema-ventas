@@ -11,6 +11,9 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Services\ProductoService;
 
+use App\Services\Sku\SkuGenerator;
+use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
+
 class ProductoController extends Controller
 {
 
@@ -25,9 +28,9 @@ class ProductoController extends Controller
 
     public function consultarSku($id, ProductoService $productoService)
     {
-        $producto = Producto::find($id);
-
-        return $productoService->generarSkuFormato3($producto);
+        $attributes = ['category' => 'Books', 'author' => 'John', 'dimensions' => '10x20', 'id' => $id];
+        $generator = new SkuGenerator(new CategoryDimensionsAuthorStrategy());
+        return $generator->generate($attributes);
     }
     public function index() //Feature test
     {
