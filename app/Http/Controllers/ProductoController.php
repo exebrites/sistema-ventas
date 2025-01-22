@@ -14,6 +14,7 @@ use App\Services\ProductoService;
 use App\Services\Sku\SkuGenerator;
 use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
 use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
+use App\Services\Factories\SkuStrategyFactory;
 
 class ProductoController extends Controller
 {
@@ -26,21 +27,18 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function consultarSku($id, ProductoService $productoService)
+    public function sku($id)
     {
-        // $attributes = ['category' => 'Books', 'author' => 'John', 'dimensions' => '10x20', 'id' => $id];
-        $attributes = [
-            'category' => 'Electronica',
-            'material' => 'Metal',
-            'color' => 'Negro',
-            'year' => '2022',
-            'id' => $id
-        ];
+        return view('sku', compact('id'));
+    }
+    public function storeSku(Request $request, ProductoService $productoService)
+    {
 
-        // $generator = new SkuGenerator(new CategoryDimensionsAuthorStrategy());
-        $generator = new SkuGenerator(new CategoryMaterialColorStrategy());
-        return $generator->generate($attributes);
+        $id = $request->id;
+        $tipo = $request->tipo;
+        $producto = Producto::find($id);
+        $productoService->generarSku($producto, $tipo);
+        return redirect()->route('productos.show', $id)->with('success', 'SKU creado con exito');
     }
 
 

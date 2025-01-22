@@ -312,7 +312,8 @@ Route::get('/mercadopago/failed', [MercadoPagoController::class, 'failed'])->nam
 Route::get('/mercado', function () {
     return view('mp');
 });
-Route::get('/producos/cambiarestado/{id}',[ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
+Route::get('/producos/cambiarestado/{id}', [ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
 // Route::get('/productos/ultimo',[ProductoController::class,'consultarUltimoProducto']);
-Route::get('/sku/{id}',[ProductoController::class,'consultarSku'])->name('sku');    
+Route::get('/sku/{id}', [ProductoController::class, 'sku'])->name('sku');
+Route::post('/sku', [ProductoController::class, 'storeSku'])->name('storeSku');
 require __DIR__ . '/auth.php';

@@ -11,7 +11,11 @@
             <a href="{{ route('detalleproducto.show', $producto->id) }}" class="btn btn-primary">Fabricacion producto</a>
         </div>
         <div class="card-body">
-
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="form-group">
                 <label for="">Nombre</label>
                 <input type="text" class="form-control" value="{{ $producto->nombre }}" readonly>
@@ -33,7 +37,10 @@
                 <input type="text" class="form-control" value="$ {{ $producto->precio }}" readonly>
             </div>
             <hr>
-
+            <div claass="form-group">
+                <label for="">SKU</label>
+                <input type="text" class="form-control" value="{{ $producto->sku }}" readonly>
+            </div>
             <div class="container text-center">
                 <h2>Imagen del producto</h2>
                 <p>{{ $producto->name }}</p>

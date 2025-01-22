@@ -4,6 +4,10 @@ namespace App\Services;
 
 use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
+use App\Services\Sku\SkuGenerator;
+use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
+use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
+use App\Services\Factories\SkuStrategyFactory;
 
 class ProductoService
 {
@@ -42,8 +46,17 @@ class ProductoService
         $color = $this->subCadenaUpperCase($producto->color);
         $anio = $producto->anio_publicacion;
         $id = $producto->id;
-        $sku = $categoria . '-' . $material . '-' . strtoupper($color) . '-' . $anio . '-' . $id;
-        return 'CATEGORÍA-MATERIAL-COLOR-AÑO-ID ->' . $sku;
+        $attributes = [
+            'category' => $categoria,
+            'author' => $material,
+            'dimensions' => $color,
+            'year' => $anio,
+            'id' => $id
+        ];
+        return $attributes;
+
+        // $sku = $categoria . '-' . $material . '-' . strtoupper($color) . '-' . $anio . '-' . $id;
+        // return 'CATEGORÍA-MATERIAL-COLOR-AÑO-ID ->' . $sku;
     }
     public function generarSkuFormato2($producto)
     {
@@ -57,8 +70,14 @@ class ProductoService
         // $tamanio = $this->subCadenaUpperCase($producto->talla);
         $tamanio = $this->subCadenaUpperCase($producto->tamanio);
         $numeroLote = $this->generarNumeroLote($producto->id);
-        $sku = $nombre . '-' . $marca . '-' . $tamanio . '-' . $numeroLote;
-        return $estructura . '->' . $sku;
+        // $attributes = [
+        //     'category' => $categoria,
+        //     'author' => $autor,
+        //     'dimensions' => $dim,
+        //     'id' => $id
+        // ];
+        // return $attributes;
+        return "Falta implementar";
     }
     private function formatoDimensiones($dimensiones)
     {
@@ -90,8 +109,16 @@ class ProductoService
         $dim =  $this->formatoDimensiones($producto->dimensiones);
         $autor = $this->extraerAutor($producto->autor);
         $id = $producto->id;
-        $sku = $categoria . '-' . $dim . '-' . $autor . '-' . $id;
-        return $estructura . '->' . $sku;
+
+        $attributes = [
+            'category' => $categoria,
+            'author' => $autor,
+            'dimensions' => $dim,
+            'id' => $id
+        ];
+        return $attributes;
+        // $sku = $categoria . '-' . $dim . '-' . $autor . '-' . $id;
+        // return $estructura . '->' . $sku;
     }
     public function generarSkuFormato4($producto)
     { //generacion de sku apartir de la categoria,nombre y numero secuencia lote
@@ -114,7 +141,39 @@ class ProductoService
             'alias' => $request->alias,
             'imagen' => $request,
         ]);
-        return $this->generarSkuFormato1($producto);
+
+        // return $this->generarSkuFormato1($producto);
+    }
+
+    public function generarSku($producto, $tipo = 'A')
+    {
+
+        switch ($tipo) {
+            case 'A':
+                # code...
+                $attributes = $this->generarSkuFormato1($producto);
+                break;
+            case 'B':
+                # code...
+                // $attributes = $this->generarSkuFormato2($producto);
+                break;
+            case 'C':
+                # code...
+                $attributes = $this->generarSkuFormato3($producto);
+                break;
+            case 'D':
+                # code...
+                // $attributes = $this->generarSkuFormato4($producto);
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $strategy = SkuStrategyFactory::create($attributes);
+        $generator = new SkuGenerator($strategy);
+        $producto->sku = $generator->generate($attributes);
+        $producto->save();
     }
     public function actualizarProducto($producto, $request)
     {
