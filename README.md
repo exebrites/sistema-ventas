@@ -1,25 +1,13 @@
 # Sistema de gestión de pedidos oliva - SGPO
 
-El negocio “Impresiones Oliva” se dedica al diseño y cartelería. Actualmente el negocio
-realiza la recepción de pedidos de forma presencial o a través de redes sociales, luego de
-definir el proyecto se pasa a producción para finalizar con el despacho o instalación del
-producto ya terminado.
+MODIFICAR
 
 ## Introducción y objetivos
 
-El negocio “Impresiones Oliva” se dedica al diseño y cartelería. Actualmente el negocio
-realiza la recepción de pedidos de forma presencial o a través de redes sociales, luego de
-definir el proyecto se pasa a producción para finalizar con el despacho o instalación del
-producto ya terminado.
 
 ### Objetivos:
 
-- Permitir que el cliente realice la gestión del pedido de forma online
-- Presentar un presupuesto estimativo del proyecto al cliente
-- Gestionar compra de materiales a los proveedores
-- Facilitar la interacción entre el cliente y el negocio, así como el feedback con
-respecto al proyecto.
-- Dar visión del flujo de trabajo
+
 
 ## 🌟 Resumen
 
