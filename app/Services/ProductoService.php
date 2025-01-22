@@ -115,14 +115,16 @@ class ProductoService
         // return $estructura . '->' . $sku;
     }
     public function generarSkuFormato4($producto)
-    { //generacion de sku apartir de la categoria,nombre y numero secuencia lote
-        $tituloCategoria  = $producto->categoria->titulo;
-        $inicioTitulo = substr($tituloCategoria, 0, 3);
-        $inicioNombreProducto  = substr($producto->nombre, 0, 3);
+    { //F4:CATEGORÍA-NOMBRE-NUMEROLOTE
+        $categoria  = $this->extraerCategoria($producto);
+        $inicioNombreProducto  = $this->subCadenaUpperCase($producto->nombre);
         $numeroLote = $this->generarNumeroLote($producto->id);
-        $producto->sku =  strtoupper($inicioTitulo) . '-' . strtoupper($inicioNombreProducto) . '-' . $numeroLote;
-        $producto->save();
-        return $producto;
+        $attributes = [
+            'category' => $categoria,
+            'nombre' => $inicioNombreProducto,
+            'lote' => $numeroLote
+        ];
+        return $attributes;
     }
 
     public function crearProducto($request)
@@ -157,7 +159,7 @@ class ProductoService
                 break;
             case 'D':
                 # code...
-                // $attributes = $this->generarSkuFormato4($producto);
+                $attributes = $this->generarSkuFormato4($producto);
                 break;
             default:
                 # code...

@@ -6,6 +6,7 @@ use App\Services\Sku\Strategies\SkuGenerationStrategy;
 use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
 use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
 use App\Services\Sku\Strategies\NombreMarcaTamanioSkuStrategy;
+use App\Services\Sku\Strategies\CategoriaNombreLoteStrategy;
 use invalidArgumentException;
 
 class SkuStrategyFactory
@@ -26,7 +27,10 @@ class SkuStrategyFactory
             return new CategoryDimensionsAuthorStrategy();
         }
 
-        // F4: CATEGORÍA-NOMBRE-ID
+        // F4: CATEGORÍA-NOMBRE-NUMEROLOTE
+        if (isset($attributes['category']) && isset($attributes['nombre']) && isset($attributes['lote'])) {
+            return new CategoriaNombreLoteStrategy();
+        }
         throw new InvalidArgumentException('No valid strategy found for the given attributes.');
     }
 }

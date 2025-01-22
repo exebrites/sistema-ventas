@@ -20,7 +20,7 @@
                         <option value="A">Formato 1</option>
                         <option value="B">Formato 2</option>
                         <option value="C">Formato 3</option>
-                        {{-- <option value="D">Formato 4</option> --}}
+                        <option value="D">Formato 4</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Generar SKU</button>
