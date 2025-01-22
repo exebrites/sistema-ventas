@@ -13,6 +13,7 @@ use App\Services\ProductoService;
 
 use App\Services\Sku\SkuGenerator;
 use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
+use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
 
 class ProductoController extends Controller
 {
@@ -28,10 +29,21 @@ class ProductoController extends Controller
 
     public function consultarSku($id, ProductoService $productoService)
     {
-        $attributes = ['category' => 'Books', 'author' => 'John', 'dimensions' => '10x20', 'id' => $id];
-        $generator = new SkuGenerator(new CategoryDimensionsAuthorStrategy());
+        // $attributes = ['category' => 'Books', 'author' => 'John', 'dimensions' => '10x20', 'id' => $id];
+        $attributes = [
+            'category' => 'Electronica',
+            'material' => 'Metal',
+            'color' => 'Negro',
+            'year' => '2022',
+            'id' => $id
+        ];
+
+        // $generator = new SkuGenerator(new CategoryDimensionsAuthorStrategy());
+        $generator = new SkuGenerator(new CategoryMaterialColorStrategy());
         return $generator->generate($attributes);
     }
+
+
     public function index() //Feature test
     {
         $productos = Producto::orderBy('id', 'desc')->get(); //productos deforma descendente
