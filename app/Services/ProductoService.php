@@ -55,8 +55,6 @@ class ProductoService
         ];
         return $attributes;
 
-        // $sku = $categoria . '-' . $material . '-' . strtoupper($color) . '-' . $anio . '-' . $id;
-        // return 'CATEGORÍA-MATERIAL-COLOR-AÑO-ID ->' . $sku;
     }
     public function generarSkuFormato2($producto)
     {
