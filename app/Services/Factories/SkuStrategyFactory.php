@@ -10,14 +10,22 @@ use invalidArgumentException;
 class SkuStrategyFactory
 {
     public static function create(array $attributes): SkuGenerationStrategy
-    {       // CATEGORÍA-MATERIAL-COLOR-AÑO-ID
+    {       // F1: CATEGORÍA-MATERIAL-COLOR-AÑO-ID
         if (isset($attributes['material']) && isset($attributes['color'])  && isset($attributes['year'])) {
             return new CategoryMaterialColorStrategy();
         }
+        //F2:NOMBRE-MARCA-TAMAÑO-SKU
+        if (isset($attributes['marca']) && isset($attributes['tamanio'])) {
+
+            // return new CategoryMaterialColorStrategy();
+        }
+        //F3:CAT-DIM-AUTOR-ID
+
         if (isset($attributes['dimensions']) && isset($attributes['author'])) {
             return new CategoryDimensionsAuthorStrategy();
         }
 
+        // F4: CATEGORÍA-NOMBRE-ID
         throw new InvalidArgumentException('No valid strategy found for the given attributes.');
     }
 }

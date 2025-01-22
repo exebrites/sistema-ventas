@@ -54,28 +54,24 @@ class ProductoService
             'id' => $id
         ];
         return $attributes;
-
     }
     public function generarSkuFormato2($producto)
     {
         // Estructura: NOMBRE-MARCA-TAMAÑO-SKU
-        // Ejemplo:
-        // SOLBERG-MURH-GRA-79204347
-        $estructura = 'NOMBRE-MARCA-TAMAÑO-SKU';
-        // $nombre =  $producto->nombre;
+
+
         $nombre =  $this->subCadenaUpperCase($producto->nombre);
         $marca = $this->subCadenaUpperCase($producto->marca);
-        // $tamanio = $this->subCadenaUpperCase($producto->talla);
         $tamanio = $this->subCadenaUpperCase($producto->tamanio);
         $numeroLote = $this->generarNumeroLote($producto->id);
-        // $attributes = [
-        //     'category' => $categoria,
-        //     'author' => $autor,
-        //     'dimensions' => $dim,
-        //     'id' => $id
-        // ];
-        // return $attributes;
-        return "Falta implementar";
+        $attributes = [
+            'nombre' => $nombre,
+            'marca' => $marca,
+            'tamanio' => $tamanio,
+            'lote' => $numeroLote
+
+        ];
+        return $attributes;
     }
     private function formatoDimensiones($dimensiones)
     {
