@@ -75,8 +75,8 @@ class ProductoService
 
 
         $nombre =  $this->subCadenaUpperCase($producto->nombre);
-        $marca = $this->subCadenaUpperCase($producto->marca);
-        $tamanio = $this->subCadenaUpperCase($producto->tamanio);
+        $marca = $producto->marca;
+        $tamanio = $producto->tamanio;
         $numeroLote = $this->generarNumeroLote($producto->id);
 
 
@@ -86,6 +86,9 @@ class ProductoService
         if (!isset($tamanio)) {
             return throw new \Exception('El producto no tiene tamanio');
         }
+
+        $marca = $this->subCadenaUpperCase($producto->marca);
+        $tamanio = $this->subCadenaUpperCase($producto->tamanio);
         $attributes = [
             'nombre' => $nombre,
             'marca' => $marca,
@@ -122,8 +125,8 @@ class ProductoService
         // FHFM-3213x137558x75090-1-295
 
         $categoria  = $this->extraerCategoria($producto);
-        $dim =  $this->formatoDimensiones($producto->dimensiones);
-        $autor = $this->extraerAutor($producto->autor);
+        $dim =  $producto->dimensiones;
+        $autor = $producto->autor;
         $id = $producto->id;
 
         if (!isset($dim)) {
@@ -132,12 +135,16 @@ class ProductoService
         if (!isset($autor)) {
             return throw new \Exception('El producto no tiene autor');
         }
+        $dim =  $this->formatoDimensiones($producto->dimensiones);
+        $autor = $this->extraerAutor($producto->autor);
         $attributes = [
             'category' => $categoria,
             'author' => $autor,
             'dimensions' => $dim,
             'id' => $id
         ];
+
+        dd($attributes);
         return $attributes;
         // $sku = $categoria . '-' . $dim . '-' . $autor . '-' . $id;
         // return $estructura . '->' . $sku;
@@ -172,7 +179,7 @@ class ProductoService
 
     public function generarSku($producto, $tipo = 'A')
     {
-
+dd([$producto,$tipo]);
         switch ($tipo) {
             case 'A':
                 # code...
@@ -194,7 +201,7 @@ class ProductoService
                 # code...
                 break;
         }
-
+dd($attributes);
         $strategy = SkuStrategyFactory::create($attributes);
         $generator = new SkuGenerator($strategy);
         $producto->sku = $generator->generate($attributes);

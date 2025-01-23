@@ -10,6 +10,6 @@ class NombreMarcaTamanioSkuStrategy implements SkuGenerationStrategy
     public function generateSku(array $attritutes): string
     {
 
-        return "{$attritutes['nombre']}{$attritutes['marca']}-{$attritutes['tamanio']}-{$attritutes['lote']}";
+        return "{$attritutes['nombre']}-{$attritutes['marca']}-{$attritutes['tamanio']}-{$attritutes['lote']}";
     }
 }

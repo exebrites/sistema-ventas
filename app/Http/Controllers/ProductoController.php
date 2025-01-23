@@ -33,7 +33,7 @@ class ProductoController extends Controller
     }
     public function storeSku(Request $request, ProductoService $productoService)
     {
-
+ 
         $id = $request->id;
         $tipo = $request->tipo;
         $producto = Producto::find($id);
