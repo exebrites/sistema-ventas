@@ -37,7 +37,14 @@ class ProductoController extends Controller
         $id = $request->id;
         $tipo = $request->tipo;
         $producto = Producto::find($id);
-        $productoService->generarSku($producto, $tipo);
+
+
+        try {
+            $productoService->generarSku($producto, $tipo);
+        } catch (\Exception $e) {
+            return redirect()->route('productos.index')->with('error', $e->getMessage(). ' Producto numero '.$id);
+        }
+
         return redirect()->route('productos.show', $id)->with('success', 'SKU creado con exito');
     }
 

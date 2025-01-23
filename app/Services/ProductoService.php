@@ -46,6 +46,16 @@ class ProductoService
         $color = $this->subCadenaUpperCase($producto->color);
         $anio = $producto->anio_publicacion;
         $id = $producto->id;
+
+        if (isset($material)) {
+            return throw new \Exception('El producto no tiene material');
+        }
+        if (isset($color)) {
+            return throw new \Exception('El producto no tiene color');
+        }
+        if (isset($anio)) {
+            return throw new \Exception('El producto no tiene año de publicacion');
+        }
         $attributes = [
             'category' => $categoria,
             'author' => $material,
@@ -64,6 +74,14 @@ class ProductoService
         $marca = $this->subCadenaUpperCase($producto->marca);
         $tamanio = $this->subCadenaUpperCase($producto->tamanio);
         $numeroLote = $this->generarNumeroLote($producto->id);
+
+
+        if (isset($marca)) {
+            return throw new \Exception('El producto no tiene marca');
+        }
+        if (isset($tamanio)) {
+            return throw new \Exception('El producto no tiene tamanio');
+        }
         $attributes = [
             'nombre' => $nombre,
             'marca' => $marca,
@@ -98,12 +116,18 @@ class ProductoService
         //         Estructura: CAT-DIM-AUTOR-ID
         // Ejemplo:
         // FHFM-3213x137558x75090-1-295
-        $estructura = 'CAT-DIM-AUTOR-ID';
+      
         $categoria  = $this->extraerCategoria($producto);
         $dim =  $this->formatoDimensiones($producto->dimensiones);
         $autor = $this->extraerAutor($producto->autor);
         $id = $producto->id;
 
+        if (isset($dim)) {
+            return throw new \Exception('El producto no tiene dimensiones');
+        }
+        if (isset($autor)) {
+            return throw new \Exception('El producto no tiene autor');
+        }
         $attributes = [
             'category' => $categoria,
             'author' => $autor,
@@ -136,10 +160,10 @@ class ProductoService
             'descripcion' => $request->description,
             'alias' => $request->alias,
             'imagen' => $request,
-            
+
         ]);
 
-      return $producto;
+        return $producto;
     }
 
     public function generarSku($producto, $tipo = 'A')
