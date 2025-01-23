@@ -28,12 +28,12 @@ class StoreUpdateProductoRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'price' => 'required|numeric|min:0|max:100000',
-            'alias' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('productos', 'alias')->ignore($id)
-            ],
+            // 'alias' => [
+            //     'required',
+            //     'string',
+            //     'max:255',
+            //     Rule::unique('productos', 'alias')->ignore($id)
+            // ],
             // 'description' => ['required', 'string'],
             'description' => ['string', 'max:255'],
             'file' => ['file', 'mimes:jpeg,png', 'max:2048'],

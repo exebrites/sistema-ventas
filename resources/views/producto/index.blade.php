@@ -58,7 +58,7 @@
                     <tr>
 
                         <th>Producto</th>
-                        <th>Alias</th>
+                        {{-- <th>Alias</th> --}}
                         <th>Precio de venta</th>
                         <th>Descripción</th>
                         <th></th>
@@ -73,7 +73,7 @@
                     @foreach ($productos as $producto)
                         <tr>
                             <td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->alias }}</td>
+                            {{-- <td>{{ $producto->alias }}</td> --}}
                             <td>${{ $producto->precio }}</td>
                             <td>{{ $producto->descripcion }}</td>
                             <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"

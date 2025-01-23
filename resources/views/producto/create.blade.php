@@ -41,15 +41,15 @@
                     @enderror
                 </div>
                 {{-- !! Agregar un alias o nomenclaruta !! --}}
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label>Alias</label>
                     <input type="text" class="form-control" name="alias" id="alias" value="{{ old('alias') }}"
-                        required placeholder="Ej:AA12x14">
+                          placeholder="Ej:AA12x14">
                     @error('alias')
                         <br>
                         <small style="color:red">{{ $message }}</small>
                     @enderror
-                </div>
+                </div> --}}
 
                 <div class="form-group">
                     <label>Precio $</label>

@@ -42,20 +42,24 @@ class ProductoService
         // CATEGORÍA-MATERIAL-COLOR-AÑO-ID
         // WSHD-PL-SB-2010-0001
         $categoria  = $this->extraerCategoria($producto);
-        $material = $this->subCadenaUpperCase($producto->material);
-        $color = $this->subCadenaUpperCase($producto->color);
+        $material = $producto->material;
+        $color = $producto->color;
         $anio = $producto->anio_publicacion;
         $id = $producto->id;
 
-        if (isset($material)) {
+        if (!isset($material)) {
             return throw new \Exception('El producto no tiene material');
         }
-        if (isset($color)) {
+        if (!isset($color)) {
             return throw new \Exception('El producto no tiene color');
         }
-        if (isset($anio)) {
+        if (!isset($anio)) {
             return throw new \Exception('El producto no tiene año de publicacion');
         }
+
+        $material = $this->subCadenaUpperCase($producto->material);
+        $color = $this->subCadenaUpperCase($producto->color);
+
         $attributes = [
             'category' => $categoria,
             'author' => $material,
@@ -76,10 +80,10 @@ class ProductoService
         $numeroLote = $this->generarNumeroLote($producto->id);
 
 
-        if (isset($marca)) {
+        if (!isset($marca)) {
             return throw new \Exception('El producto no tiene marca');
         }
-        if (isset($tamanio)) {
+        if (!isset($tamanio)) {
             return throw new \Exception('El producto no tiene tamanio');
         }
         $attributes = [
@@ -116,16 +120,16 @@ class ProductoService
         //         Estructura: CAT-DIM-AUTOR-ID
         // Ejemplo:
         // FHFM-3213x137558x75090-1-295
-      
+
         $categoria  = $this->extraerCategoria($producto);
         $dim =  $this->formatoDimensiones($producto->dimensiones);
         $autor = $this->extraerAutor($producto->autor);
         $id = $producto->id;
 
-        if (isset($dim)) {
+        if (!isset($dim)) {
             return throw new \Exception('El producto no tiene dimensiones');
         }
-        if (isset($autor)) {
+        if (!isset($autor)) {
             return throw new \Exception('El producto no tiene autor');
         }
         $attributes = [
@@ -158,7 +162,7 @@ class ProductoService
             'category_id' => $request->categoria_id,
             'precio' => $request->price,
             'descripcion' => $request->description,
-            'alias' => $request->alias,
+            'alias' => '$request->alias',
             'imagen' => $request,
 
         ]);

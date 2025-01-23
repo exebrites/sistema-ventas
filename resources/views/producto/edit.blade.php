@@ -47,7 +47,7 @@
                                 <small style="color:red">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Alias</label>
                             <input type="text" class="form-control" name="alias" id="alias"
                                 value="{{ $producto->alias }}">
@@ -55,7 +55,7 @@
                                 <br>
                                 <small style="color:red">{{ $message }}</small>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="exampleInputPassword1">Precio</label>
                             <input type="number" class="form-control" name="price" required min="0" max="100000"
@@ -74,7 +74,7 @@
                                 <small style="color:red">{{ $message }}</small>
                             @enderror
                         </div>
-                       
+
 
                         <div class="form-group">
                             <label for="" class="form-label">(*)Categoria</label>
@@ -104,15 +104,15 @@
                                 <small style="color:red">{{ $message }}</small>
                             @enderror
                         </div>
-
-                    </div>
-                    <div class="col-1"></div>
-                    <div class="col">
                         <div class="form-group">
                             <label for="" class="form-label">Material</label>
                             <input type="text" name="material" id="" class="form-control" placeholder=""
                                 aria-describedby="helpId" value="{{ $producto->material }}" />
                         </div>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col">
+
                         <div class="form-group">
                             <label for="" class="form-label">Color</label>
                             <input type="text" name="color" id="" class="form-control" placeholder=""
@@ -123,7 +123,7 @@
                             <input type="number" name="anio_publicacion" id="" class="form-control"
                                 placeholder="" aria-describedby="helpId" value="{{ $producto->anio_publicacion }}" />
                         </div>
-                       
+
                         <div class="form-group">
                             <label for="" class="form-label">Marca</label>
                             <input type="text" name="marca" id="" class="form-control" placeholder=""
@@ -134,7 +134,7 @@
                             <input type="text" name="tamanio" id="" class="form-control" placeholder=""
                                 aria-describedby="helpId" value="{{ $producto->tamanio }}" />
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="" class="form-label">Dimensiones</label>
                             <input type="text" name="dimensiones" id="" class="form-control" placeholder=""
@@ -147,7 +147,7 @@
                         </div>
 
                     </div>
-                   
+
                 </div>
                 <div class="form-group">
                     <label>Seleccionar imagen</label>
