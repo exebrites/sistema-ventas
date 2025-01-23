@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header">
             <a href="javascript: history.go(-1)" class="btn btn-secondary">Volver atrás</a>
-            <a href="{{ route('detalleproducto.show', $producto->id) }}" class="btn btn-primary">Fabricacion producto</a>
+            <a href="{{ route('detalleproducto.show', $producto->id) }}" class="btn btn-primary">Proveedor del producto</a>
         </div>
         <div class="card-body">
             @if (session('success'))

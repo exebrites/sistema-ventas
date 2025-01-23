@@ -70,10 +70,9 @@ class ProductoController extends Controller
     public function store(StoreUpdateProductoRequest $request, ProductoService $productoService) //Feature test
     {
         // return $request;
-        $productoService->crearProducto($request);
+        $producto  = $productoService->crearProducto($request);
 
-
-        return redirect()->route('productos.index')->with('success', 'Producto creado con exito');
+        return redirect()->route('productos.show', $producto->id)->with('success', 'Producto creado con exito');
     }
 
     /**

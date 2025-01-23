@@ -136,9 +136,10 @@ class ProductoService
             'descripcion' => $request->description,
             'alias' => $request->alias,
             'imagen' => $request,
+            
         ]);
 
-        // return $this->generarSkuFormato1($producto);
+      return $producto;
     }
 
     public function generarSku($producto, $tipo = 'A')

@@ -86,17 +86,6 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">SKU</label>
-                    <input type="text" name="sku" id="input-sku" class="form-control" placeholder=""
-                        aria-describedby="helpId" />
-                    @error('sku')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
-
-
 
                 <hr>
                 <br>
@@ -217,7 +206,7 @@
 
         //     const nombre  = document.getElementById('name');
         //     console.log(nombre.value);
-            
+
         //     sku.value = 'SIN' + '-' + 'ALm' + '-' + '000' + index
 
 
