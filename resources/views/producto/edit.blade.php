@@ -15,62 +15,139 @@
 
         </div>
         <div class="card-body">
-
-            <div class="text-center">
+            {{-- <div class="text-center">
                 <img src="{{ $producto->imagen }}" class="rounded" alt="..." style="width: 300px; height: auto;">
-            </div>
+            </div> --}}
             <form action="{{ route('productos.update', $producto) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="form-group" style="display:none">
-                    <label>identificador</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" value="{{ $producto->id }}"
-                        name="id" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        value="{{ $producto->nombre }}" name="name">
-                    @error('nombre')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
+                <div class="row justify-content-center align-items-center g-2">
+                    <div class="col">
+                        <div class="form-group" style="display:none">
+                            <label>identificador</label>
+                            <input type="text" class="form-control" aria-describedby="emailHelp"
+                                value="{{ $producto->id }}" name="id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                                value="{{ $producto->nombre }}" name="name">
+                            @error('nombre')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Descripcion</label>
-                    <input type="text" class="form-control" id="description" value="{{ $producto->descripcion }}"
-                        name="description">
-                    @error('descripcion')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label>Alias</label>
-                    <input type="text" class="form-control" name="alias" id="alias" value="{{ $producto->alias }}">
-                    @error('alias')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Precio</label>
-                    <input type="number" class="form-control" name="price" required min="0" max="100000"
-                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->precio }}">
-                    @error('precio')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Stock</label>
-                    <input type="number" class="form-control" name="stock" required min="0" max="100000"
-                        placeholder="Ej: 10000" step="0.01" value="{{ $producto->stock }}">
-                    @error('stock')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Descripcion</label>
+                            <input type="text" class="form-control" id="description" value="{{ $producto->descripcion }}"
+                                name="description">
+                            @error('descripcion')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Alias</label>
+                            <input type="text" class="form-control" name="alias" id="alias"
+                                value="{{ $producto->alias }}">
+                            @error('alias')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Precio</label>
+                            <input type="number" class="form-control" name="price" required min="0" max="100000"
+                                placeholder="Ej: 10000" step="0.01" value="{{ $producto->precio }}">
+                            @error('precio')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Stock</label>
+                            <input type="number" class="form-control" name="stock" required min="0" max="100000"
+                                placeholder="Ej: 10000" step="0.01" value="{{ $producto->stock }}">
+                            @error('stock')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+                       
+
+                        <div class="form-group">
+                            <label for="" class="form-label">(*)Categoria</label>
+
+                            <select class="form-select" id="selector-categoria" data-placeholder="Seleccione una categoria"
+                                name="categoria_id" required>
+                                <option></option>
+
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{ $categoria->id }}"
+                                        {{ $categoria->id === $producto->category_id ? 'selected' : '' }}>
+                                        {{ $categoria->titulo }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('categoria_id')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">SKU</label>
+                            <input type="text" name="sku" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->sku }}" />
+                            @error('sku')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="" class="form-label">Material</label>
+                            <input type="text" name="material" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->material }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Color</label>
+                            <input type="text" name="color" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->color }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Año de publicación</label>
+                            <input type="number" name="anio_publicacion" id="" class="form-control"
+                                placeholder="" aria-describedby="helpId" value="{{ $producto->anio_publicacion }}" />
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="" class="form-label">Marca</label>
+                            <input type="text" name="marca" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->marca }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Tamaño</label>
+                            <input type="text" name="tamanio" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->tamanio }}" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="" class="form-label">Dimensiones</label>
+                            <input type="text" name="dimensiones" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->dimensiones }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="form-label">Autor</label>
+                            <input type="text" name="autor" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $producto->autor }}" />
+                        </div>
+
+                    </div>
+                   
                 </div>
                 <div class="form-group">
                     <label>Seleccionar imagen</label>
@@ -81,33 +158,6 @@
                     @enderror
                 </div>
 
-                <div class="categoria mb-3">
-                    <label for="" class="form-label">(*)Categoria</label>
-
-                    <select class="form-select" id="selector-categoria" data-placeholder="Seleccione una categoria"
-                        name="categoria_id" required>
-                        <option></option>
-
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id }}"
-                                {{ $categoria->id === $producto->category_id ? 'selected' : '' }}>{{ $categoria->titulo }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('categoria_id')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">SKU</label>
-                    <input type="text" name="sku" id="" class="form-control" placeholder=""
-                        aria-describedby="helpId" value="{{ $producto->sku }}" />
-                    @error('sku')
-                        <br>
-                        <small style="color:red">{{ $message }}</small>
-                    @enderror
-                </div>
 
                 <br>
                 <br>

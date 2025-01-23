@@ -23,7 +23,7 @@
 
             <a href="{{ route('productos.create') }}" class="btn btn-success">Agregar nuevo producto</a>
         </div>
-        <div class="card-body">
+        {{-- <div class="card-body">
             <h5> Criterios de busqueda
             </h5><br>
             <div class="row">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="card">
         <div class="card-body">
@@ -98,10 +98,10 @@
                                     href="{{ route('productos.show', $producto->id) }}">Ver mas</a></td>
                             <td>
                                 <a
-                                    href="{{ route('cambiarEstado', $producto->id) }}">{{ $producto->activo ? 'Activo' : 'Inactivo' }}</a>
+                                class="btn btn-primary" href="{{ route('cambiarEstado', $producto->id) }}">{{ $producto->activo ? 'Activo' : 'Inactivo' }}</a>
                             </td>
                             <td>
-                                <a href="{{ route('sku', $producto->id) }}">sku</a>
+                                <a class="btn btn-primary" href="{{ route('sku', $producto->id) }}">SKU</a>
                             </td>
                         </tr>
                     @endforeach

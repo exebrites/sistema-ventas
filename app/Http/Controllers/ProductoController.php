@@ -42,7 +42,7 @@ class ProductoController extends Controller
         try {
             $productoService->generarSku($producto, $tipo);
         } catch (\Exception $e) {
-            return redirect()->route('productos.index')->with('error', $e->getMessage(). ' Producto numero '.$id);
+            return redirect()->route('productos.index')->with('error', $e->getMessage() . ' Producto numero ' . $id);
         }
 
         return redirect()->route('productos.show', $id)->with('success', 'SKU creado con exito');
@@ -128,7 +128,7 @@ class ProductoController extends Controller
         }
         $productoService->actualizarProducto($producto, $request);
 
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado con exito');
+        return redirect()->route('productos.show', $producto->id)->with('success', 'Producto actualizado con exito');
     }
 
     /**

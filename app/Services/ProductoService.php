@@ -205,7 +205,14 @@ class ProductoService
             'descripcion' => $request->description,
             'category_id' => $request->categoria_id,
             'alias' => $request->alias,
-            'sku' => $request->sku
+            'sku' => $request->sku,
+            'material' => $request->material,
+            'color' => $request->color,
+            'anio_publicacion' => $request->anio_publicacion,
+            'marca' => $request->marca,
+            'tamanio' => $request->tamanio,
+            'dimensiones' => $request->dimensiones,
+            'autor' => $request->autor
         ]);
     }
     public function control_stock($producto, $cantidad)
