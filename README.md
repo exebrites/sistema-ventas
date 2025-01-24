@@ -66,10 +66,10 @@ MODIFICAR
 5. Ejecutar el siguiente comando para realizar las migraciones:
 > php artisan migrate
 > "Vea la estructura de carpertas migrations"
-php artisan migrate --path=database/migrations/base
-php artisan migrate --path=database/migrations/modelo1
-php artisan migrate --path=database/migrations/modelo2
-php artisan migrate --path=database/migrations/paquetes
+- php artisan migrate --path=database/migrations/base
+- php artisan migrate --path=database/migrations/modelo1
+- php artisan migrate --path=database/migrations/modelo2
+- php artisan migrate --path=database/migrations/paquetes
 
 6. Ejecute los seeders:
 - php artisan db:seed --class=PermissionSeeder
