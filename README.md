@@ -4,7 +4,8 @@
 
 ## Introducción y objetivos
 
-El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos, y ofrece un sistema de auditoría para mantener el control.
+El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos
+<!-- , y ofrece un sistema de auditoría para mantener el control. -->
 <!-- ### Objetivos:
 
 
@@ -31,7 +32,7 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 - Creacion y asignacion de roles
 - Gestionar usuarios
 <!-- - Generación de reportes -->
-- Auditoría
+<!-- - Auditoría -->
 
 ## Tecnologias utilizadas
 
