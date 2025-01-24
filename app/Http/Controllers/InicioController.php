@@ -8,8 +8,12 @@ use App\Models\Disenio;
 use App\Models\Comprobante;
 use App\Models\Demanda;
 use App\Models\Oferta;
+use App\Models\Producto;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cliente;
+use App\Models\Proveedor;
 
 class InicioController extends Controller
 {
@@ -82,7 +86,11 @@ class InicioController extends Controller
         // }
         // dd($nroofertas); 
         $nroPedidosDiseniosAprobados =  $this->pedidos_disenios_aprobados($estadoDisenio);
-        return view('welcome', compact('user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta', 'nroPedidosDiseniosAprobados'));
+
+        $nroProductos  = count(Producto::all());
+        $nroClientes = count(Cliente::all());
+        $nroProveedores = count(Proveedor::all());
+        return view('welcome', compact('nroProveedores','nroClientes','nroProductos','user', 'NroComprobantes', 'NroPedidos', 'NroDisenios', 'NroRevision', 'nroboceto', 'nroofertas', 'nroPedidoImprenta', 'nroPedidosDiseniosAprobados'));
     }
 
     public function ver_pedido($estado)

@@ -19,8 +19,14 @@ class CartController extends Controller
 {
     public function shop()
     {
-        $products = Producto::where('activo', true)->orderBy('visitas', 'desc')->paginate(8); //scope visitas
-        return view('shop', compact('products'));
+        // $products = Producto::where('activo', true)->orderBy('visitas', 'desc')->paginate(8); //scope visitas
+        // return view('shop', compact('products'));
+// Auth::attempt([
+//     'email' => request('email'),
+//     'password' => request('password')
+// ])
+return redirect()->route('pag.inicio');
+        // return view();
     }
     public function cart()
     {

@@ -17,9 +17,9 @@
                     <div class="col-md-6">
                         <div class="small-box " style="background: 	yellow;">
                             <div class="inner">
-                                <h3>{{ $nroPedidoImprenta }}</h3>
-                                <p>Numero pedidos en confirmacion de imprenta</p>
-                                <a href="{{ route('ver_pedido', 1) }}">Ver pedidos </a>
+                                <h3>{{ $nroProductos }}</h3>
+                                <p>Numero Productos </p>
+                                {{-- <a href="{{ route('ver_pedido', 1) }}">Ver pedidos </a> --}}
 
                             </div>
 
@@ -28,9 +28,9 @@
                     <div class="col-md-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>{{ $NroComprobantes }}</h3>
-                                <p>Numero de pedidos con pago pendiente</p>
-                                <a href="{{ route('ver_pedido', 2) }}">Ver pedidos </a>
+                                <h3>{{ $nroClientes }}</h3>
+                                <p>Numero de Clientes</p>
+                                {{-- <a href="{{ route('ver_pedido', 2) }}">Ver pedidos </a> --}}
                             </div>
 
                         </div>
@@ -51,14 +51,14 @@
                     <div class="col-md-6">
                         <div class="small-box" style="background: orange;">
                             <div class="inner">
-                                <h3>{{ $NroRevision }}</h3>
-                                <p>Numero de pedidos con diseños para revision</p>
-                                <a href="{{ route('ver_pedido_disenio_revision') }}">Ver pedidos </a>
+                                <h3>{{ $nroProveedores }}</h3>
+                                <p>Numero de Proveedores</p>
+                                {{-- <a href="{{ route('ver_pedido_disenio_revision') }}">Ver pedidos </a> --}}
                             </div>                            
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="small-box " style="background: #00FF00">
                             <div class="inner">
                                 <h3>{{ $nroPedidosDiseniosAprobados }}</h3>
@@ -68,7 +68,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="col-md-6">
                         <div class="small-box bg-info">
                             <div class="inner">

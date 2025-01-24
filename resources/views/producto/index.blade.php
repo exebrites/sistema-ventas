@@ -61,7 +61,7 @@
                         {{-- <th>Alias</th> --}}
                         <th>Precio de venta</th>
                         <th>Descripción</th>
-                        <th></th>
+                        {{-- <th></th>   --}}
                         <th></th>
                         <th></th>
                         <th></th>
@@ -71,7 +71,8 @@
                 </thead>
                 <tbody>
                     @foreach ($productos as $producto)
-                        <tr>
+                    {{-- {{dump($producto->activo)}} --}}
+                        <tr >
                             <td>{{ $producto->nombre }}</td>
                             {{-- <td>{{ $producto->alias }}</td> --}}
                             <td>${{ $producto->precio }}</td>
@@ -89,10 +90,10 @@
                             </td>
                             {{-- <td width="10px"><a class="btn btn-warning btn btn-sm btn-fixed-width"
                                 href="#">Actualizar stock</a></td> --}}
-                            <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            {{-- <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     Actualizar stock
-                                </button></td>
+                                </button></td> --}}
 
                             <td width="10px"><a class="btn btn-secondary btn btn-sm btn-fixed-width"
                                     href="{{ route('productos.show', $producto->id) }}">Ver mas</a></td>

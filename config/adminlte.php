@@ -307,13 +307,13 @@ return [
             'text' => 'Buscar',
         ],
 
-        [
-            //'route'=> 'ruta'
-            'text' => 'Tienda en linea ',
-            'route' => 'shop',
-            'icon' => 'fa fa-shopping-bag',
-            // 'can'  => 'gestionar-imprenta',
-        ],
+        // [
+        //     //'route'=> 'ruta'
+        //     'text' => 'Tienda en linea ',
+        //     'route' => 'shop',
+        //     'icon' => 'fa fa-shopping-bag',
+        //     // 'can'  => 'gestionar-imprenta',
+        // ],
         [
             'text'        => 'Gestión de Inventario y Suministros',
             'icon'        => 'fas fa-fw fa-archive',
@@ -352,12 +352,12 @@ return [
                     // 'can'  => 'gestionar-imprenta',
                     'icon' => 'fa fa-users',
                 ],
-                [
-                    'text' => 'Gestionar Pedidos',
-                    'route' => 'pedidos.index',
-                    // 'can'  => 'gestionar-imprenta',
-                    'icon' => 'fa fa-shopping-cart',
-                ],
+                // [
+                //     'text' => 'Gestionar Pedidos',
+                //     'route' => 'pedidos.index',
+                //     // 'can'  => 'gestionar-imprenta',
+                //     'icon' => 'fa fa-shopping-cart',
+                // ],
             ],
             'can'  => 'gestionar-imprenta',
         ],
@@ -409,33 +409,33 @@ return [
             'can'  => 'gestionar-imprenta',
             'can' => 'gestionar-sistema'
         ],
-        [
-            'text'        => 'Análisis y Reportes',
-            'icon'        => 'fa fa-fw fa-chart-line',
-            'submenu' => [
-                [
-                    'text' => 'Productos mas vendidos',
-                    'route' => 'graficoIndex',
-                    // 'can'  => 'gestionar-imprenta',
-                    // 'can'  => 'gestionar-sistema',
-                    'icon'  => 'fa fa-star',
-                ],
-                [
-                    'text' => 'Pedido cancelados',
-                    'route' => 'indexCliente',
-                    // 'can'  => 'gestionar-imprenta',
-                    // 'can'  => 'gestionar-sistema',
-                    'icon' => 'fa fa-times-circle',
-                ],
-            ],
-            'can'  => 'gestionar-imprenta',
-        ],
+        // [
+        //     'text'        => 'Análisis y Reportes',
+        //     'icon'        => 'fa fa-fw fa-chart-line',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Productos mas vendidos',
+        //             'route' => 'graficoIndex',
+        //             // 'can'  => 'gestionar-imprenta',
+        //             // 'can'  => 'gestionar-sistema',
+        //             'icon'  => 'fa fa-star',
+        //         ],
+        //         [
+        //             'text' => 'Pedido cancelados',
+        //             'route' => 'indexCliente',
+        //             // 'can'  => 'gestionar-imprenta',
+        //             // 'can'  => 'gestionar-sistema',
+        //             'icon' => 'fa fa-times-circle',
+        //         ],
+        //     ],
+        //     'can'  => 'gestionar-imprenta',
+        // ],
 
-        [
-            'text' => 'Gestión informacion de la empresa',
-            'route' => 'contacto.index',
-            'icon' => '',
-        ],
+        // [
+        //     'text' => 'Gestión informacion de la empresa',
+        //     'route' => 'contacto.index',
+        //     'icon' => '',
+        // ],
         // ['text' => 'reset stock virtual', 'route' => 'virtual'],
     ],
 
