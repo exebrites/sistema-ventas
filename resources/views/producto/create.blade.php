@@ -70,6 +70,7 @@
                         <small style="color:red">{{ $message }}</small>
                     @enderror
                 </div>
+                <span>Crea una nueva Categoria en caso que no exista alguna</span>
                 <div class="categoria mb-3">
                     <label for="" class="form-label">(*)Categoria</label>
 

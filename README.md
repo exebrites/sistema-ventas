@@ -83,7 +83,9 @@ permisos necesarios para ingresar al sistema
 7. Ejecutar el siguiente comando para correr la aplicación:
 > php artisan serve
 
-8. Ejecutar 
+8. Ejecutar el siguiente comando para compilar y ejecutar los paquetes 
 >- npm install
 >- npm run dev
 
+9. Ejecuta el siguiente comando para que funcione la gestion de productos
+> php artisan storage:link
