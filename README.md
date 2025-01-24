@@ -1,15 +1,15 @@
-# Sistema de gestión de pedidos oliva - SGPO
+# Sistema de Ventas
 
-MODIFICAR
+
 
 ## Introducción y objetivos
 
+El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos, y ofrece un sistema de auditoría para mantener el control.
+<!-- ### Objetivos:
 
-### Objetivos:
 
 
-
-## 🌟 Resumen
+## 🌟 Resumen -->
 
 ### 🚀 Modulos
 
