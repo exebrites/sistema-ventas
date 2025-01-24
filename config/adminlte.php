@@ -397,14 +397,14 @@ return [
                     // 'can'  => 'gestionar-sistema',
                     'icon' => 'fa fa-unlock-alt',
                 ],
-                [
-                    //'route'=> 'ruta'
-                    'text' => 'Auditoria',
-                    'route' => 'auditoria.index',
-                    // 'can'  => 'gestionar-imprenta',
-                    // 'can'  => 'gestionar-sistema',
-                    'icon' => 'fa fa-search',
-                ],
+                // [
+                //     //'route'=> 'ruta'
+                //     'text' => 'Auditoria',
+                //     'route' => 'auditoria.index',
+                //     // 'can'  => 'gestionar-imprenta',
+                //     // 'can'  => 'gestionar-sistema',
+                //     'icon' => 'fa fa-search',
+                // ],
             ],
             'can'  => 'gestionar-imprenta',
             'can' => 'gestionar-sistema'
