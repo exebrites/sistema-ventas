@@ -20,6 +20,7 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 <!-- - Gestionar ABM de pedidos -->
 <!-- - Gestionar ABM materiales -->
 - Gestionar ABM productos
+- Generacion de SKU - Stock keep Unit
 <!-- - Gestionar ABM diseños -->
 - Gestionar ABM proveedores
 <!-- - Gestionar ABM presupuesto para pedido -->
@@ -35,7 +36,10 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 <!-- - Auditoría -->
 
 ## Tecnologias utilizadas
-
+### Analisis y diseño
+- Programacion orientada a objetos
+- Modelo Vista Controlador
+- Patrones de diseño: Strategy Patron. El patron facilita la creacion de formatos de SKU.
 ### Frontend
 
 - Laravel Blade
