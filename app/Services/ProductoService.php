@@ -9,11 +9,14 @@ use App\Services\Sku\Strategies\CategoryDimensionsAuthorStrategy;
 use App\Services\Sku\Strategies\CategoryMaterialColorStrategy;
 use App\Services\Factories\SkuStrategyFactory;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ProductoService
 {
 
     private function subCadenaUpperCase($cadena)
     {
+
         $inicioTitulo = substr($cadena, 0, 3);
         return strtoupper($inicioTitulo);
     }
@@ -113,9 +116,12 @@ class ProductoService
     private function extraerAutor($autor)
     {
         $nombreApellidoAutor = explode(' ', $autor);
-        $nombre = $this->subCadenaUpperCase($nombreApellidoAutor[0]);
-        $apellido = $this->subCadenaUpperCase($nombreApellidoAutor[1]);
+
+
+        $nombre = (isset($nombreApellidoAutor[0])) ? $this->subCadenaUpperCase($nombreApellidoAutor[0]) : 'DESCONOCIDO';
+        $apellido = (isset($nombreApellidoAutor[1])) ? $this->subCadenaUpperCase($nombreApellidoAutor[1]) : 'DESCONOCIDO';
         $autor = $nombre . ':' . $apellido;
+
         return $autor;
     }
     public function generarSkuFormato3($producto)
@@ -144,7 +150,7 @@ class ProductoService
             'id' => $id
         ];
 
-        dd($attributes);
+
         return $attributes;
         // $sku = $categoria . '-' . $dim . '-' . $autor . '-' . $id;
         // return $estructura . '->' . $sku;
@@ -179,7 +185,7 @@ class ProductoService
 
     public function generarSku($producto, $tipo = 'A')
     {
-dd([$producto,$tipo]);
+
         switch ($tipo) {
             case 'A':
                 # code...
@@ -201,10 +207,14 @@ dd([$producto,$tipo]);
                 # code...
                 break;
         }
-dd($attributes);
+
         $strategy = SkuStrategyFactory::create($attributes);
+
+
         $generator = new SkuGenerator($strategy);
         $producto->sku = $generator->generate($attributes);
+
+
         $producto->save();
     }
     public function actualizarProducto($producto, $request)
