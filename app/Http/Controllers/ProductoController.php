@@ -29,11 +29,12 @@ class ProductoController extends Controller
 
     public function sku($id)
     {
-        return view('sku', compact('id'));
+        $producto = Producto::find($id);
+        return view('sku', compact('producto'));
     }
     public function storeSku(Request $request, ProductoService $productoService)
     {
- 
+
         $id = $request->id;
         $tipo = $request->tipo;
         $producto = Producto::find($id);

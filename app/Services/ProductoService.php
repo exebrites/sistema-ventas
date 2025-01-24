@@ -116,8 +116,6 @@ class ProductoService
     private function extraerAutor($autor)
     {
         $nombreApellidoAutor = explode(' ', $autor);
-
-
         $nombre = (isset($nombreApellidoAutor[0])) ? $this->subCadenaUpperCase($nombreApellidoAutor[0]) : 'DESCONOCIDO';
         $apellido = (isset($nombreApellidoAutor[1])) ? $this->subCadenaUpperCase($nombreApellidoAutor[1]) : 'DESCONOCIDO';
         $autor = $nombre . ':' . $apellido;
@@ -209,12 +207,8 @@ class ProductoService
         }
 
         $strategy = SkuStrategyFactory::create($attributes);
-
-
         $generator = new SkuGenerator($strategy);
         $producto->sku = $generator->generate($attributes);
-
-
         $producto->save();
     }
     public function actualizarProducto($producto, $request)

@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title')
 @section('content_header')
-    <h1>Generación de sku</h1>
+    <h1>Generación de SKU - Unidad de inventario</h1>
 @stop
 
 @section('content')
@@ -11,26 +11,49 @@
             {{-- <a href="{{ route('detalleproducto.show', $producto->id) }}" class="btn btn-primary">Fabricacion producto</a> --}}
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Nombre</label>
+                        <input type="text" name="" id="" class="form-control" placeholder=""
+                            aria-describedby="helpId" readonly value="{{ $producto->nombre }}" />
+                        {{-- <small id="helpId" class="text-muted">Help text</small> --}}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Descripción</label>
+                        <input type="text" name="" id="" class="form-control" placeholder=""
+                            aria-describedby="helpId" readonly value="{{ $producto->descripcion }}" />
+                        {{-- <small id="helpId" class="text-muted">Help text</small> --}}
+                    </div>
+                </div>
+            </div>
+
+            <hr>
             <p>Existen varios formatos para la generación de un SKU,
                 cada uno diseñado para diferentes necesidades de categorización y seguimiento de productos.
                 Estos formatos ofrecen flexibilidad para adaptar el SKU a diferentes contextos de inventario y gestión de
                 productos.</p>
             <ul>
-                <li> El <strong>Formato 1</strong> utiliza una combinación de categoría, material, color, año e ID del producto para crear un
+                <li> El <strong>Formato 1</strong> utiliza una combinación de categoría, material, color, año e ID del
+                    producto para crear un
                     identificador único.</li>
-                <li>El <strong>Formato 2</strong> se basa en el nombre del producto, la marca, el tamaño y un número de lote, proporcionando
+                <li>El <strong>Formato 2</strong> se basa en el nombre del producto, la marca, el tamaño y un número de
+                    lote, proporcionando
                     una estructura que facilita el reconocimiento del producto.</li>
                 <li>El <strong>Formato 3</strong> emplea un esquema personalizado adaptado a necesidades específicas del
                     negocio. CATEGORIA-DIMENSIONES-AUTOR-ID</li>
                 <li>El <strong>Formato 4 </strong>incluye la categoría, el nombre del producto y un número de lote, lo que
                     permite una identificación rápida pero efectiva.</li>
             </ul>
-            <p>Nota informativa: <span>En caso de faltar algún campo para generar el SKU, se le asignará un valor por defecto. 
-                Por defecto, se genera el Formato 4.</span></p>
+            <p>Nota informativa: <span>En caso de faltar algún campo para generar el SKU, se le asignará un valor por
+                    defecto.
+                    Por defecto, se genera el Formato 4.</span></p>
 
             <form action="{{ route('storeSku') }}" method="post">
                 @csrf
-                <input type="hidden" name="id" value="{{ $id }}">
+                <input type="hidden" name="id" value="{{ $producto->id }}">
                 <div class="categoria mb-3">
                     <label for="" class="form-label">Tipo de SKU</label>
 
