@@ -16,21 +16,21 @@ MODIFICAR
 #### Funcionales
 
 - Gestionar ABM de clientes
-- Gestionar ABM de pedidos
-- Gestionar ABM materiales
+<!-- - Gestionar ABM de pedidos -->
+<!-- - Gestionar ABM materiales -->
 - Gestionar ABM productos
-- Gestionar ABM diseños
+<!-- - Gestionar ABM diseños -->
 - Gestionar ABM proveedores
-- Gestionar ABM presupuesto para pedido
-- Gestionar ABM oferta de materiales
-- Actualización de precios de materiales
+<!-- - Gestionar ABM presupuesto para pedido -->
+<!-- - Gestionar ABM oferta de materiales
+- Actualización de precios de materiales -->
 - Comunicación con usuarios
 
 #### No funcionales
 
 - Creacion y asignacion de roles
 - Gestionar usuarios
-- Generación de reportes
+<!-- - Generación de reportes -->
 - Auditoría
 
 ## Tecnologias utilizadas
@@ -61,10 +61,17 @@ MODIFICAR
 > "De ser necesario cambie el nombre de la base de datos"
 3. Ejecutar el siguiente comando para descargar las dependencias:
 > composer install
-4. Ejecutar el siguiente comando para generar la clave necesaria para laravel :
+4. Ejecutar el siguiente comando para generar la clave necesaria para laravel 
 > php artisan key:generate
 5. Ejecutar el siguiente comando para realizar las migraciones:
 > php artisan migrate
-6. Ejecutar el siguiente comando para correr la aplicación:
+> "Vea la estructura de carpertas migrations"
+6. Ejecute los seeders:
+- php artisan db:seed --class=RoleSeeder
+    Crea roles y permisos necesarios para ingresar al sistema
+- php artisan db:seed --class=  UserSeeder 
+ Crea un usuario ADMIN
+   email:admin@gmail.com, password: admin
+7. Ejecutar el siguiente comando para correr la aplicación:
 > php artisan serve
 
