@@ -1,10 +1,9 @@
 # Sistema de Ventas
 
-
-
 ## Introducción y objetivos
 
 El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos
+
 <!-- , y ofrece un sistema de auditoría para mantener el control. -->
 <!-- ### Objetivos:
 
@@ -16,81 +15,75 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 
 #### Funcionales
 
-- Gestionar ABM de clientes
-<!-- - Gestionar ABM de pedidos -->
-<!-- - Gestionar ABM materiales -->
-- Gestionar ABM productos
-- Generacion de SKU - Stock keep Unit
+-   Gestionar ABM de clientes
+    <!-- - Gestionar ABM de pedidos -->
+    <!-- - Gestionar ABM materiales -->
+-   Gestionar ABM productos
+-   Generacion de SKU - Stock keep Unit
 <!-- - Gestionar ABM diseños -->
-- Gestionar ABM proveedores
-<!-- - Gestionar ABM presupuesto para pedido -->
-<!-- - Gestionar ABM oferta de materiales
-- Actualización de precios de materiales -->
-- Comunicación con usuarios
+-   Gestionar ABM proveedores
+    <!-- - Gestionar ABM presupuesto para pedido -->
+    <!-- - Gestionar ABM oferta de materiales
+-   Actualización de precios de materiales -->
+-   Comunicación con usuarios
 
 #### No funcionales
 
-- Creacion y asignacion de roles
-- Gestionar usuarios
-<!-- - Generación de reportes -->
-<!-- - Auditoría -->
+-   Creacion y asignacion de roles
+-   Gestionar usuarios
+    <!-- - Generación de reportes -->
+    <!-- - Auditoría -->
 
 ## Tecnologias utilizadas
+
 ### Analisis y diseño
-- Programacion orientada a objetos
-- Modelo Vista Controlador
-- Patrones de diseño: Strategy Patron. El patron facilita la creacion de formatos de SKU.
+
+-   Programacion orientada a objetos
+-   Modelo Vista Controlador
+-   Patrones de diseño: Strategy Patron. El patron facilita la creacion de formatos de SKU.
+
 ### Frontend
 
-- Laravel Blade
-- HTML, CSS y JavaScript valina
-- Bootstrap 5
-- AdminLTE 3
+-   Laravel Blade
+-   HTML, CSS y JavaScript valina
+-   Bootstrap 5
+-   AdminLTE 3
 
 ### Backend
 
-- Laravel Framework 9
-- MySQL version 15
-- PHP version 8.1
+-   Laravel Framework 9
+-   MySQL version 15
+-   PHP version 8.1
 
 ### Otras tecnoligías
 
-- Composer version 2.7
-- Git version 2.39
+-   Composer version 2.7
+-   Git version 2.39
 
 ## 🛠️ Guía rápida para correr el proyecto
 
 1. Clonar el repositorio
 2. Crear un archivo .env dentro de directorio raiz con sus variables de entorno:
-> cp .env.example .env
-> "De ser necesario cambie el nombre de la base de datos"
-3. Ejecutar el siguiente comando para descargar las dependencias:
-> composer install
-4. Ejecutar el siguiente comando para generar la clave necesaria para laravel 
-> php artisan key:generate
-5. Ejecutar el siguiente comando para realizar las migraciones:
-> php artisan migrate
-> "Vea la estructura de carpertas migrations"
-- php artisan migrate --path=database/migrations/base
-- php artisan migrate --path=database/migrations/modelo1
-- php artisan migrate --path=database/migrations/modelo2
-- php artisan migrate --path=database/migrations/paquetes
+    > cp .env.example .env
+3. Realice la conexion a base de datos
+   DB_CONNECTION=sqlite
 
-6. Ejecute los seeders:
-- php artisan db:seed --class=PermissionSeeder
-permisos necesarios para ingresar al sistema
-- php artisan db:seed --class=RoleSeeder
-    Crea roles y permisos necesarios para ingresar al sistema
-- php artisan db:seed --class=  UserSeeder 
- Crea un usuario ADMIN
-   email:admin@gmail.com, password: admin
+4. Ejecutar el siguiente comando para descargar las dependencias:
+    > composer install
+5. Ejecutar el siguiente comando para generar la clave necesaria para laravel
 
+    > php artisan key:generate
+
+6. Ejecuta el siguiente comando para que funcione la gestion de productos
+    > php artisan storage:link
 7. Ejecutar el siguiente comando para correr la aplicación:
-> php artisan serve
 
-8. Ejecutar el siguiente comando para compilar y ejecutar los paquetes 
->- npm install
->- npm run dev
+    > php artisan serve
 
-9. Ejecuta el siguiente comando para que funcione la gestion de productos
-> php artisan storage:link
+8. Ejecutar el siguiente comando para compilar y ejecutar los paquetes
+
+    > - npm install
+    > - npm run dev
+
+9. Ingrese al sistema con el sigueinte usuario
+   email:admin@gmail.com, password: admin
