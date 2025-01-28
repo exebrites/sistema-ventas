@@ -63,10 +63,12 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 ## 🛠️ Guía rápida para correr el proyecto
 
 1. Clonar el repositorio
+  > git clone https://github.com/exebrites/sistema-ventas.git
 2. Crear un archivo .env dentro de directorio raiz con sus variables de entorno:
     > cp .env.example .env
+    
 3. Realice la conexion a base de datos
-   DB_CONNECTION=sqlite
+   DB_CONNECTION=sqlite en el archivo .env
 
 4. Ejecutar el siguiente comando para descargar las dependencias:
     > composer install
