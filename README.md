@@ -4,35 +4,19 @@
 
 El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos
 
-<!-- , y ofrece un sistema de auditoría para mantener el control. -->
-<!-- ### Objetivos:
-
-
-
-## 🌟 Resumen -->
-
 ### 🚀 Modulos
 
 #### Funcionales
 
 -   Gestionar ABM de clientes
-    <!-- - Gestionar ABM de pedidos -->
-    <!-- - Gestionar ABM materiales -->
 -   Gestionar ABM productos
 -   Generacion de SKU - Stock keep Unit
-<!-- - Gestionar ABM diseños -->
 -   Gestionar ABM proveedores
-    <!-- - Gestionar ABM presupuesto para pedido -->
-    <!-- - Gestionar ABM oferta de materiales
--   Actualización de precios de materiales -->
--   Comunicación con usuarios
 
 #### No funcionales
 
 -   Creacion y asignacion de roles
 -   Gestionar usuarios
-    <!-- - Generación de reportes -->
-    <!-- - Auditoría -->
 
 ## Tecnologias utilizadas
 
@@ -52,7 +36,7 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 ### Backend
 
 -   Laravel Framework 9
--   MySQL version 15
+-   SQLite
 -   PHP version 8.1
 
 ### Otras tecnoligías
