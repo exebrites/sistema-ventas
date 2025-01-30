@@ -239,7 +239,7 @@
             fullName: fullName
         };
 
-        console.log('Datos del pedido:', orderData);
+        // console.log('Datos del pedido:', orderData);
 
         fetch('/create-preference', {
                 method: 'POST',
@@ -263,12 +263,18 @@
                     preference: {
                         id: preference.id // Asegúrate de que esta línea sea correcta
                     },
-                    autoOpen: true
-
-                    
+                    autoOpen: true  
                 });
+
+
+                
                 console.log('Respuesta de la preferencia:', preference);
-               
+               // Una vez que se crea la preferencia, redirigimos a la raíz del sitio
+               // después de 5 segundos. Esto es solo para que el usuario vea
+               // el mensaje de que se creó la preferencia correctamente.
+            //    setTimeout(() => {
+            //     location.href = '/';
+            //    }, 5000);
             })
             .catch(error => console.error('Error al crear la preferencia:', error));
 

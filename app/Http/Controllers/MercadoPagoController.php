@@ -11,13 +11,20 @@ use MercadoPago\Exceptions\MPApiException;
 use Exception;
 
 use Illuminate\Support\Facades\Log;
+use App\Models\Pedido;
 
 class MercadoPagoController extends Controller
 {
     //
 
-    public function success (){
-        return redirect()->route('shop')->with('success', 'Compra realizada con exito');
+    public function success()
+    {
+        return redirect()->back()->with('success', 'Pago realizado con exito');
+    }
+    public function pagar($id)
+    {
+        $pedido =  Pedido::find($id);
+        return view('pagar', compact('pedido'));
     }
     public function createPaymentPreference(Request $request)
     {

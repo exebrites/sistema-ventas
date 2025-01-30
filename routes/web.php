@@ -314,6 +314,7 @@ Route::get('/mercadopago/failed', [MercadoPagoController::class, 'failed'])->nam
 Route::get('/mercado', function () {
     return view('mp');
 });
+Route::get('/pagar/{id}', [MercadoPagoController::class, 'pagar'])->name('pagar');
 Route::get('/producos/cambiarestado/{id}', [ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
 // Route::get('/productos/ultimo',[ProductoController::class,'consultarUltimoProducto']);
 Route::get('/sku/{id}', [ProductoController::class, 'sku'])->name('sku');
