@@ -14,10 +14,10 @@ class EstadoSeeder extends Seeder
      */
     public function run()
     {
-        // Estado::create([
-        //     'nombre' => 'Pendiente',
-        //     'descripcion' => 'Pendiente',
-        // ]);
+        Estado::create([
+            'nombre' => 'Pendiente',
+            'descripcion' => 'Pendiente',
+        ]);
         Estado::create([
             'nombre' => 'Desapachado',
             'descripcion' => 'Desapachado',

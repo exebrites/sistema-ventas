@@ -16,7 +16,9 @@ class MercadoPagoController extends Controller
 {
     //
 
-
+    public function success (){
+        return redirect()->route('shop')->with('success', 'Compra realizada con exito');
+    }
     public function createPaymentPreference(Request $request)
     {
 

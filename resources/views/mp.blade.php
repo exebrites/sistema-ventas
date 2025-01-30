@@ -187,7 +187,7 @@
                     <input type="number" id="quantity" name="quantity" min="1" required />
                 </div>
                 <input type="hidden" id="product_id" value="1234567890" />
-                <input type="hidden" id="product_price" value="29.99" />
+                <input type="hidden" id="product_price" value="12.99" />
 
                 <button class="btn-submit" id="checkout-btn" type="button">
                     <span class="icon-credit-card text-center">💳</span>Pagar
@@ -224,7 +224,7 @@
                 id: document.getElementById('product_id').value,
                 title: document.querySelector('.product-name').innerText,
                 description: 'Descripción del producto', // Puedes ajustar esto si tienes más información
-                currency_id: "USD",
+                currency_id: "ARG",
                 quantity: cantidad,
                 unit_price: parseFloat(document.getElementById('product_price').value),
             }],

@@ -268,7 +268,7 @@
                     
                 });
                 console.log('Respuesta de la preferencia:', preference);
-                location.href = '/';
+               
             })
             .catch(error => console.error('Error al crear la preferencia:', error));
 

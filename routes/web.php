@@ -103,7 +103,7 @@ route::get('/ofertascrear/{id}', [OfertaController::class, 'crear'])->name('ofer
 Route::resource('/respuestas', RespuestaController::class);
 
 // Route::group(['middleware' => 'role:empresa'], function () {
-Route::group(['middleware' => ['auth', 'verified']], function () {
+// Route::group(['middleware' => ['auth', 'verified']], function () {
 
 // Route::resource('/demandas', DemandaController::class);
 route::post('/grafico', [GraficoController::class, 'graficoBarra'])->name('grafico');
@@ -172,7 +172,7 @@ Route::post('/users/{userId}/assign-multiple-roles', [UsuariosController::class,
 Route::post('/users/{userId}/remove-multiple-roles', [UsuariosController::class, 'removeMultipleRoles'])->name("removerRoles");
 Route::resource('/auditoria', AuditoriaController::class);
 Route::resource('/usuarios', UsuariosController::class);
-});
+// });
 Route::post('/add_boceto', [CartController::class, 'add_boceto'])->name('cart.store_boceto');
 Route::post('/procesar', [PedidoController::class, 'creacion_pedido_detalles_pedido'])->name('procesarPedido.procesar')->middleware(['auth', 'verified']);
 Route::get('/pedidoCliente', [PedidoController::class, 'pedidoCliente'])->name('pedidoCliente')->middleware(['auth', 'verified']);
@@ -203,7 +203,7 @@ Route::get('/perfilcliente', function () {
 route::get('/pedidoclientes/{pedido_id}', [TuPedidoController::class, 'verpedidos'])->name('verpedidos');
 route::get('/pedidoclientes/producto/{detalle_id}', [TuPedidoController::class, 'verDisenio'])->name('verdisenio');
 
-Route::get('/', [CartController::class, 'shop'])->middleware(['auth', 'verified'])->name('shop');
+Route::get('/', [CartController::class, 'shop'])->name('shop');
 
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
