@@ -12,14 +12,15 @@ use Exception;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Pedido;
-
+use  App\Services\ShoppingCartService;
 class MercadoPagoController extends Controller
 {
     //
 
-    public function success()
+    public function success(ShoppingCartService $cart)
     {
         // return redirect()->route('shop')->with('success', 'Pago realizado con exito');
+        $cart->clear();
         return view('success-mp');
         
     }

@@ -173,7 +173,7 @@ class ProductoService
             'category_id' => $request->categoria_id,
             'precio' => $request->price,
             'descripcion' => $request->description,
-            'alias' => '$request->alias',
+            'alias' => $request->name,
             'imagen' => $request,
 
         ]);

@@ -64,15 +64,19 @@
                                 height="200">
                         </div>
                         <div class="col-lg-5">
-                            <p id="product-name"> {{ $item->name }}</p>
-                            <b>Precio unitario: </b>
-                            <p id="product-price">{{ $item->price }}</p>
-                            <b>SubTotal:
-                            </b>
-                            <p>
-                                ${{ \Cart::get($item->id)->getPriceSum() }}
-                            </p>
-
+                            <div class="products">
+                                <p id="product-id"> {{ $item->id }}</p>
+                                <p id="product-name"> {{ $item->name }}</p>
+                                <b>Precio unitario: </b>
+                                <p id="product-price">{{ $item->price }}</p>
+                                <b>Cantidad:</b>
+                                <p id="product-quantity">{{ $item->quantity }}</p>
+                                <b>SubTotal:
+                                </b>
+                                <p>
+                                    ${{ \Cart::get($item->id)->getPriceSum() }}
+                                </p>
+                            </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="row">
@@ -134,7 +138,7 @@
                         {{-- <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a> --}}
                     </form>
                     <div id="wallet_container"></div>
-
+                    <button id="miBoton">Haz clic aquí</button>
 
 
                     <br>
@@ -143,22 +147,80 @@
         </div>
         <br><br>
     </div>
-
-
-
-@endsection
-@section('css')
-@endsection
-@section('js')
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+        const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
+        document.getElementById("miBoton").addEventListener("click", function() {
+
+            const productos = document.getElementsByClassName('products');
+            let products = []
+            Array.from(productos).forEach(producto => {
+
+                const detalle = {
+                    id: producto.children[0].textContent,
+                    title: producto.children[1].textContent,
+                    description: 'Descripción del producto', // Puedes ajustar esto si tienes más información
+                    currency_id: "ARG",
+                    quantity: parseInt(producto.children[3].textContent),
+                    unit_price: parseFloat(producto.children[5].textContent),
+                };
+                products.push(detalle);
+            });
+
+            const orderData = {
+                product: products,
+                // name: nombre,
+                // surname: '', // Si tienes un campo de apellido, añádelo aquí
+                email: '', // Agrega el correo electrónico si es necesario
+                // phone: telefono,
+                // address: direccion,
+                fullName: 'exe'
+            };
+
+            console.log('Datos del pedido:', orderData);
+
+
+            fetch('/create-preference', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify(orderData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(preference => {
+                    if (preference.error) {
+                        throw new Error(preference.error);
+                    }
+
+                    mp.bricks().create("wallet", "wallet_container", {
+                        initialization: {
+                            preferenceId: preference.id,
+                        },
+                        customization: {
+                            texts: {
+                                valueProp: 'smart_option',
+                            },
+                        },
+                    });
+
+
+                    console.log('Respuesta de la preferencia:', preference);
+
+                })
+                .catch(error => console.error('Error al crear la preferencia:', error));
+
+        });
     </script>
 
 
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script>
+    {{-- <script>
         const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
 
         document.getElementById('checkout-btn').addEventListener('click', function() {
@@ -241,5 +303,14 @@
 
 
         });
+    </script> --}}
+@endsection
+@section('css')
+@endsection
+@section('js')
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 @endsection
