@@ -9,10 +9,16 @@ use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\Exceptions\MPApiException;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Pedido;
 use  App\Services\ShoppingCartService;
+use App\Services\PedidoService;
+use App\Contracts\ShoppingCartInterface;
+use App\Services\ProductoService;
+use App\Models\Cliente;
+
 class MercadoPagoController extends Controller
 {
     //
@@ -22,18 +28,39 @@ class MercadoPagoController extends Controller
         // return redirect()->route('shop')->with('success', 'Pago realizado con exito');
         $cart->clear();
         return view('success-mp');
-        
     }
     public function pagar($id)
     {
         $pedido =  Pedido::find($id);
         return view('pagar', compact('pedido'));
     }
-    public function createPaymentPreference(Request $request)
+    public function createPaymentPreference(Request $request, PedidoService $pedidoService, ShoppingCartInterface $shoppingCart, ProductoService $productoService)
     {
 
 
-        // Log::info('Creando preferencia de pago');
+        // 1 ) Creacion de pedido 
+        $productosCarrito = $shoppingCart->getContent();
+
+        // if ($productosCarrito->isEmpty()) {
+        //     // return back()->withErrors(['error' => 'El carrito está vacío.']);
+        // }
+
+        // // foreach ($productosCarrito as $producto) {
+        // //     $resultado = $productoService->control_stock($producto, $producto->quantity);
+        // //     //posible error 
+        // //     if ($resultado !== true) {
+        // //         // return redirect()->back()->withErrors(['error' => $resultado]);
+        // //     }
+        // // }
+        $cliente = Cliente::obtenerCliente(Auth::user());
+        // if (!$cliente) {
+        //     // return back()->withErrors(['error' => 'El usuario no está asociado a un cliente.']);
+        // }
+        $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
+
+
+        // 2)  Creacion de preferencia con mercado pago 
+
         $this->authenticate();
         // Log::info('Autenticado con éxito');
 
@@ -79,7 +106,7 @@ class MercadoPagoController extends Controller
                 'back_urls' => $preference->back_urls,
                 // 'client_id' => $preference->client_id,
                 // 'additional_info' => $preference->additional_info,
-                'preference'=>$preference
+                'preference' => $preference
             ]);
         } catch (MPApiException $e) {
 
