@@ -19,7 +19,9 @@ class MercadoPagoController extends Controller
 
     public function success()
     {
-        return redirect()->back()->with('success', 'Pago realizado con exito');
+        // return redirect()->route('shop')->with('success', 'Pago realizado con exito');
+        return view('success-mp');
+        
     }
     public function pagar($id)
     {
@@ -70,13 +72,13 @@ class MercadoPagoController extends Controller
             return response()->json([
                 'id' => $preference->id,
                 'init_point' => $preference->init_point,
-                'operation_type' => $preference->operation_type,
-                'items' => $preference->items,
-                'payer' => $preference->payer,
+                // 'operation_type' => $preference->operation_type,
+                // 'items' => $preference->items,
+                // 'payer' => $preference->payer,
                 'back_urls' => $preference->back_urls,
-                'client_id' => $preference->client_id,
-                'additional_info' => $preference->additional_info,
-
+                // 'client_id' => $preference->client_id,
+                // 'additional_info' => $preference->additional_info,
+                'preference'=>$preference
             ]);
         } catch (MPApiException $e) {
 

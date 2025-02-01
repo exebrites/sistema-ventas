@@ -197,13 +197,14 @@
         </div>
     </div>
 </div>
-
+<div id="wallet_container"></div>
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
     const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
 
+    const bricksBuilder = mp.bricks();
     document.getElementById('checkout-btn').addEventListener('click', function() {
- 
+
         const productId = document.getElementById('product_id').value;
 
         const fullName = document.getElementById('client-name-surname').textContent;
@@ -259,26 +260,40 @@
                 if (preference.error) {
                     throw new Error(preference.error);
                 }
-                mp.checkout({
-                    preference: {
-                        id: preference.id // Asegúrate de que esta línea sea correcta
+                // mp.checkout({
+                //     preference: {
+                //         id: preference.id // Asegúrate de que esta línea sea correcta
+                //     },
+                //     autoOpen: true  
+                // });
+                mp.bricks().create("wallet", "wallet_container", {
+                    initialization: {
+                        preferenceId: preference.id,
                     },
-                    autoOpen: true  
+                    customization: {
+                        texts: {
+                            valueProp: 'smart_option',
+                        },
+                    },
                 });
 
+                // set timeout de 5 segundos
+                // redireccion a view pago exitoso
+                // setTimeout(() => {
+                //     location.href = '/mercadopago/success';
+                // }, 10000);
 
-                
                 console.log('Respuesta de la preferencia:', preference);
-               // Una vez que se crea la preferencia, redirigimos a la raíz del sitio
-               // después de 5 segundos. Esto es solo para que el usuario vea
-               // el mensaje de que se creó la preferencia correctamente.
-            //    setTimeout(() => {
-            //     location.href = '/';
-            //    }, 5000);
+                // Una vez que se crea la preferencia, redirigimos a la raíz del sitio
+                // después de 5 segundos. Esto es solo para que el usuario vea
+                // el mensaje de que se creó la preferencia correctamente.
+                //    setTimeout(() => {
+                //     location.href = '/';
+                //    }, 5000);
             })
             .catch(error => console.error('Error al crear la preferencia:', error));
 
-        
+
     });
 </script>
 

@@ -64,35 +64,15 @@
                                 height="200">
                         </div>
                         <div class="col-lg-5">
+                            <p id="product-name"> {{ $item->name }}</p>
+                            <b>Precio unitario: </b>
+                            <p id="product-price">{{ $item->price }}</p>
+                            <b>SubTotal:
+                            </b>
                             <p>
-                                {{ $item->name }}<br>
-                                <b>Precio unitario: </b>${{ $item->price }}<br>
-
-                                {{-- @if ($item->attributes['disenio_estado'])
-                                    <b>El costo del diseño asistido:</b>
-                                    <span class="help-icon" data-toggle="tooltip" data-placement="right"
-                                        title="Diseño asistido: donde usted como cliente sube un diseño inicial y nosotros lo completamos">
-                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
-
-
-                                    </span>
-                                @else
-                                    <b>El costo del diseño completo:</b>
-                                    <span class="help-icon" data-toggle="tooltip" data-placement="right"
-                                        title="Diseño completo: nosotros nos encargamos de todo el diseño para usted">
-                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
-
-                                    </span>
-                                @endif --}}
-                                <br>
-                                {{-- ${{ $item->attributes['costo_disenio'] }} --}}
-
-                                <br>
-                                <b>SubTotal:
-                                {{-- </b>${{ \Cart::get($item->id)->getPriceSum() + $item->attributes['costo_disenio'] }}<br> --}}
-                            </b>${{ \Cart::get($item->id)->getPriceSum()}} <br>
-
+                                ${{ \Cart::get($item->id)->getPriceSum() }}
                             </p>
+
                         </div>
                         <div class="col-lg-4">
                             <div class="row">
@@ -151,8 +131,10 @@
                         <button type="submit" class="btn btn-success">Continuar compra</button>
                         <br>
                         <br>
-                        <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a>
+                        {{-- <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a> --}}
                     </form>
+                    <div id="wallet_container"></div>
+
 
 
                     <br>
@@ -175,74 +157,89 @@
     </script>
 
 
-<script src="https://sdk.mercadopago.com/js/v2"></script>
-<script>
-    const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+        const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
 
-    document.getElementById('checkout-btn').addEventListener('click', function() {
-        const cantidad = parseInt(document.getElementById('quantity').value, 10);
-        // const nombre = document.getElementById('phone').value;
+        document.getElementById('checkout-btn').addEventListener('click', function() {
 
-        const nombre = 'exe'
-        const telefono = document.getElementById('phone').value;
-        const direccion = document.getElementById('address').value;
+            const productId = document.getElementById('product_id').value;
 
-        if (!cantidad || !telefono || !direccion) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Por favor, completa todos los campos del formulario.',
-                icon: 'error',
-                confirmButtonText: 'Aceptar'
-            });
-            return;
-        }
+            const fullName = document.getElementById('client-name-surname').textContent;
 
-        const orderData = {
-            product: [{
-                id: document.getElementById('product_id').value,
-                title: document.querySelector('.product-name').innerText,
-                description: 'Descripción del producto', // Puedes ajustar esto si tienes más información
-                currency_id: "USD",
-                quantity: cantidad,
-                unit_price: parseFloat(document.getElementById('product_price').value),
-            }],
-            name: nombre,
-            surname: '', // Si tienes un campo de apellido, añádelo aquí
-            email: '', // Agrega el correo electrónico si es necesario
-            phone: telefono,
-            address: direccion,
-        };
+            const productName = document.getElementById('product-name').textContent;
+            const productPrice = parseFloat(document.getElementById('product_price').textContent);
 
-        // console.log('Datos del pedido:', orderData);
+            const quantity = parseInt(document.getElementById('product-quantity').textContent);
 
-        fetch('/create-preference', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                },
-                body: JSON.stringify(orderData)
+            let products = []
+
+
+            $item = document.querySelectorAll('li')
+            $item.forEach($i => {
+                const detalle = {
+                    id: $i.children[0].value,
+                    title: $i.children[4].textContent,
+                    description: 'Descripción del producto', // Puedes ajustar esto si tienes más información
+                    currency_id: "ARG",
+                    quantity: parseInt($i.children[6].textContent),
+                    unit_price: parseFloat($i.children[2].textContent),
+                };
+                products.push(detalle);
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.json();
-            })
-            .then(preference => {
-                if (preference.error) {
-                    throw new Error(preference.error);
-                }
-                mp.checkout({
-                    preference: {
-                        id: preference.id // Asegúrate de que esta línea sea correcta
+
+            const orderData = {
+                product: products,
+                // name: nombre,
+                // surname: '', // Si tienes un campo de apellido, añádelo aquí
+                email: '', // Agrega el correo electrónico si es necesario
+                // phone: telefono,
+                // address: direccion,
+                fullName: fullName
+            };
+
+            // console.log('Datos del pedido:', orderData);
+
+            fetch('/create-preference', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                     },
-                    autoOpen: true
-                });
-                console.log('Respuesta de la preferencia:', preference);
-            })
-            .catch(error => console.error('Error al crear la preferencia:', error));
-    });
-</script>
+                    body: JSON.stringify(orderData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(preference => {
+                    if (preference.error) {
+                        throw new Error(preference.error);
+                    }
 
+                    mp.bricks().create("wallet", "wallet_container", {
+                        initialization: {
+                            preferenceId: preference.id,
+                        },
+                        customization: {
+                            texts: {
+                                valueProp: 'smart_option',
+                            },
+                        },
+                    });
+
+
+                    console.log('Respuesta de la preferencia:', preference);
+
+                })
+                .catch(error => console.error('Error al crear la preferencia:', error));
+
+
+
+
+
+        });
+    </script>
 @endsection
