@@ -18,6 +18,8 @@ use App\Services\PedidoService;
 use App\Contracts\ShoppingCartInterface;
 use App\Services\ProductoService;
 use App\Models\Cliente;
+use App\Models\Entrega;
+use App\Services\EntregaService;
 
 class MercadoPagoController extends Controller
 {
@@ -34,7 +36,7 @@ class MercadoPagoController extends Controller
         $pedido =  Pedido::find($id);
         return view('pagar', compact('pedido'));
     }
-    public function createPaymentPreference(Request $request, PedidoService $pedidoService, ShoppingCartInterface $shoppingCart, ProductoService $productoService)
+    public function createPaymentPreference(EntregaService $entregaService, Request $request, PedidoService $pedidoService, ShoppingCartInterface $shoppingCart, ProductoService $productoService)
     {
 
 
@@ -57,9 +59,17 @@ class MercadoPagoController extends Controller
         //     // return back()->withErrors(['error' => 'El usuario no está asociado a un cliente.']);
         // }
         $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
+        $shoppingCart->clear();
+        // 2)  creacion de lugar de entrega
+        $datosEntrega = $request->input('datosEntrega');
+        // return response()->json($datosEntrega['direccion']);
+        if (empty($datosEntrega) || !is_array($datosEntrega)) {
+            return response()->json(['error' => 'Los datos del producto son requeridos.'], 400);
+        }
 
+        $entregaService->create($datosEntrega, $pedido->id);
 
-        // 2)  Creacion de preferencia con mercado pago 
+        // 3)  Creacion de preferencia con mercado pago 
 
         $this->authenticate();
         // Log::info('Autenticado con éxito');

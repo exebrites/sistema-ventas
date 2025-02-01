@@ -119,26 +119,63 @@
                     </div>
                     <hr>
 
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" name="local" id="local">
+                        <label class="form-check-label" for="local">Retiro en local</label>
+                    </div>
+                    <div id="div1">
+                        <div class="form-group">
+                            <label>Dirección del lugar de entrega</label>
+                            <input type="text" class="form-control" name="direccion" value="" id="direccion">
+                            @error('direccion')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
 
-                    <form action="{{ route('procesarPedido.procesar') }}" method="post">
+                        </div>
+                        <label>Telefono de contacto</label>
+                        <input type="tel" class="form-control" name="telefono" id="telefono"
+                            placeholder="Ej: 3758-122331">
+                        @error('telefono')
+                            <br>
+                            <small style="color:red">{{ $message }}</small>
+                        @enderror
+                        <div class="form-group">
+                            <label>Nombre de la persona que recibe</label>
+                            <input type="text" class="form-control" name="nombre" id="personaRecepcion">
+                            @error('nombre')
+                                <br>
+                                <small style="color:red">{{ $message }}</small>
+                            @enderror
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nota</label>
+                            <textarea class="form-control" aria-label="With textarea" name="nota" id="nota">Sin comentarios</textarea>
+
+                        </div>
+                    </div>
+                    {{-- <form action="{{ route('procesarPedido.procesar') }}" method="post">
                         @csrf <label for="fechaEntrega" class="font-weight-bold">Fecha requerida para la entrega del
                             pedido:</label>
                         {{-- <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" required
                             max="2030-01-01"> --}}
-                        @error('fechaEntrega')
+                    {{-- @error('fechaEntrega')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                         <br>
-                        <a href="/" class="btn btn-dark">Continue en la tienda</a>
-                        <button type="submit" class="btn btn-success">Continuar compra</button>
+                       
                         <br>
-                        <br>
-                        {{-- <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a> --}}
+                        <br> --}}
+                    {{-- <a href="/mercado" class="btn btn-primary">Pagar con Mercado Pago</a> --}}
                     </form>
+                    <a href="/" class="btn btn-dark">Continue en la tienda</a>
+                    <button type="submit" class="btn btn-success" id="miBoton">Finalizar pedido</button>
                     <div id="wallet_container"></div>
-                    <button id="miBoton">Haz clic aquí</button>
+                    {{-- <button id="miBoton">Haz clic aquí</button> --}}
 
 
                     <br>
@@ -146,12 +183,47 @@
             @endif
         </div>
         <br><br>
+
     </div>
+    <script>
+        // Obtén una referencia al checkbox
+        const checkbox = document.getElementById('local');
+        const div = document.getElementById('div1');
+
+
+        // Agrega un evento de escucha al checkbox
+        checkbox.addEventListener('click', function() {
+            // Verifica si el checkbox está marcado
+            if (checkbox.checked) {
+                div.style.display = "none"
+            } else {
+                div.style.display = "block"
+            }
+        });
+    </script>
+
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
         const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
         document.getElementById("miBoton").addEventListener("click", function() {
+            // datos de entrega 
+            console.log(document.getElementById('local').checked);
+            document.getElementById("miBoton").disabled = true
+            let datosEntrega = {
+                'direccion': 'no tiene',
+                'telefono': 'no tiene',
+                'personaRecepcion': 'no tiene',
+                'nota': 'sin notas',
+                'retiroLocal': document.getElementById('local').checked,
+            }
+            if (datosEntrega.retiroLocal) {
+                datosEntrega.direccion = document.getElementById('direccion').value
+                datosEntrega.telefono = document.getElementById('telefono').value
+                datosEntrega.personaRecepcion = document.getElementById('personaRecepcion').value
+                datosEntrega.nota = document.getElementById('nota').value
+            }
 
+            // datos de producto
             const productos = document.getElementsByClassName('products');
             let products = []
             Array.from(productos).forEach(producto => {
@@ -174,10 +246,11 @@
                 email: '', // Agrega el correo electrónico si es necesario
                 // phone: telefono,
                 // address: direccion,
-                fullName: 'exe'
+                fullName: 'exe',
+                datosEntrega: datosEntrega
             };
 
-            console.log('Datos del pedido:', orderData);
+            // console.log('Datos del pedido:', orderData);
 
 
             fetch('/create-preference', {
@@ -220,90 +293,6 @@
     </script>
 
 
-    {{-- <script>
-        const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
-
-        document.getElementById('checkout-btn').addEventListener('click', function() {
-
-            const productId = document.getElementById('product_id').value;
-
-            const fullName = document.getElementById('client-name-surname').textContent;
-
-            const productName = document.getElementById('product-name').textContent;
-            const productPrice = parseFloat(document.getElementById('product_price').textContent);
-
-            const quantity = parseInt(document.getElementById('product-quantity').textContent);
-
-            let products = []
-
-
-            $item = document.querySelectorAll('li')
-            $item.forEach($i => {
-                const detalle = {
-                    id: $i.children[0].value,
-                    title: $i.children[4].textContent,
-                    description: 'Descripción del producto', // Puedes ajustar esto si tienes más información
-                    currency_id: "ARG",
-                    quantity: parseInt($i.children[6].textContent),
-                    unit_price: parseFloat($i.children[2].textContent),
-                };
-                products.push(detalle);
-            })
-
-            const orderData = {
-                product: products,
-                // name: nombre,
-                // surname: '', // Si tienes un campo de apellido, añádelo aquí
-                email: '', // Agrega el correo electrónico si es necesario
-                // phone: telefono,
-                // address: direccion,
-                fullName: fullName
-            };
-
-            // console.log('Datos del pedido:', orderData);
-
-            fetch('/create-preference', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                    },
-                    body: JSON.stringify(orderData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error en la respuesta del servidor');
-                    }
-                    return response.json();
-                })
-                .then(preference => {
-                    if (preference.error) {
-                        throw new Error(preference.error);
-                    }
-
-                    mp.bricks().create("wallet", "wallet_container", {
-                        initialization: {
-                            preferenceId: preference.id,
-                        },
-                        customization: {
-                            texts: {
-                                valueProp: 'smart_option',
-                            },
-                        },
-                    });
-
-
-                    console.log('Respuesta de la preferencia:', preference);
-
-                })
-                .catch(error => console.error('Error al crear la preferencia:', error));
-
-
-
-
-
-        });
-    </script> --}}
 @endsection
 @section('css')
 @endsection
