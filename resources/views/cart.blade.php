@@ -205,10 +205,16 @@
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
         const mp = new MercadoPago("{{ env('MERCADO_PAGO_PUBLIC_KEY') }}");
+        console.log(document.getElementById('local').checked);
+
+        function isEmpty(str) {
+            return str.trim() === '';
+        }
         document.getElementById("miBoton").addEventListener("click", function() {
             // datos de entrega 
+
             console.log(document.getElementById('local').checked);
-            document.getElementById("miBoton").disabled = true
+            // document.getElementById("miBoton").disabled = true
             let datosEntrega = {
                 'direccion': 'no tiene',
                 'telefono': 'no tiene',
@@ -216,11 +222,26 @@
                 'nota': 'sin notas',
                 'retiroLocal': document.getElementById('local').checked,
             }
-            if (datosEntrega.retiroLocal) {
+            if (!datosEntrega.retiroLocal) {
+                // si es falso el retiro en local la persona debe cargar los campos
+                if (isEmpty(document.getElementById('direccion').value)) {
+                    alert('Por favor ingrese una direccion')
+                    return
+                }
+                if (isEmpty(document.getElementById('telefono').value)) {
+                    alert('Por favor ingrese una telefono')
+                    return
+                }
+                if (isEmpty(document.getElementById('personaRecepcion').value)) {
+                    alert('Por favor ingrese el nombre de la persona que recibe el pedido')
+                    return
+                }
+
                 datosEntrega.direccion = document.getElementById('direccion').value
                 datosEntrega.telefono = document.getElementById('telefono').value
                 datosEntrega.personaRecepcion = document.getElementById('personaRecepcion').value
-                datosEntrega.nota = document.getElementById('nota').value
+                datosEntrega.nota = isEmpty(document.getElementById('nota').value) ? 'sin notas' : document
+                    .getElementById('nota').value
             }
 
             // datos de producto
@@ -250,7 +271,7 @@
                 datosEntrega: datosEntrega
             };
 
-            // console.log('Datos del pedido:', orderData);
+            console.log('Datos del pedido:', orderData);
 
 
             fetch('/create-preference', {
