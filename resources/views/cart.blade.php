@@ -214,7 +214,7 @@
             // datos de entrega 
 
             console.log(document.getElementById('local').checked);
-            // document.getElementById("miBoton").disabled = true
+            document.getElementById("miBoton").disabled = true
             let datosEntrega = {
                 'direccion': 'no tiene',
                 'telefono': 'no tiene',
