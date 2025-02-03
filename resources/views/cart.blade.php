@@ -310,6 +310,10 @@
                 })
                 .catch(error => console.error('Error al crear la preferencia:', error));
 
+
+
+
+            
         });
     </script>
 

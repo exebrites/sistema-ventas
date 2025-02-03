@@ -311,9 +311,11 @@ Route::post('/actualizarStock/{producto}', [ProductoController::class, 'actualiz
 Route::post('/create-preference', [MercadoPagoController::class, 'createPaymentPreference']);
 Route::get('/mercadopago/success', [MercadoPagoController::class, 'success'])->name('mercadopago.success');
 Route::get('/mercadopago/failed', [MercadoPagoController::class, 'failed'])->name('mercadopago.failed');
+Route::post('/notificar', [MercadoPagoController::class, 'notificar']);
 Route::get('/mercado', function () {
     return view('mp');
 });
+Route::get('/pago', [MercadoPagoController::class, 'pago'])->name('pago');
 Route::get('/pagar/{id}', [MercadoPagoController::class, 'pagar'])->name('pagar');
 Route::get('/producos/cambiarestado/{id}', [ProductoController::class, 'cambiarEstado'])->name('cambiarEstado');
 // Route::get('/productos/ultimo',[ProductoController::class,'consultarUltimoProducto']);

@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        
+        'https://91cb-181-99-50-6.ngrok-free.app/notificar'
     ];
 }

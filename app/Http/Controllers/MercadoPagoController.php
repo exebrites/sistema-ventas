@@ -20,11 +20,42 @@ use App\Services\ProductoService;
 use App\Models\Cliente;
 use App\Models\Entrega;
 use App\Services\EntregaService;
+use MercadoPago\Payment;
+use MercadoPago\MerchantOrder;
+use App\Models\Estado;
 
 class MercadoPagoController extends Controller
 {
     //
+    const NOTIFICATION_URL = 'https://91cb-181-99-50-6.ngrok-free.app/api/notificar';
+    public function pago()
+    {
+        $this->authenticate();
+        $merchant_order = null;
+        switch ($_GET["topic"]) {
+            case "payment":
+                $payment = \MercadoPago\Payment::find_by_id($_GET["id"]);
+                // Get the payment and the corresponding merchant_order reported by the IPN.
+                $merchant_order = \MercadoPago\MerchantOrder::find_by_id($payment->order->id);
+                break;
+            case "merchant_order":
+                $merchant_order = \MercadoPago\MerchantOrder::find_by_id($_GET["id"]);
+                break;
+        }
+    }
+    public function notificar(Request $request)
+    {
+        Log::info(json_encode($request->all()));
+        $id  = $request['data']['id'];
+        $client = new PreferenceClient();
 
+        $pago  = $client->get($id);
+        Log::info(json_encode($pago));
+        // if ($pago->status == 'approved') {
+        //     Log::info('Pago Aprobado'.$id);
+        // }
+        return http_response_code(200);
+    }
     public function success(ShoppingCartService $cart)
     {
         // return redirect()->route('shop')->with('success', 'Pago realizado con exito');
@@ -175,7 +206,7 @@ class MercadoPagoController extends Controller
             "external_reference" => "12345678",
             "expires" => false,
             "auto_return" => 'approved',
-
+            "notification_url" => self::NOTIFICATION_URL,
         ];
         return $request;
     }
