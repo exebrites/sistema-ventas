@@ -18,42 +18,41 @@ use App\Services\PedidoService;
 use App\Contracts\ShoppingCartInterface;
 use App\Services\ProductoService;
 use App\Models\Cliente;
+use App\Models\Compra;
 use App\Models\Entrega;
 use App\Services\EntregaService;
 use MercadoPago\Payment;
 use MercadoPago\MerchantOrder;
 use App\Models\Estado;
+use MercadoPago\Client\Payment\PaymentClient;
 
 class MercadoPagoController extends Controller
 {
     //
-    const NOTIFICATION_URL = 'https://91cb-181-99-50-6.ngrok-free.app/api/notificar';
-    public function pago()
-    {
-        $this->authenticate();
-        $merchant_order = null;
-        switch ($_GET["topic"]) {
-            case "payment":
-                $payment = \MercadoPago\Payment::find_by_id($_GET["id"]);
-                // Get the payment and the corresponding merchant_order reported by the IPN.
-                $merchant_order = \MercadoPago\MerchantOrder::find_by_id($payment->order->id);
-                break;
-            case "merchant_order":
-                $merchant_order = \MercadoPago\MerchantOrder::find_by_id($_GET["id"]);
-                break;
-        }
-    }
+    const NOTIFICATION_URL = 'https://29f2-181-99-50-6.ngrok-free.app/api/notificar';
+    
     public function notificar(Request $request)
     {
-        Log::info(json_encode($request->all()));
-        $id  = $request['data']['id'];
-        $client = new PreferenceClient();
+         
 
-        $pago  = $client->get($id);
-        Log::info(json_encode($pago));
-        // if ($pago->status == 'approved') {
-        //     Log::info('Pago Aprobado'.$id);
-        // }
+        $this->authenticate();
+
+ 
+        switch ($request["type"]) {
+            case "payment":
+                // $payment =  Payment::find_by_id($request["data"]["id"]);
+                $client = new PaymentClient();
+                $payment = $client->get($request["data"]["id"]);
+                if ($payment->status == 'approved') {
+                    $external_reference = $payment->external_reference;
+                    $compra = Compra::find($external_reference);
+                    $compra->estado = true;
+                    $compra->save();
+                }
+
+                break;
+        }
+         
         return http_response_code(200);
     }
     public function success(ShoppingCartService $cart)
@@ -71,7 +70,7 @@ class MercadoPagoController extends Controller
     {
 
 
-        // 1 ) Creacion de pedido 
+        // 1 ) Creacion de pedido
         $productosCarrito = $shoppingCart->getContent();
 
         // if ($productosCarrito->isEmpty()) {
@@ -80,7 +79,7 @@ class MercadoPagoController extends Controller
 
         // // foreach ($productosCarrito as $producto) {
         // //     $resultado = $productoService->control_stock($producto, $producto->quantity);
-        // //     //posible error 
+        // //     //posible error
         // //     if ($resultado !== true) {
         // //         // return redirect()->back()->withErrors(['error' => $resultado]);
         // //     }
@@ -100,7 +99,7 @@ class MercadoPagoController extends Controller
 
         $entregaService->create($datosEntrega, $pedido->id);
 
-        // 3)  Creacion de preferencia con mercado pago 
+        // 3)  Creacion de preferencia con mercado pago
 
         $this->authenticate();
         // Log::info('Autenticado con éxito');
@@ -117,7 +116,7 @@ class MercadoPagoController extends Controller
         // Mount the array of products that will integrate the purchase amount
         // $items = array($product1, $product2);
 
-        // Paso 2: Información del comprador (esto puedes obtenerlo desde el usuario autenticado) 
+        // Paso 2: Información del comprador (esto puedes obtenerlo desde el usuario autenticado)
         // $payer = [
         //     "name" => $request->input('name', 'asd'), // Puedes obtener el nombre del request o usar un valor predeterminado
         //     "surname" => $request->input('surname', 'asd'),
@@ -129,10 +128,10 @@ class MercadoPagoController extends Controller
             "email" => 'exe@gmail.com',
         ];
 
-        // Paso 3: Crear la solicitud de preferencia 
+        // Paso 3: Crear la solicitud de preferencia
         $requestData = $this->createPreferenceRequest($product, $payer);
 
-        // Paso 4: Crear la preferencia con el cliente de preferencia 
+        // Paso 4: Crear la preferencia con el cliente de preferencia
         $client = new PreferenceClient();
 
         try {
@@ -169,7 +168,7 @@ class MercadoPagoController extends Controller
     }
 
 
-    // Autenticación con Mercado Pago 
+    // Autenticación con Mercado Pago
     protected function authenticate()
     {
         $mpAccessToken = config('services.mercadopago.token');
@@ -180,7 +179,7 @@ class MercadoPagoController extends Controller
         MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::LOCAL);
     }
 
-    // Función para crear la estructura de preferencia 
+    // Función para crear la estructura de preferencia
     protected function createPreferenceRequest($items, $payer): array
     {
         $paymentMethods = [
@@ -197,13 +196,15 @@ class MercadoPagoController extends Controller
 
         ];
 
+        $compra =  new Compra();
+        $compra->save();
         $request = [
             "items" => $items,
             "payer" => $payer,
             "payment_methods" => $paymentMethods,
             "back_urls" => $backUrls,
             "statement_descriptor" => "TIENDA ONLINE",
-            "external_reference" => "12345678",
+            "external_reference" => $compra->id,
             "expires" => false,
             "auto_return" => 'approved',
             "notification_url" => self::NOTIFICATION_URL,
