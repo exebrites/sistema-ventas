@@ -33,6 +33,7 @@ return [
     'mercadopago' => [
         'token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'public_key' => env('MERCADO_PAGO_PUBLIC_KEY'),
+        'notification_url'=> env('MERCADO_PAGO_NOTIFICATION_URL'),
     ],
 
 ];
