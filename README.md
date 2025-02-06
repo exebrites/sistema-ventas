@@ -12,6 +12,8 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 -   Gestionar ABM productos
 -   Generacion de SKU - Stock keep Unit
 -   Gestionar ABM proveedores
+-   Gestionar Pedidos 
+-   Gestion de pagos a traves de Mercado pago  
 
 #### No funcionales
 
@@ -39,10 +41,10 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 -   SQLite
 -   PHP version 8.1
 
-### Otras tecnoligías
+### Integraciones 
 
--   Composer version 2.7
--   Git version 2.39
+-   Mercado Pago - Checkout Pro
+
 
 ## 🛠️ Guía rápida para correr el proyecto
 
@@ -71,3 +73,5 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 
 9. Ingrese al sistema con el sigueinte usuario
    email:admin@gmail.com, password: admin
+
+10. Modifique el archivo .env para el correcto funcionamiento con Mercado Pago. Utilice Ngrok para notificacion_url https://ngrok.com/
