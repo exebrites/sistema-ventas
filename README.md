@@ -4,6 +4,16 @@
 
 El sistema de ventas es una aplicación web diseñada para gestionar la venta de productos en pequeñas y medianas empresas. La aplicación facilita la gestión de clientes, productos y proveedores. También permite la creación de usuarios, roles y permisos
 
+
+## Imagenes del sistema
+
+### Página de inicio
+
+![Pantalla de inicio del sistema](public/images/dashboard.png)
+
+### Página de ecommerce
+
+![Pantalla de ecommerce](public/images/tienda.png)
 ### 🚀 Modulos
 
 #### Funcionales
