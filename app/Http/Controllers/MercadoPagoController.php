@@ -24,7 +24,9 @@ use App\Services\EntregaService;
 use MercadoPago\Payment;
 use MercadoPago\MerchantOrder;
 use App\Models\Estado;
+use Hamcrest\Arrays\IsArray;
 use MercadoPago\Client\Payment\PaymentClient;
+use MercadoPago\Client\MerchantOrder\MerchantOrderClient;
 
 class MercadoPagoController extends Controller
 {
@@ -37,18 +39,91 @@ class MercadoPagoController extends Controller
     public function notificar(Request $request)
     {
         $this->authenticate();
-        switch ($request["type"]) {
+
+        // Log::info('Notificacion de mercadopago', [$request->all()]);
+
+        // return "ok";
+
+        $tipo = null;
+        if (isset($request["topic"])) {
+            $tipo = $request["topic"];
+        } elseif (isset($request["type"])) {
+            $tipo = $request["type"];
+        }
+
+
+
+        // Verificion solo por payment
+        switch ($tipo) {
             case "payment":
+                $id = isset($request['data_id']) ? $request['data_id'] : $request['id'];
                 $client = new PaymentClient();
-                $payment = $client->get($request["data"]["id"]);
+                $payment = $client->get($id);
                 if ($payment->status == 'approved') {
                     $external_reference = $payment->external_reference;
                     $compra = Compra::find($external_reference);
                     $compra->estado = true;
                     $compra->save();
                 }
+                
                 break;
         }
+
+        // no funca
+
+        // verificacion de los pagos de marcadog pago atraves de las notificaciones payment y merchant_order
+
+
+        // $merchant_order = null;
+        // switch ($tipo) {
+        //     case "payment":
+
+        //         $id = isset($request['data_id']) ? $request['data_id'] : $request['id'];
+        //         $client = new PaymentClient();
+        //         $payment = $client->get($id);
+        //         $payment_json = json_encode($payment);
+        //         return $payment_json;
+        //         // // Get the payment and the corresponding merchant_order reported by the IPN.
+        //         // $merchant_order = MercadoPago\MerchantOrder::find_by_id($payment->order->id);
+        //         return "payment";
+        //         break;
+        //     case "merchant_order":
+
+        //         $id  = $request['id'];
+
+                // $merchant_order = MercadoPago\MerchantOrder::find_by_id($_GET["id"]);
+                // Log::info('Notificacion de merchant_order', ['$request["data"]["id"]']);
+
+        //         $order = new MerchantOrderClient();
+
+        //         $merchant_order =  $order->get($id);
+        //         // return json_encode($merchant_order);
+        //         // return "request";
+        //         break;
+        // }
+ 
+
+        //verificacion de pago total y suma de los payments
+        
+        // $paid_amount = 0;
+        // foreach ($merchant_order->payments as $payment) {
+        //     if ($payment['status'] == 'approved') {
+        //         $paid_amount += $payment['transaction_amount'];
+        //     }
+        // }
+        // return $paid_amount;
+        // // If the payment's transaction amount is equal (or bigger) than the merchant_order's amount you can release your items
+        // if ($paid_amount >= $merchant_order->total_amount) {
+        //     if (count($merchant_order->shipments) > 0) { // The merchant_order has shipments
+        //         if ($merchant_order->shipments[0]->status == "ready_to_ship") {
+        //             print_r("Totally paid. Print the label and release your item.");
+        //         }
+        //     } else { // The merchant_order don't has any shipments
+        //         print_r("Totally paid. Release your item.");
+        //     }
+        // } else {
+        //     print_r("Not paid yet. Do not release your item.");
+        // }
         return http_response_code(200);
     }
     public function success(ShoppingCartService $cart)
@@ -83,7 +158,7 @@ class MercadoPagoController extends Controller
         // }
         $pedido = $pedidoService->crearPedido($cliente, $productosCarrito);
         $shoppingCart->clear();
-     
+
         // 2)  creacion de lugar de entrega
         $datosEntrega = $request->input('datosEntrega');
         // return response()->json($datosEntrega['direccion']);
