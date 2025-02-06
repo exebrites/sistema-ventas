@@ -37,6 +37,9 @@ El sistema de ventas es una aplicación web diseñada para gestionar la venta de
 -   Programacion orientada a objetos
 -   Modelo Vista Controlador
 -   Patrones de diseño: Strategy Patron. El patron facilita la creacion de formatos de SKU.
+#### Diagrama de clases
+
+![Diagrama de clases](documentacion/db-sgpo-base.png)
 
 ### Frontend
 
